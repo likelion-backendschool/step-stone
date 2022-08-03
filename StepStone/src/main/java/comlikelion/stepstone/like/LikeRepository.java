@@ -1,6 +1,7 @@
-package comlikelion.stepstone.stepstone.like;
+package comlikelion.stepstone.like;
 
-import comlikelion.stepstone.stepstone.like.model.LikeEntity;
+
+import comlikelion.stepstone.like.model.LikeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

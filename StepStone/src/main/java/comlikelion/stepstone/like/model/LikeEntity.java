@@ -1,7 +1,6 @@
-package comlikelion.stepstone.stepstone.like.model;
+package comlikelion.stepstone.like.model;
 
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;

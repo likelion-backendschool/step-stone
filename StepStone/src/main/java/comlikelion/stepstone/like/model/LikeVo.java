@@ -1,4 +1,4 @@
-package comlikelion.stepstone.stepstone.like.model;
+package comlikelion.stepstone.like.model;
 
 import lombok.*;
 

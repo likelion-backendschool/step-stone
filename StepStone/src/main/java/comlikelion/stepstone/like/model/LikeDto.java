@@ -1,13 +1,7 @@
-package comlikelion.stepstone.stepstone.like.model;
+package comlikelion.stepstone.like.model;
 
 import lombok.*;
-import lombok.experimental.Accessors;
-import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
