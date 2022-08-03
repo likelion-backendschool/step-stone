@@ -20,9 +20,9 @@ public class LikeEntity {
      * Entity 는 Repository 에서만 사용한다.
      */
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // PK 임을 나타낸다.
-    @Column(name = "like_id")
+    @Id// PK 임을 나타낸다.
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성을 데이터베이스에 위임한다.
+                                                        // null 값이 넘어와도 AUTO_INCREMENT를 사용하여 기본키를 생성한다.
     private Long likeId;
 
     @Type(type = "uuid-char")
