@@ -7,8 +7,6 @@ import java.util.UUID;
 @Builder
 @Getter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 public class PostVo {
 
     /**
@@ -16,28 +14,28 @@ public class PostVo {
      * Visual Object
      */
 
-    private UUID postId;
+    private final UUID postId;
 
-    private String title;
+    private final String title;
 
-    private String body;
+    private final String body;
 
-    private Integer likes;
+    private final Integer likes;
 
-    private UUID userId;
+    private final UUID userId;
 
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+    private final LocalDateTime updatedAt;
 
-    public static PostVo toVo(PostEntity entity) {
+    public static PostVo toVo(PostDto dto) {
         PostVo vo = PostVo.builder()
-                .postId(entity.getPostId())
-                .userId(entity.getUserId())
-                .body(entity.getBody())
-                .likes(entity.getLikes())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
+                .postId(dto.getPostId())
+                .userId(dto.getUserId())
+                .body(dto.getBody())
+                .likes(dto.getLikes())
+                .createdAt(dto.getCreatedAt())
+                .updatedAt(dto.getUpdatedAt())
                 .build();
 
         return vo;

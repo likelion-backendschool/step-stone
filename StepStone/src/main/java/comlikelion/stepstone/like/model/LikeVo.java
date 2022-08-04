@@ -7,8 +7,7 @@ import java.util.UUID;
 
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
 public class LikeVo {
 
     /**
@@ -16,21 +15,21 @@ public class LikeVo {
      * Visual Object
      */
 
-    private Long likeId;
+    private final Long likeId;
 
-    private UUID userId;
+    private final UUID userId;
 
-    private UUID postId;
+    private final UUID postId;
 
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
 
-    public static LikeVo toVo(LikeEntity entity) {
+    public static LikeVo toVo(LikeDto dto) {
         LikeVo vo = LikeVo.builder()
-                .likeId(entity.getLikeId())
-                .userId(entity.getUserId())
-                .postId(entity.getPostId())
-                .createdAt(entity.getCreatedAt())
+                .likeId(dto.getLikeId())
+                .userId(dto.getUserId())
+                .postId(dto.getPostId())
+                .createdAt(dto.getCreatedAt())
                 .build();
 
         return vo;
