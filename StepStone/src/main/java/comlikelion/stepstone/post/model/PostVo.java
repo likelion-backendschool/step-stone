@@ -11,7 +11,7 @@ public class PostVo {
 
     /**
      * Vo 모델 클래스는 변경 하지 않는다.
-     * Visual Object
+     * Value Object
      */
 
     private final UUID postId;
