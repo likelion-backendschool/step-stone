@@ -40,6 +40,7 @@ public class PostDto {
     public static PostDto toDto(PostEntity entity) {
         PostDto dto = PostDto.builder()
                 .postId(entity.getPostId())
+                .title(entity.getTitle())
                 .userId(entity.getUserId())
                 .body(entity.getBody())
                 .likes(entity.getLikes())

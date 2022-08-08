@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Posts System</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+
+<div class="container my-2">
+    <h1>Posts List</h1>
+
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>title</th>
+            <th>body</th>
+            <th>likes</th>
+            <th>createdAt</th>
+            <th>updatedAt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${likePosts}">
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.body}"></td>
+            <td th:text="${post.likes}"></td>
+            <td th:text="${post.createdAt}"></td>
+            <td th:text="${post.updatedAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>title</th>
+            <th>body</th>
+            <th>likes</th>
+            <th>createdAt</th>
+            <th>updatedAt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${listPosts}">
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.body}"></td>
+            <td th:text="${post.likes}"></td>
+            <td th:text="${post.createdAt}"></td>
+            <td th:text="${post.updatedAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class="col-sm-1">
+                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+      <a th:if="${currentPage != i}" th:href="@{'/post/read/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                    </span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/post/read/' + ${currentPage + 1}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/post/read/' + ${totalPages}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
