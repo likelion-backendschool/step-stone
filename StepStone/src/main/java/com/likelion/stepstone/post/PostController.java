@@ -1,8 +1,5 @@
 package com.likelion.stepstone.post;
 
-import com.likelion.stepstone.post.model.PostVo;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PathVariable;
 import com.likelion.stepstone.post.model.PostDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.UUID;
+import com.likelion.stepstone.post.model.PostVo;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping("/post")

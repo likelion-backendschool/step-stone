@@ -44,11 +44,9 @@ public class PostEntity {
     @Column(name = "user_id")
     private UUID userId;
 
-    @Setter
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Setter
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -57,6 +55,7 @@ public class PostEntity {
         PostEntity entity = PostEntity.builder()
                 .postId(dto.getPostId())
                 .userId(dto.getUserId())
+                .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())
                 .createdAt(dto.getCreatedAt())
