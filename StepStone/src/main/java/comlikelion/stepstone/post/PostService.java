@@ -8,12 +8,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class PostService {
   private final PostRepository postRepository;
 
   public PostService(PostRepository postRepository) {
     this.postRepository = postRepository;
+  }
+
+  public void create(PostDto postDto) {
+    PostEntity postEntity = PostEntity.toEntity(postDto);
+    postEntity.setPostId(UUID.randomUUID());
+//        postEntity.setLikes(0);
+
+    postRepository.save(postEntity);
   }
 
   public Page<PostVo> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
