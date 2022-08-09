@@ -1,12 +1,13 @@
 package com.likelion.stepstone.post;
 
-import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.likelion.stepstone.post.model.PostDto;
+import com.likelion.stepstone.post.model.PostEntity;
 
 import java.util.UUID;
 
