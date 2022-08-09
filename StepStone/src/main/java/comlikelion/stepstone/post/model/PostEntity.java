@@ -3,6 +3,7 @@ package comlikelion.stepstone.post.model;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "posts")
 public class PostEntity {
 
@@ -43,11 +45,9 @@ public class PostEntity {
     @Column(name = "user_id")
     private UUID userId;
 
-    @Setter
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Setter
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -56,6 +56,7 @@ public class PostEntity {
         PostEntity entity = PostEntity.builder()
                 .postId(dto.getPostId())
                 .userId(dto.getUserId())
+                .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())
                 .createdAt(dto.getCreatedAt())
