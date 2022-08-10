@@ -24,11 +24,11 @@ public class LikeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 생성을 데이터베이스에 위임한다.
                                                         // null 값이 넘어와도 AUTO_INCREMENT를 사용하여 기본키를 생성한다.
     private Long likeId;
-
+    @Setter
     @Type(type = "uuid-char")
     @Column(name = "user_id")
     private UUID userId;
-
+    @Setter
     @Type(type = "uuid-char")
     @Column(name = "post_id")
     private UUID postId;
