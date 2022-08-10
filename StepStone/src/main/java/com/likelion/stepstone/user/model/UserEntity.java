@@ -36,10 +36,6 @@ public class UserEntity {
     private UUID password;
 
     @Setter
-    @Column(name = "role")
-    private String role;
-
-    @Setter
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -52,7 +48,6 @@ public class UserEntity {
         UserEntity entity = UserEntity.builder()
                 .name(dto.getName())
                 .password(dto.getPassword())
-                .role(dto.getRole())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .build();

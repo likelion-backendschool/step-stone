@@ -22,9 +22,6 @@ public class UserDto {
     @Setter
     private UUID password;
 
-    @Setter
-    private String role;
-
     private LocalDateTime createdAt;
 
     @Setter

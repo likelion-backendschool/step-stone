@@ -16,8 +16,6 @@ public class UserVo {
 
     private final UUID password;
 
-    private final String role;
-
     private final LocalDateTime createdAt;
 
     private final LocalDateTime updatedAt;
@@ -27,7 +25,6 @@ public class UserVo {
                 .userId(dto.getUserId())
                 .name(dto.getName())
                 .password(dto.getPassword())
-                .role(dto.getRole())
                 .build();
 
         return toVo;
