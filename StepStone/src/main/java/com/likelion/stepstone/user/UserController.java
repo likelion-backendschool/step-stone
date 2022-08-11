@@ -1,4 +1,7 @@
 package com.likelion.stepstone.user;
 
-public class UserController {
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class  UserController {
 }

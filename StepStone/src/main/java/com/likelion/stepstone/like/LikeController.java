@@ -2,9 +2,15 @@ package com.likelion.stepstone.like;
 
 import com.likelion.stepstone.like.model.LikeDto;
 import com.likelion.stepstone.like.model.LikeEntity;
+import com.likelion.stepstone.post.PostRepository;
 import com.likelion.stepstone.post.model.PostDto;
+import com.likelion.stepstone.post.model.PostEntity;
+import com.likelion.stepstone.user.UserRepository;
+import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -14,16 +20,30 @@ import java.util.UUID;
 public class LikeController {
     @Autowired
     private  LikeService likeService;
-    @PostMapping("/post/{postId}/likes")
-    public void likes(@PathVariable UUID postId){
-        UUID userId = UUID.randomUUID();
+    @Autowired
+    private  UserRepository userRepository;
+    @Autowired
+    private PostRepository postRepository;
 
-        LikeDto likeDto = LikeDto.builder()
-                .postId(postId)
-                .userId(userId)
-                .build();
+    @GetMapping("/post/{postId}/likes")
+    public void like(){
+        UserEntity user = userRepository.findByName("qwe");
+        PostEntity post = postRepository.findByTitle("title");
 
-        likeService.likes(likeDto);
+        UUID userId = user.getUserId();
+        UUID postId = post.getPostId();
+
+//        LikeDto likeDto = LikeDto.builder()
+//                .postId(postId)
+//                .userId(userId)
+//                .build();
+
+//        likeService.idCheck(userId,likeDto);
+
+        likeService.idCheck(postId,userId);
+
+
+
     }
 
 
