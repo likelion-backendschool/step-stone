@@ -6,6 +6,7 @@ import com.likelion.stepstone.like.model.LikeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,9 +14,10 @@ import java.util.UUID;
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
 
 
-    Optional<LikeDto> findByUserId(UUID userId);
+    Optional<LikeEntity> findByUserId(UUID userId);
 
-    Optional<LikeDto> findByPostId(UUID postId);
+    Optional<LikeEntity> findByPostId(UUID postId);
 
+    @Transactional
     void deleteByUserIdAndPostId(UUID userId,UUID postId);
 }

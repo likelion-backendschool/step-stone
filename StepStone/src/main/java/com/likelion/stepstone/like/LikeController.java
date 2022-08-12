@@ -9,10 +9,7 @@ import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -26,12 +23,14 @@ public class LikeController {
     private PostRepository postRepository;
 
     @GetMapping("/post/{postId}/likes")
-    public void like(){
-        UserEntity user = userRepository.findByName("qwe");
-        PostEntity post = postRepository.findByTitle("title");
+    @ResponseBody
+    public void like(@PathVariable UUID postId){
+        //PostEntity post = postRepository.findByTitle("title");
+        UserEntity user = userRepository.findByName("No1");
 
         UUID userId = user.getUserId();
-        UUID postId = post.getPostId();
+
+       // UUID postId = post.getPostId();
 
 //        LikeDto likeDto = LikeDto.builder()
 //                .postId(postId)
@@ -41,7 +40,7 @@ public class LikeController {
 //        likeService.idCheck(userId,likeDto);
 
         likeService.idCheck(postId,userId);
-
+        System.out.println(userId);
 
 
     }
