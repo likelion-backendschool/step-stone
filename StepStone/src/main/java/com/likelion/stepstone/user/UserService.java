@@ -5,7 +5,6 @@ import com.likelion.stepstone.user.model.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class UserService {
 
@@ -18,7 +17,9 @@ public class UserService {
     public void createUser(UserDto userDto) {
         UserEntity userEntity = UserEntity.toEntity(userDto);
 
-        userEntity.setUserId(UUID.randomUUID());
+        userEntity.setUserId(userDto.getUserId());
+        userEntity.setPassword(userDto.getPassword());
+        userEntity.setName(userDto.getName());
 
         userRepository.save(userEntity);
     }
