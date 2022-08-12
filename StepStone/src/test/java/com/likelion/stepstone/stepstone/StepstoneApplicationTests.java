@@ -46,6 +46,20 @@ class StepstoneApplicationTests {
 
 
 	}
+	@Test
+	void likeRepositorySave2() {
+
+		UUID postId = UUID.randomUUID();
+		UUID userId = UUID.randomUUID();
+
+		LikeEntity q2 = new LikeEntity();
+		q2.setPostId(postId);
+		q2.setUserId(userId);
+
+		likeRepository.save(q2);
+
+
+	}
 
 	@Test
 	public void like() {
