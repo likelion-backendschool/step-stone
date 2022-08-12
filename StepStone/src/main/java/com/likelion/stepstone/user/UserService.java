@@ -3,7 +3,8 @@ package com.likelion.stepstone.user;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class UserService {
@@ -21,4 +22,25 @@ public class UserService {
 
         userRepository.save(userEntity);
     }
+
+    public List<UserDto> getUserlist() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        List<UserDto> userDtoList = new ArrayList<>();
+
+        for( UserEntity userEntity : userEntities) {
+            UserDto userDTO = UserDto.builder()
+                    .userId(userEntity.getUserId())
+                    .password(userEntity.getPassword())
+                    .name(userEntity.getName())
+                    .createdAt(userEntity.getCreatedAt())
+                    .updatedAt(userEntity.getUpdatedAt())
+                    .build();
+
+            userDtoList.add(userDTO);
+        }
+
+        return userDtoList;
+    }
+
+
 }
