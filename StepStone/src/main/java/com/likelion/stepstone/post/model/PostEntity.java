@@ -1,11 +1,13 @@
 package com.likelion.stepstone.post.model;
 
 
+import com.likelion.stepstone.like.model.LikeEntity;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -51,6 +53,11 @@ public class PostEntity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+
+    //좋아요 수 반영 테스트 하려고 추가해본 것
+    @OneToMany(mappedBy = "postEntity", cascade = CascadeType.REMOVE )  //질문 삭제시 답변도 삭제하기 위해 cascade 설정.
+    private List<LikeEntity> likesList;
 
 
     public static PostEntity toEntity(PostDto dto) {

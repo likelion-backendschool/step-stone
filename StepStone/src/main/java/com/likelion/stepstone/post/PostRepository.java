@@ -10,4 +10,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
 
     PostEntity findByTitle(String title);
+
+
+    PostEntity findByPostCid(Long i);
 }

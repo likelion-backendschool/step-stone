@@ -1,6 +1,8 @@
 package com.likelion.stepstone.like;
 
 import com.likelion.stepstone.like.model.LikeEntity;
+import com.likelion.stepstone.post.PostRepository;
+import com.likelion.stepstone.post.model.PostEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ public class LikeService {
 
     @Autowired
     private LikeRepository likeRepository;
+    @Autowired
+    private PostRepository postRepository;
 
 //    public void idCheck(UUID userId, LikeDto likeDto){
 //        likes.stream()
@@ -50,6 +54,8 @@ public class LikeService {
                 like(postId, userId);
             }
         }
+        updateLikesCount();
+        //updateLikesCount(postId) 를 넘겨줘야 할 듯. 근데 UUID 라 어떻게 넘겨줘야할지 모름..
     }
     public void like(UUID postId, UUID userId) {
 
@@ -64,4 +70,13 @@ public class LikeService {
         likeRepository.deleteByUserIdAndPostId(userId, postId);
     }
 
+    public void updateLikesCount(){
+        //List<LikeEntity> likes = likeRepository.findByPostId(102898c2-ab59-4a80-97b3-31d3c73d2e83);
+        List<LikeEntity> likes = likeRepository.findByLikeId(32L); // likes 테이블 속 게시글 모두 찾기 (select * from likes where postId = postId)
+        PostEntity post = postRepository.findByPostCid(2L);  // post테이블 속 posdId = postId인 게시글 찾기
+        int i = likes.size();
+        post.setLikes(i);  //좋아요 수 업뎃
+        postRepository.save(post);
+
+    }
 }

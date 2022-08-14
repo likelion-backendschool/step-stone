@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -113,31 +114,31 @@ class StepstoneApplicationTests {
 		UUID userId = UUID.randomUUID();
 		UUID pw = UUID.randomUUID();
 
-		UserEntity user4 = new UserEntity();
+		UserEntity user2 = new UserEntity();
 
-		user4.setName("No4");
-		user4.setCreatedAt(LocalDateTime.now());
-		user4.setPassword(pw);
-		user4.setRole("user");
-		user4.setUpdatedAt(LocalDateTime.now());
-		user4.setUserId(userId);
-		user4.setCid(2);
-		userRepository.save(user4);
+		user2.setName("No2");
+		user2.setCreatedAt(LocalDateTime.now());
+		user2.setPassword(pw);
+		user2.setRole("user");
+		user2.setUpdatedAt(LocalDateTime.now());
+		user2.setUserId(userId);
+		user2.setCid(2);
+		userRepository.save(user2);
 
 
 		UUID postId = UUID.randomUUID();
 
-		PostEntity post4 = new PostEntity();
+		PostEntity post2 = new PostEntity();
 
-		post4.setPostId(postId);
-		post4.setCreatedAt(LocalDateTime.now());
-		post4.setTitle("title4");
-		post4.setBody("body4");
-		post4.setLikes(0);
-		post4.setUpdatedAt(LocalDateTime.now());
-		post4.setUserId(userId);
-		post4.setPostCid(4L);
-		postRepository.save(post4);
+		post2.setPostId(postId);
+		post2.setCreatedAt(LocalDateTime.now());
+		post2.setTitle("title2");
+		post2.setBody("body2");
+		post2.setLikes(0);
+		post2.setUpdatedAt(LocalDateTime.now());
+		post2.setUserId(userId);
+		post2.setPostCid(4L);
+		postRepository.save(post2);
 
 	}
 
@@ -171,6 +172,50 @@ class StepstoneApplicationTests {
 		post3.setUserId(userId);
 		post3.setPostCid(3L);
 		postRepository.save(post3);
+
+	}
+	@Test
+	public void addUserAndPostN() {
+		UUID userId = UUID.randomUUID();
+		UUID pw = UUID.randomUUID();
+
+		UserEntity user5 = new UserEntity();
+
+		user5.setName("No5");
+		user5.setCreatedAt(LocalDateTime.now());
+		user5.setPassword(pw);
+		user5.setRole("user");
+		user5.setUpdatedAt(LocalDateTime.now());
+		user5.setUserId(userId);
+		user5.setCid(5);
+		userRepository.save(user5);
+
+
+		UUID postId = UUID.randomUUID();
+
+		PostEntity post5 = new PostEntity();
+
+		post5.setPostId(postId);
+		post5.setCreatedAt(LocalDateTime.now());
+		post5.setTitle("title5");
+		post5.setBody("body5");
+		post5.setLikes(0);
+		post5.setUpdatedAt(LocalDateTime.now());
+		post5.setUserId(userId);
+		post5.setPostCid(5L);
+		postRepository.save(post5);
+
+	}
+
+
+	@Test
+	void updateLikesCount(){
+		//List<LikeEntity> likes = likeRepository.findByPostId(102898c2-ab59-4a80-97b3-31d3c73d2e83);
+		List<LikeEntity> likes = likeRepository.findByLikeId(25L);
+		PostEntity post = postRepository.findByPostCid(2L);
+		int i = likes.size();
+		post.setLikes(i);
+		postRepository.save(post);
 
 	}
 

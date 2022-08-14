@@ -20,4 +20,6 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
 
     @Transactional
     void deleteByUserIdAndPostId(UUID userId,UUID postId);
+
+    List<LikeEntity> findByLikeId(Long i);
 }

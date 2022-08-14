@@ -23,7 +23,7 @@ public class LikeController {
     @ResponseBody
     public UUID like(@PathVariable UUID postId){
         //PostEntity post = postRepository.findByTitle("title");
-        UserEntity user = userRepository.findByName("No1");
+        UserEntity user = userRepository.findByName("No3");
 
         UUID userId = user.getUserId();
 
