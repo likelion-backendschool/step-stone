@@ -113,31 +113,31 @@ class StepstoneApplicationTests {
 		UUID userId = UUID.randomUUID();
 		UUID pw = UUID.randomUUID();
 
-		UserEntity user2 = new UserEntity();
+		UserEntity user4 = new UserEntity();
 
-		user2.setName("No2");
-		user2.setCreatedAt(LocalDateTime.now());
-		user2.setPassword(pw);
-		user2.setRole("user");
-		user2.setUpdatedAt(LocalDateTime.now());
-		user2.setUserId(userId);
-		user2.setCid(2);
-		userRepository.save(user2);
+		user4.setName("No4");
+		user4.setCreatedAt(LocalDateTime.now());
+		user4.setPassword(pw);
+		user4.setRole("user");
+		user4.setUpdatedAt(LocalDateTime.now());
+		user4.setUserId(userId);
+		user4.setCid(2);
+		userRepository.save(user4);
 
 
 		UUID postId = UUID.randomUUID();
 
-		PostEntity post2 = new PostEntity();
+		PostEntity post4 = new PostEntity();
 
-		post2.setPostId(postId);
-		post2.setCreatedAt(LocalDateTime.now());
-		post2.setTitle("title2");
-		post2.setBody("body2");
-		post2.setLikes(0);
-		post2.setUpdatedAt(LocalDateTime.now());
-		post2.setUserId(userId);
-		post2.setPostCid(2L);
-		postRepository.save(post2);
+		post4.setPostId(postId);
+		post4.setCreatedAt(LocalDateTime.now());
+		post4.setTitle("title4");
+		post4.setBody("body4");
+		post4.setLikes(0);
+		post4.setUpdatedAt(LocalDateTime.now());
+		post4.setUserId(userId);
+		post4.setPostCid(4L);
+		postRepository.save(post4);
 
 	}
 
