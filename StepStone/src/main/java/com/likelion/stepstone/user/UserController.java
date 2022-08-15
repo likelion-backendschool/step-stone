@@ -1,6 +1,7 @@
 package com.likelion.stepstone.user;
 
 import com.likelion.stepstone.user.model.UserDto;
+import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -57,4 +58,25 @@ public class UserController {
         return "user/message";
     }
 
+    // user 데이터 수정
+    @GetMapping("/update/{userId}")
+    public String editUserInfo(@PathVariable("userId") UUID userId, Model model) {
+        UserDto userDto = userService.getUserInfo(userId);
+
+        if (userDto == null) {
+            model.addAttribute("message", "해당 데이터가 존재하지 않습니다.");
+            return "user/message";
+        }
+        else {
+            model.addAttribute("userDto", userDto);
+            return "user/update";
+        }
+    }
+
+    @PutMapping("/update/{userId}")
+    public String updateUser(UserDto userDto) {
+        userService.updateUser(userDto);
+
+        return "redirect:/";
+    }
 }

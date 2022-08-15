@@ -48,4 +48,24 @@ public class UserService {
     public void deleteUser(UUID userId) {
         userRepository.deleteById(userId);
     }
+
+    public UserDto getUserInfo(UUID userId) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
+        UserEntity userEntity = userEntityOptional.get();
+
+        UserDto userDTO = UserDto.builder()
+                .userId(userEntity.getUserId())
+                .password(userEntity.getPassword())
+                .name(userEntity.getName())
+                .createdAt(userEntity.getCreatedAt())
+                .updatedAt(userEntity.getUpdatedAt())
+                .build();
+
+        return userDTO;
+    }
+
+    public UUID updateUser(UserDto userDto) {
+        UserEntity userEntity = UserEntity.toEntity(userDto);
+        return userRepository.save(userEntity).getUserId();
+    }
 }
