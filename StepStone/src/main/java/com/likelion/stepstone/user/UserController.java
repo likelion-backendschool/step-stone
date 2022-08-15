@@ -49,7 +49,12 @@ public class UserController {
     @DeleteMapping("/delete/{userId}")
     public String deleteUser(@PathVariable("userId") UUID userId, Model model) {
         userService.deleteUser(userId);
-        return "";
+
+        // alert를 띄우도록 하기
+        model.addAttribute("message", "삭제되었습니다.");
+//        model.addAttribute("searchUrl", "user/list");
+
+        return "user/message";
     }
 
 }
