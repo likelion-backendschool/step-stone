@@ -19,6 +19,7 @@ import java.util.UUID;
 @Table(name = "users")
 public class UserEntity {
 
+    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_cid")
     private Integer cid;

@@ -64,8 +64,16 @@ public class UserService {
         return userDTO;
     }
 
-    public UUID updateUser(UserDto userDto) {
+    public void updateUser(UserDto userDto) {
         UserEntity userEntity = UserEntity.toEntity(userDto);
-        return userRepository.save(userEntity).getUserId();
+
+        Integer usercid = userEntity.getCid();
+
+        userEntity.setCid(usercid);
+        userEntity.setUserId(userDto.getUserId());
+        userEntity.setPassword(userDto.getPassword());
+        userEntity.setName(userDto.getName());
+
+        userRepository.save(userEntity);
     }
 }

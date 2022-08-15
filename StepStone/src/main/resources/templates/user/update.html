@@ -6,8 +6,6 @@
 </head>
 <body>
     <form th:action="@{'/update/' + ${userDto.userId}}" method="post">
-        <input type="hidden" name="_method" value="put"/>
-        <input type="hidden" name="id" th:value="${userDto.userId}"/>
 
         user id : <input type="text" name="userId" th:value="${userDto.userId}"/><br>
         user pw : <input type="text" name="password" th:value="${userDto.password}"/><br>

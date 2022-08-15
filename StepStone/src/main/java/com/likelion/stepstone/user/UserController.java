@@ -59,24 +59,47 @@ public class UserController {
     }
 
     // user 데이터 수정
-    @GetMapping("/update/{userId}")
-    public String editUserInfo(@PathVariable("userId") UUID userId, Model model) {
+    @GetMapping("/update")
+    public String updateUser(@RequestParam UUID userId, @RequestParam UUID password, @RequestParam String name, Model model) {
         UserDto userDto = userService.getUserInfo(userId);
 
-        if (userDto == null) {
+        if(userDto == null) {
             model.addAttribute("message", "해당 데이터가 존재하지 않습니다.");
             return "user/message";
         }
         else {
-            model.addAttribute("userDto", userDto);
-            return "user/update";
+            userDto = UserDto.builder()
+                    .userId(userId)
+                    .password(password)
+                    .name(name)
+                    .build();
+
+            userService.updateUser(userDto);
+
+            model.addAttribute("message", "수정되었습니다.");
+            return "user/message";
         }
     }
 
-    @PutMapping("/update/{userId}")
-    public String updateUser(UserDto userDto) {
-        userService.updateUser(userDto);
 
-        return "redirect:/";
-    }
+//    @GetMapping("/update/{userId}")
+//    public String editUserInfo(@PathVariable("userId") UUID userId, Model model) {
+//        UserDto userDto = userService.getUserInfo(userId);
+//
+//        if (userDto == null) {
+//            model.addAttribute("message", "해당 데이터가 존재하지 않습니다.");
+//            return "user/message";
+//        }
+//        else {
+//            model.addAttribute("userDto", userDto);
+//            return "user/update";
+//        }
+//    }
+//
+//    @PutMapping("/update/{userId}")
+//    public String updateUser(UserDto userDto) {
+//        userService.updateUser(userDto);
+//
+//        return "redirect:/";
+//    }
 }
