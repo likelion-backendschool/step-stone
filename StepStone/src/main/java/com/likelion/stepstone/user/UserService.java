@@ -5,6 +5,8 @@ import com.likelion.stepstone.user.model.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class UserService {
 
@@ -43,5 +45,7 @@ public class UserService {
         return userDtoList;
     }
 
-
+    public void deleteUser(UUID userId) {
+        userRepository.deleteById(userId);
+    }
 }

@@ -3,15 +3,13 @@ package com.likelion.stepstone.user;
 import com.likelion.stepstone.user.model.UserDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping(value = "/user", method = {RequestMethod.GET, RequestMethod.POST})
 public class UserController {
 
     private final UserService userService;
@@ -20,6 +18,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    // user 데이터 추가
     @GetMapping("/create")
     public String createUser(@RequestParam UUID userId, @RequestParam UUID password, @RequestParam String name, Model model) {
         UserDto userDto = UserDto.builder()
@@ -36,6 +35,7 @@ public class UserController {
         return "user/create";
     }
 
+    // user 데이터 리스트로 확인
     @GetMapping("/list")
     public String listUser(Model model) {
         List<UserDto> userList = userService.getUserlist();
@@ -43,6 +43,13 @@ public class UserController {
         model.addAttribute("userList", userList);
 
         return "user/list";
+    }
+
+    // user 데이터 삭제
+    @DeleteMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable("userId") UUID userId, Model model) {
+        userService.deleteUser(userId);
+        return "";
     }
 
 }
