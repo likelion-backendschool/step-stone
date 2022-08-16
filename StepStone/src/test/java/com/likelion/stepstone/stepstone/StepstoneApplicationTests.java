@@ -7,6 +7,7 @@ import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.PostRepository;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.user.UserRepository;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,22 +62,22 @@ class StepstoneApplicationTests {
 
 	}
 
-	@Test
-	public void like() {
-		UserEntity user = userRepository.findByName("qwe");
-		PostEntity post = postRepository.findByTitle("title");
-
-		UUID userId = user.getUserId();
-		UUID postId = post.getPostId();
-
-		LikeDto likeDto = LikeDto.builder()
-				.postId(postId)
-				.userId(userId)
-				.build();
-
-		likeService.idCheck2(postId,userId);
-
-	}
+//	@Test
+//	public void like() {
+//		UserEntity user = userRepository.findByName("qwe");
+//		PostEntity post = postRepository.findByTitle("title");
+//
+//		UUID userId = user.getUserId();
+//		UUID postId = post.getPostId();
+//
+//		LikeDto likeDto = LikeDto.builder()
+//				.postId(postId)
+//				.userId(userId)
+//				.build();
+//
+//		likeService.idCheck2(postId,userId);
+//
+//	}
 	@Test
 	public void addUserAndPost1(){
 		UUID userId = UUID.randomUUID();
