@@ -15,13 +15,13 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
 
 
     List<LikeEntity> findByUserId(UUID userId);
-
     Optional<LikeEntity> findByPostId(UUID postId);
 
+
+    List<LikeEntity> findByLikeId(Long i);
+    Optional<LikeEntity> findByUserIdAndPostId(UUID postId, UUID userId);
     @Transactional
-    void deleteByUserIdAndPostId(UUID postId,UUID userId);
+    void deleteByPostIdAndUserId(UUID postId, UUID userId);
 
-    List<LikeEntity> findByLikeId(Long i)
-
-    List<LikeEntity> findByUserIdAndPostId(UUID postId, UUID userId);
+    Optional<LikeEntity> findByPostIdAndUserId(UUID postId, UUID userId);
 }

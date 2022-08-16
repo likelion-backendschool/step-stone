@@ -29,7 +29,7 @@ public class SpringConfig {
 
     @Bean
     public LikeService likeService(){
-        return new LikeService(likeRepository);
+        return new LikeService(likeRepository,postRepository);
     }
 
     @Bean

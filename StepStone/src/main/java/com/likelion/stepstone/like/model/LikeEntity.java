@@ -39,8 +39,8 @@ public class LikeEntity {
     private LocalDateTime createdAt;
 
     //좋아요 수 반영 테스트 하려고 추가해본 것
-//    @ManyToOne  //question 속성을 추가함으로서 answer.getQuestion().getSubject() 를 가능하게 함, FK관계 형성
-//    private PostEntity postEntity;
+    @ManyToOne  //question 속성을 추가함으로서 answer.getQuestion().getSubject() 를 가능하게 함, FK관계 형성
+    private PostEntity postEntity;
 
     public static LikeEntity toEntity(LikeDto dto) {
         LikeEntity entity = LikeEntity.builder()
