@@ -74,7 +74,7 @@ class StepstoneApplicationTests {
 				.userId(userId)
 				.build();
 
-		likeService.idCheck(postId,userId);
+		likeService.idCheck2(postId,userId);
 
 	}
 	@Test

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
+
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
 
 
@@ -19,7 +19,9 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     Optional<LikeEntity> findByPostId(UUID postId);
 
     @Transactional
-    void deleteByUserIdAndPostId(UUID userId,UUID postId);
+    void deleteByUserIdAndPostId(UUID postId,UUID userId);
 
-    List<LikeEntity> findByLikeId(Long i);
+    List<LikeEntity> findByLikeId(Long i)
+
+    List<LikeEntity> findByUserIdAndPostId(UUID postId, UUID userId);
 }
