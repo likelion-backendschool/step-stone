@@ -28,6 +28,7 @@
             <th>user_id</th>
             <th>password</th>
             <th>name</th>
+            <th>role</th>
             <th>created_at</th>
             <th>updated_at</th>
         </tr>
@@ -38,6 +39,7 @@
             <td><span th:text="${userList.getUserId()}"></span></td>
             <td><span th:text="${userList.getPassword()}"></span></td>
             <td><span th:text="${userList.getName()}"></span></td>
+            <td><span th:text="${userList.getRole()}"></span></td>
             <td><span th:text="${userList.getCreatedAt()}"></span></td>
             <td><span th:text="${userList.getUpdatedAt()}"></span></td>
         </tr>

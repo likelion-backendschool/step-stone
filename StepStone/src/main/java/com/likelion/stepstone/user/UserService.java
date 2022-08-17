@@ -22,6 +22,7 @@ public class UserService {
         userEntity.setUserId(userDto.getUserId());
         userEntity.setPassword(userDto.getPassword());
         userEntity.setName(userDto.getName());
+        userEntity.setRole(userDto.getRole());
 
         userRepository.save(userEntity);
     }
@@ -35,6 +36,7 @@ public class UserService {
                     .userId(userEntity.getUserId())
                     .password(userEntity.getPassword())
                     .name(userEntity.getName())
+                    .role(userEntity.getRole())
                     .createdAt(userEntity.getCreatedAt())
                     .updatedAt(userEntity.getUpdatedAt())
                     .build();
@@ -49,31 +51,5 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public UserDto getUserInfo(UUID userId) {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
-        UserEntity userEntity = userEntityOptional.get();
 
-        UserDto userDTO = UserDto.builder()
-                .userId(userEntity.getUserId())
-                .password(userEntity.getPassword())
-                .name(userEntity.getName())
-                .createdAt(userEntity.getCreatedAt())
-                .updatedAt(userEntity.getUpdatedAt())
-                .build();
-
-        return userDTO;
-    }
-
-    public void updateUser(UserDto userDto) {
-        UserEntity userEntity = UserEntity.toEntity(userDto);
-
-        Integer usercid = userEntity.getCid();
-
-        userEntity.setCid(usercid);
-        userEntity.setUserId(userDto.getUserId());
-        userEntity.setPassword(userDto.getPassword());
-        userEntity.setName(userDto.getName());
-
-        userRepository.save(userEntity);
-    }
 }

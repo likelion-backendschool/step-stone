@@ -24,6 +24,9 @@ public class UserDto {
     @Setter
     private UUID password;
 
+    @Setter
+    private String role;
+
     private LocalDateTime createdAt;
 
     @Setter
@@ -35,6 +38,7 @@ public class UserDto {
                 .userId(entity.getUserId())
                 .name(entity.getName())
                 .password(entity.getPassword())
+                .role(entity.getRole())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();

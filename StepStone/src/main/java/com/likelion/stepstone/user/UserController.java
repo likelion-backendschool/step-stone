@@ -21,17 +21,19 @@ public class UserController {
 
     // user 데이터 추가
     @GetMapping("/create")
-    public String createUser(@RequestParam UUID userId, @RequestParam UUID password, @RequestParam String name, Model model) {
+    public String createUser(@RequestParam UUID userId, @RequestParam UUID password, @RequestParam String name, @RequestParam String role, Model model) {
         UserDto userDto = UserDto.builder()
                 .userId(userId)
                 .password(password)
                 .name(name)
+                .role(role)
                 .build();
 
         userService.createUser(userDto);
         model.addAttribute("userId", userDto.getUserId());
         model.addAttribute("password", userDto.getPassword());
         model.addAttribute("name", userDto.getName());
+        model.addAttribute("role", userDto.getRole());
 
         return "user/create";
     }
@@ -58,48 +60,5 @@ public class UserController {
         return "user/message";
     }
 
-    // user 데이터 수정
-    @GetMapping("/update")
-    public String updateUser(@RequestParam UUID userId, @RequestParam UUID password, @RequestParam String name, Model model) {
-        UserDto userDto = userService.getUserInfo(userId);
 
-        if(userDto == null) {
-            model.addAttribute("message", "해당 데이터가 존재하지 않습니다.");
-            return "user/message";
-        }
-        else {
-            userDto = UserDto.builder()
-                    .userId(userId)
-                    .password(password)
-                    .name(name)
-                    .build();
-
-            userService.updateUser(userDto);
-
-            model.addAttribute("message", "수정되었습니다.");
-            return "user/message";
-        }
-    }
-
-
-//    @GetMapping("/update/{userId}")
-//    public String editUserInfo(@PathVariable("userId") UUID userId, Model model) {
-//        UserDto userDto = userService.getUserInfo(userId);
-//
-//        if (userDto == null) {
-//            model.addAttribute("message", "해당 데이터가 존재하지 않습니다.");
-//            return "user/message";
-//        }
-//        else {
-//            model.addAttribute("userDto", userDto);
-//            return "user/update";
-//        }
-//    }
-//
-//    @PutMapping("/update/{userId}")
-//    public String updateUser(UserDto userDto) {
-//        userService.updateUser(userDto);
-//
-//        return "redirect:/";
-//    }
 }
