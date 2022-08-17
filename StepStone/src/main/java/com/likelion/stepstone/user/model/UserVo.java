@@ -10,6 +10,8 @@ import java.util.UUID;
 @Data
 public class UserVo {
 
+    private final Long userCid;
+
     private final UUID userId;
 
     private final String name;
@@ -22,6 +24,7 @@ public class UserVo {
 
     public static UserVo toVo(UserDto dto) {
         UserVo toVo = UserVo.builder()
+                .userCid(dto.getUserCid())
                 .userId(dto.getUserId())
                 .name(dto.getName())
                 .password(dto.getPassword())

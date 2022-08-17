@@ -19,13 +19,12 @@ import java.util.UUID;
 @Table(name = "users")
 public class UserEntity {
 
-    @Setter
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_cid")
-    private Integer cid;
+    private Long userCid;
 
     //사용자Id를 해싱한다.
-    @Id
     @Type(type = "uuid-char")
     @Column(name = "user_id")
     private UUID userId;
@@ -52,6 +51,8 @@ public class UserEntity {
 
     public static UserEntity toEntity(UserDto dto) {
         UserEntity entity = UserEntity.builder()
+                .userCid(dto.getUserCid())
+                .userId(dto.getUserId())
                 .name(dto.getName())
                 .password(dto.getPassword())
                 .createdAt(dto.getCreatedAt())
@@ -60,5 +61,4 @@ public class UserEntity {
 
         return entity;
     }
-
 }

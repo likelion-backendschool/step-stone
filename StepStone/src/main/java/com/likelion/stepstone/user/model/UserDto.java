@@ -14,6 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserDto {
 
+    private Long userCid;
+
     private UUID userId;
 
     @Setter
@@ -29,6 +31,7 @@ public class UserDto {
 
     public static UserDto toDto(UserEntity entity) {
         UserDto dto = UserDto.builder()
+                .userCid(entity.getUserCid())
                 .userId(entity.getUserId())
                 .name(entity.getName())
                 .password(entity.getPassword())
