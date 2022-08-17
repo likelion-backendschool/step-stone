@@ -51,5 +51,13 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    public void updateUser(UserDto userDto) {
+        Optional<UserEntity> userEntities = userRepository.findByUserId(userDto.getUserId());
+        UserEntity userEntity = userEntities.get();
 
+        userEntity.setPassword(userDto.getPassword());
+        userEntity.setName(userDto.getName());
+
+        userRepository.save(userEntity);
+    }
 }

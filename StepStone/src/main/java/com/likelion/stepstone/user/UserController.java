@@ -60,5 +60,18 @@ public class UserController {
         return "user/message";
     }
 
+    // user 데이터 수정
+    @PatchMapping("/update")
+    public String updateUser(@RequestParam UUID userId, @RequestParam UUID password, @RequestParam String name, Model model) {
+        UserDto userDto = UserDto.builder()
+                .userId(userId)
+                .password(password)
+                .name(name)
+                .build();
 
+        userService.updateUser(userDto);
+
+        model.addAttribute("message", "수정되었습니다.");
+        return "user/message";
+    }
 }
