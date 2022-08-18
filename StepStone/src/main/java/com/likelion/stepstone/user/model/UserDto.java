@@ -14,13 +14,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserDto {
 
-    private UUID userId;
+    private Long userCid;
+
+    private String userId;
 
     @Setter
     private String name;
 
     @Setter
-    private UUID password;
+    private String password;
 
     @Setter
     private String role;
@@ -32,9 +34,11 @@ public class UserDto {
 
     public static UserDto toDto(UserEntity entity) {
         UserDto dto = UserDto.builder()
+                .userCid(entity.getUserCid())
                 .userId(entity.getUserId())
                 .name(entity.getName())
                 .password(entity.getPassword())
+                .role(entity.getRole())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
