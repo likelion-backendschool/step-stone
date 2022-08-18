@@ -28,7 +28,8 @@ public class LikeDto {
     @Setter
     private LocalDateTime createdAt;
 
-    public static LikeDto toEntity(LikeEntity entity) {
+    //toDto로 이름 변경
+    public static LikeDto toDto(LikeEntity entity) {
         LikeDto dto = LikeDto.builder()
                 .likeId(entity.getLikeId())
                 .userId(entity.getUserId())
