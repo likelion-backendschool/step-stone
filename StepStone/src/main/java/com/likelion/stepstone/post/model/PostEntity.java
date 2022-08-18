@@ -2,11 +2,17 @@ package com.likelion.stepstone.post.model;
 
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+
 
 @Entity
 @Builder
@@ -22,11 +28,12 @@ public class PostEntity {
      * Entity 는 Repository 에서만 사용한다.
      */
 
-    @Id //PK임
+
     @Type(type = "uuid-char")
     @Column(name = "post_id")
     private UUID postId;
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_cid")
     private Long postCid;
@@ -44,9 +51,13 @@ public class PostEntity {
     @Column(name = "user_id")
     private UUID userId;
 
+    @Setter
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Setter
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
