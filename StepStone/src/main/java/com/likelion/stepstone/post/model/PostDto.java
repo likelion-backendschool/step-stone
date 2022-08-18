@@ -18,6 +18,8 @@ public class PostDto {
      */
     private UUID postId;
 
+    private Long postCid;
+
     @Setter
     private String title;
 
@@ -51,3 +53,4 @@ public class PostDto {
     }
 
 }
+

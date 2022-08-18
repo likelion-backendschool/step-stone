@@ -21,6 +21,7 @@ public class UserEntity {
     private Integer cid;
 
     //사용자Id를 해싱한다.
+    @Setter
     @Id
     @Type(type = "uuid-char")
     @Column(name = "user_id")

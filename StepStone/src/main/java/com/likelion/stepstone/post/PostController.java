@@ -2,19 +2,20 @@ package com.likelion.stepstone.post;
 
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+
 @RequestMapping("/post")
+@Controller
 public class PostController {
 
     private final PostService postService;
@@ -41,6 +42,36 @@ public class PostController {
         return "post/create";
     }
 
+    @GetMapping("/edit")
+    public String edit(@RequestParam("postId") UUID postId, @RequestParam("title") String title,@RequestParam("body") String body, Model model ){
+        PostDto postDto = PostDto.builder()
+                        .title(title)
+                        .body(body)
+                        .postId(postId)
+                        .build();
+
+        postService.edit(postDto);
+
+        model.addAttribute("title", title);
+        model.addAttribute("body", body);
+        return "post/create";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam UUID postId, Model model){
+        PostDto postDto = PostDto.builder()
+                .postId(postId)
+                .build();
+
+        postService.delete(postDto);
+        model.addAttribute("postId",postId);
+        return"post/delete";
+
+    }
+
+
+
+
     @GetMapping("/read/{pageNo}")
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
 
@@ -59,3 +90,11 @@ public class PostController {
         return "index";
     }
 }
+
+
+
+
+
+
+
+
