@@ -12,11 +12,11 @@ public class UserVo {
 
     private final Long userCid;
 
-    private final UUID userId;
+    private final String userId;
 
     private final String name;
 
-    private final UUID password;
+    private final String password;
 
     private final String role;
 

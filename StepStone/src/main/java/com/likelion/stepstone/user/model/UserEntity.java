@@ -25,18 +25,16 @@ public class UserEntity {
     private Long userCid;
 
     //사용자Id를 해싱한다.
-    @Type(type = "uuid-char")
     @Column(name = "user_id")
-    private UUID userId;
+    private String userId;
 
     @Setter
     @Column(name = "name")
     private String name; // 실명
 
     @Setter
-    @Type(type = "uuid-char")
     @Column(name = "password")
-    private UUID password;
+    private String password;
 
     @Setter
     @Column(name = "role")

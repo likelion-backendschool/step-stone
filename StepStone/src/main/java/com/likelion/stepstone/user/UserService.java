@@ -3,6 +3,7 @@ package com.likelion.stepstone.user;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,8 +48,9 @@ public class UserService {
         return userDtoList;
     }
 
-    public void deleteUser(UUID userId) {
-        userRepository.deleteById(userId);
+    @Transactional
+    public void deleteUser(String userId) {
+        userRepository.deleteByUserId(userId);
     }
 
     public void updateUser(UserDto userDto) {

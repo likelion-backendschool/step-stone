@@ -16,13 +16,13 @@ public class UserDto {
 
     private Long userCid;
 
-    private UUID userId;
+    private String userId;
 
     @Setter
     private String name;
 
     @Setter
-    private UUID password;
+    private String password;
 
     @Setter
     private String role;

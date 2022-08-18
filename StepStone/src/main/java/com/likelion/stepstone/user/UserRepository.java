@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<UserEntity, UUID> {
-    void deleteById(UUID userId);
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    void deleteByUserId(String userId);
 
-    Optional<UserEntity> findByUserId(UUID userId);
+    Optional<UserEntity> findByUserId(String userId);
 }

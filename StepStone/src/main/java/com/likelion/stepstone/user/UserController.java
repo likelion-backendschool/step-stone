@@ -21,7 +21,7 @@ public class UserController {
 
     // user 데이터 추가
     @GetMapping("/create")
-    public String createUser(@RequestParam UUID userId, @RequestParam UUID password, @RequestParam String name, @RequestParam String role, Model model) {
+    public String createUser(@RequestParam String userId, @RequestParam String password, @RequestParam String name, @RequestParam String role, Model model) {
         UserDto userDto = UserDto.builder()
                 .userId(userId)
                 .password(password)
@@ -50,7 +50,7 @@ public class UserController {
 
     // user 데이터 삭제
     @DeleteMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable("userId") UUID userId, Model model) {
+    public String deleteUser(@PathVariable("userId") String userId, Model model) {
         userService.deleteUser(userId);
 
         // alert를 띄우도록 하기
@@ -62,7 +62,7 @@ public class UserController {
 
     // user 데이터 수정
     @PatchMapping("/update")
-    public String updateUser(@RequestParam UUID userId, @RequestParam UUID password, @RequestParam String name, Model model) {
+    public String updateUser(@RequestParam String userId, @RequestParam String password, @RequestParam String name, Model model) {
         UserDto userDto = UserDto.builder()
                 .userId(userId)
                 .password(password)
