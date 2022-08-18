@@ -19,6 +19,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_cid")
     @Setter //테스트용
+
     private Integer cid;
 
     //사용자Id를 해싱한다.

@@ -14,12 +14,9 @@ import java.util.UUID;
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
 
 
-    List<LikeEntity> findByUserId(UUID userId);
-    Optional<LikeEntity> findByPostId(UUID postId);
 
+    List<LikeEntity> findByPostId(UUID postId);
 
-    List<LikeEntity> findByLikeId(Long i);
-    Optional<LikeEntity> findByUserIdAndPostId(UUID postId, UUID userId);
     @Transactional
     void deleteByPostIdAndUserId(UUID postId, UUID userId);
 

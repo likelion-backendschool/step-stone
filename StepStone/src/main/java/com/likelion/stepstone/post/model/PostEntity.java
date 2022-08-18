@@ -23,12 +23,12 @@ public class PostEntity {
      * Entity 는 Database like 테이블과 연결한다.
      * Entity 는 Repository 에서만 사용한다.
      */
-
     @Id //PK임
     @Type(type = "uuid-char")
     @Column(name = "post_id")
     @Setter //테스트용
     private UUID postId;
+
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_cid")
