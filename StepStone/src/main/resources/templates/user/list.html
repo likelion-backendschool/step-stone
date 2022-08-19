@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>list</title>
+
+    <!-- 내부 css -->
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <table>
+
+        <thead>
+        <tr>
+            <th>user_id</th>
+            <th>password</th>
+            <th>name</th>
+            <th>role</th>
+            <th>created_at</th>
+            <th>updated_at</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="userList : ${userList}">
+            <td><span th:text="${userList.getUserId()}"></span></td>
+            <td><span th:text="${userList.getPassword()}"></span></td>
+            <td><span th:text="${userList.getName()}"></span></td>
+            <td><span th:text="${userList.getRole()}"></span></td>
+            <td><span th:text="${userList.getCreatedAt()}"></span></td>
+            <td><span th:text="${userList.getUpdatedAt()}"></span></td>
+        </tr>
+        </tbody>
+
+    </table>
+</body>
+</html>
