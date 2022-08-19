@@ -1,0 +1,26 @@
+
+
+<button class="heartBtn" onclick="addLike()">
+  <i class=" xi-heart-o xi-2x"></i></button>
+
+
+<script>
+  function addLike(){
+    const pushHeartBtn = document.querySelector(".heartBtn");
+            pushHeartBtn.innerHTML ='<i class="xi-heart xi-2x"></i>';
+            pushHeartBtn.style.color ='red';
+}
+</script>
+
+var count = 1324;
+function countPlus(){
+count=count+1;
+document.querySelector(".like_count").innerHTML="좋아요 "+count +"개";
+}
+
+function addLike(){
+const pushHeartBtn = document.querySelector(".heartBtn");
+pushHeartBtn.innerHTML ='<i class="xi-heart xi-2x"></i>';
+pushHeartBtn.style.color ='red';
+pushHeartBtn.addEventListener("click",countPlus);
+}
