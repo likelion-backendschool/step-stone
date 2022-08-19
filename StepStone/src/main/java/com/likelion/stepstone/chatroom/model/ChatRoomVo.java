@@ -1,0 +1,35 @@
+package com.likelion.stepstone.chatroom.model;
+
+import com.likelion.stepstone.post.model.PostDto;
+import com.likelion.stepstone.post.model.PostVo;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Builder
+@Getter
+@ToString
+public class ChatRoomVo {
+    final UUID chatRoomId;
+
+    final Long postCid;
+
+    final String roomName;
+
+    final Integer userCount;
+
+    final LocalDateTime createdAt;
+
+    public static ChatRoomVo toVo(ChatRoomDto chatRoomDto) {
+        ChatRoomVo vo = ChatRoomVo.builder()
+                .chatRoomId(chatRoomDto.getChatRoomId())
+                .postCid(chatRoomDto.getPostCid())
+                .roomName(chatRoomDto.getRoomName())
+                .userCount(chatRoomDto.getUserCount())
+                .createdAt(chatRoomDto.getCreatedAt())
+                .build();
+
+        return vo;
+    }
+}
