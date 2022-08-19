@@ -17,9 +17,9 @@ public class LikeVo {
 
     private final Long likeId;
 
-    private final UUID userId;
+    private final Long userCid;
 
-    private final UUID postId;
+    private final Long postCid;
 
     private final LocalDateTime createdAt;
 
@@ -27,8 +27,8 @@ public class LikeVo {
     public static LikeVo toVo(LikeDto dto) {
         LikeVo vo = LikeVo.builder()
                 .likeId(dto.getLikeId())
-                .userId(dto.getUserId())
-                .postId(dto.getPostId())
+                .userCid(dto.getUserCid())
+                .postCid(dto.getPostCid())
                 .createdAt(dto.getCreatedAt())
                 .build();
 

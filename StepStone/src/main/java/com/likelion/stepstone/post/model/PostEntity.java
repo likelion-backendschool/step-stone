@@ -64,10 +64,6 @@ public class PostEntity {
     private LocalDateTime updatedAt;
 
 
-//    //좋아요 수 반영 테스트 하려고 추가해본 것
-//    @OneToMany(mappedBy = "postEntity", cascade = CascadeType.REMOVE )  //질문 삭제시 답변도 삭제하기 위해 cascade 설정.
-//    private List<LikeEntity> likesList;
-
 
     public static PostEntity toEntity(PostDto dto) {
         PostEntity entity = PostEntity.builder()
