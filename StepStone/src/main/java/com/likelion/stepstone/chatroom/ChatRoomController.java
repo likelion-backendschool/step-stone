@@ -12,17 +12,19 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/chat/room")
+@RequestMapping("/chat")
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
 
-    @GetMapping("/")
+    @GetMapping("/room")
     public String getRoom(Model model) {
+//        chatRoomService.readAll();
+
         return "chat/room";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/room/create")
     @ResponseBody
     public ChatRoomVo createRoom(ChatRoomForm chatRoomForm) {
 
