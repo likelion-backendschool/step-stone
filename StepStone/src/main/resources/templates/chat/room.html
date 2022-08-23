@@ -1,20 +1,29 @@
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" th:href="@{/css/chat.css}">
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <!-- CSS only -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="../../static/css/chat.css" th:href="@{/css/chat.css}" rel="stylesheet">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
 
 <div class="container">
+    <div id="liveAlertPlaceholder"></div>
+
     <div class="row clearfix">
         <div class="col-lg-12">
             <div class="card chat-app">
@@ -25,52 +34,19 @@
                         </div>
                         <input type="text" class="form-control" placeholder="Search...">
                     </div>
-                    <ul class="list-unstyled chat-list mt-2 mb-0">
-                        <li class="clearfix">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                            <div class="about">
-                                <div class="name">Vincent Porter</div>
-                                <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>
-                            </div>
-                        </li>
+
+                    <ul class="list-unstyled chat-list mt-2 mb-0" th:each="room : ${rooms}">
                         <li class="clearfix active">
                             <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                             <div class="about">
-                                <div class="name">Aiden Chavez</div>
-                                <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                            </div>
-                        </li>
-                        <li class="clearfix">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                            <div class="about">
-                                <div class="name">Mike Thomas</div>
-                                <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                            </div>
-                        </li>
-                        <li class="clearfix">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                            <div class="about">
-                                <div class="name">Christian Kelly</div>
-                                <div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div>
-                            </div>
-                        </li>
-                        <li class="clearfix">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar8.png" alt="avatar">
-                            <div class="about">
-                                <div class="name">Monica Ward</div>
-                                <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                            </div>
-                        </li>
-                        <li class="clearfix">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                            <div class="about">
-                                <div class="name">Dean Henry</div>
-                                <div class="status"> <i class="fa fa-circle offline"></i> offline since Oct 28 </div>
+                                <div class="name" th:text="${room.roomName}">Aiden Chavez</div>
+                                <div class="recent" th:text=${#strings.arraySplit(room.updatedAt,'T')[1]}>online</div>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class="chat">
+
                     <div class="chat-header clearfix">
                         <div class="row">
                             <div class="col-lg-6">
@@ -83,10 +59,59 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 hidden-sm text-right">
-                                <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-info"><i class="fa fa-cogs"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>
+                                <div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+                                     aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <form th:action="@{/chat/room/create}" th:object="${chatRoomForm}" method="post">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalToggleLabel">채팅방 생성</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="mb-3 modal-body text-center">
+                                                    <label for="roomName" class="form-label">채팅방 이름을 입력해주세요</label>
+                                                    <input type="text" class="form-control" th:field="*{roomName}" id="roomName">
+                                                    <input type="text" class="form-control" th:field="*{postCid}" id="postCid" >
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="완료" class="btn btn-primary"
+                                                            data-bs-target="#exampleModalToggle2"
+                                                            data-bs-toggle="modal">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="exampleModalToggle2" aria-hidden="true"
+                                     aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                Hide this modal and show the first with the button below.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary" data-bs-target="#exampleModalToggle"
+                                                        data-bs-toggle="modal">Back to first
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle"
+                                   role="button">
+                                    채팅방만들기
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -97,7 +122,9 @@
                                     <span class="message-data-time">10:10 AM, Today</span>
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                 </div>
-                                <div class="message other-message float-right"> Hi Aiden, how are you? How is the project coming along? </div>
+                                <div class="message other-message float-right"> Hi Aiden, how are you? How is the
+                                    project coming along?
+                                </div>
                             </li>
                             <li class="clearfix">
                                 <div class="message-data">
@@ -109,7 +136,9 @@
                                 <div class="message-data">
                                     <span class="message-data-time">10:15 AM, Today</span>
                                 </div>
-                                <div class="message my-message">Project has been already finished and I have results to show you.</div>
+                                <div class="message my-message">Project has been already finished and I have results to
+                                    show you.
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -126,5 +155,42 @@
         </div>
     </div>
 </div>
+<script>
+    // const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+    //
+    // const alert = (message, type) => {
+    //     const wrapper = document.createElement('div')
+    //     wrapper.innerHTML = [
+    //         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+    //         `   <div>${message}</div>`,
+    //         '   <br>',
+    //         '   <form th:action="@{/chat/room/create?postCid=9&roomName=room}" th:object="${chatRoomForm} method="post">',
+    //         '       <input type="text" class="form-control"  placeholder="Post Cid" th:field="*{postCid}>',
+    //         '           <input type="text" th:field="*{roomName}" placeholder="채팅방 이름" aria-label="First name" class="form-control">',
+    //         '           <input type="submit" class="btn btn-outline-secondary" value="채팅방 만들기" >',
+    //         '           <input class="btn-close" data-bs-dismiss="alert" aria-label="Close">',
+    //         '   </form>',
+    //         '</div>',
+    //     ].join('')
+    //
+    //     alertPlaceholder.append(wrapper)
+    // }
+    //
+    // const alertTrigger = document.getElementById('liveAlertBtn')
+    // if (alertTrigger) {
+    //     alertTrigger.addEventListener('click', () => {
+    //         alert('채팅방 생성', 'primary')
+    //     })
+    // }
+</script>
+
+<style>
+    .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+        background-color: #3C64B1;
+        border-color: #3C64B1;
+    }
+
+
+</style>
 </body>
 </html>
