@@ -52,7 +52,7 @@ public class SpringConfig {
 
     @Bean
     public ChatRoomService chatRoomService(){
-        return new ChatRoomService(chatRoomRepository);
+        return new ChatRoomService(chatRoomRepository, userRepository);
     }
 
 }

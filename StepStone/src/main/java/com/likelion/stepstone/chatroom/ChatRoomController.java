@@ -1,5 +1,6 @@
 package com.likelion.stepstone.chatroom;
 
+import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomForm;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
 import com.likelion.stepstone.chatroom.model.ChatRoomVo;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -18,15 +20,16 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
 
     @GetMapping("/room")
-    public String getRoom(Model model) {
-//        chatRoomService.readAll();
+    public String getRoom(Model model, ChatRoomForm chatRoomForm) {
+        List<ChatRoomDto> rooms = chatRoomService.findAll();
+
+        model.addAttribute("rooms", rooms);
 
         return "chat/room";
     }
 
     @PostMapping("/room/create")
-    @ResponseBody
-    public ChatRoomVo createRoom(ChatRoomForm chatRoomForm) {
+    public String createRoom(ChatRoomForm chatRoomForm) {
 
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                 .chatRoomId(UUID.randomUUID())
@@ -34,8 +37,8 @@ public class ChatRoomController {
                 .postCid(chatRoomForm.getPostCid())
                 .userCount(0)
                 .build();
-
-        return chatRoomService.create(chatRoomDto);
+        chatRoomService.create(chatRoomDto);
+        return "redirect:/chat/room";
     }
     // 채팅방 입장 화면
     @GetMapping("/enter/{roomId}")
