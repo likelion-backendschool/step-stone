@@ -1,12 +1,17 @@
 package com.likelion.stepstone.chatroom.model;
 
 
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -14,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "chat_rooms")
 public class ChatRoomEntity {
 
@@ -39,10 +45,18 @@ public class ChatRoomEntity {
     @Column(name = "user_count")
     Integer userCount;
 
+    @ManyToMany
+    Set<UserEntity> users = new HashSet<>();
+
     @Setter
     @Column(name = "created_at")
     @CreatedDate
     LocalDateTime createdAt;
+
+    @Setter
+    @Column(name = "updated_at")
+    @LastModifiedDate
+    LocalDateTime updatedAt;
 
     public static ChatRoomEntity toEntity(ChatRoomDto chatRoomDto){
         ChatRoomEntity entity = ChatRoomEntity.builder()
@@ -51,6 +65,8 @@ public class ChatRoomEntity {
                 .roomName(chatRoomDto.getRoomName())
                 .userCount(chatRoomDto.getUserCount())
                 .createdAt(chatRoomDto.getCreatedAt())
+                .updatedAt(chatRoomDto.getUpdatedAt())
+                .users(new HashSet<>())
                 .build();
 
         return entity;

@@ -27,6 +27,8 @@ public class ChatRoomDto {
 
     LocalDateTime createdAt;
 
+    LocalDateTime updatedAt;
+
 
 
     public static ChatRoomDto toDto(ChatRoomEntity chatRoomEntity){
@@ -36,6 +38,7 @@ public class ChatRoomDto {
                 .roomName(chatRoomEntity.getRoomName())
                 .userCount(chatRoomEntity.getUserCount())
                 .createdAt(chatRoomEntity.getCreatedAt())
+                .updatedAt(chatRoomEntity.getUpdatedAt())
                 .build();
 
         return dto;

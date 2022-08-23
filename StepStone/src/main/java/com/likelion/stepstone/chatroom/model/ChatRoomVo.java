@@ -21,6 +21,8 @@ public class ChatRoomVo {
 
     final LocalDateTime createdAt;
 
+    final LocalDateTime updatedAt;
+
     public static ChatRoomVo toVo(ChatRoomDto chatRoomDto) {
         ChatRoomVo vo = ChatRoomVo.builder()
                 .chatRoomId(chatRoomDto.getChatRoomId())
@@ -28,6 +30,7 @@ public class ChatRoomVo {
                 .roomName(chatRoomDto.getRoomName())
                 .userCount(chatRoomDto.getUserCount())
                 .createdAt(chatRoomDto.getCreatedAt())
+                .updatedAt(chatRoomDto.getUpdatedAt())
                 .build();
 
         return vo;
