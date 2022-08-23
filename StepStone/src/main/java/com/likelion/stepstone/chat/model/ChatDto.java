@@ -17,18 +17,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ChatDto {
     @Setter
-    Long chatRoomCid;
+    String chatRoomId;
+
     @Setter
     Long senderUserCid;
 
+    @Setter
+    String message;
+
     LocalDateTime createdAt;
 
+    public enum MessageType {
+        ENTER, TALK
+    }
 
+    private MessageType type;
 
     public static ChatDto toDto(ChatEntity chatEntity){
         ChatDto dto = ChatDto.builder()
-                .chatRoomCid(chatEntity.getChatRoomCid())
-                .senderUserCid(chatEntity.getSenderUserCid())
+                .chatRoomId(chatEntity.getChatRoomId())
+                .message(chatEntity.getMessage())
+//                .senderUserCid(chatEntity.getSenderUserCid())
                 .createdAt(chatEntity.getCreatedAt())
                 .build();
 

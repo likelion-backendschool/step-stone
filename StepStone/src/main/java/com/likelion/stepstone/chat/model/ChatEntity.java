@@ -3,6 +3,7 @@ package com.likelion.stepstone.chat.model;
 
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,12 +25,17 @@ public class ChatEntity {
     Long chatCid;
 
     @Setter
-    @Column(name = "chat_room_cid")
-    Long chatRoomCid;
+    @Column(name = "message")
+    String message;
 
     @Setter
-    @Column(name = "sender_user_cid")
-    Long senderUserCid;
+    @Column(name = "chat_room_id")
+    String chatRoomId;
+
+    @ManyToOne
+    @Setter
+    UserEntity sender;
+
 
     @Setter
     @Column(name = "created_at")
@@ -38,8 +44,8 @@ public class ChatEntity {
 
     public static ChatEntity toEntity(ChatDto chatDto){
         ChatEntity entity = ChatEntity.builder()
-                .chatRoomCid(chatDto.getChatRoomCid())
-                .senderUserCid(chatDto.getSenderUserCid())
+                .chatRoomId(chatDto.getChatRoomId())
+                .message(chatDto.getMessage())
                 .createdAt(chatDto.getCreatedAt())
                 .build();
 
