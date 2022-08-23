@@ -27,6 +27,8 @@ public class ChatRoomService {
     public ChatRoomVo create(ChatRoomDto chatRoomDto) {
         ChatRoomEntity chatRoomEntity = ChatRoomEntity.toEntity(chatRoomDto);
 
+        chatRoomEntity.setUserCount(1);
+
         if(chatRoomEntity.getUsers() == null)
             chatRoomEntity.setUsers(new HashSet<>());
 
