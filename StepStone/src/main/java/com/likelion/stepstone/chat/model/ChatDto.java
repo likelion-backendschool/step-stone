@@ -19,8 +19,8 @@ public class ChatDto {
     @Setter
     String chatRoomId;
 
-    @Setter
-    Long senderUserCid;
+//    @Setter
+//    Long senderUserCid;
 
     @Setter
     String message;
