@@ -12,6 +12,7 @@ import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
 
 @Configuration
@@ -22,12 +23,21 @@ public class SpringConfig {
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
 
-    public SpringConfig(PostRepository postRepository, LikeRepository likeRepository, UserRepository userRepository, ChatRepository chatRepository, ChatRoomRepository chatRoomRepository) {
+    private final SimpMessageSendingOperations messagingTemplate;
+    public SpringConfig(PostRepository postRepository,
+                        LikeRepository likeRepository,
+                        UserRepository userRepository,
+                        ChatRepository chatRepository,
+                        ChatRoomRepository chatRoomRepository,
+                        SimpMessageSendingOperations messagingTemplate)
+
+            {
         this.postRepository = postRepository;
         this.likeRepository = likeRepository;
         this.userRepository = userRepository;
         this.chatRepository = chatRepository;
         this.chatRoomRepository = chatRoomRepository;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @Bean
@@ -47,7 +57,7 @@ public class SpringConfig {
 
     @Bean
     public ChatService chatService(){
-        return new ChatService(chatRepository);
+        return new ChatService(messagingTemplate, userRepository);
     }
 
     @Bean

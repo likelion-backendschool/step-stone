@@ -13,8 +13,6 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
 @RequiredArgsConstructor
 public class ChatService {
-    private final ChatRepository chatRepository;
-    private final ChatRoomRepository chatRoomRepository;
     private final SimpMessageSendingOperations messagingTemplate;
     private final UserRepository userRepository;
 
