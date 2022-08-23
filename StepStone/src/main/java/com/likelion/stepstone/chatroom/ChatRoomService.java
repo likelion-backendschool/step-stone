@@ -7,6 +7,7 @@ import com.likelion.stepstone.chatroom.model.ChatRoomVo;
 import com.likelion.stepstone.user.UserRepository;
 import lombok.AllArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +17,18 @@ public class ChatRoomService {
 
     private final UserRepository userRepository;
 
+
+    /**
+     * TODO
+     * 사용중인 사용자, 개발자가 채팅방에 포함되도록 변경 필요
+     *
+     * @return
+     */
     public ChatRoomVo create(ChatRoomDto chatRoomDto) {
         ChatRoomEntity chatRoomEntity = ChatRoomEntity.toEntity(chatRoomDto);
+
+        if(chatRoomEntity.getUsers() == null)
+            chatRoomEntity.setUsers(new HashSet<>());
 
         chatRoomEntity.getUsers().add(userRepository.findById(1l).orElseThrow(() -> new DataNotFoundException("user not found")));
 

@@ -45,8 +45,9 @@ public class ChatRoomEntity {
     @Column(name = "user_count")
     Integer userCount;
 
+    @Setter
     @ManyToMany
-    Set<UserEntity> users = new HashSet<>();
+    Set<UserEntity> users;
 
     @Setter
     @Column(name = "created_at")
@@ -66,7 +67,6 @@ public class ChatRoomEntity {
                 .userCount(chatRoomDto.getUserCount())
                 .createdAt(chatRoomDto.getCreatedAt())
                 .updatedAt(chatRoomDto.getUpdatedAt())
-                .users(new HashSet<>())
                 .build();
 
         return entity;
