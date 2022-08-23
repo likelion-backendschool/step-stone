@@ -13,7 +13,7 @@ public class ChatController {
     private final ChatService chatService;
     @MessageMapping
     void sendMessage(ChatDto chatDto){
-        chatDto.setSenderUserCid(1l);
+//        chatDto.setSenderUserCid(1l);
 
         chatService.sendMessage(chatDto);
     }

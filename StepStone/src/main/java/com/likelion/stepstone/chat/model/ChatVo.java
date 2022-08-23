@@ -14,14 +14,14 @@ public class ChatVo {
 
     final String chatRoomId;
     final String message;
-    final Long senderUserCid;
+//    final Long senderUserCid;
     final LocalDateTime createdAt;
 
     public static ChatVo toVo(ChatDto chatDto){
         ChatVo vo = ChatVo.builder()
                 .chatRoomId(chatDto.getChatRoomId())
                 .message(chatDto.getMessage())
-                .senderUserCid(chatDto.getSenderUserCid())
+//                .senderUserCid(chatDto.getSenderUserCid())
                 .createdAt(chatDto.getCreatedAt())
                 .build();
 
