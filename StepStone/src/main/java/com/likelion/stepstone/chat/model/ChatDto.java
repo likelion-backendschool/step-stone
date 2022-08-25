@@ -19,8 +19,11 @@ public class ChatDto {
     @Setter
     String chatRoomId;
 
-//    @Setter
-//    Long senderUserCid;
+    @Setter
+    String senderId;
+
+    @Setter
+    String senderName;
 
     @Setter
     String message;
@@ -37,7 +40,8 @@ public class ChatDto {
         ChatDto dto = ChatDto.builder()
                 .chatRoomId(chatEntity.getChatRoomId())
                 .message(chatEntity.getMessage())
-//                .senderUserCid(chatEntity.getSenderUserCid())
+                .senderId(chatEntity.getSender().getUserId())
+                .senderName(chatEntity.getSender().getName())
                 .createdAt(chatEntity.getCreatedAt())
                 .build();
 

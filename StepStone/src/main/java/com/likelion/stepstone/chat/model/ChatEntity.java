@@ -25,12 +25,13 @@ public class ChatEntity {
     Long chatCid;
 
     @Setter
+    @Column(name = "chat_room_id")
+    String chatRoomId;
+
+    @Setter
     @Column(name = "message")
     String message;
 
-    @Setter
-    @Column(name = "chat_room_id")
-    String chatRoomId;
 
     @ManyToOne
     @Setter
