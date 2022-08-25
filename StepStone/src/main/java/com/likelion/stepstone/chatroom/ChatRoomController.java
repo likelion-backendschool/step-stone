@@ -29,7 +29,7 @@ public class ChatRoomController {
     }
 
     @PostMapping("/room/create")
-    public String createRoom(ChatRoomForm chatRoomForm) {
+    public String createRoom(Model model, ChatRoomForm chatRoomForm) {
 
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                 .chatRoomId(UUID.randomUUID())
@@ -38,7 +38,10 @@ public class ChatRoomController {
                 .userCount(0)
                 .build();
         chatRoomService.create(chatRoomDto);
-        return "redirect:/chat/room";
+
+        List<ChatRoomDto> rooms = chatRoomService.findAll();
+        model.addAttribute("rooms", rooms);
+        return "chat/room :: #chatRoomTable";
     }
     // 채팅방 입장 화면
     @GetMapping("/enter/{roomId}")
