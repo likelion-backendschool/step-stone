@@ -23,6 +23,7 @@ public class SpringConfig {
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
 
+
     private final SimpMessageSendingOperations messagingTemplate;
     public SpringConfig(PostRepository postRepository,
                         LikeRepository likeRepository,
@@ -57,7 +58,7 @@ public class SpringConfig {
 
     @Bean
     public ChatService chatService(){
-        return new ChatService(messagingTemplate, userRepository);
+        return new ChatService(messagingTemplate, userRepository, chatRepository);
     }
 
     @Bean

@@ -1,5 +1,7 @@
 package com.likelion.stepstone.chatroom;
 
+import com.likelion.stepstone.chat.ChatService;
+import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomForm;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
@@ -18,12 +20,18 @@ import java.util.UUID;
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
+    private final ChatService chatService;
 
     @GetMapping("/room")
     public String getRoom(Model model, ChatRoomForm chatRoomForm) {
         List<ChatRoomDto> rooms = chatRoomService.findAll();
 
+        ChatRoomDto firstChatRoom = rooms.get(0);
+
+        List<ChatDto> chats = chatService.getHistories(firstChatRoom.getChatRoomId());
+
         model.addAttribute("rooms", rooms);
+        model.addAttribute("chats", chats);
 
         return "chat/room";
     }
