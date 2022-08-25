@@ -28,14 +28,17 @@ public class ChatService {
     //"/pub/chat/enter"
     public void sendMessage(ChatDto chatDto) {
         ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
-        UserEntity userEntity = userRepository.findById(1l).orElseThrow(()-> new DataNotFoundException("user not found"));
+        UserEntity userEntity = userRepository.findByUserId(chatDto.getSenderId()).orElseThrow(()-> new DataNotFoundException("user not found"));
         chatEntity.setSender(userEntity);
         chatEntity.setChatId(UUID.randomUUID().toString());
 
-//        if(!chatRoomEntity.getUsers().contains(chatEntity.getSender())){
-//            throw new DataNotFoundException("참가 중인 유저가 아님");
-//        }
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), ChatDto.toDto(chatEntity));
+        saveMessage(chatEntity);
+        
+        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), ChatDto.toDto(chatRepository.findByChatId(chatEntity.getChatId())));
+    }
+
+    public void saveMessage(ChatEntity chatEntity){
+        chatRepository.save(chatEntity);
     }
 
     public void enter(ChatDto chatDto) {

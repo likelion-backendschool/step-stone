@@ -141,10 +141,11 @@
                     </div>
                     <div class="chat-message clearfix">
                         <div class="input-group mb-0">
-                            <div class="input-group-prepend">
+                            <div id="sendMessage" class="input-group-prepend" >
                                 <span class="input-group-text"><i class="fa fa-send"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Enter text here...">
+                            <input id="msg" type="text" class="form-control" placeholder="Enter text here...">
+                            <input id="currRoomId" th:value="${rooms[0].chatRoomId}" type="hidden">
                         </div>
                     </div>
                 </div>
@@ -152,7 +153,82 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
+    var sockJs = new SockJS("/stomp/chat");
+    //1. SockJS를 내부에 들고있는 stomp를 내어줌
+    var stomp = Stomp.over(sockJs);
+
+    $(document).ready(
+        initStomp()
+    );
+    function initStomp() {
+
+        var roomId = $("#currRoomId").val();
+        var username = "test user";
+        console.log(roomId + ", " + username);
+
+
+        //2. connection이 맺어지면 실행
+        stomp.connect({}, function(){
+            console.log("STOMP Connection")
+
+            //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+            stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+                console.log(chat);
+                var content = JSON.parse(chat.body);
+
+                var sender = content.senderName;
+                var createdAt = content.createdAt.split('T')[1].split('.')[0];
+                var message = content.message;
+                var str = '';
+
+                str = "<li class='clearfix'>";
+                str += "<div class='message-data'>";
+                str +=      "<span class='message-data-time'>" + sender + "</span>";
+                str +=      "<span class='message-data-time'>" + createdAt + "</span>";
+                str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
+                str += "</div>";
+                str += "<div class='message my-message'>" + message + "</div>";
+                str += "</li>";
+
+            });
+        }, { id: roomId});
+
+            //3. send(path, header, message)로 메세지를 보낼 수 있음
+            // stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
+
+        $("#sendMessage").on("click", function(e){
+            var msg = document.getElementById("msg");
+            if(msg.value !== ""){
+                console.log( "sendMessage:" + msg.value);
+                stomp.send('/pub/chat/message', {}, JSON.stringify({
+                    chatRoomId: $("#currRoomId").val(),
+                    message: msg.value,
+                    senderName: "user",
+                    senderId: "7b8facdb-855b-41fa-8e96-98546288b346" //사용중인 사용자로 변경 필요
+                }));
+
+                var today = new Date();
+                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var dateTime = date+' '+time;
+                str = "<li class='clearfix'>";
+                str += "<div class='message-data text-right'>";
+                str +=      "<span class='message-data-time'>user</span>";
+                str +=      "<span class='message-data-time'> " + dateTime + "</span>";
+                str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
+                str += "</div>";
+                str += "<div class='message other-message float-right'>" + msg.value + "</div>";
+                str += "</li>";
+
+                $("#chatList").append(str);
+                msg.value = '';
+            }
+
+        });
+    }
     function updateChatRoom() {
         var chatRoomBean = {
             roomName: $("#roomName").val(),
