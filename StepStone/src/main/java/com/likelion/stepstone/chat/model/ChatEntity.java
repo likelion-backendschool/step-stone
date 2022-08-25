@@ -27,6 +27,10 @@ public class ChatEntity {
     Long chatCid;
 
     @Setter
+    @Column(name="chat_id")
+    String chatId;
+
+    @Setter
     @Column(name = "chat_room_id")
     String chatRoomId;
 

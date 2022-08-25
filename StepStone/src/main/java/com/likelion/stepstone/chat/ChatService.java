@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class ChatService {
         ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
         UserEntity userEntity = userRepository.findById(1l).orElseThrow(()-> new DataNotFoundException("user not found"));
         chatEntity.setSender(userEntity);
+        chatEntity.setChatId(UUID.randomUUID().toString());
 
 //        if(!chatRoomEntity.getUsers().contains(chatEntity.getSender())){
 //            throw new DataNotFoundException("참가 중인 유저가 아님");
