@@ -7,6 +7,7 @@ import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "chats")
 public class ChatEntity {
     @Id
