@@ -32,7 +32,7 @@ public class ChatRoomController {
     public String createRoom(Model model, ChatRoomForm chatRoomForm) {
 
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
-                .chatRoomId(UUID.randomUUID())
+                .chatRoomId(UUID.randomUUID().toString())
                 .roomName(chatRoomForm.getRoomName())
                 .postCid(chatRoomForm.getPostCid())
                 .userCount(0)

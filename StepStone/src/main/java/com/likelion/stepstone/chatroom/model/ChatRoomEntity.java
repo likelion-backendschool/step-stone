@@ -30,8 +30,8 @@ public class ChatRoomEntity {
 
     @Setter
     @Column(name = "chat_room_id")
-    @Type(type = "uuid-char")
-    UUID chatRoomId;
+//    @Type(type = "uuid-char")
+    String chatRoomId;
 
     @Setter
     @Column(name = "post_cid")

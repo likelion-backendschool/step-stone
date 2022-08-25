@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ChatRoomDto {
     @Setter
-    UUID chatRoomId;
+    String chatRoomId;
 
     Long postCid;
 

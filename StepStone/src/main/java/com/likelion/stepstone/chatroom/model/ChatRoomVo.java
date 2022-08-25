@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @ToString
 public class ChatRoomVo {
-    final UUID chatRoomId;
+    final String chatRoomId;
 
     final Long postCid;
 
