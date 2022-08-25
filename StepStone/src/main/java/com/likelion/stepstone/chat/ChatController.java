@@ -14,7 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/chat")
+@RequestMapping("/chat") // MessageMapping에는 미적용
 public class ChatController {
 
     private final ChatService chatService;
@@ -28,7 +28,7 @@ public class ChatController {
         return "chat/room :: #chats";
     }
 
-    @MessageMapping
+    @MessageMapping(value = "/chat/message")
     void sendMessage(ChatDto chatDto){
 //        chatDto.setSenderUserCid(1l);
 
