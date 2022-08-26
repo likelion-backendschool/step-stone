@@ -131,7 +131,7 @@
                                               th:text="${chat.createdAt}">10:10 AM, Today</span>
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                     </div>
-                                    <div class="message other-message float-right" th:text="${chat.message}"> Hi Aiden,
+                                    <div class="message my-message float-right" th:text="${chat.message}"> Hi Aiden,
                                         how are you? How is the
                                         project coming along?
                                     </div>
@@ -190,7 +190,7 @@
                 str +=      "<span class='message-data-time'>" + createdAt + "</span>";
                 str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
                 str += "</div>";
-                str += "<div class='message my-message'>" + message + "</div>";
+                str += "<div class='message other-message'>" + message + "</div>";
                 str += "</li>";
 
                 $("#chatList").append(str);
@@ -222,7 +222,7 @@
                 str +=      "<span class='message-data-time'> " + dateTime + "</span>";
                 str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
                 str += "</div>";
-                str += "<div class='message other-message float-right'>" + msg.value + "</div>";
+                str += "<div class='message my-message float-right'>" + msg.value + "</div>";
                 str += "</li>";
 
                 $("#chatList").append(str);
@@ -251,7 +251,7 @@
             str += "<span class='message-data-time' >" + createdAt + "</span>";
             str += "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
             str += "</div>";
-            str += "<div class='message my-message'>" + message + "</div>";
+            str += "<div class='message other-message'>" + message + "</div>";
             str += "</li>";
             // if (writer === username) {
             //     str = "<div class='col-6'>";
