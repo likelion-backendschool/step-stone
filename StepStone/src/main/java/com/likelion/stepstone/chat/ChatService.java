@@ -2,6 +2,7 @@ package com.likelion.stepstone.chat;
 
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chat.model.ChatEntity;
+import com.likelion.stepstone.chat.model.ChatVo;
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
@@ -36,7 +37,7 @@ public class ChatService {
         chatEntity.setCreatedAt(getCreatedAt());
         saveMessage(chatEntity);
 
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), ChatDto.toDto(chatRepository.findByChatId(chatEntity.getChatId())));
+        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), ChatVo.toVo(chatRepository.findByChatId(chatEntity.getChatId())));
     }
 
     public void saveMessage(ChatEntity chatEntity){

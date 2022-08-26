@@ -14,15 +14,17 @@ public class ChatVo {
 
     final String chatRoomId;
     final String message;
-//    final Long senderUserCid;
+    final String senderId;
+    final String senderName;
     final String createdAt;
 
-    public static ChatVo toVo(ChatDto chatDto){
+    public static ChatVo toVo(ChatEntity chatEntity){
         ChatVo vo = ChatVo.builder()
-                .chatRoomId(chatDto.getChatRoomId())
-                .message(chatDto.getMessage())
-//                .senderUserCid(chatDto.getSenderUserCid())
-                .createdAt(chatDto.getCreatedAt())
+                .chatRoomId(chatEntity.getChatRoomId())
+                .message(chatEntity.getMessage())
+                .senderId(chatEntity.getSender().getUserId())
+                .senderName(chatEntity.getSender().getName())
+                .createdAt(chatEntity.getCreatedAt())
                 .build();
 
         return vo;
