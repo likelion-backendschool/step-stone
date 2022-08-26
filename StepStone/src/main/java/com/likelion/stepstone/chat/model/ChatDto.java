@@ -28,7 +28,7 @@ public class ChatDto {
     @Setter
     String message;
 
-    LocalDateTime createdAt;
+    String createdAt;
 
     public enum MessageType {
         ENTER, TALK

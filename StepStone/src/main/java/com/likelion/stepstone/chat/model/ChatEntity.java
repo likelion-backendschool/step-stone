@@ -46,8 +46,8 @@ public class ChatEntity {
 
     @Setter
     @Column(name = "created_at")
-    @CreatedDate
-    LocalDateTime createdAt;
+//    @CreatedDate
+    String createdAt;
 
     public static ChatEntity toEntity(ChatDto chatDto){
         ChatEntity entity = ChatEntity.builder()

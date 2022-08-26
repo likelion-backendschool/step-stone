@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,9 +33,9 @@ public class ChatService {
         UserEntity userEntity = userRepository.findByUserId(chatDto.getSenderId()).orElseThrow(()-> new DataNotFoundException("user not found"));
         chatEntity.setSender(userEntity);
         chatEntity.setChatId(UUID.randomUUID().toString());
-
+        chatEntity.setCreatedAt(getCreatedAt());
         saveMessage(chatEntity);
-        
+
         messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), ChatDto.toDto(chatRepository.findByChatId(chatEntity.getChatId())));
     }
 
@@ -52,5 +54,12 @@ public class ChatService {
         List<ChatEntity> entities = chatRepository.findByChatRoomId(roomId);
 
         return entities.stream().map(ChatDto::toDto).collect(Collectors.toList());
+    }
+
+    public String getCreatedAt(){
+        Date date = new Date();
+        String formattedDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date);
+
+        return formattedDate;
     }
 }

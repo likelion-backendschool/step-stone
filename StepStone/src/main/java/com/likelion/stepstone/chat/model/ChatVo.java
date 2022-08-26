@@ -15,7 +15,7 @@ public class ChatVo {
     final String chatRoomId;
     final String message;
 //    final Long senderUserCid;
-    final LocalDateTime createdAt;
+    final String createdAt;
 
     public static ChatVo toVo(ChatDto chatDto){
         ChatVo vo = ChatVo.builder()
