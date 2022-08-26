@@ -210,7 +210,7 @@
                     chatRoomId: $("#currRoomId").val(),
                     message: msg.value,
                     createdAt : dateTime,
-                    senderName: "user",
+                    senderName: "name",
                     senderId: "7b8facdb-855b-41fa-8e96-98546288b346" //사용중인 사용자로 변경 필요
                 }));
 
@@ -233,8 +233,8 @@
     }
 
     function subscribe(roomId){
-        console.log("STOMP Connection")
-
+        console.log("STOMP Connection");
+        console.log(roomId);
         //4. subscribe(path, callback)으로 메세지를 받을 수 있음
         stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
             console.log(chat);
@@ -268,7 +268,7 @@
             // }
             //
             $("#chatList").append(str);
-        });
+        }, { id: roomId});
     }
 
     function updateChatRoom() {
@@ -286,12 +286,13 @@
             });
     }
 
-    function editSubs(roomId){
+    function changeSubs(roomId){
         if(roomId == $("#currRoomId").val()){
+            console.log("room is identical!");
             return;
         }
-        stomp.unsubscribe($("#currRoomId"));
-
+        stomp.unsubscribe($("#currRoomId").val());
+        console.log("unsubscribe currRoomId : " + $("#currRoomId").val());
         $("#currRoomId").val(roomId);
 
         subscribe(roomId);
@@ -305,7 +306,7 @@
     function getChats(roomId) {
         console.log("chat room click")
 
-        editSubs(roomId);
+        changeSubs(roomId);
 
         $.ajax({
             url: "/chat/history?roomId=" + roomId,
