@@ -95,6 +95,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <style>
+
+        .cards-wrapper {
+            display: flex;
+        }
+
+        .card {
+            margin: 0 .5em;
+            width: calc(100%/3);
+        }
+
+    </style>
+
     <title>StepStone</title>
 </head>
 
@@ -174,6 +187,120 @@
         </div>
         <div>
             <hr class="my-2" style="width: 500px; display: inline-block">
+        </div>
+    </div>
+
+    <!-- 최근 이슈 게시글 부분 -->
+    <div>
+        <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
 
