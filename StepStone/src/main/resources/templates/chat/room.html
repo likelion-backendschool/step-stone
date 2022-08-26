@@ -180,7 +180,7 @@
                 var content = JSON.parse(chat.body);
 
                 var sender = content.senderName;
-                var createdAt = content.createdAt.split('T')[1].split('.')[0];
+                var createdAt = content.createdAt;
                 var message = content.message;
                 var str = '';
 
@@ -193,6 +193,7 @@
                 str += "<div class='message my-message'>" + message + "</div>";
                 str += "</li>";
 
+                $("#chatList").append(str);
             });
         }, { id: roomId});
 
@@ -211,13 +212,12 @@
                 }));
 
                 var today = new Date();
-                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                var dateTime = date+' '+time;
+                var dateTime = today.toLocaleString();
+                // var dateTime = date+' '+time;
                 str = "<li class='clearfix'>";
                 str += "<div class='message-data text-right'>";
                 str +=      "<span class='message-data-time'>user</span>";
-                str +=      "<span class='message-data-time'> " + dateTime + "</span>";
+                str +=      "<span class='message-data-time'> " + dateTime.toString().substring(2, 21) + "</span>";
                 str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
                 str += "</div>";
                 str += "<div class='message other-message float-right'>" + msg.value + "</div>";
@@ -239,7 +239,7 @@
             var content = JSON.parse(chat.body);
 
             var sender = content.senderName;
-            var createdAt = content.createdAt.split('T')[1].split('.')[0];
+            var createdAt = content.createdAt;
             var message = content.message;
             var str = '';
 
