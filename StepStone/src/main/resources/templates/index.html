@@ -93,7 +93,12 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+
+    <!-- fontawsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
 
     <style>
 
@@ -106,7 +111,7 @@
             width: calc(100%/3);
         }
 
-        footer{ position:fixed;
+        footer { position:fixed;
             left:0px;
             bottom:0px;
             height:60px;
@@ -189,7 +194,7 @@
     <!-- 메인 제목, 구분선-->
     <div class="container-fluid" style="text-align: center;">
         <div style="margin: 250px;">
-            <h1 class="display-2">Step Stone</h1>
+            <h1 class="display-2"><strong>Step Stone</strong></h1>
             <h5>당신을 위한 디딤돌이 되는 공간</h5>
         </div>
         <div>
@@ -201,7 +206,7 @@
     <div class="container-fluid">
         <h4 class="mx-3 my-4">최근 이슈 게시글</h4>
     </div>
-    <div>
+    <div class="container-fluid">
         <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>

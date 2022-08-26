@@ -1,8 +1,11 @@
 @font-face {
-    font-family: 'NanumSquare';
-    src: url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
 }
+/* 폰트 출처 : https://noonnu.cc/font_page/694 */
 
 html > body {
-    font-family: "NanumSquare";
+    font-family: "Pretendard-Regular";
 }
