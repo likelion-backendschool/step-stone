@@ -202,22 +202,24 @@
 
         $("#sendMessage").on("click", function(e){
             var msg = document.getElementById("msg");
+            var today = new Date();
+            var dateTime = today.toLocaleString().toString().substring(2, 21);
             if(msg.value !== ""){
                 console.log( "sendMessage:" + msg.value);
                 stomp.send('/pub/chat/message', {}, JSON.stringify({
                     chatRoomId: $("#currRoomId").val(),
                     message: msg.value,
+                    createdAt : dateTime,
                     senderName: "user",
                     senderId: "7b8facdb-855b-41fa-8e96-98546288b346" //사용중인 사용자로 변경 필요
                 }));
 
-                var today = new Date();
-                var dateTime = today.toLocaleString();
+
                 // var dateTime = date+' '+time;
                 str = "<li class='clearfix'>";
                 str += "<div class='message-data text-right'>";
                 str +=      "<span class='message-data-time'>user</span>";
-                str +=      "<span class='message-data-time'> " + dateTime.toString().substring(2, 21) + "</span>";
+                str +=      "<span class='message-data-time'> " + dateTime + "</span>";
                 str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
                 str += "</div>";
                 str += "<div class='message other-message float-right'>" + msg.value + "</div>";

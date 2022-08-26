@@ -34,7 +34,7 @@ public class ChatService {
         UserEntity userEntity = userRepository.findByUserId(chatDto.getSenderId()).orElseThrow(()-> new DataNotFoundException("user not found"));
         chatEntity.setSender(userEntity);
         chatEntity.setChatId(UUID.randomUUID().toString());
-        chatEntity.setCreatedAt(getCreatedAt());
+//        chatEntity.setCreatedAt(getCreatedAt());
         saveMessage(chatEntity);
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), ChatVo.toVo(chatRepository.findByChatId(chatEntity.getChatId())));
