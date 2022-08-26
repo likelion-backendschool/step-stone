@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+
+<html>
+<div class="container my-3">
+    <h3 class="my-3 border-bottom pb-2">WorkSpace</h3>
+        <div class="d-flex justify-content-end my-2">
+        <a th:href="@{/workspace/create}" class="btn btn-primary">새 게시글 쓰기 </a>
+        </div>
+
+        <div class="card">
+            <div class="card-header"OnClick="location.href ='http://localhost:8080/workspace/detail'" style="cursor:pointer;" >
+                Title
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>A well-known quote, contained in a blockquote element.</p>
+                    <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                    <div class="badge bg-light text-dark p-2 text-start">
+                        <div th:text="글쓴이"></div>
+                    </div>
+                </blockquote>
+            </div>
+        </div>
+
+        </div>
+
+</html>

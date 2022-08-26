@@ -1,18 +1,37 @@
 package com.likelion.stepstone.workspaces;
 
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.AllArgsConstructor;
+
+import org.springframework.stereotype.Controller;
+
+import org.springframework.web.bind.annotation.*;
+
+@AllArgsConstructor
 @RequestMapping("/workspace")
 @Controller
 public class WorkSpaceController {
 
-   // @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String questionCreate(WorkSpaceForm workSpaceForm) {
+    public String create(WorkSpaceForm workSpaceForm) {
+        return "workspace/workspace_form";
+    }
 
-        return "workspace/create";
+
+    @RequestMapping("/list")
+//    @ResponseBody
+    public String list() {
+        return "workspace/workspace_list";
+    }
+    @RequestMapping("/detail")
+//    @ResponseBody
+    public String detail() {
+        return "workspace/workspace_detail";
+    }
+    @RequestMapping("/modify")
+//    @ResponseBody
+    public String modify() {
+        return "workspace/workspace_modify";
     }
 }

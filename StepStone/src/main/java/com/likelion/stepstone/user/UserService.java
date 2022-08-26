@@ -62,4 +62,7 @@ public class UserService {
 
         userRepository.save(userEntity);
     }
+
+//    public UserEntity getUser(String name) {
+//    }
 }
