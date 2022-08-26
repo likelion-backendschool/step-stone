@@ -99,8 +99,12 @@
 </head>
 
 <body style="background-color: #DFE6F3;">
+
+    <!-- 헤더 navbar -->
     <nav class="navbar navbar-expand-lg" style="background-color: #F3F6FA;">
         <div class="container-fluid">
+
+            <!-- 로고 부분 -->
             <a class="navbar-brand px-3" href="/">
                 <img th:src="@{stepstone_icon.png}" width="55" height="55"/>
             </a>
@@ -109,6 +113,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!-- 기본 메뉴들 부분 -->
             <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item px-4">
@@ -131,6 +136,8 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- 알림 아이콘 부분 -->
             <div class="justify-content-center">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -140,6 +147,8 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- 로그인, 회원가입 부분 -->
             <div class="d-flex flex-row justify-content-around px-3">
                 <ul class="navbar-nav gap-2">
                     <li class="nav-item px-2">
@@ -153,9 +162,11 @@
                     </li>
                 </ul>
             </div>
+
         </div>
     </nav>
 
+    <!-- 메인 제목, 구분선-->
     <div class="container-fluid" style="text-align: center;">
         <div style="margin: 250px;">
             <h1 class="display-2">Step Stone</h1>
