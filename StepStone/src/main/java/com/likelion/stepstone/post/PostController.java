@@ -87,7 +87,7 @@ public class PostController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", currPage.getTotalPages());
         model.addAttribute("totalItems", currPage.getTotalElements());
-        return "index";
+        return "post/list";
     }
 }
 
