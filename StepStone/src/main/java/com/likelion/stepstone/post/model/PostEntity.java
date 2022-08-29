@@ -49,9 +49,8 @@ public class PostEntity {
     @Column(name = "likes")
     private Integer likes;
 
-    @Type(type = "uuid-char")
-    @Column(name = "user_id")
-    private UUID userId;
+    @Column(name = "user_cid")
+    private Long userCid;
 
     @Setter
     @CreationTimestamp
@@ -68,7 +67,7 @@ public class PostEntity {
     public static PostEntity toEntity(PostDto dto) {
         PostEntity entity = PostEntity.builder()
                 .postId(dto.getPostId())
-                .userId(dto.getUserId())
+                .userCid(dto.getUserCid())
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())

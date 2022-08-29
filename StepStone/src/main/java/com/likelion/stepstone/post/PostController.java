@@ -25,12 +25,12 @@ public class PostController {
     }
 
     @GetMapping("/create")
-    public String create(@RequestParam String title, @RequestParam String body, @RequestParam UUID userId, Model model){
+    public String create(@RequestParam String title, @RequestParam String body, @RequestParam Long userCid, Model model){
 
         PostDto postDto = PostDto.builder()
                 .title(title)
                 .body(body)
-                .userId(userId)
+                .userCid(userCid)
                 .build();
 
 

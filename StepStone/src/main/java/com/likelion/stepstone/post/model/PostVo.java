@@ -22,7 +22,7 @@ public class PostVo {
 
     private final Integer likes;
 
-    private final UUID userId;
+    private final Long userCid;
 
     private final LocalDateTime createdAt;
 
@@ -31,7 +31,7 @@ public class PostVo {
     public static PostVo toVo(PostDto dto) {
         PostVo vo = PostVo.builder()
                 .postId(dto.getPostId())
-                .userId(dto.getUserId())
+                .userCid(dto.getUserCid())
                 .body(dto.getBody())
                 .likes(dto.getLikes())
                 .createdAt(dto.getCreatedAt())
