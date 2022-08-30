@@ -1,7 +1,10 @@
 package com.likelion.stepstone.user;
 
+import com.likelion.stepstone.user.model.LoginVo;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
+import com.likelion.stepstone.user.model.UserVo;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -13,8 +16,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public void createUser(UserDto userDto) {
@@ -60,6 +66,16 @@ public class UserService {
         userEntity.setPassword(userDto.getPassword());
         userEntity.setName(userDto.getName());
 
+        userRepository.save(userEntity);
+    }
+
+    public void join(LoginVo user) {
+        UserEntity userEntity = UserEntity.toEntity(user);
+        userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
+        userRepository.save(userEntity);
+    }
+
+    public void save(UserEntity userEntity) {
         userRepository.save(userEntity);
     }
 }

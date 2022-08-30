@@ -8,6 +8,7 @@ import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @Configuration
@@ -16,10 +17,13 @@ public class SpringConfig {
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
 
-    public SpringConfig(PostRepository postRepository, LikeRepository likeRepository, UserRepository userRepository) {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public SpringConfig(PostRepository postRepository, LikeRepository likeRepository, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.postRepository = postRepository;
         this.likeRepository = likeRepository;
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Bean
@@ -34,7 +38,7 @@ public class SpringConfig {
 
     @Bean
     public UserService userService(){
-        return new UserService(userRepository);
+        return new UserService(userRepository, bCryptPasswordEncoder);
     }
 
 }
