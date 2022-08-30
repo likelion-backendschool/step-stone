@@ -1,11 +1,9 @@
 package com.likelion.stepstone.post;
 
 import com.likelion.stepstone.post.model.PostDto;
+import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,33 +22,37 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping("/create")
-    public String create(@RequestParam String title, @RequestParam String body, @RequestParam UUID userId, Model model){
+    @GetMapping("/createform")
+    public String createPostForm() {
+        return "/post/create";
+    }
 
-        PostDto postDto = PostDto.builder()
-                .title(title)
-                .body(body)
-                .userId(userId)
-                .build();
+    @GetMapping("/detail/{postCid}")
+    public String detail(Model model,@PathVariable Long postCid) {
+
+        model.addAttribute("post",postService.getPost(postCid));
+        
+        return "post/detail";
+    }
+
+    @PostMapping("/create")
+    public String create(PostDto postDto) {
 
 
         postService.create(postDto);
 
-        model.addAttribute("title", postDto.getTitle());
-        model.addAttribute("body", postDto.getBody());
-
-        return "post/create";
+        return "redirect:/post/read/1";
     }
 
-    @GetMapping("/edit")
-    public String edit(@RequestParam("postId") UUID postId, @RequestParam("title") String title,@RequestParam("body") String body, Model model ){
+    @GetMapping("/update")
+    public String update(@RequestParam("postId") UUID postId, @RequestParam("title") String title, @RequestParam("body") String body, Model model) {
         PostDto postDto = PostDto.builder()
-                        .title(title)
-                        .body(body)
-                        .postId(postId)
-                        .build();
-
-        postService.edit(postDto);
+                .title(title)
+                .body(body)
+                .postId(postId)
+                .build();
+    
+        postService.update(postDto);
 
         model.addAttribute("title", title);
         model.addAttribute("body", body);
@@ -58,38 +60,45 @@ public class PostController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam UUID postId, Model model){
+    public String delete(@RequestParam Long postCid, Model model) {
         PostDto postDto = PostDto.builder()
-                .postId(postId)
+                .postCid(postCid)
                 .build();
 
         postService.delete(postDto);
-        model.addAttribute("postId",postId);
-        return"post/delete";
+        model.addAttribute("postCid", postCid);
+        return "post/delete";
 
     }
 
 
+//    @GetMapping("/list")
+//    public String boardList(Model model) {
+//
+//        model.addAttribute("list", PostService.postList());
+//        return "boardList";
+//    }
 
+        @GetMapping("/read/{pageNo}")
+        public String findPaginated ( @PathVariable(value = "pageNo") int pageNo, Model model){
 
-    @GetMapping("/read/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
+            Page<PostDto> page = postService.findPaginated(1, 3, "likes", "desc");
+            List<PostDto> likePosts = page.getContent();
 
-        Page<PostVo> page = postService.findPaginated(1, 3, "likes", "desc");
-        List<PostVo> likePosts = page.getContent();
+            model.addAttribute("likePosts", likePosts);
 
-        model.addAttribute("likePosts", likePosts);
+            Page<PostDto> currPage = postService.findPaginated(pageNo, 10, "createdAt", "desc");
+            List<PostDto> listPosts = currPage.getContent();
 
-        Page<PostVo> currPage = postService.findPaginated(pageNo, 10, "createdAt", "desc");
-        List<PostVo> listPosts = currPage.getContent();
+            model.addAttribute("listPosts", listPosts);
+            model.addAttribute("currentPage", pageNo);
+            model.addAttribute("totalPages", currPage.getTotalPages());
+            model.addAttribute("totalItems", currPage.getTotalElements());
 
-        model.addAttribute("listPosts", listPosts);
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", currPage.getTotalPages());
-        model.addAttribute("totalItems", currPage.getTotalElements());
-        return "index";
+            return "post/list";
+        }
     }
-}
+
 
 
 

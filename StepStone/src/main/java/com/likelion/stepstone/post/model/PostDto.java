@@ -30,7 +30,7 @@ public class PostDto {
     private Integer likes;
 
     @Setter
-    private UUID userId;
+    private long userCid;
 
     @Setter
     private LocalDateTime createdAt;
@@ -41,8 +41,9 @@ public class PostDto {
 
     public static PostDto toDto(PostEntity entity) {
         PostDto dto = PostDto.builder()
-                .postId(entity.getPostId())
-                .userId(entity.getUserId())
+                .postCid(entity.getPostCid())
+                .userCid(entity.getUserCid())
+                .title(entity.getTitle())
                 .body(entity.getBody())
                 .likes(entity.getLikes())
                 .createdAt(entity.getCreatedAt())
@@ -53,4 +54,3 @@ public class PostDto {
     }
 
 }
-

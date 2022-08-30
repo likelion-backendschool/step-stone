@@ -1,17 +1,13 @@
 package com.likelion.stepstone.post.model;
 
 
-import com.likelion.stepstone.like.model.LikeEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -49,9 +45,8 @@ public class PostEntity {
     @Column(name = "likes")
     private Integer likes;
 
-    @Type(type = "uuid-char")
-    @Column(name = "user_id")
-    private UUID userId;
+    @Column(name = "user_cid")
+    private Long userCid;
 
     @Setter
     @CreationTimestamp
@@ -64,15 +59,10 @@ public class PostEntity {
     private LocalDateTime updatedAt;
 
 
-//    //좋아요 수 반영 테스트 하려고 추가해본 것
-//    @OneToMany(mappedBy = "postEntity", cascade = CascadeType.REMOVE )  //질문 삭제시 답변도 삭제하기 위해 cascade 설정.
-//    private List<LikeEntity> likesList;
-
-
     public static PostEntity toEntity(PostDto dto) {
         PostEntity entity = PostEntity.builder()
                 .postId(dto.getPostId())
-                .userId(dto.getUserId())
+                .userCid(dto.getUserCid())
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())
@@ -83,3 +73,5 @@ public class PostEntity {
         return entity;
     }
 }
+
+

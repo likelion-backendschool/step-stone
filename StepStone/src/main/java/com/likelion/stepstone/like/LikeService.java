@@ -1,3 +1,5 @@
+
+
 package com.likelion.stepstone.like;
 
 import com.likelion.stepstone.like.model.LikeEntity;
@@ -16,33 +18,33 @@ public class LikeService {
     private PostRepository postRepository;
 
 
-    public void idCheck2(UUID postId, String userId) {
-        Optional<LikeEntity> likes = likeRepository.findByPostIdAndUserId(postId, userId); //userId 가 좋아요한 게시글 찾기
+    public void idCheck2(Long postCid, Long userCid) {
+        Optional<LikeEntity> likes = likeRepository.findByPostCidAndUserCid(postCid, userCid); //userId 가 좋아요한 게시글 찾기
         if (likes.isPresent()) {
-            deletelikes(postId, userId);
+            deletelikes(postCid, userCid);
         } else {  // 있으면 좋아요 한 번 더 클릭한 것 -> 삭제
-            like(postId, userId);
+            like(postCid, userCid);
         }
-        updateLikesCount(postId);  //좋아요 수 업뎃
+        updateLikesCount(postCid);  //좋아요 수 업뎃
     }
 
-    public void like(UUID postId, String userId) { // 좋아요 등록 > 테이블에 등록
+    public void like(Long postCid, Long userCid) { // 좋아요 등록 > 테이블에 등록
 
         LikeEntity likeEnti = new LikeEntity();
-        likeEnti.setUserId(userId);
-        likeEnti.setPostId(postId);
+        likeEnti.setUserCid(userCid);
+        likeEnti.setPostCid(postCid);
         likeEnti.setCreatedAt(LocalDateTime.now());
         likeRepository.save(likeEnti);
     }
 
-    public void deletelikes(UUID postId, String userId) { //좋아요 취소 > 테이블에서 row 삭제
-        likeRepository.deleteByPostIdAndUserId(postId, userId);
+    public void deletelikes(Long postCid, Long userCid) { //좋아요 취소 > 테이블에서 row 삭제
+        likeRepository.deleteByPostCidAndUserCid(postCid, userCid);
     }
 
-    public void updateLikesCount(UUID postId) {
+    public void updateLikesCount(Long postCid) {
         // likes 테이블 속 게시글 모두 찾기 (select * from likes where postId = postId) >> 게시글의 총 수 = 좋아요 수
-        List<LikeEntity> likes = likeRepository.findByPostId(postId);
-        PostEntity post = postRepository.findByPostId(postId);  // post테이블 속 posdId = postId인 게시글 찾기
+        List<LikeEntity> likes = likeRepository.findByPostCid(postCid);
+        PostEntity post = postRepository.findByPostCid(postCid);  // post테이블 속 posdId = postId인 게시글 찾기
         int i = likes.size();
         post.setLikes(i);  //좋아요 수 업뎃
         postRepository.save(post);

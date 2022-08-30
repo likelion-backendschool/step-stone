@@ -20,10 +20,10 @@ public class LikeDto {
     private Long likeId;
 
     @Setter
-    private UUID userId;
+    private Long userCid;
 
     @Setter
-    private UUID postId;
+    private Long postCid;
 
     @Setter
     private LocalDateTime createdAt;
@@ -32,8 +32,8 @@ public class LikeDto {
     public static LikeDto toDto(LikeEntity entity) {
         LikeDto dto = LikeDto.builder()
                 .likeId(entity.getLikeId())
-                .userId(entity.getUserId())
-                .postId(entity.getPostId())
+                .userCid(entity.getUserCid())
+                .postCid(entity.getPostCid())
                 .createdAt(entity.getCreatedAt())
                 .build();
 
