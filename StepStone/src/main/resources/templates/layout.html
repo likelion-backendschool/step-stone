@@ -1,20 +1,37 @@
 <!doctype html>
-<html lang="ko"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://thymeleaf.org"
->
+<html
+        lang="ko"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>
-    <!-- sbb CSS -->
+
+    <!-- fontawsome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- css -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-    <title>Hello, sbb!</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/card_carousel_style.css}">
+
+    <style>
+        footer {
+            left:0px;
+            bottom:0px;
+            height:60px;
+            width:100%;
+        }
+    </style>
+
+    <title>StepStone</title>
 </head>
-<body style="min-height:100vh;" class="d-flex flex-column">
+
+<body style="min-height:100vh; background-color: #DFE6F3;" class="d-flex flex-column">
 
 <!-- 네비게이션바 -->
 <header th:replace="navbar :: navbarFragment"></header>
@@ -25,13 +42,15 @@
 </main>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
-<footer class="bg-dark text-light">
+<footer class="site-footer text-light " style="background-color: #A1B6E0">
     <div class="container py-3 d-flex justify-content-center">
         Copyright all rights reserved
     </div>
 </footer>
+
 <!-- 자바스크립트 Start -->
 <th:block layout:fragment="script"></th:block>
 <!-- 자바스크립트 End -->
+
 </body>
 </html>

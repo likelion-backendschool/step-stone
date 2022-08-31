@@ -1,7 +1,10 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
-
-
-<div class="container my-3">
+<div layout:fragment="content" class="container my-3">
 
     <div>
         <a th:href="@{/workspace/list}" class="btn btn-light" th:text="목록으로"></a>
@@ -38,3 +41,4 @@
     </div>
 
 </div>
+</html>

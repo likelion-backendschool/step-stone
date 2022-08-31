@@ -1,7 +1,13 @@
+
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
 
-<html>
-<div class="container my-3">
+<div layout:fragment="content" class="container my-3">
+
     <h3 class="my-3 border-bottom pb-2">WorkSpace</h3>
 
     <div class="d-flex justify-content-end my-2">
@@ -15,8 +21,6 @@
         <tr th:each="question, loop : ${paging}">
 
             <div class="card my-3">
-
-
                 <div class="card-header" th:onclick="|location.href='@{|detail/${question.workspaceCid}|}'|"
                      style="cursor:pointer;">
 
@@ -47,8 +51,8 @@
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{|?page=${paging.number-1}|}">
-                    <!--  <span>이전</span>  -->
-                    <span aria-hidden="true">&laquo;</span>
+<!--                      <span>이전</span>-->
+                  <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
 
@@ -61,14 +65,15 @@
 
             <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
                 <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-                    <!--  <span>다음</span>  -->
-                    <span aria-hidden="true">&raquo;</span>
+<!--                      <span>다음</span>-->
+                   <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </div>
     <!-- 페이징처리 끝 -->
 
+</div>
 </div>
 
 </html>

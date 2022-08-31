@@ -55,8 +55,8 @@ public class PostControllerTest {
 //
 //        assertEquals("편재원",u.getName());
 //    }
-//
-//
+
+
 
 
 }
