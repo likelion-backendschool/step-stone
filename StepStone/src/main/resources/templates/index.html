@@ -3,9 +3,14 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         xmlns:th="http://thymeleaf.org"
         layout:decorate="~{layout}" >
-<head><meta charset="utf-8"></head>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
 <div layout:fragment="content">
 
+    <!-- 메인 제목, 구분선-->
     <div class="container-fluid" style="text-align: center;">
         <div style="margin: 250px;">
             <h1 class="display-2"><strong>Step Stone</strong></h1>
@@ -38,9 +43,11 @@
                                     <td><h5 class="card-title" th:text="${post.title}"></h5></td>
                                     <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
                                     <td><p class="card-text" th:text="${post.body}"></p><td>
-                                    <td><i class="fa-solid fa-heart"></i>
-                                        <p class="card-text" th:text="'likes : ' + ${post.likes}"></p><td>
-                                    <td><a href="#" class="card-link">게시글 읽기</a><td>
+                                    <td><p>
+                                        <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                        <span class="card-text" th:text="${post.likes}"></span>
+                                    </p><td>
+                                    <td><div><a class="card-link">게시글 읽기</a></div><td>
                                 </div>
                             </div><tr>
                             <div class="card" style="display: none">

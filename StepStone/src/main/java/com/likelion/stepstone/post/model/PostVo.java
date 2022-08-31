@@ -18,6 +18,8 @@ public class PostVo {
 
     private final UUID postId;
 
+    private final Long postCid;
+
     private final String title;
 
     private final String body;
@@ -32,7 +34,7 @@ public class PostVo {
 
     public static PostVo toVo(PostDto dto) {
         PostVo vo = PostVo.builder()
-                .postId(dto.getPostId())
+                .postCid(dto.getPostCid())
                 .userCid(dto.getUserCid())
                 .title(dto.getTitle())
                 .body(dto.getBody())
