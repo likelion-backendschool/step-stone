@@ -22,9 +22,9 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping("/createform")
-    public String createPostForm() {
-        return "/post/create";
+    @GetMapping("/form")
+    public String createForm() {
+        return "/post/form";
     }
 
     @GetMapping("/detail/{postCid}")
