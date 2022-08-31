@@ -61,7 +61,7 @@ public class LikeControllerTest {
 
     }
 
-*/
+
     @Test
     public void addUserAndPost1(){
         UUID userId = UUID.randomUUID();
@@ -202,6 +202,7 @@ public class LikeControllerTest {
         postRepository.save(post);
 
     }
+     */
 
 }
 
