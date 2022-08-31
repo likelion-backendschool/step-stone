@@ -3,6 +3,7 @@ package com.likelion.stepstone.config;
 import com.likelion.stepstone.authentication.PrincipalOauth2UserService;
 import com.likelion.stepstone.authentication.jwt.JwtAuthenticationFilter;
 import com.likelion.stepstone.authentication.jwt.JwtAuthorizationFilter;
+import com.likelion.stepstone.authentication.jwt.JwtProperties;
 import com.likelion.stepstone.authentication.provider.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.likelion.stepstone.authentication.provider.OAuth2SuccessHandler;
 import com.likelion.stepstone.user.UserRepository;
@@ -63,6 +64,11 @@ public class SecurityConfig {
                       .successHandler(oAuth2SuccessHandler)
                       .userInfoEndpoint()
                       .userService(principalOauth2UserService))
+            .logout(logout -> {
+              logout.logoutUrl("/logout");
+              logout.deleteCookies(JwtProperties.HEADER_STRING);
+              logout.logoutSuccessUrl("/");
+            })
             .build();
   }
 

@@ -12,7 +12,7 @@
         <div class="card shadow-lg">
           <div class="card-body p-5">
             <h1 class="fs-4 card-title fw-bold mb-4">안녕하세요! 개발자이신가요?</h1>
-            <form th:action="@{/oauth/login}" method="post">
+            <form action="/oauth/login" method="post">
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="role" value="ROLE_DEVELOPER" id="flexRadioDefault1">
                 <label class="form-check-label" for="flexRadioDefault1">

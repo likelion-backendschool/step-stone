@@ -55,7 +55,7 @@
                 <li class="nav-item px-2">
                     <!-- sec:authorize="isAnonymous()" : 로그아웃 상태일 때 만 렌더링 -->
                     <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
-<!--                     sec:authorize="isAuthenticated()" : 로그인 상태일 때 만 렌더링 -->
+                    <!--sec:authorize="isAuthenticated()" : 로그인 상태일 때 만 렌더링 -->
                     <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
                 </li>
                 <li class="nav-item">
