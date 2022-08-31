@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,15 +26,15 @@ public class ChatRoomController {
     @GetMapping("/room")
     public String getRoom(Model model, ChatRoomForm chatRoomForm) {
         List<ChatRoomDto> rooms = chatRoomService.findAll();
+        List<ChatDto> chats = new ArrayList<>();
 
         if(!rooms.isEmpty()){
             ChatRoomDto firstChatRoom = rooms.get(0);
-
-            List<ChatDto> chats = chatService.getHistories(firstChatRoom.getChatRoomId());
-
-            model.addAttribute("rooms", rooms);
-            model.addAttribute("chats", chats);
+            chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
         }
+
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("chats", chats);
 
         return "chat/room";
     }
