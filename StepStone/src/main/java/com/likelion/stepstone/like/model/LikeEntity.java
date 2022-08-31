@@ -1,12 +1,10 @@
 package com.likelion.stepstone.like.model;
 
-import com.likelion.stepstone.post.model.PostEntity;
+
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Builder

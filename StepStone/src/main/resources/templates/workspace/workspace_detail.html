@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+
+
+<div class="container my-3">
+
+    <div>
+        <a th:href="@{/workspace/list}" class="btn btn-light" th:text="목록으로"></a>
+    </div>
+
+    <h2 class="border-bottom py-2" th:text="${workSpaceEntity.title}"></h2>
+
+
+    <div class="card my-3">
+
+        <div class="card-body">
+
+            <div class="badge bg-light text-dark p-2 text-start">
+                <div class="mb-2">
+                    <span th:text="|작성자 : ${workSpaceEntity.workspaceCid}|"></span>
+                </div>
+
+            </div>
+            <div class="card-text" th:text="${workSpaceEntity.body}" rows="35"></div>
+        </div>
+
+
+    </div>
+
+    <div class="my-3">
+
+        <a th:href="@{|/workspace/modify/${workSpaceEntity.workspaceCid}|}" class="btn btn-sm btn-outline-secondary"
+           th:text="수정"></a>
+
+        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
+           th:href="@{|/workspace/delete/${workSpaceEntity.workspaceCid}|}"
+           class="btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+
+    </div>
+
+</div>

@@ -14,16 +14,25 @@ public class LikeController {
     private LikeService likeService;
     private UserRepository userRepository;  // userId 받아오기 위한 임시 사용
 
-    @GetMapping("/post/{postCid}/likes")
-    @ResponseBody
-    public Long like(@PathVariable Long postCid) {
+    @RequestMapping("/post/{postCid}/likes")
+    public String like(@PathVariable Long postCid) {
 
         UserEntity user = userRepository.findByName("No3").get(); //로그인 정보로 UserId 받아와야 함.(임시)
          Long userCid = user.getUserCid();
 
         likeService.idCheck2(postCid, userCid);
-        return userCid;
+        return "redirect:/test";
 
+    }
+
+    // 좋아요 버튼 테스트
+    @RequestMapping("/test3")
+    public String likebutton3(){
+        return "like/test3";
+    }
+    @RequestMapping("/test")
+    public String likebutton1(){
+        return "like/likebutton";
     }
 
 }

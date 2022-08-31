@@ -8,8 +8,12 @@ import com.likelion.stepstone.like.LikeRepository;
 import com.likelion.stepstone.like.LikeService;
 import com.likelion.stepstone.post.PostRepository;
 import com.likelion.stepstone.post.PostService;
+import com.likelion.stepstone.projects.ProjectRepository;
+import com.likelion.stepstone.projects.ProjectService;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.workspaces.WorkSpaceRepository;
+import com.likelion.stepstone.workspaces.WorkSpaceService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,49 +29,62 @@ public class SpringConfig {
     private final ChatRoomRepository chatRoomRepository;
     private final SimpMessageSendingOperations messagingTemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    private final WorkSpaceRepository workSpaceRepository;
+    private final ProjectRepository projectRepository;
 
     public SpringConfig(PostRepository postRepository,
                         LikeRepository likeRepository,
                         UserRepository userRepository,
                         ChatRepository chatRepository,
                         ChatRoomRepository chatRoomRepository,
+                        WorkSpaceRepository workSpaceRepository,
+                        ProjectRepository projectRepository,
                         SimpMessageSendingOperations messagingTemplate,
-                        BCryptPasswordEncoder bCryptPasswordEncoder)
-            {
+                        BCryptPasswordEncoder bCryptPasswordEncoder) {
+
         this.postRepository = postRepository;
         this.likeRepository = likeRepository;
         this.userRepository = userRepository;
         this.chatRepository = chatRepository;
         this.chatRoomRepository = chatRoomRepository;
+        this.workSpaceRepository = workSpaceRepository;
+        this.projectRepository = projectRepository;
         this.messagingTemplate = messagingTemplate;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-
     }
 
     @Bean
-    public PostService postService(){
+    public PostService postService() {
         return new PostService(postRepository);
     }
 
     @Bean
-    public LikeService likeService(){
-        return new LikeService(likeRepository,postRepository);
+    public LikeService likeService() {
+        return new LikeService(likeRepository, postRepository);
     }
 
     @Bean
-    public UserService userService(){
+    public UserService userService() {
         return new UserService(userRepository, bCryptPasswordEncoder);
     }
 
     @Bean
-    public ChatService chatService(){
+    public ChatService chatService() {
         return new ChatService(messagingTemplate, userRepository, chatRepository);
     }
 
     @Bean
-    public ChatRoomService chatRoomService(){
+    public ChatRoomService chatRoomService() {
         return new ChatRoomService(chatRoomRepository, userRepository);
     }
 
+    @Bean
+    public WorkSpaceService workSpaceService() {
+        return new WorkSpaceService(workSpaceRepository);
+    }
+
+    @Bean
+    public ProjectService projectService() {
+        return new ProjectService(projectRepository);
+    }
 }
