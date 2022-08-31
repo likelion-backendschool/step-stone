@@ -145,7 +145,8 @@
                                 <span class="input-group-text"><i class="fa fa-send"></i></span>
                             </div>
                             <input id="msg" type="text" class="form-control" placeholder="Enter text here...">
-                            <input id="currRoomId" th:value="${rooms[0].chatRoomId}" type="hidden">
+                            <input id="currRoomId" th:value="${!rooms.empty}? ${rooms[0].chatRoomId}: ''" type="hidden">
+
                         </div>
                     </div>
                 </div>
