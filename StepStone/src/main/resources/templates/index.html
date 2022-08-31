@@ -32,13 +32,14 @@
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
 
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="cards-wrapper">
-                            <tr><div class="card" th:each="post: ${posts}" th:if="${post.likes} >= 4">
-                                <!-- likes가 4 이상인 post들만 첫번째 carousel 카드들에 들어가서 보여짐 -->
+                            <tr><div class="card" th:each="post: ${posts1}">
+                                <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
                                 <div class="card-body">
                                     <td><h5 class="card-title" th:text="${post.title}"></h5></td>
                                     <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
@@ -50,6 +51,7 @@
                                     <td><div><a class="card-link">게시글 읽기</a></div><td>
                                 </div>
                             </div><tr>
+                            <!-- 아래 코드는 뼈대를 위한 코드 (참고용) / display: none
                             <div class="card" style="display: none">
                                 <div class="card-body">
                                     <h5 class="card-title">최근 이슈 게시글 제목</h5>
@@ -58,27 +60,38 @@
                                     <a href="#" class="card-link">Card link</a>
                                 </div>
                             </div>
-<!--                            <div class="card">-->
-<!--                                <div class="card-body">-->
-<!--                                    <h5 class="card-title">Card title</h5>-->
-<!--                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
-<!--                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--                                    <a href="#" class="card-link">Card link</a>-->
-<!--                                    <a href="#" class="card-link">Another link</a>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            -->
                         </div>
                     </div>
                     <div class="carousel-item">
                         <div class="cards-wrapper">
-                            <tr><div class="card" th:each="post: ${posts}" th:if="${post.likes} >= 1 and ${post.likes} < 4">
-                                <!-- likes가 4 미만, 1 이상인 post들만 두번째 (화살표를 넘기면 나오는 부분) carousel 카드들에 들어가서 보여짐 -->
+                            <tr><div class="card" th:each="post: ${posts2}">
+                                <!-- 4, 5, 6번 게시글 -->
                                 <div class="card-body">
                                     <td><h5 class="card-title" th:text="${post.title}"></h5></td>
                                     <td><h6 class="card-subtitle mb-2 text-muted">작성자</h6><td>
                                     <td><p class="card-text" th:text="${post.body}"></p><td>
-                                    <td><i class="fa-solid fa-heart"></i>
-                                        <p class="card-text" th:text="'likes : ' + ${post.likes}"></p><td>
+                                    <td><p>
+                                        <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                        <span class="card-text" th:text="${post.likes}"></span>
+                                    </p><td>
+                                    <td><a href="#" class="card-link">Card link</a><td>
+                                </div>
+                            </div><tr>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="cards-wrapper">
+                            <tr><div class="card" th:each="post: ${posts3}">
+                                <!-- 7, 8, 9번 게시글 -->
+                                <div class="card-body">
+                                    <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                    <td><h6 class="card-subtitle mb-2 text-muted">작성자</h6><td>
+                                    <td><p class="card-text" th:text="${post.body}"></p><td>
+                                    <td><p>
+                                        <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                        <span class="card-text" th:text="${post.likes}"></span>
+                                    </p><td>
                                     <td><a href="#" class="card-link">Card link</a><td>
                                 </div>
                             </div><tr>

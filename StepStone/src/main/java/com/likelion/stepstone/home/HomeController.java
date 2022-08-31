@@ -23,9 +23,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String issuedPost(Model model) {
-        List<PostVo> postVoList = postService.getPostList();
+        List<PostVo> postVoList1 = postService.getPostList1();
+        List<PostVo> postVoList2 = postService.getPostList2();
+        List<PostVo> postVoList3 = postService.getPostList3();
 
-        model.addAttribute("posts", postVoList);
+        model.addAttribute("posts1", postVoList1);
+        model.addAttribute("posts2", postVoList2);
+        model.addAttribute("posts3", postVoList3);
 
         return "index";
     }
