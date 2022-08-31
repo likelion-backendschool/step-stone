@@ -69,9 +69,6 @@ public class PostController {
 
     }
 
-
-
-
     @GetMapping("/read/{pageNo}")
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
 
@@ -90,11 +87,3 @@ public class PostController {
         return "post/list";
     }
 }
-
-
-
-
-
-
-
-

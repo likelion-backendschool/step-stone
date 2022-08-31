@@ -32,6 +32,7 @@ public class PostVo {
         PostVo vo = PostVo.builder()
                 .postId(dto.getPostId())
                 .userCid(dto.getUserCid())
+                .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())
                 .createdAt(dto.getCreatedAt())

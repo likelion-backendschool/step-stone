@@ -6,6 +6,10 @@
         xmlns:th="http://thymeleaf.org"
         layout:decorate="~{layout}">
 
+<head>
+    <meta charset="utf-8">
+</head>
+
 <div layout:fragment="content">
 
     <!-- 메인 제목, 구분선-->
@@ -35,64 +39,49 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="cards-wrapper">
-                            <div class="card">
+                            <tr><div class="card" th:each="post: ${posts}" th:if="${post.likes} >= 4">
+                                <!-- likes가 4 이상인 post들만 첫번째 carousel 카드들에 들어가서 보여짐 -->
                                 <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
+                                    <td><p class="card-text" th:text="${post.body}"></p><td>
+                                    <td><i class="fa-solid fa-heart"></i>
+                                        <p class="card-text" th:text="'likes : ' + ${post.likes}"></p><td>
+                                    <td><a href="#" class="card-link">게시글 읽기</a><td>
+                                </div>
+                            </div><tr>
+                            <div class="card" style="display: none">
+                                <div class="card-body">
+                                    <h5 class="card-title">최근 이슈 게시글 제목</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">작성자</h6>
+                                    <p class="card-text">최근 이슈 게시글 본문 내용</p>
                                     <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div>
-                            </div>
+<!--                            <div class="card">-->
+<!--                                <div class="card-body">-->
+<!--                                    <h5 class="card-title">Card title</h5>-->
+<!--                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+<!--                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--                                    <a href="#" class="card-link">Card link</a>-->
+<!--                                    <a href="#" class="card-link">Another link</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="carousel-item">
                         <div class="cards-wrapper">
-                            <div class="card">
+                            <tr><div class="card" th:each="post: ${posts}" th:if="${post.likes} >= 1 and ${post.likes} < 4">
+                                <!-- likes가 4 미만, 1 이상인 post들만 두번째 (화살표를 넘기면 나오는 부분) carousel 카드들에 들어가서 보여짐 -->
                                 <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
+                                    <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                    <td><h6 class="card-subtitle mb-2 text-muted">작성자</h6><td>
+                                    <td><p class="card-text" th:text="${post.body}"></p><td>
+                                    <td><i class="fa-solid fa-heart"></i>
+                                        <p class="card-text" th:text="'likes : ' + ${post.likes}"></p><td>
+                                    <td><a href="#" class="card-link">Card link</a><td>
                                 </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div>
-                            </div>
+                            </div><tr>
                         </div>
                     </div>
                 </div>

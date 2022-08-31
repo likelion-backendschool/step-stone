@@ -10,8 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PostService {
     private final PostRepository postRepository;
@@ -20,7 +20,6 @@ public class PostService {
     public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
-
 
 
     public void create(PostDto postDto) {
@@ -51,6 +50,11 @@ public class PostService {
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return postRepository.findAll(pageable).map(post -> PostVo.toVo(PostDto.toDto(post)));
+    }
+
+    public List<PostVo> getPostList() {
+        List<PostEntity> postEntities = postRepository.findAll();
+        return postEntities.stream().map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity))).collect(Collectors.toList());
     }
 
 }
