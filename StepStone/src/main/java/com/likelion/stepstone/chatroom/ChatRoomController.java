@@ -26,12 +26,14 @@ public class ChatRoomController {
     public String getRoom(Model model, ChatRoomForm chatRoomForm) {
         List<ChatRoomDto> rooms = chatRoomService.findAll();
 
-        ChatRoomDto firstChatRoom = rooms.get(0);
+        if(!rooms.isEmpty()){
+            ChatRoomDto firstChatRoom = rooms.get(0);
 
-        List<ChatDto> chats = chatService.getHistories(firstChatRoom.getChatRoomId());
+            List<ChatDto> chats = chatService.getHistories(firstChatRoom.getChatRoomId());
 
-        model.addAttribute("rooms", rooms);
-        model.addAttribute("chats", chats);
+            model.addAttribute("rooms", rooms);
+            model.addAttribute("chats", chats);
+        }
 
         return "chat/room";
     }
