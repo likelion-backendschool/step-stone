@@ -13,12 +13,6 @@ import java.util.UUID;
 @ToString
 public class ProjectVo {
 
-    /**
-     * Vo 모델 클래스는 변경 하지 않는다.
-     * Value Object
-     */
-
-
 
     private UUID projectId;
 

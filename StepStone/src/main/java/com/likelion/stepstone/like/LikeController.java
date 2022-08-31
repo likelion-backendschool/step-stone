@@ -25,6 +25,7 @@ public class LikeController {
 
     }
 
+    // 좋아요 버튼 테스트
     @RequestMapping("/test3")
     public String likebutton3(){
         return "like/test3";

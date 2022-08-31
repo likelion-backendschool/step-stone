@@ -34,7 +34,8 @@ public class WorkSpaceEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "body")
+    // @Lob
+    @Column(name = "body",columnDefinition = "TEXT")
     private String body;
 
 
