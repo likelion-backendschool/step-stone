@@ -18,11 +18,10 @@ public class LikeController {
     public String like(@PathVariable Long postCid) {
 
         UserEntity user = userRepository.findByName("No3").get(); //로그인 정보로 UserId 받아와야 함.(임시)
-         Long userCid = user.getUserCid();
+        Long userCid = user.getUserCid();
 
         likeService.idCheck2(postCid, userCid);
         return "redirect:/test";
-
     }
 
     // 좋아요 버튼 테스트
