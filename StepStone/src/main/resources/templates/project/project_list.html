@@ -2,10 +2,9 @@
 
 <html>
 <div class="container my-3">
-    <h3 class="my-3 border-bottom pb-2">WorkSpace</h3>
-
+    <h3 class="my-3 border-bottom pb-2">완료된 프로젝트</h3>
     <div class="d-flex justify-content-end my-2">
-        <a th:href="@{/workspace/create}" class="btn btn-light"> 게시글 쓰기 </a>
+        <a th:href="@{/project/create}" class="btn btn-light">게시글 쓰기 </a>
     </div>
 
 
@@ -17,7 +16,7 @@
             <div class="card my-3">
 
 
-                <div class="card-header" th:onclick="|location.href='@{|detail/${question.workspaceCid}|}'|"
+                <div class="card-header" th:onclick="|location.href='@{|detail/${question.projectCid}|}'|"
                      style="cursor:pointer;">
 
                     <span th:text="${question.title}"></span>
@@ -29,7 +28,7 @@
                         <div th:text="${question.body}"></div>
 
                         <div class="badge bg-light text-dark p-2 text-start">
-                            <span th:text="${question.workspaceCid}"></span>
+                            <span th:text="${question.projectCid}"></span>
 
                         </div>
                     </blockquote>

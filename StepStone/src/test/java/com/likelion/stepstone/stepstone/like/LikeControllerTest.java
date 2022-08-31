@@ -31,15 +31,16 @@ public class LikeControllerTest {
     void contextLoads() {
     }
 
+    /*
     @Test
     void likeRepositorySave() {
 
-        UUID postId = UUID.randomUUID();
-        UUID userId = UUID.randomUUID();
+       // UUID postId = UUID.randomUUID();
+       // UUID userId = UUID.randomUUID();
 
         LikeEntity q1 = new LikeEntity();
-        q1.setPostId(postId);
-        q1.setUserId(userId);
+        q1.setPostCid(1L);
+        q1.setUserCid(1L);
 
         likeRepository.save(q1);
 
@@ -48,19 +49,19 @@ public class LikeControllerTest {
     @Test
     void likeRepositorySave2() {
 
-        UUID postId = UUID.randomUUID();
-        UUID userId = UUID.randomUUID();
+//        UUID postId = UUID.randomUUID();
+//        UUID userId = UUID.randomUUID();
 
         LikeEntity q2 = new LikeEntity();
-        q2.setPostId(postId);
-        q2.setUserId(userId);
+        q2.setPostCid(2L);
+        q2.setUserCid(2L);
 
         likeRepository.save(q2);
 
 
     }
 
-
+*/
     @Test
     public void addUserAndPost1(){
         UUID userId = UUID.randomUUID();
@@ -70,11 +71,11 @@ public class LikeControllerTest {
 
         user1.setName("No1");
         user1.setCreatedAt(LocalDateTime.now());
-        user1.setPassword(pw);
+        user1.setPassword("pw");
         user1.setRole("user");
         user1.setUpdatedAt(LocalDateTime.now());
-        user1.setUserId(userId);
-        user1.setCid(1);
+        user1.setUserId("userId");
+        user1.setUserCid(1L);
         userRepository.save(user1);
 
 
@@ -102,11 +103,11 @@ public class LikeControllerTest {
 
         user2.setName("No2");
         user2.setCreatedAt(LocalDateTime.now());
-        user2.setPassword(pw);
+        user2.setPassword("pw");
         user2.setRole("user");
         user2.setUpdatedAt(LocalDateTime.now());
-        user2.setUserId(userId);
-        user2.setCid(2);
+        user2.setUserId("userId2");
+        user2.setUserCid(2L);
         userRepository.save(user2);
 
 
@@ -121,7 +122,7 @@ public class LikeControllerTest {
         post2.setLikes(0);
         post2.setUpdatedAt(LocalDateTime.now());
         post2.setUserId(userId);
-        post2.setPostCid(4L);
+        post2.setPostCid(2L);
         postRepository.save(post2);
 
     }
@@ -135,11 +136,11 @@ public class LikeControllerTest {
 
         user3.setName("No3");
         user3.setCreatedAt(LocalDateTime.now());
-        user3.setPassword(pw);
+        user3.setPassword("pw");
         user3.setRole("user");
         user3.setUpdatedAt(LocalDateTime.now());
-        user3.setUserId(userId);
-        user3.setCid(3);
+        user3.setUserId("userId3");
+        user3.setUserCid(3L);
         userRepository.save(user3);
 
 
@@ -159,35 +160,34 @@ public class LikeControllerTest {
 
     }
     @Test
-    public void addUserAndPostN() {
+    public void addUserAndPost4() {
         UUID userId = UUID.randomUUID();
         UUID pw = UUID.randomUUID();
 
-        UserEntity user5 = new UserEntity();
+        UserEntity user4 = new UserEntity();
 
-        user5.setName("No5");
-        user5.setCreatedAt(LocalDateTime.now());
-        user5.setPassword(pw);
-        user5.setRole("user");
-        user5.setUpdatedAt(LocalDateTime.now());
-        user5.setUserId(userId);
-        user5.setCid(5);
-        userRepository.save(user5);
+        user4.setName("No4");
+        user4.setCreatedAt(LocalDateTime.now());
+        user4.setPassword("pw");
+        user4.setRole("user");
+        user4.setUpdatedAt(LocalDateTime.now());
+        user4.setUserId("userId4");
+        user4.setUserCid(4L);
+        userRepository.save(user4);
 
 
         UUID postId = UUID.randomUUID();
 
-        PostEntity post5 = new PostEntity();
+        PostEntity post4 = new PostEntity();
 
-        post5.setPostId(postId);
-        post5.setCreatedAt(LocalDateTime.now());
-        post5.setTitle("title5");
-        post5.setBody("body5");
-        post5.setLikes(0);
-        post5.setUpdatedAt(LocalDateTime.now());
-        post5.setUserId(userId);
-        post5.setPostCid(5L);
-        postRepository.save(post5);
+        post4.setPostId(postId);
+        post4.setCreatedAt(LocalDateTime.now());
+        post4.setTitle("title4");
+        post4.setBody("body4");
+        post4.setUpdatedAt(LocalDateTime.now());
+        post4.setUserId(userId);
+        post4.setPostCid(4L);
+        postRepository.save(post4);
 
     }
 
@@ -195,7 +195,7 @@ public class LikeControllerTest {
     @Test
     void updateLikesCount(){
         //List<LikeEntity> likes = likeRepository.findByPostId(102898c2-ab59-4a80-97b3-31d3c73d2e83);
-        List<LikeEntity> likes = likeRepository.findByLikeId(25L);
+        List<LikeEntity> likes = likeRepository.findByPostCid(25L);
         PostEntity post = postRepository.findByPostCid(2L);
         int i = likes.size();
         post.setLikes(i);
