@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 페이지</title>
+</head>
+<body style="background-color: #FFFFFF;">
+<div layout:fragment="content">
+<h1 th:text ="${post.title}">제목 입니다.</h1>
+<p th:text ="${post.body}">내용이 들어갈 부분입니다.</p>
+</div>
+</body>
+</html>
+
+
