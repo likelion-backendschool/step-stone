@@ -5,6 +5,7 @@ import com.likelion.stepstone.chatroom.model.ChatRoomDto;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomVo;
 import com.likelion.stepstone.user.UserRepository;
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.AllArgsConstructor;
 
 import java.util.HashSet;
@@ -46,11 +47,16 @@ public class ChatRoomService {
      *
      * @return
      */
-    public List<ChatRoomDto> findAll(){
-        List<ChatRoomEntity> entities = chatRoomRepository.findByUsers_UserCid(1l);
+    public List<ChatRoomDto> findAll(String principalName){
+        Long userCid = findByUserId(principalName).getUserCid();
+        List<ChatRoomEntity> entities = chatRoomRepository.findByUsers_UserCid(userCid);
 
-        return entities.stream().map(entity -> ChatRoomDto.toDto(entity)).collect(Collectors.toList());
+        return entities.stream().map(ChatRoomDto::toDto).collect(Collectors.toList());
     }
 
+    public UserEntity findByUserId(String user_id){
+        return userRepository.findByUserId(user_id).orElseThrow(() -> new DataNotFoundException("User Name Not Found"));
+
+    }
 
 }

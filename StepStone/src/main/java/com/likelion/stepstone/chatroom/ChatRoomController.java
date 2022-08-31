@@ -2,15 +2,14 @@ package com.likelion.stepstone.chatroom;
 
 import com.likelion.stepstone.chat.ChatService;
 import com.likelion.stepstone.chat.model.ChatDto;
-import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomForm;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
-import com.likelion.stepstone.chatroom.model.ChatRoomVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,8 +23,8 @@ public class ChatRoomController {
     private final ChatService chatService;
 
     @GetMapping("/room")
-    public String getRoom(Model model, ChatRoomForm chatRoomForm) {
-        List<ChatRoomDto> rooms = chatRoomService.findAll();
+    public String getRoom(Principal principal, Model model, ChatRoomForm chatRoomForm) {
+        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName()); // principal의 name은 userEntity의 user_id
         List<ChatDto> chats = new ArrayList<>();
 
         if(!rooms.isEmpty()){
@@ -40,7 +39,7 @@ public class ChatRoomController {
     }
 
     @PostMapping("/room/create")
-    public String createRoom(Model model, ChatRoomForm chatRoomForm) {
+    public String createRoom(Principal principal, Model model, ChatRoomForm chatRoomForm) {
 
         ChatRoomDto chatRoomDto = ChatRoomDto.builder()
                 .chatRoomId(UUID.randomUUID().toString())
@@ -50,7 +49,7 @@ public class ChatRoomController {
                 .build();
         chatRoomService.create(chatRoomDto);
 
-        List<ChatRoomDto> rooms = chatRoomService.findAll();
+        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
         model.addAttribute("rooms", rooms);
         return "chat/room :: #chatRoomTable";
     }
