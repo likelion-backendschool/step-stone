@@ -1,6 +1,5 @@
 package com.likelion.stepstone.workspaces;
 
-
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/workspace")
 @Controller
 public class WorkSpaceController {
-
 
     private final WorkSpaceService workSpaceService;
 
@@ -63,9 +61,8 @@ public class WorkSpaceController {
     public String list(Model model, @RequestParam(defaultValue = "0") int page) {
         Page<WorkSpaceEntity> paging = workSpaceService.getList(page);
         model.addAttribute("paging", paging);
-        return "workspace/workspace_list";
+        return "workspace/workspace_list";9
     }
-
 
     @GetMapping("/modify/{workspaceCid}")
     public String questionModifyGet(@PathVariable long workspaceCid , WorkSpaceForm workSpaceForm) {
@@ -91,7 +88,6 @@ public class WorkSpaceController {
         WorkSpaceEntity workSpaceEntity = workSpaceService.getWorkSpaceEntity(workspaceCid);
         model.addAttribute("workSpaceEntity", workSpaceEntity);
         return "workspace/workspace_detail";
-
     }
 
     @GetMapping("/delete/{workspaceCid}")

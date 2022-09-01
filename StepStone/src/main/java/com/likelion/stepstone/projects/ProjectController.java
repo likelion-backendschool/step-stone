@@ -50,8 +50,6 @@ public class ProjectController {
      // 객체 저장방법 고르기
      //  questionService.create(questionFrom.getSubject(), questionFrom.getContent());
 
-
-
         ProjectDto projectDto = ProjectDto.builder()
                 .title(projectForm.getTitle())
                 .body(projectForm.getBody())
@@ -68,7 +66,6 @@ public class ProjectController {
         model.addAttribute("paging", paging);
         return "project/project_list";
     }
-
 
     @GetMapping("/modify/{projectCid}")
     public String projectModifyGet(@PathVariable long projectCid , ProjectForm projectForm) {
@@ -94,7 +91,6 @@ public class ProjectController {
         ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
         model.addAttribute("projectEntity", projectEntity);
         return "project/project_detail";
-
     }
 
     @GetMapping("/delete/{projectCid}")
@@ -105,11 +101,6 @@ public class ProjectController {
 
         return "redirect:/workspace/list";
     }
-
-
-
-
-
 }
 
 
