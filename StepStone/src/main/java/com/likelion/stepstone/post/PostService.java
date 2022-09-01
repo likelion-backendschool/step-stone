@@ -59,43 +59,15 @@ public class PostService {
 
     }
 
-    public List<PostVo> getPostList1() {
+    public List<PostVo> getSortedPostList() {
         List<PostEntity> postEntities = postRepository.findAll();
 
         List<PostVo> postVoList = postEntities.stream()
+                .sorted(Comparator.comparing(PostEntity::getLikes))
                 .map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity)))
-                .sorted(Comparator.comparing(PostVo::getLikes))
                 .collect(Collectors.toList());
 
-        List<PostVo> postVoList1 = new ArrayList<>(postVoList.subList(0, 3));
-
-        return postVoList1;
-    }
-
-    public List<PostVo> getPostList2() {
-        List<PostEntity> postEntities = postRepository.findAll();
-
-        List<PostVo> postVoList = postEntities.stream()
-                .map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity)))
-                .sorted(Comparator.comparing(PostVo::getLikes))
-                .collect(Collectors.toList());
-
-        List<PostVo> postVoList2 = new ArrayList<>(postVoList.subList(3, 6));
-
-        return postVoList2;
-    }
-
-    public List<PostVo> getPostList3() {
-        List<PostEntity> postEntities = postRepository.findAll();
-
-        List<PostVo> postVoList = postEntities.stream()
-                .map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity)))
-                .sorted(Comparator.comparing(PostVo::getLikes))
-                .collect(Collectors.toList());
-
-        List<PostVo> postVoList3 = new ArrayList<>(postVoList.subList(6, 9));
-
-        return postVoList3;
+        return postVoList;
     }
 
 }

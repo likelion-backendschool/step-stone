@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,9 +24,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String issuedPost(Model model) {
-        List<PostVo> postVoList1 = postService.getPostList1();
-        List<PostVo> postVoList2 = postService.getPostList2();
-        List<PostVo> postVoList3 = postService.getPostList3();
+        List<PostVo> postVoList = postService.getSortedPostList();
+
+        List<PostVo> postVoList1 = new ArrayList<>(postVoList.subList(0, 3));
+        List<PostVo> postVoList2 = new ArrayList<>(postVoList.subList(3, 6));
+        List<PostVo> postVoList3 = new ArrayList<>(postVoList.subList(6, 9));
 
         model.addAttribute("posts1", postVoList1);
         model.addAttribute("posts2", postVoList2);
