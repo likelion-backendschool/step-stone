@@ -185,16 +185,21 @@
                 var message = content.message;
                 var str = '';
 
-                str = "<li class='clearfix'>";
-                str += "<div class='message-data'>";
-                str +=      "<span class='message-data-time'>" + sender + "</span>";
-                str +=      "<span class='message-data-time'>" + createdAt + "</span>";
-                str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
-                str += "</div>";
-                str += "<div class='message other-message'>" + message + "</div>";
-                str += "</li>";
+                if(sender !== /*[[${name}]]*/){
+                    str = "<li class='clearfix'>";
+                    str += "<div class='message-data'>";
+                    str +=      "<span class='message-data-time'>" + sender + "</span>";
+                    str +=      "<span class='message-data-time'>" + createdAt + "</span>";
+                    str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
+                    str += "</div>";
+                    str += "<div class='message other-message'>" + message + "</div>";
+                    str += "</li>";
 
-                $("#chatList").append(str);
+                    $("#chatList").append(str);
+                }
+
+
+
             }, { id: roomId});
         });
 
@@ -216,14 +221,18 @@
             var message = content.message;
             var str = '';
 
-            str = "<li class='clearfix'>";
-            str += "<div class='message-data'>";
-            str += "<span class='message-data-time' >" + sender + "</span>";
-            str += "<span class='message-data-time' >" + createdAt + "</span>";
-            str += "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
-            str += "</div>";
-            str += "<div class='message other-message'>" + message + "</div>";
-            str += "</li>";
+            if(sender !== /*[[${name}]]*/){
+                str = "<li class='clearfix'>";
+                str += "<div class='message-data'>";
+                str +=      "<span class='message-data-time'>" + sender + "</span>";
+                str +=      "<span class='message-data-time'>" + createdAt + "</span>";
+                str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
+                str += "</div>";
+                str += "<div class='message other-message'>" + message + "</div>";
+                str += "</li>";
+
+                $("#chatList").append(str);
+            }
             // if (writer === username) {
             //     str = "<div class='col-6'>";
             //     str += "<div class='alert alert-secondary'>";
