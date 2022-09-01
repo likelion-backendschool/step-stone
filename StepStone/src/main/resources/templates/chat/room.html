@@ -122,18 +122,40 @@
                         </div>
                     </div>
                     <div id="chats" class="chat-history overflow-auto" style="height: 70vh; max-height: 70vh">
-                        <ul id="chatList" class="m-b-0">
-                            <div th:if="${chats!=null and !chats.empty}">
-                                <li class="clearfix" th:each="chat : ${chats}">
-                                    <div class="message-data text-right">
-                                        <span class="message-data-time" th:text="${chat.senderName}">user</span>
-                                        <span class="message-data-time"
-                                              th:text="${chat.createdAt}">10:10 AM, Today</span>
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                        <ul class="m-b-0" >
+                            <div id="chatList" th:if="${chats!=null and !chats.empty}">
+                                <li th:each="chat : ${chats}" class="clearfix">
+<!--                                    <script th:inline="javascript">-->
+<!--                                        var senderId = /*[[${senderId}]]*/-->
+<!--                                        console.log("sender : " + senderId)-->
+<!--                                        var senderName = /*[[${senderName}]]*/-->
+<!--                                            console.log("name : " + name)-->
+<!--                                        var chatSenderId = /*[[${chat.senderId}]]*/-->
+<!--                                        console.log("chat sender : " + chatSenderId)-->
+<!--                                    </script>-->
+                                    <div th:if="${chat.senderId} == ${senderId}">
+                                        <div class="message-data text-right">
+                                            <span class="message-data-time" th:text="${chat.senderName}">user</span>
+                                            <span class="message-data-time"
+                                                  th:text="${chat.createdAt}">10:10 AM, Today</span>
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                        </div>
+                                        <div class="message my-message float-right" th:text="${chat.message}"> Hi Aiden,
+                                            how are you? How is the
+                                            project coming along?
+                                        </div>
                                     </div>
-                                    <div class="message my-message float-right" th:text="${chat.message}"> Hi Aiden,
-                                        how are you? How is the
-                                        project coming along?
+                                    <div th:unless="${chat.senderId} == ${senderId}">
+                                        <div class="message-data">
+                                            <span class="message-data-time" th:text="${chat.senderName}">user</span>
+                                            <span class="message-data-time"
+                                                  th:text="${chat.createdAt}">10:10 AM, Today</span>
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                        </div>
+                                        <div class="message other-message" th:text="${chat.message}"> Hi Aiden,
+                                            how are you? How is the
+                                            project coming along?
+                                        </div>
                                     </div>
                                 </li>
                             </div>
@@ -177,15 +199,15 @@
 
             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
             stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-                console.log(chat);
+                console.log("chat : " + chat);
                 var content = JSON.parse(chat.body);
 
-                var sender = content.senderName;
+                var sender = content.senderId;
                 var createdAt = content.createdAt;
                 var message = content.message;
                 var str = '';
 
-                if(sender !== /*[[${name}]]*/){
+                if(sender !== /*[[${senderId}]]*/){
                     str = "<li class='clearfix'>";
                     str += "<div class='message-data'>";
                     str +=      "<span class='message-data-time'>" + sender + "</span>";
@@ -213,15 +235,15 @@
         console.log(roomId);
         //4. subscribe(path, callback)으로 메세지를 받을 수 있음
         stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-            console.log(chat);
+            console.log("function chat : " + chat);
             var content = JSON.parse(chat.body);
 
-            var sender = content.senderName;
+            var sender = content.senderId;
             var createdAt = content.createdAt;
             var message = content.message;
             var str = '';
 
-            if(sender !== /*[[${name}]]*/){
+            if(sender !== /*[[${senderId}]]*/){
                 str = "<li class='clearfix'>";
                 str += "<div class='message-data'>";
                 str +=      "<span class='message-data-time'>" + sender + "</span>";
