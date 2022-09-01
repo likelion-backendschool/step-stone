@@ -19,14 +19,7 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    @GetMapping("/history") // 저장된 채팅 내역 조회
-    String getHistory(Model model, String roomId) {
-        List<ChatDto> chats = chatService.getHistories(roomId);
 
-        model.addAttribute("chats", chats);
-
-        return "chat/room :: #chats";
-    }
 
     @MessageMapping(value = "/chat/message")
     void sendMessage(ChatDto chatDto){

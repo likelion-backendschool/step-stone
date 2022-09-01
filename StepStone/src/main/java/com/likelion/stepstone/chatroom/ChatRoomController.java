@@ -40,6 +40,16 @@ public class ChatRoomController {
         return "chat/room";
     }
 
+    @GetMapping("/history") // 저장된 채팅 내역 조회
+    String getHistory(Principal principal, Model model, String roomId) {
+        List<ChatDto> chats = chatService.getHistories(roomId);
+
+        model.addAttribute("chats", chats);
+        model.addAttribute("senderId", principal.getName());
+        model.addAttribute("name", chatRoomService.getUsername(principal.getName()));
+        return "chat/room :: #chats";
+    }
+
     @PostMapping("/room/create")
     public String createRoom(Principal principal, Model model, ChatRoomForm chatRoomForm) {
 
