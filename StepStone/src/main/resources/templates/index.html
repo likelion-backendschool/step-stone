@@ -48,7 +48,7 @@
                                         <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
                                         <span class="card-text" th:text="${post.likes}"></span>
                                     </p><td>
-                                    <td><div><a class="card-link">게시글 읽기</a></div><td>
+                                    <td><div><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a></div><td>
                                 </div>
                             </div><tr>
                             <!-- 아래 코드는 뼈대를 위한 코드 (참고용) / display: none
@@ -69,13 +69,13 @@
                                 <!-- 4, 5, 6번 게시글 -->
                                 <div class="card-body">
                                     <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                    <td><h6 class="card-subtitle mb-2 text-muted">작성자</h6><td>
+                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
                                     <td><p class="card-text" th:text="${post.body}"></p><td>
                                     <td><p>
                                         <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
                                         <span class="card-text" th:text="${post.likes}"></span>
                                     </p><td>
-                                    <td><a href="#" class="card-link">Card link</a><td>
+                                    <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
                                 </div>
                             </div><tr>
                         </div>
@@ -86,13 +86,13 @@
                                 <!-- 7, 8, 9번 게시글 -->
                                 <div class="card-body">
                                     <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                    <td><h6 class="card-subtitle mb-2 text-muted">작성자</h6><td>
+                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
                                     <td><p class="card-text" th:text="${post.body}"></p><td>
                                     <td><p>
                                         <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
                                         <span class="card-text" th:text="${post.likes}"></span>
                                     </p><td>
-                                    <td><a href="#" class="card-link">Card link</a><td>
+                                    <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
                                 </div>
                             </div><tr>
                         </div>
