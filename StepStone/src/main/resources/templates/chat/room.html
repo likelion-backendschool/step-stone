@@ -96,9 +96,9 @@
                                                 </div>
 
                                                 <div class="modal-footer">
-                                                    <button value="완료" class="btn btn-primary"
+                                                    <button id="createChatRoom" value="완료" class="btn btn-primary"
                                                             data-bs-target="#exampleModalToggle2"
-                                                            data-bs-toggle="modal" onclick="updateChatRoom()">
+                                                            data-bs-toggle="modal">
                                                         완료
                                                     </button>
                                                     <!--                                                    <input type="submit" value="완료" class="btn btn-primary"-->
@@ -345,6 +345,12 @@
 
     $("#sendMessage").on("click", function (e) {
         sendMsg()
+    });
+
+    $("#createChatRoom").on("click", function (e){
+        e.preventDefault();
+        updateChatRoom();
+
     });
 </script>
 
