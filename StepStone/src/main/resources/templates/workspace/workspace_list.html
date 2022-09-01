@@ -1,13 +1,19 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+<html
+        lang="ko"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}" >
 
 <html>
+
+<div layout:fragment="content">
+
 <div class="container my-3">
     <h3 class="my-3 border-bottom pb-2">WorkSpace</h3>
 
     <div class="d-flex justify-content-end my-2">
         <a th:href="@{/workspace/create}" class="btn btn-light"> 게시글 쓰기 </a>
     </div>
-
 
     <table class="table">
         <thead></thead>
@@ -70,6 +76,6 @@
     <!-- 페이징처리 끝 -->
 
 </div>
-
+</div>
 </html>
 

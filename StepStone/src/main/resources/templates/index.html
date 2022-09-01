@@ -6,6 +6,7 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/card_carousel_style.css}">
 </head>
 
 <div layout:fragment="content">
@@ -30,13 +31,13 @@
             <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" th:style="${postSize > 0? 'display:block' : 'display:none'}"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" th:style="${postSize >= 6? 'display:block' : 'display:none'}"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" th:style="${postSize >= 9? 'display:block' : 'display:none'}"></button>
                 </div>
 
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                    <div class="carousel-item active" th:if="${postSize} > 0">
                         <div class="cards-wrapper">
                             <tr><div class="card" th:each="post: ${posts1}">
                                 <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
@@ -63,7 +64,7 @@
                             -->
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item" th:if="${postSize} > 5">
                         <div class="cards-wrapper">
                             <tr><div class="card" th:each="post: ${posts2}">
                                 <!-- 4, 5, 6번 게시글 -->
@@ -80,7 +81,7 @@
                             </div><tr>
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item" th:if="${postSize} > 8">
                         <div class="cards-wrapper">
                             <tr><div class="card" th:each="post: ${posts3}">
                                 <!-- 7, 8, 9번 게시글 -->
@@ -98,16 +99,27 @@
                         </div>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev"
+                        th:style="${postSize > 0? 'display:block' : 'display:none'}">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next"
+                        th:style="${postSize > 0? 'display:block' : 'display:none'}">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
+
             </div>
         </div>
+
+        <div class="container-fluid" th:if="${postSize} == 0">
+            <div class="container-fluid" style="text-align: center">
+                <h5>최근 이슈 게시글이 없습니다.</h5>
+            </div>
+        </div>
+
     </div>
 </div>
 </html>
