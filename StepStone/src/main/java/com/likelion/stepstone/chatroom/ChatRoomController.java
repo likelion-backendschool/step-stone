@@ -34,7 +34,8 @@ public class ChatRoomController {
 
         model.addAttribute("rooms", rooms);
         model.addAttribute("chats", chats);
-        model.addAttribute("sender", principal.getName());
+        model.addAttribute("senderId", principal.getName());
+        model.addAttribute("name", chatRoomService.getUsername(principal.getName()));
 
         return "chat/room";
     }

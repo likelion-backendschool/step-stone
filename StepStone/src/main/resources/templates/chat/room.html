@@ -299,13 +299,13 @@
                 chatRoomId: $("#currRoomId").val(),
                 message: msg.value,
                 createdAt: dateTime,
-                senderName: "name",
-                senderId: /*[[${sender}]]*/ //사용중인 사용자로 변경 필요
+                senderName: /*[[${name}]]*/,
+                senderId: /*[[${senderId}]]*/ //사용중인 사용자로 변경 필요
             }));
 
 
             // var dateTime = date+' '+time;
-            str = "<li class='clearfix'>";
+            str = "<li class='clearfix my-3'>";
             str += "<div class='message-data text-right'>";
             str += "<span class='message-data-time'>user</span>";
             str += "<span class='message-data-time'> " + dateTime + "</span>";

@@ -59,4 +59,8 @@ public class ChatRoomService {
 
     }
 
+    public String getUsername(String principalName){
+        return userRepository.findByUserId(principalName).orElseThrow(()-> new DataNotFoundException("User Name Not Found")).getName();
+    }
+
 }
