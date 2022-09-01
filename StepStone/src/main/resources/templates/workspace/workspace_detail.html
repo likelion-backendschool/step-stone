@@ -7,7 +7,7 @@
 <div layout:fragment="content" class="container my-3">
 
     <div>
-        <a th:href="@{/workspace/list}" class="btn btn-light" th:text="목록으로"></a>
+        <a th:href="@{/workspace/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
     </div>
 
     <h2 class="border-bottom py-2" th:text="${workSpaceEntity.title}"></h2>

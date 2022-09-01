@@ -31,37 +31,6 @@ public class LikeControllerTest {
     void contextLoads() {
     }
 
-    /*
-    @Test
-    void likeRepositorySave() {
-
-       // UUID postId = UUID.randomUUID();
-       // UUID userId = UUID.randomUUID();
-
-        LikeEntity q1 = new LikeEntity();
-        q1.setPostCid(1L);
-        q1.setUserCid(1L);
-
-        likeRepository.save(q1);
-
-
-    }
-    @Test
-    void likeRepositorySave2() {
-
-//        UUID postId = UUID.randomUUID();
-//        UUID userId = UUID.randomUUID();
-
-        LikeEntity q2 = new LikeEntity();
-        q2.setPostCid(2L);
-        q2.setUserCid(2L);
-
-        likeRepository.save(q2);
-
-
-    }
-
-*/
     @Test
     public void addUserAndPost1(){
         UUID userId = UUID.randomUUID();
@@ -89,7 +58,7 @@ public class LikeControllerTest {
         post1.setBody("body1");
         post1.setLikes(0);
         post1.setUpdatedAt(LocalDateTime.now());
-        post1.setUserId(userId);
+        // post1.setUserId(userId);
         post1.setPostCid(1L);
         postRepository.save(post1);
 
@@ -121,7 +90,7 @@ public class LikeControllerTest {
         post2.setBody("body2");
         post2.setLikes(0);
         post2.setUpdatedAt(LocalDateTime.now());
-        post2.setUserId(userId);
+       //  post2.setUserId(userId);
         post2.setPostCid(2L);
         postRepository.save(post2);
 
@@ -154,7 +123,7 @@ public class LikeControllerTest {
         post3.setBody("body3");
         post3.setLikes(0);
         post3.setUpdatedAt(LocalDateTime.now());
-        post3.setUserId(userId);
+        // post3.setUserId(userId);
         post3.setPostCid(3L);
         postRepository.save(post3);
 
@@ -185,7 +154,7 @@ public class LikeControllerTest {
         post4.setTitle("title4");
         post4.setBody("body4");
         post4.setUpdatedAt(LocalDateTime.now());
-        post4.setUserId(userId);
+        // post4.setUserId(userId);
         post4.setPostCid(4L);
         postRepository.save(post4);
 

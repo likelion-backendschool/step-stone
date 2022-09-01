@@ -7,7 +7,7 @@
 <div layout:fragment="content" class="container my-3">
 
     <div>
-        <a th:href="@{/project/list}" class="btn btn-light" th:text="목록으로"></a>
+        <a th:href="@{/project/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
     </div>
 
     <h2 class="border-bottom py-2" th:text="${projectEntity.title}"></h2>
