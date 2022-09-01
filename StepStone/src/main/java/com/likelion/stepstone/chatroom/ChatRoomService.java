@@ -25,15 +25,15 @@ public class ChatRoomService {
      *
      * @return
      */
-    public ChatRoomVo create(ChatRoomDto chatRoomDto) {
+    public ChatRoomVo create(ChatRoomDto chatRoomDto, String principalName) {
         ChatRoomEntity chatRoomEntity = ChatRoomEntity.toEntity(chatRoomDto);
 
         chatRoomEntity.setUserCount(1);
-
+        UserEntity userEntity = findByUserId(principalName);
         if(chatRoomEntity.getUsers() == null)
             chatRoomEntity.setUsers(new HashSet<>());
 
-        chatRoomEntity.getUsers().add(userRepository.findById(1l).orElseThrow(() -> new DataNotFoundException("user not found")));
+        chatRoomEntity.getUsers().add(userRepository.findById(userEntity.getUserCid()).orElseThrow(() -> new DataNotFoundException("user not found")));
 
         chatRoomRepository.save(chatRoomEntity);
 

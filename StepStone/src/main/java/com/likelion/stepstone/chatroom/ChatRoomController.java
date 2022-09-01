@@ -34,6 +34,7 @@ public class ChatRoomController {
 
         model.addAttribute("rooms", rooms);
         model.addAttribute("chats", chats);
+        model.addAttribute("sender", principal.getName());
 
         return "chat/room";
     }
@@ -47,7 +48,7 @@ public class ChatRoomController {
                 .postCid(chatRoomForm.getPostCid())
                 .userCount(0)
                 .build();
-        chatRoomService.create(chatRoomDto);
+        chatRoomService.create(chatRoomDto, principal.getName());
 
         List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
         model.addAttribute("rooms", rooms);
