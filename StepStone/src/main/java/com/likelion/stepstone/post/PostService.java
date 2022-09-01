@@ -19,9 +19,7 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-//    public List<PostEntity> postList() {
-//
-//    }
+
 
     public void create(PostDto postDto) {
         PostEntity postEntity = PostEntity.toEntity(postDto);
@@ -50,7 +48,7 @@ public class PostService {
     public Page<PostDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
 
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        Pageable pageable = getPageable(pageNo - 1, pageSize, sort);
         return postRepository.findAll(pageable).map(post -> PostDto.toDto(post));
     }
 
@@ -59,9 +57,21 @@ public class PostService {
 
     }
 
+    public Page<PostEntity> getPostList(int page) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
+        return postRepository.findAll(pageable);
+    }
+
+    private Pageable getPageable(int page, int size, Sort DESC) {
+        Pageable pageable = PageRequest.of(page, size, DESC);
+        return pageable;
+    }
+
+
     public List<PostVo> getPostList() {
         List<PostEntity> postEntities = postRepository.findAll();
         return postEntities.stream().map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity))).collect(Collectors.toList());
     }
+
 
 }
