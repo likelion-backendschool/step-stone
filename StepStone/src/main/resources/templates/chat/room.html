@@ -142,7 +142,7 @@
                                                 <span class="message-data-time" th:text="${chat.senderName}">user</span>
                                                 <span class="message-data-time"
                                                       th:text="${chat.createdAt}">10:10 AM, Today</span>
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                                <img th:src="${chat.profileImageUrl}" alt="avatar">
                                             </div>
                                             <div class="message my-message float-right" th:text="${chat.message}"> Hi Aiden,
                                                 how are you? How is the
@@ -151,10 +151,10 @@
                                         </div>
                                         <div th:unless="${chat.senderId} == ${senderId}">
                                             <div class="message-data">
+                                                <img th:src="${chat.profileImageUrl}" alt="avatar">
                                                 <span class="message-data-time" th:text="${chat.senderName}">user</span>
                                                 <span class="message-data-time"
                                                       th:text="${chat.createdAt}">10:10 AM, Today</span>
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                                             </div>
                                             <div class="message other-message" th:text="${chat.message}"> Hi Aiden,
                                                 how are you? How is the
