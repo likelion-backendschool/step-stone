@@ -36,6 +36,10 @@ public class ChatDto {
 
     private MessageType type;
 
+    @Setter
+    @Getter
+    private String profileImageUrl;
+
     public static ChatDto toDto(ChatEntity chatEntity){
         ChatDto dto = ChatDto.builder()
                 .chatRoomId(chatEntity.getChatRoomId())

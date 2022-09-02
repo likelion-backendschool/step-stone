@@ -1,6 +1,8 @@
 package com.likelion.stepstone.chatroom.model;
 
 import com.likelion.stepstone.user.model.UserEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,8 +23,11 @@ public class ChatRoomUserJoinEntity implements Serializable
     @ManyToOne
     @MapsId("userCid")
     @JoinColumn(name = "user_cid")
+    @Getter
     private UserEntity userEntity;
 
+    @Getter
+    @Setter
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 }

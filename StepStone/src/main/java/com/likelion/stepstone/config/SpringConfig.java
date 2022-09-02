@@ -2,6 +2,7 @@ package com.likelion.stepstone.config;
 
 import com.likelion.stepstone.chat.ChatRepository;
 import com.likelion.stepstone.chat.ChatService;
+import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.ChatRoomService;
 import com.likelion.stepstone.like.LikeRepository;
@@ -27,6 +28,7 @@ public class SpringConfig {
     private final LikeRepository likeRepository;
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatRoomJoinRepository chatRoomJoinRepository;
     private final SimpMessageSendingOperations messagingTemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final WorkSpaceRepository workSpaceRepository;
@@ -37,6 +39,7 @@ public class SpringConfig {
                         UserRepository userRepository,
                         ChatRepository chatRepository,
                         ChatRoomRepository chatRoomRepository,
+                        ChatRoomJoinRepository chatRoomJoinRepository,
                         WorkSpaceRepository workSpaceRepository,
                         ProjectRepository projectRepository,
                         SimpMessageSendingOperations messagingTemplate,
@@ -47,6 +50,7 @@ public class SpringConfig {
         this.userRepository = userRepository;
         this.chatRepository = chatRepository;
         this.chatRoomRepository = chatRoomRepository;
+        this.chatRoomJoinRepository = chatRoomJoinRepository;
         this.workSpaceRepository = workSpaceRepository;
         this.projectRepository = projectRepository;
         this.messagingTemplate = messagingTemplate;
@@ -70,7 +74,7 @@ public class SpringConfig {
 
     @Bean
     public ChatService chatService() {
-        return new ChatService(messagingTemplate, userRepository, chatRepository);
+        return new ChatService(messagingTemplate, userRepository, chatRepository, chatRoomRepository, chatRoomJoinRepository);
     }
 
     @Bean
