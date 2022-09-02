@@ -46,7 +46,7 @@ public class ChatRoomEntity {
     Integer userCount;
 
     @Setter
-    @ManyToMany
+    @OneToMany
     @JoinTable(
             name = "chat_rooms_users",    // 연결테이블 이름
             joinColumns = @JoinColumn(name = "chat_room_cid"),// 유저와 매핑할 조인 컬럼 정보를 지정
