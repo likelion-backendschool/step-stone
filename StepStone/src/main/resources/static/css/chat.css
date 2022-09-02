@@ -257,3 +257,14 @@ body{
     }
 }
 
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #3C64B1;
+    border-color: #3C64B1;
+}
+
+.btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited {
+    background-color: #DFE6F3;
+    border-color: #DFE6F3;
+    color : #444444;
+}
+

@@ -92,25 +92,19 @@
                                                            id="roomName">
                                                     <input type="text" class="form-control"
                                                            id="postCid">
-                                                    <!--                                                    <input type="text" class="form-control" th:field="*{roomName}"-->
-                                                    <!--                                                           id="roomName">-->
-                                                    <!--                                                    <input type="text" class="form-control" th:field="*{postCid}"-->
-                                                    <!--                                                           id="postCid">-->
                                                 </div>
-
                                                 <div class="modal-footer">
                                                     <button id="createChatRoom" value="완료" class="btn btn-primary"
                                                             data-bs-target="#exampleModalToggle2"
                                                             data-bs-toggle="modal">
                                                         완료
                                                     </button>
-                                                    <!--                                                    <input type="submit" value="완료" class="btn btn-primary"-->
-                                                    <!--                                                           data-bs-target="#exampleModalToggle2"-->
-                                                    <!--                                                           data-bs-toggle="modal">-->
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
+
+
                                 </div>
                                 <div class="modal fade" id="inviteChatRoomModal" aria-hidden="true"
                                      aria-labelledby="inviteModalToggleLabel" tabindex="-1">
@@ -164,14 +158,6 @@
                             <div id="chatList">
                                 <div th:if="${chats!=null and !chats.empty}">
                                     <li th:each="chat : ${chats}" class="clearfix">
-                                        <!--                                    <script th:inline="javascript">-->
-                                        <!--                                        var senderId = /*[[${senderId}]]*/-->
-                                        <!--                                        console.log("sender : " + senderId)-->
-                                        <!--                                        var senderName = /*[[${senderName}]]*/-->
-                                        <!--                                            console.log("name : " + name)-->
-                                        <!--                                        var chatSenderId = /*[[${chat.senderId}]]*/-->
-                                        <!--                                        console.log("chat sender : " + chatSenderId)-->
-                                        <!--                                    </script>-->
                                         <div th:if="${chat.senderId} == ${senderId}">
                                             <div class="message-data text-right">
                                                 <span class="message-data-time" th:text="${chat.senderName}">user</span>
@@ -393,15 +379,5 @@
 
     });
 </script>
-
-
-<style>
-    .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-        background-color: #3C64B1;
-        border-color: #3C64B1;
-    }
-
-
-</style>
 </body>
 </html>
