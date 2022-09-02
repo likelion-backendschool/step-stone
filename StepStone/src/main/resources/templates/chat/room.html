@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 hidden-sm text-right">
-                                <div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+                                <div class="modal fade" id="createChatRoomModal" aria-hidden="true"
                                      aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
@@ -112,8 +112,43 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal fade" id="inviteChatRoomModal" aria-hidden="true"
+                                     aria-labelledby="inviteModalToggleLabel" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <!--                                            <form th:action="@{/chat/room/create}" th:object="${chatRoomForm}" method="post">-->
+                                            <form>
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="inviteModalToggleLabel">초대하기</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="mb-3 modal-body text-center">
+                                                    <label for="roomName" class="form-label">초대할 아이디를 입력해주세요</label>
+                                                    <input type="text" class="form-control"
+                                                           id="inviteUserId">
 
-                                <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle"
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button id="inviteChatRoomButton" value="완료"
+                                                            class="btn btn-primary"
+                                                            data-bs-toggle="modal">
+                                                        완료
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="btn btn-success" data-bs-toggle="modal" href="#inviteChatRoomModal"
+                                   role="button">
+                                    초대하기
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                    </svg>
+                                </a>
+                                <a class="btn btn-primary" data-bs-toggle="modal" href="#createChatRoomModal"
                                    role="button">
                                     채팅방만들기
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
