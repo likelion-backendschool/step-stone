@@ -262,9 +262,9 @@ body{
     border-color: #3C64B1;
 }
 
-.btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited {
-    background-color: #DFE6F3;
-    border-color: #DFE6F3;
-    color : #444444;
+.btn-secondary, .btn-secondary:hover, .btn-secondary:active, .btn-secondary:visited {
+    background-color: #A1B6E0;
+    border-color: #A1B6E0;
 }
+
 
