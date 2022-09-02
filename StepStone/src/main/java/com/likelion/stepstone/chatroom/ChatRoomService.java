@@ -1,9 +1,7 @@
 package com.likelion.stepstone.chatroom;
 
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
-import com.likelion.stepstone.chatroom.model.ChatRoomDto;
-import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
-import com.likelion.stepstone.chatroom.model.ChatRoomVo;
+import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.AllArgsConstructor;
@@ -17,7 +15,7 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
 
     private final UserRepository userRepository;
-
+    private final ChatRoomJoinRepository chatRoomJoinRepository;
 
     /**
      * TODO
@@ -63,4 +61,18 @@ public class ChatRoomService {
         return userRepository.findByUserId(principalName).orElseThrow(()-> new DataNotFoundException("User Name Not Found")).getName();
     }
 
+    public void invite(String roomId, String userId) {
+        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Invalid room Id"));
+        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(()-> new DataNotFoundException("User Not Found"));
+        ChatRoomUserJoinId chatRoomUserJoinId = ChatRoomUserJoinId.builder().chatRoomCid(chatRoomEntity.getChatRoomCid()).userCid(userEntity.getUserCid()).build();
+        String profileImageDefaultUrl = "https://www.bootdey.com/img/Content/avatar/";
+        int randomInt = (int)(Math.random()*7);
+        String profileImageUrl = profileImageDefaultUrl + "avatar" + randomInt + ".png";
+        chatRoomJoinRepository.save(ChatRoomUserJoinEntity.builder()
+                        .id(chatRoomUserJoinId)
+                .userEntity(userEntity)
+                .chatRoomEntity(chatRoomEntity)
+                        .profileImageUrl(profileImageUrl)
+                .build());
+    }
 }

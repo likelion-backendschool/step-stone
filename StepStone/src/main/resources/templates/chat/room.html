@@ -299,6 +299,21 @@
             });
     }
 
+    function inviteChatRoom() {
+        var inviteChatRoomBean = {
+            userId: $("#inviteUserId").val(),
+            roomId : $("#currRoomId").val()
+        };
+        $.ajax({
+            url: "/chat/room/invite",
+            type: "POST",
+            data: inviteChatRoomBean,
+        })
+            .done(function (fragment) {
+                $('#chats').replaceWith(fragment);
+            });
+    }
+
     function changeSubs(roomId){
         if(roomId == $("#currRoomId").val()){
             console.log("room is identical!");
@@ -376,7 +391,11 @@
     $("#createChatRoom").on("click", function (e){
         e.preventDefault();
         updateChatRoom();
+    });
 
+    $("#inviteChatRoomButton").on("click", function (e){
+        e.preventDefault();
+        inviteChatRoom();
     });
 </script>
 </body>

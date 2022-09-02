@@ -65,10 +65,22 @@ public class ChatRoomController {
         model.addAttribute("rooms", rooms);
         return "chat/room :: #chatRoomTable";
     }
+
+    @PostMapping("/room/invite")
+    public String inviteRoom(Principal principal, Model model, String roomId, String userId) {
+
+        chatRoomService.invite(roomId, userId);
+
+        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
+        model.addAttribute("rooms", rooms);
+        return "chat/room :: #chats";
+    }
     // 채팅방 입장 화면
     @GetMapping("/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {
         model.addAttribute("roomId", roomId);
         return "chat/roomdetail";
     }
+
+
 }
