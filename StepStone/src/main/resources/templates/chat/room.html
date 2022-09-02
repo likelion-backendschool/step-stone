@@ -44,9 +44,12 @@
                                         <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                         <div class="about">
                                             <div class="name"  th:text="${room.roomName}">Aiden Chavez</div>
-                                            <div class="recent" th:text=${#strings.arraySplit(room.updatedAt,'T')[1]}>
-                                                online
+                                            <div th:unless="${#strings.contains(room.updatedAt, '.')}">
+                                                <div class="recent" th:text=${#strings.arraySplit(room.updatedAt,'T')[1]}>
+                                                    online
+                                                </div>
                                             </div>
+
 <!--                                            <input id="roomId" type="hidden" th:value="${room.chatRoomId}">-->
 <!--                                            <input id="name" type="hidden" th:value="${room.roomName}">-->
 
