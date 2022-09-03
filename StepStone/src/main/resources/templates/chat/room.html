@@ -163,7 +163,7 @@
                                                 <span class="message-data-time" th:text="${chat.senderName}">user</span>
                                                 <span class="message-data-time"
                                                       th:text="${chat.createdAt}">10:10 AM, Today</span>
-                                                <img th:src="${chat.profileImageUrl}" alt="avatar">
+                                                <img id="myAvatar" th:src="${chat.profileImageUrl}" alt="avatar">
                                             </div>
                                             <div class="message my-message float-right" th:text="${chat.message}"> Hi Aiden,
                                                 how are you? How is the
@@ -228,17 +228,18 @@
                 console.log("chat : " + chat);
                 var content = JSON.parse(chat.body);
 
-                var sender = content.senderId;
+                var sender = content.senderName;
+                var senderId = content.senderId;
                 var createdAt = content.createdAt;
                 var message = content.message;
+                var profileImageUrl = content.profileImageUrl;
                 var str = '';
-
-                if(sender !== /*[[${senderId}]]*/){
-                    str = "<li class='clearfix'>";
+                if(senderId !== /*[[${senderId}]]*/){
+                    str = "<li class='clearfix my-3' >";
                     str += "<div class='message-data'>";
+                    str +=      "<img src='" + profileImageUrl + "' alt='avatar'>";
                     str +=      "<span class='message-data-time'>" + sender + "</span>";
                     str +=      "<span class='message-data-time'>" + createdAt + "</span>";
-                    str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
                     str += "</div>";
                     str += "<div class='message other-message'>" + message + "</div>";
                     str += "</li>";
@@ -264,17 +265,19 @@
             console.log("function chat : " + chat);
             var content = JSON.parse(chat.body);
 
-            var sender = content.senderId;
+            var sender = content.senderName;
+            var senderId = content.senderId;
             var createdAt = content.createdAt;
             var message = content.message;
+            var profileImageUrl = content.profileImageUrl;
             var str = '';
 
-            if(sender !== /*[[${senderId}]]*/){
-                str = "<li class='clearfix'>";
+            if(senderId !== /*[[${senderId}]]*/){
+                str = "<li class='clearfix my-3>";
                 str += "<div class='message-data'>";
+                str +=      "<img src='" + profileImageUrl + "' alt='avatar'>";
                 str +=      "<span class='message-data-time'>" + sender + "</span>";
                 str +=      "<span class='message-data-time'>" + createdAt + "</span>";
-                str +=      "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
                 str += "</div>";
                 str += "<div class='message other-message'>" + message + "</div>";
                 str += "</li>";
@@ -349,7 +352,7 @@
     function sendMsg(){
         var msg = document.getElementById("msg");
         var today = new Date();
-        var dateTime = today.toLocaleString().toString().substring(2, 21);
+        var dateTime = today.toLocaleString().toString().substring(2, 19);
         if (msg.value !== "") {
             console.log("sendMessage:" + msg.value);
             stomp.send('/pub/chat/message', {}, JSON.stringify({
@@ -357,16 +360,17 @@
                 message: msg.value,
                 createdAt: dateTime,
                 senderName: /*[[${name}]]*/,
-                senderId: /*[[${senderId}]]*/ //사용중인 사용자로 변경 필요
+                senderId: /*[[${senderId}]]*/, //사용중인 사용자로 변경 필요
+                profileImageUrl :$("#myAvatar").attr('src')
             }));
-
-
+            var profileImageUrl = $("#myAvatar").attr('src')
+            var name = /*[[${name}]]*/;
             // var dateTime = date+' '+time;
             str = "<li class='clearfix my-3'>";
             str += "<div class='message-data text-right'>";
-            str += "<span class='message-data-time'>user</span>";
+            str += "<span class='message-data-time'>" + name + "</span>";
             str += "<span class='message-data-time'> " + dateTime + "</span>";
-            str += "<img src='https://bootdey.com/img/Content/avatar/avatar7.png' alt='avatar'>";
+            str +=      "<img src='" + profileImageUrl + "' alt='avatar'>";
             str += "</div>";
             str += "<div class='message my-message float-right'>" + msg.value + "</div>";
             str += "</li>";

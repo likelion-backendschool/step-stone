@@ -41,7 +41,7 @@ public class ChatService {
 //        chatEntity.setCreatedAt(getCreatedAt());
         saveMessage(chatEntity);
 
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), ChatVo.toVo(chatRepository.findByChatId(chatEntity.getChatId())));
+        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), chatDto);
     }
 
     public void saveMessage(ChatEntity chatEntity){
