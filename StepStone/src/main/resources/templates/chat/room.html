@@ -1,4 +1,4 @@
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org" layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -22,179 +22,188 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
+<div layout:fragment="content">
+    <div class="container-fluid my-2 w-75">
+        <div id="liveAlertPlaceholder"></div>
 
-<div class="container" >
-    <div id="liveAlertPlaceholder" ></div>
-
-    <div class="row clearfix" >
-        <div class="col-lg-12">
-            <div class="card chat-app">
-                <div id="plist" class="people-list">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Search...">
-                    </div>
-                    <div id="chatRoomTable" style="max-height: 75vh; overflow-y: scroll;">
-                        <div th:if="${rooms!=null and !rooms.empty}">
-                            <ul class="list-unstyled chat-list mt-2 mb-0" >
-                                <li class="clearfix active" th:each="room : ${rooms}" >
-                                    <div th:roomid="${room.chatRoomId}" onclick="getChats(this.getAttribute('roomid'));">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                                        <div class="about">
-                                            <div class="name"  th:text="${room.roomName}">Aiden Chavez</div>
-                                            <div th:unless="${#strings.contains(room.updatedAt, '.')}">
-                                                <div class="recent" th:text=${#strings.arraySplit(room.updatedAt,'T')[1]}>
-                                                    online
-                                                </div>
-                                            </div>
-
-<!--                                            <input id="roomId" type="hidden" th:value="${room.chatRoomId}">-->
-<!--                                            <input id="name" type="hidden" th:value="${room.roomName}">-->
-
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="chat">
-
-                    <div class="chat-header clearfix">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                                </a>
-                                <div class="chat-about">
-                                    <h6 class="m-b-0">Aiden Chavez</h6>
-                                    <small>Last seen: 2 hours ago</small>
-                                </div>
+        <div class="row clearfix ">
+            <div class="col-lg-12">
+                <div class="card chat-app">
+                    <div id="plist" class="people-list">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
                             </div>
-                            <div class="col-lg-6 hidden-sm text-right">
-                                <div class="modal fade" id="createChatRoomModal" aria-hidden="true"
-                                     aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <!--                                            <form th:action="@{/chat/room/create}" th:object="${chatRoomForm}" method="post">-->
-                                            <form>
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalToggleLabel">채팅방 생성</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                </div>
-                                                <div class="mb-3 modal-body text-center">
-                                                    <label for="roomName" class="form-label">채팅방 이름을 입력해주세요</label>
-                                                    <input type="text" class="form-control"
-                                                           id="roomName">
-                                                    <input type="text" class="form-control"
-                                                           id="postCid">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button id="createChatRoom" value="완료" class="btn btn-primary"
-                                                            data-bs-target="#exampleModalToggle2"
-                                                            data-bs-toggle="modal">
-                                                        완료
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                                <div class="modal fade" id="inviteChatRoomModal" aria-hidden="true"
-                                     aria-labelledby="inviteModalToggleLabel" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <!--                                            <form th:action="@{/chat/room/create}" th:object="${chatRoomForm}" method="post">-->
-                                            <form>
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="inviteModalToggleLabel">초대하기</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                </div>
-                                                <div class="mb-3 modal-body text-center">
-                                                    <label for="roomName" class="form-label">초대할 아이디를 입력해주세요</label>
-                                                    <input type="text" class="form-control"
-                                                           id="inviteUserId">
-
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button id="inviteChatRoomButton" value="완료"
-                                                            class="btn btn-primary"
-                                                            data-bs-toggle="modal">
-                                                        완료
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="btn btn-secondary" data-bs-toggle="modal" href="#inviteChatRoomModal"
-                                   role="button">
-                                    초대하기
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-plus" viewBox="0 0 16 16">
-                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                    </svg>
-                                </a>
-                                <a class="btn btn-primary" data-bs-toggle="modal" href="#createChatRoomModal"
-                                   role="button">
-                                    채팅방만들기
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-plus" viewBox="0 0 16 16">
-                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                    </svg>
-                                </a>
-                            </div>
+                            <input type="text" class="form-control" placeholder="Search...">
                         </div>
-                    </div>
-                    <div id="chats" class="chat-history overflow-auto" style="height: 70vh; max-height: 70vh">
-                        <ul class="m-b-0" >
-                            <div id="chatList">
-                                <div th:if="${chats!=null and !chats.empty}">
-                                    <li th:each="chat : ${chats}" class="clearfix">
-                                        <div th:if="${chat.senderId} == ${senderId}">
-                                            <div class="message-data text-right">
-                                                <span class="message-data-time" th:text="${chat.senderName}">user</span>
-                                                <span class="message-data-time"
-                                                      th:text="${chat.createdAt}">10:10 AM, Today</span>
-                                                <img id="myAvatar" th:src="${chat.profileImageUrl}" alt="avatar">
-                                            </div>
-                                            <div class="message my-message float-right" th:text="${chat.message}"> Hi Aiden,
-                                                how are you? How is the
-                                                project coming along?
-                                            </div>
-                                        </div>
-                                        <div th:unless="${chat.senderId} == ${senderId}">
-                                            <div class="message-data">
-                                                <img th:src="${chat.profileImageUrl}" alt="avatar">
-                                                <span class="message-data-time" th:text="${chat.senderName}">user</span>
-                                                <span class="message-data-time"
-                                                      th:text="${chat.createdAt}">10:10 AM, Today</span>
-                                            </div>
-                                            <div class="message other-message" th:text="${chat.message}"> Hi Aiden,
-                                                how are you? How is the
-                                                project coming along?
+                        <div id="chatRoomTable" style="max-height: 75vh; overflow-y: scroll;">
+                            <div th:if="${rooms!=null and !rooms.empty}">
+                                <ul class="list-unstyled chat-list mt-2 mb-0">
+                                    <li class="clearfix active" th:each="room : ${rooms}">
+                                        <div th:roomid="${room.chatRoomId}"
+                                             onclick="getChats(this.getAttribute('roomid'));">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                                            <div class="about">
+                                                <div class="name" th:text="${room.roomName}">Aiden Chavez</div>
+                                                <div th:unless="${#strings.contains(room.updatedAt, '.')}">
+                                                    <div class="recent"
+                                                         th:text=${#strings.arraySplit(room.updatedAt,'T')[1]}>
+                                                        online
+                                                    </div>
+                                                </div>
+
+                                                <!--                                            <input id="roomId" type="hidden" th:value="${room.chatRoomId}">-->
+                                                <!--                                            <input id="name" type="hidden" th:value="${room.roomName}">-->
+
                                             </div>
                                         </div>
                                     </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="chat">
+
+                        <div class="chat-header clearfix">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                                    </a>
+                                    <div class="chat-about">
+                                        <h6 class="m-b-0">Aiden Chavez</h6>
+                                        <small>Last seen: 2 hours ago</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 hidden-sm text-right">
+                                    <div class="modal fade" id="createChatRoomModal" aria-hidden="true"
+                                         aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <!--                                            <form th:action="@{/chat/room/create}" th:object="${chatRoomForm}" method="post">-->
+                                                <form>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalToggleLabel">채팅방 생성</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="mb-3 modal-body text-center">
+                                                        <label for="roomName" class="form-label">채팅방 이름을 입력해주세요</label>
+                                                        <input type="text" class="form-control"
+                                                               id="roomName">
+                                                        <input type="text" class="form-control"
+                                                               id="postCid">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="createChatRoom" value="완료" class="btn btn-primary"
+                                                                data-bs-target="#exampleModalToggle2"
+                                                                data-bs-toggle="modal">
+                                                            완료
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal fade" id="inviteChatRoomModal" aria-hidden="true"
+                                         aria-labelledby="inviteModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <!--                                            <form th:action="@{/chat/room/create}" th:object="${chatRoomForm}" method="post">-->
+                                                <form>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="inviteModalToggleLabel">초대하기</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="mb-3 modal-body text-center">
+                                                        <label for="roomName" class="form-label">초대할 아이디를 입력해주세요</label>
+                                                        <input type="text" class="form-control"
+                                                               id="inviteUserId">
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="inviteChatRoomButton" value="완료"
+                                                                class="btn btn-primary"
+                                                                data-bs-toggle="modal">
+                                                            완료
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="btn btn-secondary" data-bs-toggle="modal" href="#inviteChatRoomModal"
+                                       role="button">
+                                        초대하기
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-primary" data-bs-toggle="modal" href="#createChatRoomModal"
+                                       role="button">
+                                        채팅방만들기
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
-                        </ul>
-                    </div>
-                    <div class="chat-message clearfix">
-                        <div class="input-group mb-0">
-                            <div id="sendMessage" class="input-group-prepend" >
-                                <span class="input-group-text"><i class="fa fa-send"></i></span>
-                            </div>
-                            <input id="msg" type="text" class="form-control" placeholder="Enter text here...">
-                            <input id="currRoomId" th:value="${!rooms.empty}? ${rooms[0].chatRoomId}: ''" type="hidden">
+                        </div>
+                        <div id="chats" class="chat-history overflow-auto" style="height: 70vh; max-height: 70vh">
+                            <ul class="m-b-0">
+                                <div id="chatList">
+                                    <div th:if="${chats!=null and !chats.empty}">
+                                        <li th:each="chat : ${chats}" class="clearfix">
+                                            <div th:if="${chat.senderId} == ${senderId}">
+                                                <div class="message-data text-right">
+                                                    <span class="message-data-time"
+                                                          th:text="${chat.senderName}">user</span>
+                                                    <span class="message-data-time"
+                                                          th:text="${chat.createdAt}">10:10 AM, Today</span>
+                                                    <img id="myAvatar" th:src="${chat.profileImageUrl}" alt="avatar">
+                                                </div>
+                                                <div class="message my-message float-right" th:text="${chat.message}">
+                                                    Hi Aiden,
+                                                    how are you? How is the
+                                                    project coming along?
+                                                </div>
+                                            </div>
+                                            <div th:unless="${chat.senderId} == ${senderId}">
+                                                <div class="message-data">
+                                                    <img th:src="${chat.profileImageUrl}" alt="avatar">
+                                                    <span class="message-data-time"
+                                                          th:text="${chat.senderName}">user</span>
+                                                    <span class="message-data-time"
+                                                          th:text="${chat.createdAt}">10:10 AM, Today</span>
+                                                </div>
+                                                <div class="message other-message" th:text="${chat.message}"> Hi Aiden,
+                                                    how are you? How is the
+                                                    project coming along?
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="chat-message clearfix">
+                            <div class="input-group mb-0">
+                                <div id="sendMessage" class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-send"></i></span>
+                                </div>
+                                <input id="msg" type="text" class="form-control" placeholder="Enter text here...">
+                                <input id="currRoomId" th:value="${!rooms.empty}? ${rooms[0].chatRoomId}: ''"
+                                       type="hidden">
 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -202,6 +211,8 @@
         </div>
     </div>
 </div>
+</body>
+
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script th:inline="javascript">
@@ -212,6 +223,7 @@
     $(document).ready(
         initStomp()
     );
+
     function initStomp() {
 
         var roomId = $("#currRoomId").val();
@@ -220,7 +232,7 @@
 
 
         //2. connection이 맺어지면 실행
-        stomp.connect({}, function(){
+        stomp.connect({}, function () {
             console.log("STOMP Connection")
 
             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
@@ -234,12 +246,12 @@
                 var message = content.message;
                 var profileImageUrl = content.profileImageUrl;
                 var str = '';
-                if(senderId !== /*[[${senderId}]]*/){
+                if (senderId !== /*[[${senderId}]]*/) {
                     str = "<li class='clearfix my-3' >";
                     str += "<div class='message-data'>";
-                    str +=      "<img src='" + profileImageUrl + "' alt='avatar'>";
-                    str +=      "<span class='message-data-time'>" + sender + "</span>";
-                    str +=      "<span class='message-data-time'>" + createdAt + "</span>";
+                    str += "<img src='" + profileImageUrl + "' alt='avatar'>";
+                    str += "<span class='message-data-time'>" + sender + "</span>";
+                    str += "<span class='message-data-time'>" + createdAt + "</span>";
                     str += "</div>";
                     str += "<div class='message other-message'>" + message + "</div>";
                     str += "</li>";
@@ -248,8 +260,7 @@
                 }
 
 
-
-            }, { id: roomId});
+            }, {id: roomId});
         });
 
         //3. send(path, header, message)로 메세지를 보낼 수 있음
@@ -257,7 +268,7 @@
 
     }
 
-    function subscribe(roomId){
+    function subscribe(roomId) {
         console.log("STOMP Connection");
         console.log(roomId);
         //4. subscribe(path, callback)으로 메세지를 받을 수 있음
@@ -272,19 +283,19 @@
             var profileImageUrl = content.profileImageUrl;
             var str = '';
 
-            if(senderId !== /*[[${senderId}]]*/){
+            if (senderId !== /*[[${senderId}]]*/) {
                 str = "<li class='clearfix my-3>";
                 str += "<div class='message-data'>";
-                str +=      "<img src='" + profileImageUrl + "' alt='avatar'>";
-                str +=      "<span class='message-data-time'>" + sender + "</span>";
-                str +=      "<span class='message-data-time'>" + createdAt + "</span>";
+                str += "<img src='" + profileImageUrl + "' alt='avatar'>";
+                str += "<span class='message-data-time'>" + sender + "</span>";
+                str += "<span class='message-data-time'>" + createdAt + "</span>";
                 str += "</div>";
                 str += "<div class='message other-message'>" + message + "</div>";
                 str += "</li>";
 
                 $("#chatList").append(str);
             }
-        }, { id: roomId});
+        }, {id: roomId});
     }
 
     function updateChatRoom() {
@@ -305,7 +316,7 @@
     function inviteChatRoom() {
         var inviteChatRoomBean = {
             userId: $("#inviteUserId").val(),
-            roomId : $("#currRoomId").val()
+            roomId: $("#currRoomId").val()
         };
         $.ajax({
             url: "/chat/room/invite",
@@ -317,8 +328,8 @@
             });
     }
 
-    function changeSubs(roomId){
-        if(roomId == $("#currRoomId").val()){
+    function changeSubs(roomId) {
+        if (roomId == $("#currRoomId").val()) {
             console.log("room is identical!");
             return;
         }
@@ -349,7 +360,7 @@
             });
     }
 
-    function sendMsg(){
+    function sendMsg() {
         var msg = document.getElementById("msg");
         var today = new Date();
         var dateTime = today.toLocaleString().toString().substring(2, 19);
@@ -361,7 +372,7 @@
                 createdAt: dateTime,
                 senderName: /*[[${name}]]*/,
                 senderId: /*[[${senderId}]]*/, //사용중인 사용자로 변경 필요
-                profileImageUrl :$("#myAvatar").attr('src')
+                profileImageUrl: $("#myAvatar").attr('src')
             }));
             var profileImageUrl = $("#myAvatar").attr('src')
             var name = /*[[${name}]]*/;
@@ -370,7 +381,7 @@
             str += "<div class='message-data text-right'>";
             str += "<span class='message-data-time'>" + name + "</span>";
             str += "<span class='message-data-time'> " + dateTime + "</span>";
-            str +=      "<img src='" + profileImageUrl + "' alt='avatar'>";
+            str += "<img src='" + profileImageUrl + "' alt='avatar'>";
             str += "</div>";
             str += "<div class='message my-message float-right'>" + msg.value + "</div>";
             str += "</li>";
@@ -380,7 +391,7 @@
         }
     }
 
-    $('#msg').on("keyup", function(e) {
+    $('#msg').on("keyup", function (e) {
         if (e.key === "Enter") {
             console.log('Enter');
             sendMsg()
@@ -392,15 +403,14 @@
         sendMsg()
     });
 
-    $("#createChatRoom").on("click", function (e){
+    $("#createChatRoom").on("click", function (e) {
         e.preventDefault();
         updateChatRoom();
     });
 
-    $("#inviteChatRoomButton").on("click", function (e){
+    $("#inviteChatRoomButton").on("click", function (e) {
         e.preventDefault();
         inviteChatRoom();
     });
 </script>
-</body>
 </html>
