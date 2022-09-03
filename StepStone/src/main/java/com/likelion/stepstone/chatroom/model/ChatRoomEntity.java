@@ -46,6 +46,10 @@ public class ChatRoomEntity {
     Integer userCount;
 
     @Setter
+    @Column(name = "chat_room_image_url")
+    String imageUrl;
+
+    @Setter
     @OneToMany
     @JoinTable(
             name = "chat_rooms_users",    // 연결테이블 이름

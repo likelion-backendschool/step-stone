@@ -19,6 +19,8 @@ public class ChatRoomVo {
 
     final Integer userCount;
 
+    final String imageUrl;
+
     final LocalDateTime createdAt;
 
     final LocalDateTime updatedAt;
