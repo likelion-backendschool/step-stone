@@ -42,8 +42,8 @@ public class ChatRoomService {
         List<String> imageNames = getListFromRes();
 
         Random rand = new Random();
-        int randomElement = Integer.parseInt(imageNames.get(rand.nextInt(imageNames.size())));
-        String imageUrl = chatRoomImageUrl + imageNames.get(randomElement);
+        String randomElement = imageNames.get(rand.nextInt(imageNames.size()));
+        String imageUrl = chatRoomImageUrl + randomElement;
 
         chatRoomEntity.setImageUrl(imageUrl);
 
