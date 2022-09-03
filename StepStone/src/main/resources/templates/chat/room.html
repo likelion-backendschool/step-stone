@@ -21,8 +21,7 @@
             integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
             crossorigin="anonymous"></script>
 </head>
-<body>
-<div layout:fragment="content">
+<body layout:fragment="content">
     <div class="container-fluid my-2 w-75">
         <div id="liveAlertPlaceholder"></div>
 
@@ -210,8 +209,6 @@
             </div>
         </div>
     </div>
-</div>
-</body>
 
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -391,7 +388,7 @@
         }
     }
 
-    $('#msg').on("keyup", function (e) {
+$('#msg').on("keyup", function (e) {
         if (e.key === "Enter") {
             console.log('Enter');
             sendMsg()
@@ -413,4 +410,6 @@
         inviteChatRoom();
     });
 </script>
+</body>
+
 </html>
