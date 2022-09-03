@@ -5,9 +5,13 @@ import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.util.ResourceUtils;
 
-import java.util.HashSet;
-import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -16,6 +20,8 @@ public class ChatRoomService {
 
     private final UserRepository userRepository;
     private final ChatRoomJoinRepository chatRoomJoinRepository;
+
+    private final static String chatRoomImageUrl = "https://www.bootdey.com/app/webroot/img/Content/icons/64/PNG/64/";
 
     /**
      * TODO
@@ -32,6 +38,14 @@ public class ChatRoomService {
             chatRoomEntity.setUsers(new HashSet<>());
 
         chatRoomEntity.getUsers().add(userRepository.findById(userEntity.getUserCid()).orElseThrow(() -> new DataNotFoundException("user not found")));
+
+        List<String> imageNames = getListFromRes();
+
+        Random rand = new Random();
+        int randomElement = Integer.parseInt(imageNames.get(rand.nextInt(imageNames.size())));
+        String imageUrl = chatRoomImageUrl + imageNames.get(randomElement);
+
+        chatRoomEntity.setImageUrl(imageUrl);
 
         chatRoomRepository.save(chatRoomEntity);
 
@@ -74,5 +88,19 @@ public class ChatRoomService {
                 .chatRoomEntity(chatRoomEntity)
                         .profileImageUrl(profileImageUrl)
                 .build());
+    }
+
+    public List<String> getListFromRes(){
+        try {
+            File file = ResourceUtils.getFile("classpath:static/chatRoomImageUrls.txt");
+
+            String content = new String(Files.readAllBytes(file.toPath()));
+
+            String[] urls = content.split(",");
+
+            return Arrays.stream(urls).toList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
