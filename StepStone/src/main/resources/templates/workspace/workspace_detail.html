@@ -16,7 +16,12 @@
                     <span th:text="|작성자 : ${workSpaceEntity.workspaceCid}|"></span>
                 </div>
             </div>
-            <div class="card-text" th:text="${workSpaceEntity.body}" rows="35"></div>
+            <div class="card-text" th:utext=" ${#strings.replace(workSpaceEntity.body, newLineChar,'&lt;br /&gt;')}" rows="35"></div>
+           <!--  ${#strings.replace(text, newLineChar, '&lt;br /&gt;')}-->
+
+<!--            <div class="card-text" th:utext="${#strings.replace( #strings.escapeXml( workSpaceEntity.body ),T(java.lang.System)-->
+<!--            .getProperty('line.separator'),'<br />')}" rows="35"></div>-->
+
         </div>
     </div>
 

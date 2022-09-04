@@ -61,7 +61,7 @@ public class WorkSpaceController {
     public String list(Model model, @RequestParam(defaultValue = "0") int page) {
         Page<WorkSpaceEntity> paging = workSpaceService.getList(page);
         model.addAttribute("paging", paging);
-        return "workspace/workspace_list";9
+        return "workspace/workspace_list";
     }
 
     @GetMapping("/modify/{workspaceCid}")
@@ -86,6 +86,7 @@ public class WorkSpaceController {
 
     public String detail(Model model, @PathVariable  long workspaceCid) {
         WorkSpaceEntity workSpaceEntity = workSpaceService.getWorkSpaceEntity(workspaceCid);
+        model.addAttribute("newLineChar", '\n');
         model.addAttribute("workSpaceEntity", workSpaceEntity);
         return "workspace/workspace_detail";
     }
