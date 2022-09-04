@@ -73,6 +73,7 @@ public class ChatRoomEntity {
                 .chatRoomId(chatRoomDto.getChatRoomId())
                 .postCid(chatRoomDto.getPostCid())
                 .roomName(chatRoomDto.getRoomName())
+                .imageUrl(chatRoomDto.getImageUrl())
                 .userCount(chatRoomDto.getUserCount())
                 .createdAt(chatRoomDto.getCreatedAt())
                 .updatedAt(chatRoomDto.getUpdatedAt())

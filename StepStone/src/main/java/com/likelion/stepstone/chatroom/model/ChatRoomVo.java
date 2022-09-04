@@ -31,6 +31,7 @@ public class ChatRoomVo {
                 .postCid(chatRoomDto.getPostCid())
                 .roomName(chatRoomDto.getRoomName())
                 .userCount(chatRoomDto.getUserCount())
+                .imageUrl(chatRoomDto.getImageUrl())
                 .createdAt(chatRoomDto.getCreatedAt())
                 .updatedAt(chatRoomDto.getUpdatedAt())
                 .build();
