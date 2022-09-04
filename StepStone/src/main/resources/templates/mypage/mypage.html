@@ -1,0 +1,52 @@
+<html
+        lang="ko"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}" >
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<div layout:fragment="content">
+
+  <div class="container-fluid">
+
+    <div class="container my-5 p-5">
+      <h4 class="my-4">사용자 정보</h4>
+      <div class="container d-flex align-items-start">
+
+        <div class="row justify-content-md-start align-items-center">
+
+          <!-- user 아이콘 -->
+          <div class="col-md-auto">
+            <i class="fa-solid fa-circle-user fa-3x"></i>
+          </div>
+
+          <!-- user 이름 -->
+          <div class="col-md-auto">
+            이름
+          </div>
+
+          <!-- user 비밀번호 변경 버튼 -->
+          <div class="col-md-auto">
+            <button type="button" class="btn btn-primary" style="background-color: #3C64B1; color: #ffffff">
+              비밀번호 변경
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container my-5 p-5">
+      <h4 class="my-4">MY 게시글 관리</h4>
+    </div>
+
+    <div class="container my-5 p-5">
+      <h4 class="my-4">MY 채팅방 이동</h4>
+    </div>
+
+  </div>
+
+</div>
