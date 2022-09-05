@@ -66,6 +66,22 @@ public class ChatRoomService {
         return entities.stream().map(ChatRoomDto::toDto).collect(Collectors.toList());
     }
 
+    public String findChatImageUrlByRoomId(String roomId){
+        ChatRoomEntity chatRoomEntity = findByChatRoomId(roomId);
+
+        return chatRoomEntity.getImageUrl();
+    }
+
+    public String findChatRoomNameByRoomId(String roomId){
+        ChatRoomEntity chatRoomEntity = findByChatRoomId(roomId);
+
+        return chatRoomEntity.getRoomName();
+    }
+
+    public ChatRoomEntity findByChatRoomId(String roomId){
+        return chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Chat Room Not Found"));
+    }
+
     public UserEntity findByUserId(String user_id){
         return userRepository.findByUserId(user_id).orElseThrow(() -> new DataNotFoundException("User Name Not Found"));
 

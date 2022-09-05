@@ -30,6 +30,11 @@ public class ChatRoomController {
         if(!rooms.isEmpty()){
             ChatRoomDto firstChatRoom = rooms.get(0);
             chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
+
+            String imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
+            String roomName = chatRoomService.findChatRoomNameByRoomId(firstChatRoom.getChatRoomId());
+            model.addAttribute("roomImageUrl", imageUrl);
+            model.addAttribute("roomName", roomName);
         }
 
         model.addAttribute("rooms", rooms);
@@ -80,6 +85,17 @@ public class ChatRoomController {
     public String roomDetail(Model model, @PathVariable String roomId) {
         model.addAttribute("roomId", roomId);
         return "chat/roomdetail";
+    }
+
+    @GetMapping("/room/represent")
+    public String getRoomInfo(Model model, String roomId){
+        String imageUrl = chatRoomService.findChatImageUrlByRoomId(roomId);
+        String roomName = chatRoomService.findChatRoomNameByRoomId(roomId);
+
+        model.addAttribute("roomImageUrl", imageUrl);
+        model.addAttribute("roomName", roomName);
+
+        return "chat/room :: #representRoom";
     }
 
 

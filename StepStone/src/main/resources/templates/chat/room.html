@@ -40,7 +40,7 @@
                                 <ul class="list-unstyled chat-list mt-2 mb-0">
                                     <li class="clearfix active" th:each="room : ${rooms}">
                                         <div th:roomid="${room.chatRoomId}"
-                                             onclick="getChats(this.getAttribute('roomid'));">
+                                             onclick="event.preventDefault(), changeChatRoom(this.getAttribute('roomid')); ">
                                             <img id="currRoomImage" th:src="${room.imageUrl}" alt="chatRoomImage">
                                             <div class="about">
                                                 <div id="currRoomName" class="name" th:text="${room.roomName}">Aiden Chavez</div>
@@ -63,17 +63,13 @@
 
                     </div>
                     <div class="chat">
-
                         <div class="chat-header clearfix">
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                                    </a>
-                                    <div class="chat-about">
-                                        <h6 class="m-b-0">Aiden Chavez</h6>
-                                        <small>Last seen: 2 hours ago</small>
-                                    </div>
+                                <div id="representRoom" class="col-lg-6">
+                                    <img id="representImage" th:src="${roomImageUrl}" alt="avatar"
+                                         href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                    <h6 id="representName" th:text="${roomName}" class="chat-about m-b-0">Aiden
+                                        Chavez</h6>
                                 </div>
                                 <div class="col-lg-6 hidden-sm text-right">
                                     <div class="modal fade" id="createChatRoomModal" aria-hidden="true"
@@ -325,6 +321,42 @@
             });
     }
 
+    function getChats(roomId) {
+        console.log("chat room click")
+
+        changeSubs(roomId);
+
+        $.ajax({
+            url: "/chat/history?roomId=" + roomId,
+            type: "Get"
+            // data: chatBean,
+        })
+            .done(function (fragment) {
+                $('#chats').replaceWith(fragment);
+            });
+    }
+
+
+    function representChatRoomAbout(roomId){
+        var chatRoomIdBean = {
+            roomId: roomId
+        };
+
+        $.ajax({
+            url: "/chat/room/represent",
+            type: "GET",
+            data: chatRoomIdBean
+        })
+            .done(function (fragment) {
+                $('#representRoom').replaceWith(fragment);
+            });
+    }
+
+    function changeChatRoom( roomId){
+        getChats(roomId);
+        representChatRoomAbout(roomId);
+    }
+
     function changeSubs(roomId) {
         if (roomId == $("#currRoomId").val()) {
             console.log("room is identical!");
@@ -342,20 +374,7 @@
         // stomp.disconnect(stompSetting(), {});
     }
 
-    function getChats(roomId) {
-        console.log("chat room click")
 
-        changeSubs(roomId);
-
-        $.ajax({
-            url: "/chat/history?roomId=" + roomId,
-            type: "Get"
-            // data: chatBean,
-        })
-            .done(function (fragment) {
-                $('#chats').replaceWith(fragment);
-            });
-    }
 
     function sendMsg() {
         var msg = document.getElementById("msg");
@@ -388,7 +407,7 @@
         }
     }
 
-$('#msg').on("keyup", function (e) {
+    $('#msg').on("keyup", function (e) {
         if (e.key === "Enter") {
             console.log('Enter');
             sendMsg()
