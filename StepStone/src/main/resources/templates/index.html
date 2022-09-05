@@ -1,16 +1,14 @@
-<!-- 메인 페이지 -->
-
 <html
         lang="ko"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         xmlns:th="http://thymeleaf.org"
-        layout:decorate="~{layout}">
-
+        layout:decorate="~{layout}" >
+<head><meta charset="utf-8"></head>
 <div layout:fragment="content">
 
 <link rel="stylesheet" type="text/css" th:href="@{/card_carousel_style.css}">
-
     <!-- 메인 제목, 구분선-->
+
     <div class="container-fluid" style="text-align: center;">
         <div style="margin: 250px;">
             <h1 class="display-2"><strong>Step Stone</strong></h1>
@@ -39,7 +37,8 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="cards-wrapper">
-                            <div class="card">
+                            <tr><div class="card" th:each="post: ${posts}" th:if="${post.likes} >= 4">
+                                <!-- likes가 4 이상인 post들만 첫번째 carousel 카드들에 들어가서 보여짐 -->
                                 <div class="card-body">
                                     <h5 class="card-title">Card title</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
@@ -67,13 +66,24 @@
                                         the bulk of the card's content.</p>
                                     <a href="#" class="card-link">Card link</a>
                                     <a href="#" class="card-link">Another link</a>
+
                                 </div>
                             </div>
+<!--                            <div class="card">-->
+<!--                                <div class="card-body">-->
+<!--                                    <h5 class="card-title">Card title</h5>-->
+<!--                                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+<!--                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--                                    <a href="#" class="card-link">Card link</a>-->
+<!--                                    <a href="#" class="card-link">Another link</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="carousel-item">
                         <div class="cards-wrapper">
-                            <div class="card">
+                            <tr><div class="card" th:each="post: ${posts}" th:if="${post.likes} >= 1 and ${post.likes} < 4">
+                                <!-- likes가 4 미만, 1 이상인 post들만 두번째 (화살표를 넘기면 나오는 부분) carousel 카드들에 들어가서 보여짐 -->
                                 <div class="card-body">
                                     <h5 class="card-title">Card title</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>

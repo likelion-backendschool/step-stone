@@ -30,11 +30,9 @@ public class SpringConfig {
     private final ChatRoomRepository chatRoomRepository;
     private final SimpMessageSendingOperations messagingTemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private final WorkSpaceRepository workSpaceRepository;
 
     private  final ProjectRepository projectRepository;
-
 
     public SpringConfig(PostRepository postRepository,
                         LikeRepository likeRepository,
@@ -55,36 +53,34 @@ public class SpringConfig {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.workSpaceRepository = workSpaceRepository;
         this.projectRepository = projectRepository;
-
     }
 
     @Bean
-    public PostService postService(){
+    public PostService postService() {
         return new PostService(postRepository);
     }
 
     @Bean
-    public LikeService likeService(){
-        return new LikeService(likeRepository,postRepository);
+    public LikeService likeService() {
+        return new LikeService(likeRepository, postRepository);
     }
 
     @Bean
-    public UserService userService(){
+    public UserService userService() {
         return new UserService(userRepository, bCryptPasswordEncoder);
     }
 
     @Bean
-    public ChatService chatService(){
+    public ChatService chatService() {
         return new ChatService(messagingTemplate, userRepository, chatRepository);
     }
 
     @Bean
-    public ChatRoomService chatRoomService(){
+    public ChatRoomService chatRoomService() {
         return new ChatRoomService(chatRoomRepository, userRepository);
     }
     @Bean
     public WorkSpaceService workSpaceService(){ return new WorkSpaceService(workSpaceRepository); }
     @Bean
     public ProjectService projectService(){ return new ProjectService(projectRepository); }
-
 }

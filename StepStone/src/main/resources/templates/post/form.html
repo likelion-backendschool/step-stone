@@ -1,0 +1,23 @@
+
+<html
+        lang="ko"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+</head>
+<body style="background-color: #FFFFFF;">
+<div layout:fragment="content">
+
+    <form  action="create" method="post">
+        <div class="mb-10">
+        <input type="text" name="title"> <br>
+        <textarea name="body"></textarea><br>
+        </div>
+        <button>게시하기</button>
+    </form>
+
+</div>
+</body>
+</html>
