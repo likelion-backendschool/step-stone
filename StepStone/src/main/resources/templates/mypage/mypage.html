@@ -10,43 +10,81 @@
 
 <div layout:fragment="content">
 
-  <div class="container-fluid">
+    <div class="container mt-5 h-100">
 
-    <div class="container my-5 p-5">
-      <h4 class="my-4">사용자 정보</h4>
-      <div class="container d-flex align-items-start">
+      <div class="card shadow-lg">
+        <div class="card-body">
 
-        <div class="row justify-content-md-start align-items-center">
-
-          <!-- user 아이콘 -->
-          <div class="col-md-auto">
-            <i class="fa-solid fa-circle-user fa-3x"></i>
+          <!-- My Page 제목 + 구분선 -->
+          <div class="container">
+            <h1 class="m-4">My Page</h1>
+            <hr class="my-2">
           </div>
 
-          <!-- user 이름 -->
-          <div class="col-md-auto">
-            이름
+
+          <!-- 사용자 정보 부분 -->
+          <div class="container my-4 p-5">
+            <h4 class="my-4">사용자 정보</h4>
+            <div class="container d-flex align-items-start">
+
+              <div class="row justify-content-md-start align-items-center">
+
+                <!-- user 아이콘 -->
+                <div class="col-md-auto">
+                  <i class="fa-solid fa-circle-user fa-3x"></i>
+                </div>
+
+                <!-- user 이름 -->
+                <div class="col-md-auto">
+                  <span th:text="${userName}"></span>
+                </div>
+
+                <!-- user 비밀번호 변경 버튼 -->
+                <div class="col-md-auto">
+                  <button type="button" class="btn btn-primary" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
+                    비밀번호 변경
+                  </button>
+                </div>
+
+              </div>
+            </div>
           </div>
 
-          <!-- user 비밀번호 변경 버튼 -->
-          <div class="col-md-auto">
-            <button type="button" class="btn btn-primary" style="background-color: #3C64B1; color: #ffffff">
-              비밀번호 변경
-            </button>
+
+          <!-- My 게시글 부분 -->
+          <div class="container my-5 p-5">
+            <h4 class="my-4">MY 게시글 관리</h4>
+            <!-- ToDo : 게시글 띄우기 -->
+          </div>
+
+
+          <!-- My 채팅방 부분 -->
+          <div class="container my-5 p-5">
+            <h4 class="my-4">MY 채팅방 이동</h4>
+            <div class="container d-flex align-items-start">
+
+              <div class="row justify-content-md-start align-items-center">
+
+                <!-- 채팅방 아이콘 -->
+                <div class="col-md-auto px-4">
+                  <i class="fa-solid fa-comments fa-2x"></i>
+                </div>
+
+                <!-- 채팅방 바로가기 버튼 -->
+                <div class="col-md-auto">
+                  <button type="button" class="btn btn-primary" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
+                    채팅방 바로가기
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
           </div>
 
         </div>
+
       </div>
     </div>
-
-    <div class="container my-5 p-5">
-      <h4 class="my-4">MY 게시글 관리</h4>
-    </div>
-
-    <div class="container my-5 p-5">
-      <h4 class="my-4">MY 채팅방 이동</h4>
-    </div>
-
-  </div>
 
 </div>
