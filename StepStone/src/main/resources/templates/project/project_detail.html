@@ -17,8 +17,8 @@
                     <span th:text="|작성자 : ${projectEntity.projectCid}|"></span>
                 </div>
             </div>
-<!--            <div class="card-text" th:text="${projectEntity.body}" rows="35"></div>  -->
-            <div class="card-text" th:utext=" ${#strings.replace(projectEntity.body, newLineChar,'&lt;br /&gt;')}" rows="35"></div>
+            <div  style="white-space:pre-wrap;" class="card-text" th:text="${projectEntity.body}" rows="35"></div>
+<!--            <div class="card-text" th:utext=" ${#strings.replace(projectEntity.body, newLineChar,'&lt;br /&gt;')}" rows="35"></div>-->
         </div>
     </div>
 

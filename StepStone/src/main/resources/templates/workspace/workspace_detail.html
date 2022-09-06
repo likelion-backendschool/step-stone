@@ -16,7 +16,8 @@
                     <span th:text="|작성자 : ${workSpaceEntity.workspaceCid}|"></span>
                 </div>
             </div>
-            <div class="card-text" th:utext=" ${#strings.replace(workSpaceEntity.body, newLineChar,'&lt;br /&gt;')}" rows="35"></div>
+            <div  style="white-space:pre-wrap;" class="card-text" th:text="${workSpaceEntity.body}" rows="35"></div>
+<!--            <div class="card-text" th:utext=" ${#strings.replace(workSpaceEntity.body, newLineChar,'&lt;br /&gt;')}" rows="35"></div>-->
         </div>
     </div>
 
