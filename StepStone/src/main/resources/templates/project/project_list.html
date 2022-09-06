@@ -14,20 +14,20 @@
     <table class="table">
         <thead></thead>
         <tbody>
-        <tr th:each="question, loop : ${paging}">
+        <tr th:each="project, loop : ${paging}">
 
             <div class="card my-3">
-                <div class="card-header" th:onclick="|location.href='@{|detail/${question.projectCid}|}'|"
+                <div class="card-header" th:onclick="|location.href='@{|detail/${project.projectCid}|}'|"
                      style="cursor:pointer;">
-                    <span th:text="${question.title}"></span>
+                    <span th:text="${project.title}"></span>
                 </div>
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
                         <div style="  width: auto; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; white-space:pre-wrap;
                                      -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px;"
-                                      th:text="${question.body}"></div>
+                                      th:text="${project.body}"></div>
                         <div class="badge bg-light text-dark p-2 text-start">
-                            <span th:text="${question.projectCid}"></span>
+                            <span th:text="${project.projectCid}"></span>
                         </div>
                     </blockquote>
                 </div>
