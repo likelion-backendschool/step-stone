@@ -21,7 +21,9 @@
                 </div>
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
-                        <div th:text="${question.body}"></div>
+                        <div style="  width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5;  line-height: 30px;  height: 150px;"
+                             th:text="${question.body}"></div>
                         <div class="badge bg-light text-dark p-2 text-start">
                             <span th:text="${question.workspaceCid}"></span>
                         </div>
