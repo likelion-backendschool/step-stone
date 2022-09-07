@@ -1,9 +1,10 @@
 package com.likelion.stepstone.authentication;
 
+import com.likelion.stepstone.authentication.jwt.JwtProperties;
+import com.likelion.stepstone.authentication.jwt.JwtTokenProvider;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.LoginVo;
 import com.likelion.stepstone.user.model.UserEntity;
-import com.likelion.stepstone.user.model.UserVo;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
+
+import static com.likelion.stepstone.authentication.CookieUtils.*;
 
 
 @Controller
@@ -56,9 +58,12 @@ public class AuthController {
   }
 
   @GetMapping("/oauth/login")
-  public String oauthLogin(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+  public String oauthLogin(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
     UserEntity userEntity = principalDetails.getUser();
 
+    String jwtToken = JwtTokenProvider.provide(principalDetails);
+    deleteCookie(request, response, JwtProperties.HEADER_STRING);
+    addStrictCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME);
     if(!userEntity.isLoginBefore()) {
       return "user/oauthJoinForm";
     }

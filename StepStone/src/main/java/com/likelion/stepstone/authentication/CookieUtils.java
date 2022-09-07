@@ -1,5 +1,6 @@
 package com.likelion.stepstone.authentication;
 
+import org.springframework.http.ResponseCookie;
 import org.springframework.util.SerializationUtils;
 
 import javax.servlet.http.Cookie;
@@ -29,6 +30,7 @@ public class CookieUtils {
     cookie.setPath("/");
     cookie.setHttpOnly(true);
     cookie.setMaxAge(maxAge);
+    cookie.setSecure(true); // https에서만 통신
     response.addCookie(cookie);
   }
 
@@ -57,4 +59,14 @@ public class CookieUtils {
   }
 
 
+  public static void addStrictCookie(HttpServletResponse response, String name, String value, int maxAge) {
+    ResponseCookie cookie = ResponseCookie.from(name, value)
+            .path("/")
+            .maxAge(maxAge)
+            .secure(true)
+            .httpOnly(true)
+            .sameSite("Strict")
+            .build();
+    response.addHeader("Set-Cookie", cookie.toString());
+  }
 }

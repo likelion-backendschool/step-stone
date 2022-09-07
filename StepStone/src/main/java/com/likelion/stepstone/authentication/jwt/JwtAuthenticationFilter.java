@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.likelion.stepstone.authentication.CookieUtils.addCookie;
+import static com.likelion.stepstone.authentication.CookieUtils.addStrictCookie;
 
 // 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter 가 있음.
 // /login 요청해서 username, password 전송하면 (post)
@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     String jwtToken = JwtTokenProvider.provide(principalDetails);
 
-    addCookie(response, JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken, JwtProperties.EXPIRATION_TIME);
+    addStrictCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME);
     response.sendRedirect("/");
   }
 

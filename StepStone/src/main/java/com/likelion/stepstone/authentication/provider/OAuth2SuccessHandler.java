@@ -1,6 +1,5 @@
 package com.likelion.stepstone.authentication.provider;
 
-import com.likelion.stepstone.authentication.CookieUtils;
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.authentication.jwt.JwtProperties;
 import com.likelion.stepstone.authentication.jwt.JwtTokenProvider;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.likelion.stepstone.authentication.CookieUtils.*;
 import static com.likelion.stepstone.authentication.provider.HttpCookieOAuth2AuthorizationRequestRepository.OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME;
 import static com.likelion.stepstone.authentication.provider.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
@@ -25,9 +25,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     String jwtToken = JwtTokenProvider.provide(principalDetails);
 
-    CookieUtils.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
-    CookieUtils.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
-    CookieUtils.addCookie(response, JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken, JwtProperties.EXPIRATION_TIME);
+    deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
+    deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
+    addCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME);
 
     response.sendRedirect("/oauth/login");
   }

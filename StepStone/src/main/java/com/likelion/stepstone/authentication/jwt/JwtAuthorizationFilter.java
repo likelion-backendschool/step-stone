@@ -44,9 +44,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     String token = Arrays.stream(request.getCookies())
             .filter(cookie -> cookie.getName().equals(JwtProperties.HEADER_STRING)).findFirst().map(Cookie::getValue)
-            .orElse(invalid).replace(JwtProperties.TOKEN_PREFIX,"");
+            .orElse(invalid).replace("value : ","");
 
-//    System.out.println("jwtToken : " + token);?
+//    System.out.println("jwtToken : " + token);
 
     // JWT Token을 검증을 해서 정상적인 사용자인지 확인
 
