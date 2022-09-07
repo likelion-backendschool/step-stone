@@ -3,7 +3,9 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         xmlns:th="http://thymeleaf.org"
         layout:decorate="~{layout}" >
-<head><meta charset="utf-8"></head>
+<head><meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/card_carousel_style.css}">
+</head>
 <div layout:fragment="content">
 
     <div class="container-fluid" style="text-align: center;">

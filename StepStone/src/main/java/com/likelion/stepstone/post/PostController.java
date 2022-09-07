@@ -93,7 +93,7 @@ public class PostController {
 
     }
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(defaultValue = "1") int page) {
+    public String list(Model model, @RequestParam(defaultValue = "0") int page) {
         Page<PostEntity> paging = postService.getPostList(page);
         model.addAttribute("paging", paging);
         return "post/list";
