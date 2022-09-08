@@ -30,14 +30,6 @@
                                       th:text="${project.body}"></div>
                         <div class="badge bg-light text-dark p-2 text-start">
                             <span th:text="${project.projectCid}"></span>
-                            <!--하트 테스트-->
-                            <form th:action="@{/post/1/likes}"  method="post" >
-                                <div>
-                                    <input type="submit" value="1번 게시글" class="btn btn-primary my-2">
-                                    <img src="heart.svg"/>
-                                </div>
-                            </form>
-                            <!--하트 테스트-->
                         </div>
                     </blockquote>
                 </div>

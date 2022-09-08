@@ -1,10 +1,14 @@
-<html  lang="ko"
-       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-       xmlns:th="http://thymeleaf.org"
-       layout:decorate="~{layout}">>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org"
+      layout:decorate="~{layout}">>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
-
+    <!-- 좋아요 테스트 추가-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <div layout:fragment="content">
     <div class="container my-3">
@@ -20,69 +24,99 @@
                 <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
                     </div>
 
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts1}">
-                                    <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
-                                    <div class="card-body">
-                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
-                                        <td><p class="card-text" th:text="${post.body}"></p><td>
-                                        <td><p>
-                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
-                                            <span class="card-text" th:text="${post.likes}"></span>
-                                        </p><td>
-                                        <td><div><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a></div><td>
+                                <tr>
+                                    <div class="card" th:each="post: ${posts1}">
+                                        <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
+                                        <div class="card-body">
+                                            <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                            <td><h6 class="card-subtitle mb-2 text-muted"
+                                                    th:text="'userCid : ' + ${(post.userCid)}"></h6>
+                                            <td>
+                                            <td><p class="card-text" th:text="${post.body}"></p>
+                                            <td>
+                                            <td><p>
+                                                <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                                <span class="card-text" th:text="${post.likes}"></span>
+                                            </p>
+                                            <td>
+                                            <td>
+                                                <div><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글
+                                                    읽기</a></div>
+                                            <td>
+                                        </div>
                                     </div>
-                                </div><tr>
+                                <tr>
                             </div>
                         </div>
                         <div class="carousel-item">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts2}">
-                                    <!-- 4, 5, 6번 게시글 -->
-                                    <div class="card-body">
-                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
-                                        <td><p class="card-text" th:text="${post.body}"></p><td>
-                                        <td><p>
-                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
-                                            <span class="card-text" th:text="${post.likes}"></span>
-                                        </p><td>
-                                        <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
+                                <tr>
+                                    <div class="card" th:each="post: ${posts2}">
+                                        <!-- 4, 5, 6번 게시글 -->
+                                        <div class="card-body">
+                                            <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                            <td><h6 class="card-subtitle mb-2 text-muted"
+                                                    th:text="'userCid : ' + ${(post.userCid)}"></h6>
+                                            <td>
+                                            <td><p class="card-text" th:text="${post.body}"></p>
+                                            <td>
+                                            <td><p>
+                                                <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                                <span class="card-text" th:text="${post.likes}"></span>
+                                            </p>
+                                            <td>
+                                            <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글
+                                                읽기</a>
+                                            <td>
+                                        </div>
                                     </div>
-                                </div><tr>
+                                <tr>
                             </div>
                         </div>
                         <div class="carousel-item">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts3}">
-                                    <!-- 7, 8, 9번 게시글 -->
-                                    <div class="card-body">
-                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
-                                        <td><p class="card-text" th:text="${post.body}"></p><td>
-                                        <td><p>
-                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
-                                            <span class="card-text" th:text="${post.likes}"></span>
-                                        </p><td>
-                                        <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
+                                <tr>
+                                    <div class="card" th:each="post: ${posts3}">
+                                        <!-- 7, 8, 9번 게시글 -->
+                                        <div class="card-body">
+                                            <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                            <td><h6 class="card-subtitle mb-2 text-muted"
+                                                    th:text="'userCid : ' + ${(post.userCid)}"></h6>
+                                            <td>
+                                            <td><p class="card-text" th:text="${post.body}"></p>
+                                            <td>
+                                            <td><p>
+                                                <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                                <span class="card-text" th:text="${post.likes}"></span>
+                                            </p>
+                                            <td>
+                                            <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글
+                                                읽기</a>
+                                            <td>
+                                        </div>
                                     </div>
-                                </div></tr>
+                                </tr>
                             </div>
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
@@ -112,8 +146,40 @@
                                  th:text="${post.body}"></div>
                             <div class="badge bg-light text-dark p-2 text-start">
                                 <span th:text="${post.postCid}"></span>
-                                <span th:text="${post.likes}"></span>
                             </div>
+
+                            <!-- 좋아요 -->
+
+                            <form th:action="@{|/post/${post.postCid}/likes|}" method="post">
+                                <div>
+                                    <input type="submit" value="추천" class="btn btn-primary my-2">
+                                    <img src="heart.svg"/>
+                                </div>
+                            </form>
+
+                            <!--                            <form name="post" id="post_1" th:action="@{|/post/${post.postCid}/likes|}" method="post">-->
+                            <!--                                <div>-->
+                            <!--                                    <img src="heart.svg"/>-->
+                            <!--                                </div>-->
+                            <!--                            </form>-->
+                            <!--                            <script>-->
+
+                            <!--        var i = 0;-->
+                            <!--        $('img').on('click',function(){-->
+                            <!--            if(i==0){-->
+                            <!--                $(this).attr('src','heart_fill.svg');-->
+                            <!--                i++;-->
+                            <!--            }else if(i==1){-->
+                            <!--                $(this).attr('src','heart.svg');-->
+                            <!--                i&#45;&#45;;-->
+                            <!--            }-->
+                            <!--    document.post.submit()-->
+                            <!--        });-->
+
+                            <!--    </script>-->
+
+                            <!-- 좋아요 -->
+
                         </blockquote>
                     </div>
                 </div>

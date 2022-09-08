@@ -17,11 +17,11 @@ public class LikeController {
     @RequestMapping("/post/{postCid}/likes")
     public String like(@PathVariable Long postCid) {
 
-        UserEntity user = userRepository.findByName("No3").get(); //로그인 정보로 UserId 받아와야 함.(임시)
-        Long userCid = user.getUserCid();
-
+        //UserEntity user = userRepository.findByName("No3").get(); //로그인 정보로 UserId 받아와야 함.(임시)
+       // Long userCid = user.getUserCid();
+        Long userCid = 1L;
         likeService.idCheck2(postCid, userCid);
-        return "redirect:/test";
+        return "redirect:/post/list?page=0";
     }
 
     // 좋아요 버튼 테스트
