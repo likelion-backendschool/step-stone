@@ -2,14 +2,10 @@ package com.likelion.stepstone.post;
 
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
-import com.likelion.stepstone.post.model.PostVo;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
 
 
 @RequestMapping("/post")
@@ -23,82 +19,86 @@ public class PostController {
     }
 
 
-    @GetMapping("/form")
-    public String createForm() {
+    @GetMapping("/create")
+    public String createForm(PostForm postForm) {
         return "/post/form";
     }
 
-    @GetMapping("/detail/{postCid}")
-    public String detail(Model model,@PathVariable Long postCid) {
-
-        model.addAttribute("post",postService.getPost(postCid));
-        
-        return "post/detail";
-    }
-
     @PostMapping("/create")
-    public String create(PostDto postDto) {
+    public String create(Model model, PostForm postForm) {
+
+        //유효성 체크
+        boolean hasError = false;
+
+        if (postForm.getTitle() == null || postForm.getTitle().trim().length() == 0) {
+            model.addAttribute("titleErrorMsg", "제목을 입력해주세요");
+            hasError = true;
+        }
+
+        if (postForm.getBody() == null || postForm.getBody().trim().length() == 0) {
+            model.addAttribute("bodyErrorMsg", "내용을 입력해주세요");
+            hasError = true;
+        }
+
+        if (hasError) {
+            model.addAttribute("postForm", postForm);
+            return "post/form";
+        }
+
+        PostDto postDto = PostDto.builder()
+                .title(postForm.getTitle())
+                .body(postForm.getBody())
+                .build();
 
 
         postService.create(postDto);
 
-        return "redirect:/post/read/1";
+        return "redirect:/post/list";
     }
 
-    @GetMapping("/update")
-    public String update(@RequestParam("postId") UUID postId, @RequestParam("title") String title, @RequestParam("body") String body, Model model) {
-        PostDto postDto = PostDto.builder()
-                .title(title)
-                .body(body)
-                .postId(postId)
-                .build();
-    
-        postService.update(postDto);
-
-        model.addAttribute("title", title);
-        model.addAttribute("body", body);
-        return "post/create";
+    @GetMapping("/list")
+    public String list(Model model, @RequestParam(defaultValue = "0") int page) {
+        Page<PostEntity> paging = postService.getList(page);
+        model.addAttribute("paging", paging);
+        return "post/list";
     }
 
-    @GetMapping("/delete")
-    public String delete(@RequestParam Long postCid, Model model) {
-        PostDto postDto = PostDto.builder()
-                .postCid(postCid)
-                .build();
+    @GetMapping("/modify/{postCid}")
+    public String postModifyGet(@PathVariable long postCid , PostForm postForm) {
+        // @Valid PostForm postForm
+        PostEntity postEntity = postService.getPostEntity(postCid);
 
-        postService.delete(postDto);
-        model.addAttribute("postCid", postCid);
-        return "post/delete";
+        postForm.setTitle(postEntity.getTitle());
+        postForm.setBody(postEntity.getBody());
+        return "post/form";
+    }
+    @PostMapping("/modify/{postCid}")
+    public String postModifyPost(@PathVariable long postCid , PostForm postForm) {
 
+        PostEntity postEntity = postService.getPostEntity(postCid);
+        postService.modify(postEntity, postForm.getTitle(), postForm.getBody());
+
+        return "redirect:/post/detail/{postCid}";
     }
 
-
-//    @GetMapping("/list")
-//    public String boardList(Model model) {
-//
-//        model.addAttribute("list", PostService.postList());
-//        return "boardList";
-//    }
-
-        @GetMapping("/read/{pageNo}")
-        public String findPaginated ( @PathVariable(value = "pageNo") int pageNo, Model model){
-
-            Page<PostDto> page = postService.findPaginated(1, 3, "likes", "desc");
-            List<PostDto> likePosts = page.getContent();
-
-            model.addAttribute("likePosts", likePosts);
-
-            Page<PostDto> currPage = postService.findPaginated(pageNo, 10, "createdAt", "desc");
-            List<PostDto> listPosts = currPage.getContent();
-
-            model.addAttribute("listPosts", listPosts);
-            model.addAttribute("currentPage", pageNo);
-            model.addAttribute("totalPages", currPage.getTotalPages());
-            model.addAttribute("totalItems", currPage.getTotalElements());
-
-            return "post/list";
-        }
+    @GetMapping("/detail/{postCid}")
+    public String detail(Model model, @PathVariable  long postCid) {
+        PostEntity postEntity = postService.getPostEntity(postCid);
+        model.addAttribute("newLineChar", '\n');
+        model.addAttribute("postEntity", postEntity);
+        return "post/detail";
     }
+
+    @GetMapping("/delete/{postCid}")
+    public String delete( @PathVariable long postCid) {
+        PostEntity postEntity = postService.getPostEntity(postCid);
+
+        postService.delete(postEntity);
+
+        return "redirect:/post/list";
+    }
+
+}
 
 
 

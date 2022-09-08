@@ -4,7 +4,9 @@
         layout:decorate="~{layout}">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
-
+<!--하트 아이콘-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
 <div layout:fragment="content" class="container my-3">
 
 <h3 class="my-3 border-bottom pb-2">완성된 프로젝트</h3>
@@ -28,6 +30,14 @@
                                       th:text="${project.body}"></div>
                         <div class="badge bg-light text-dark p-2 text-start">
                             <span th:text="${project.projectCid}"></span>
+                            <!--하트 테스트-->
+                            <form th:action="@{/post/1/likes}"  method="post" >
+                                <div>
+                                    <input type="submit" value="1번 게시글" class="btn btn-primary my-2">
+                                    <img src="heart.svg"/>
+                                </div>
+                            </form>
+                            <!--하트 테스트-->
                         </div>
                     </blockquote>
                 </div>

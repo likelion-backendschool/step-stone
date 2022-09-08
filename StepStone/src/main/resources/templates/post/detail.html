@@ -1,21 +1,31 @@
-<!DOCTYPE html>
 <html
-        lang="ko"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         xmlns:th="http://thymeleaf.org"
         layout:decorate="~{layout}">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+<div layout:fragment="content" class="container my-3">
+    <div>
+        <a th:href="@{/post/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
+    </div>
+    <h2 class="border-bottom py-2" th:text="${postEntity.title}"></h2>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="badge bg-light text-dark p-2 text-start">
+                <div class="mb-2">
+                    <span th:text="|작성자 : ${postEntity.postCid}|"></span>
+                </div>
+            </div>
+            <div  style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>
+        </div>
+    </div>
 
-<head>
-    <meta charset="UTF-8">
-    <title>게시글 상세 페이지</title>
-</head>
-<body style="background-color: #FFFFFF;">
-<div layout:fragment="content">
-<h1 th:text ="${post.title}">제목 입니다.</h1>
-<p th:text ="${post.body}">내용이 들어갈 부분입니다.</p>
+    <div class="my-3">
+        <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+           th:text="수정"></a>
+        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
+           th:href="@{|/post/delete/${postEntity.postCid}|}"
+           class="btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+    </div>
 </div>
-</body>
 </html>
-
-
