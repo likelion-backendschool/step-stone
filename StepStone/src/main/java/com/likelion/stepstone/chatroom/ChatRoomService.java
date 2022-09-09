@@ -100,7 +100,7 @@ public class ChatRoomService {
         UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(()-> new DataNotFoundException("User Not Found"));
         ChatRoomUserJoinId chatRoomUserJoinId = ChatRoomUserJoinId.builder().chatRoomCid(chatRoomEntity.getChatRoomCid()).userCid(userEntity.getUserCid()).build();
         String profileImageDefaultUrl = "https://www.bootdey.com/img/Content/avatar/";
-        int randomInt = (int)(Math.random()*7);
+        int randomInt = (int)(Math.random()*6) + 1; //0 제외
         String profileImageUrl = profileImageDefaultUrl + "avatar" + randomInt + ".png";
         chatRoomJoinRepository.save(ChatRoomUserJoinEntity.builder()
                         .id(chatRoomUserJoinId)
