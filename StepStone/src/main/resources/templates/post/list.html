@@ -147,39 +147,6 @@
                             <div class="badge bg-light text-dark p-2 text-start">
                                 <span th:text="${post.postCid}"></span>
                             </div>
-
-                            <!-- 좋아요 -->
-
-                            <form th:action="@{|/post/${post.postCid}/likes|}" method="post">
-                                <div>
-                                    <input type="submit" value="추천" class="btn btn-primary my-2">
-                                    <img src="heart.svg"/>
-                                </div>
-                            </form>
-
-                            <!--                            <form name="post" id="post_1" th:action="@{|/post/${post.postCid}/likes|}" method="post">-->
-                            <!--                                <div>-->
-                            <!--                                    <img src="heart.svg"/>-->
-                            <!--                                </div>-->
-                            <!--                            </form>-->
-                            <!--                            <script>-->
-
-                            <!--        var i = 0;-->
-                            <!--        $('img').on('click',function(){-->
-                            <!--            if(i==0){-->
-                            <!--                $(this).attr('src','heart_fill.svg');-->
-                            <!--                i++;-->
-                            <!--            }else if(i==1){-->
-                            <!--                $(this).attr('src','heart.svg');-->
-                            <!--                i&#45;&#45;;-->
-                            <!--            }-->
-                            <!--    document.post.submit()-->
-                            <!--        });-->
-
-                            <!--    </script>-->
-
-                            <!-- 좋아요 -->
-
                         </blockquote>
                     </div>
                 </div>

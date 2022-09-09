@@ -1,11 +1,20 @@
+<!-- 왜 안되는거지?-->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">-->
 <html
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         xmlns:th="http://thymeleaf.org"
         layout:decorate="~{layout}">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
 <div layout:fragment="content" class="container my-3">
-    <div>
+
+    <div class="d-flex justify-content-end my-2">
         <a th:href="@{/post/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
     </div>
     <h2 class="border-bottom py-2" th:text="${postEntity.title}"></h2>
@@ -16,11 +25,38 @@
                     <span th:text="|작성자 : ${postEntity.postCid}|"></span>
                 </div>
             </div>
-            <div  style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>
+            <div style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>
         </div>
     </div>
 
-    <div class="my-3">
+    <!-- 좋아요 -->
+    <form name="post" th:action="@{|/post/${postEntity.postCid}/likes|}" method="post">
+        <div>
+            <img src="heart.svg"/>
+        </div>
+    </form>
+    <!--    <form  name="post" th:action="@{|/post/${postEntity.postCid}/likes|}" method="post">-->
+    <!--        <div>-->
+    <!--            <input type="image" src="heart.svg"/>-->
+    <!--        </div>-->
+    <!--    </form>-->
+
+    <script>
+        var i = 0;
+        $('img').on('click',function(){
+            if(i==0){
+                $(this).attr('src','heart_fill.svg');
+                i++;
+            }else if(i==1){
+                $(this).attr('src','heart.svg');
+                i--;
+            }
+    document.post.submit()
+        });
+    </script>
+    <!-- 좋아요 버튼 -->
+
+    <div class="d-flex justify-content-end my-2">
         <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            th:text="수정"></a>
         <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"

@@ -21,7 +21,7 @@ public class LikeController {
        // Long userCid = user.getUserCid();
         Long userCid = 1L;
         likeService.idCheck2(postCid, userCid);
-        return "redirect:/post/list?page=0";
+        return "redirect:/post/detail/{postCid}";
     }
 
     // 좋아요 버튼 테스트
