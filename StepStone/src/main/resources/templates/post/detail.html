@@ -1,5 +1,3 @@
-<!-- 왜 안되는거지?-->
-<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">-->
 <html
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         xmlns:th="http://thymeleaf.org"
@@ -24,18 +22,14 @@
             <div class="badge bg-light text-dark p-2 text-start">
                 <div class="mb-2">
                     <span th:text="|작성자 : ${postEntity.postCid}|"></span>
+                    <span><img src="/envelop.svg"/></span>
                 </div>
             </div>
             <div style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>
         </div>
     </div>
 
-    <!-- 좋아요 -->
-<!--    <form name="post" th:action="@{|/post/${postEntity.postCid}/likes|}" method="post">-->
-<!--        <div>-->
-<!--            <img src="/heart.svg"/>-->
-<!--        </div>-->
-<!--    </form>-->
+<!-- 좋아요 -->
     <script>
     function heart_info(){
  var likeEntity = "[[${likeEntity}]]";
@@ -50,26 +44,10 @@
     </script>
 
     <a th:href="@{|/post/${postEntity.postCid}/likes|}">
-<!--        <img src="/heart.svg" />-->
         <img id="heart" src="" />
         <script>document.getElementById('heart').src=heart_info()</script>
     </a>
-
-<!--    <script>-->
-<!--        var i = 0;-->
-<!--        $('img').on('click',function(){-->
-<!--            if(i==0){-->
-<!--                $(this).attr('src','/heart_fill.svg');-->
-<!--                i++;-->
-<!--            }else if(i==1){-->
-<!--                $(this).attr('src','/heart.svg');-->
-<!--                i&#45;&#45;;-->
-<!--            }-->
-<!--&lt;!&ndash;    document.post.submit()&ndash;&gt;-->
-<!--        });-->
-<!--    </script>-->
-
-    <!-- 좋아요 버튼 -->
+    <!-- 좋아요 -->
 
     <div class="d-flex justify-content-end my-2">
         <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
