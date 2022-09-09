@@ -6,6 +6,7 @@
         layout:decorate="~{layout}">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,30 +31,44 @@
     </div>
 
     <!-- 좋아요 -->
-    <form name="post" th:action="@{|/post/${postEntity.postCid}/likes|}" method="post">
-        <div>
-            <img src="heart.svg"/>
-        </div>
-    </form>
-    <!--    <form  name="post" th:action="@{|/post/${postEntity.postCid}/likes|}" method="post">-->
-    <!--        <div>-->
-    <!--            <input type="image" src="heart.svg"/>-->
-    <!--        </div>-->
-    <!--    </form>-->
-
+<!--    <form name="post" th:action="@{|/post/${postEntity.postCid}/likes|}" method="post">-->
+<!--        <div>-->
+<!--            <img src="/heart.svg"/>-->
+<!--        </div>-->
+<!--    </form>-->
     <script>
-        var i = 0;
-        $('img').on('click',function(){
-            if(i==0){
-                $(this).attr('src','heart_fill.svg');
-                i++;
-            }else if(i==1){
-                $(this).attr('src','heart.svg');
-                i--;
-            }
-    document.post.submit()
-        });
+    function heart_info(){
+ var likeEntity = "[[${likeEntity}]]";
+ var src;
+     if(likeEntity!="null"){
+      src='/heart_fill.svg';
+        } else {
+          src= '/heart.svg';
+         }
+         return src;
+    }
     </script>
+
+    <a th:href="@{|/post/${postEntity.postCid}/likes|}">
+<!--        <img src="/heart.svg" />-->
+        <img id="heart" src="" />
+        <script>document.getElementById('heart').src=heart_info()</script>
+    </a>
+
+<!--    <script>-->
+<!--        var i = 0;-->
+<!--        $('img').on('click',function(){-->
+<!--            if(i==0){-->
+<!--                $(this).attr('src','/heart_fill.svg');-->
+<!--                i++;-->
+<!--            }else if(i==1){-->
+<!--                $(this).attr('src','/heart.svg');-->
+<!--                i&#45;&#45;;-->
+<!--            }-->
+<!--&lt;!&ndash;    document.post.submit()&ndash;&gt;-->
+<!--        });-->
+<!--    </script>-->
+
     <!-- 좋아요 버튼 -->
 
     <div class="d-flex justify-content-end my-2">

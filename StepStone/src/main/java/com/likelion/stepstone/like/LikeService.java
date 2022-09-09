@@ -16,6 +16,31 @@ public class LikeService {
     private LikeRepository likeRepository;
     private PostRepository postRepository;
 
+//    public  Optional<LikeEntity> getLikeEntity(long postCid, Long userCid) {
+//        Optional<LikeEntity> likeEntity = likeRepository.findByPostCidAndUserCid(postCid,userCid);
+//        Optional<LikeEntity> likes;
+//        if(likeEntity.isPresent()) {
+//            likes = likeEntity;
+//        } else likes = null;
+//
+//        return likes;
+//    }
+
+    public  LikeEntity getLikeEntity(long postCid, Long userCid) {
+
+        return likeRepository.findByPostCidAndUserCid(postCid,userCid)
+                .orElse(null);
+    }
+
+
+
+
+
+
+
+
+
+
 
     public void idCheck2(Long postCid, Long userCid) {
         Optional<LikeEntity> likes = likeRepository.findByPostCidAndUserCid(postCid, userCid); //userId 가 좋아요한 게시글 찾기

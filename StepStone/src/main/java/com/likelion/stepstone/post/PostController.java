@@ -1,5 +1,7 @@
 package com.likelion.stepstone.post;
 
+import com.likelion.stepstone.like.LikeService;
+import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import org.springframework.data.domain.Page;
@@ -7,15 +9,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RequestMapping("/post")
 @Controller
 public class PostController {
 
     private final PostService postService;
+    private final LikeService likeService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService ,LikeService likeService ) {
         this.postService = postService;
+        this.likeService = likeService;
     }
 
 
@@ -83,8 +89,19 @@ public class PostController {
 
     @GetMapping("/detail/{postCid}")
     public String detail(Model model, @PathVariable  long postCid) {
+        // 하트 버튼 골라서 나오기, detail.html에 넘겨줄 객체 생성.
+        Long userCid = 1L;
+        String exist = "notnull";
+        String notexist = "null";
+        LikeEntity likeEntity = likeService.getLikeEntity(postCid, userCid);
+       if(likeEntity != null){
+           model.addAttribute("likeEntity",exist);
+       }else{
+           model.addAttribute("likeEntity",notexist);
+       }
+
+        //        model.addAttribute("newLineChar", '\n');
         PostEntity postEntity = postService.getPostEntity(postCid);
-        model.addAttribute("newLineChar", '\n');
         model.addAttribute("postEntity", postEntity);
         return "post/detail";
     }

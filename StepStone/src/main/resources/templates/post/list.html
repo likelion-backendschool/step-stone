@@ -144,9 +144,13 @@
                             <div style="  width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
                                      -webkit-box-orient: vertical; -webkit-line-clamp: 3;  line-height: 30px;  height: 90px;"
                                  th:text="${post.body}"></div>
-                            <div class="badge bg-light text-dark p-2 text-start">
-                                <span th:text="${post.postCid}"></span>
+                            <div>
+                                <span class="badge bg-light text-dark p-2 text-start" th:text="${post.postCid}"></span>
+                                <img src="/heart.svg"/>
+                                <span class="badge bg-light text-dark p-2 text-start"  th:text="${post.likes}"> </span>
                             </div>
+
+
                         </blockquote>
                     </div>
                 </div>
