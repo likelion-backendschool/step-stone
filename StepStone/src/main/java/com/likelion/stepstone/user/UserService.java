@@ -79,4 +79,11 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
+    public void updateUserPassword(UserDto userDto, String newPasswordConfirm) {
+        UserEntity userEntity = UserEntity.toEntity(userDto);
+
+        userEntity.setPassword(bCryptPasswordEncoder.encode(newPasswordConfirm));
+
+        userRepository.save(userEntity);
+    }
 }
