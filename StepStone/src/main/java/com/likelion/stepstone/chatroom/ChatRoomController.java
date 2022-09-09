@@ -4,6 +4,7 @@ import com.likelion.stepstone.chat.ChatService;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chatroom.model.ChatRoomForm;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
+import com.likelion.stepstone.chatroom.model.InviteUserForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class ChatRoomController {
     private final ChatService chatService;
 
     @GetMapping("/room")
-    public String getRoom(Principal principal, Model model, ChatRoomForm chatRoomForm) {
+    public String getRoom(Principal principal, Model model, ChatRoomForm chatRoomForm, InviteUserForm inviteUserForm) {
         List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName()); // principal의 name은 userEntity의 user_id
         List<ChatDto> chats = new ArrayList<>();
 
