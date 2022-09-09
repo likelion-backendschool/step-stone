@@ -93,6 +93,10 @@ public class ChatRoomService {
 
     public void invite(String roomId, String userId) {
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Invalid room Id"));
+        //인원 수 추가
+        chatRoomEntity.setUserCount(chatRoomEntity.getUserCount()+1);
+        chatRoomRepository.updateUserCount(chatRoomEntity.getUserCount(), chatRoomEntity.getChatRoomCid() );
+
         UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(()-> new DataNotFoundException("User Not Found"));
         ChatRoomUserJoinId chatRoomUserJoinId = ChatRoomUserJoinId.builder().chatRoomCid(chatRoomEntity.getChatRoomCid()).userCid(userEntity.getUserCid()).build();
         String profileImageDefaultUrl = "https://www.bootdey.com/img/Content/avatar/";
