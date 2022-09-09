@@ -73,11 +73,13 @@ public class ChatRoomController {
 
     @PostMapping("/room/invite")
     public String inviteRoom(Principal principal, Model model, String roomId, String userId) {
-
         chatRoomService.invite(roomId, userId);
-
+        List<ChatDto> chats = chatService.getHistories(roomId);
         List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
+
+        model.addAttribute("chats", chats);
         model.addAttribute("rooms", rooms);
+
         return "chat/room :: #chats";
     }
     // 채팅방 입장 화면
