@@ -82,9 +82,12 @@ public class ChatRoomService {
         return chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Chat Room Not Found"));
     }
 
-    public UserEntity findByUserId(String user_id){
-        return userRepository.findByUserId(user_id).orElseThrow(() -> new DataNotFoundException("User Name Not Found"));
+    public UserEntity findByUserId(String userId){
+        return userRepository.findByUserId(userId).orElseThrow(() -> new DataNotFoundException("User Name Not Found"));
+    }
 
+    public boolean isUserExist(String userId){
+        return userRepository.findByUserId(userId).isPresent();
     }
 
     public String getUsername(String principalName){
@@ -97,7 +100,7 @@ public class ChatRoomService {
         chatRoomEntity.setUserCount(chatRoomEntity.getUserCount()+1);
         chatRoomRepository.updateUserCount(chatRoomEntity.getUserCount(), chatRoomEntity.getChatRoomCid() );
 
-        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(()-> new DataNotFoundException("User Not Found"));
+        UserEntity userEntity = findByUserId(userId);
         ChatRoomUserJoinId chatRoomUserJoinId = ChatRoomUserJoinId.builder().chatRoomCid(chatRoomEntity.getChatRoomCid()).userCid(userEntity.getUserCid()).build();
         String profileImageDefaultUrl = "https://www.bootdey.com/img/Content/avatar/";
         int randomInt = (int)(Math.random()*6) + 1; //0 제외

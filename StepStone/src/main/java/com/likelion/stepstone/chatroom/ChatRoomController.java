@@ -2,14 +2,18 @@ package com.likelion.stepstone.chatroom;
 
 import com.likelion.stepstone.chat.ChatService;
 import com.likelion.stepstone.chat.model.ChatDto;
+import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomForm;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
 import com.likelion.stepstone.chatroom.model.InviteUserForm;
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,15 +77,23 @@ public class ChatRoomController {
     }
 
     @PostMapping("/room/invite")
-    public String inviteRoom(Principal principal, Model model, String roomId, String userId) {
-        chatRoomService.invite(roomId, userId);
-        List<ChatDto> chats = chatService.getHistories(roomId);
-        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
+    public String inviteRoom(Principal principal, Model model, @Valid InviteUserForm inviteUserForm) {
+//        List<ChatDto> chats = chatService.getHistories(inviteUserForm.getChatRoomId());
+//        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
+//
+//        model.addAttribute("chats", chats);
+//        model.addAttribute("rooms", rooms);
 
-        model.addAttribute("chats", chats);
-        model.addAttribute("rooms", rooms);
+        if(!chatRoomService.isUserExist(inviteUserForm.getUserId())){
+            model.addAttribute("error", "user not found");
+            model.addAttribute("message", "유효한 아이디가 아닙니다.");
+            return "chat/room :: #message";
+        }
 
-        return "chat/room :: #chats";
+        chatRoomService.invite(inviteUserForm.getChatRoomId(), inviteUserForm.getUserId());
+        model.addAttribute("message", "초대가 완료 되었습니다.");
+        return "chat/room :: #message";
+
     }
     // 채팅방 입장 화면
     @GetMapping("/enter/{roomId}")
