@@ -126,4 +126,19 @@ public class ChatRoomService {
             throw new RuntimeException(e);
         }
     }
+
+    public List<ChatRoomDto> searchByUserIdAndChatRoomName(String name, String chatRoomName) {
+        Long userCid = findByUserId(name).getUserCid();
+
+        List<ChatRoomUserJoinEntity> chatRoomUserJoinEntities = chatRoomJoinRepository.findByIdUserCid(userCid);
+
+        List<ChatRoomEntity> chatRoomEntities = new ArrayList<>();
+        for(ChatRoomUserJoinEntity chatRoomUserJoinEntity : chatRoomUserJoinEntities){
+            ChatRoomEntity chatRoomEntity = chatRoomUserJoinEntity.getChatRoomEntity();
+            if(chatRoomEntity.getRoomName().contains(chatRoomName))
+                chatRoomEntities.add(chatRoomEntity);
+        }
+
+        return chatRoomEntities.stream().map(ChatRoomDto::toDto).collect(Collectors.toList());
+    }
 }

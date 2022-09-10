@@ -113,5 +113,12 @@ public class ChatRoomController {
         return "chat/room :: #representRoom";
     }
 
+    @GetMapping("/room/search")
+    public String searchChatRoom(Principal principal, Model model, String chatRoomName){
+        List<ChatRoomDto> rooms = chatRoomService.searchByUserIdAndChatRoomName(principal.getName(), chatRoomName);
+        model.addAttribute("rooms", rooms);
+        return "chat/room :: #chatRoomTable";
+    }
+
 
 }

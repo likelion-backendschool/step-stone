@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface ChatRoomJoinRepository extends JpaRepository<ChatRoomUserJoinEntity, ChatRoomUserJoinId> {
     List<ChatRoomUserJoinEntity> findByIdChatRoomCid(Long chatRoomCid);
+
+    List<ChatRoomUserJoinEntity> findByIdUserCid(Long userCid);
 }

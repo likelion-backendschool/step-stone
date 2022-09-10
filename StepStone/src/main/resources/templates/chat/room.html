@@ -28,7 +28,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-search"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Search...">
+                            <input id="searchChatRoomName" type="text" class="form-control" placeholder="Search...">
                         </div>
                         <div id="chatRoomTable" style="max-height: 75vh; overflow-y: scroll;">
                             <div th:if="${rooms!=null and !rooms.empty}">
@@ -407,10 +407,35 @@
         }
     }
 
+    function searchChatRoom(){
+        if($("#searchChatRoomName").val() === "")
+            return;
+
+        var chatRoomNameBean = {
+            chatRoomName: $("#searchChatRoomName").val()
+        };
+
+        $.ajax({
+            url: "/chat/room/search",
+            type: "GET",
+            data: chatRoomNameBean
+        })
+            .done(function (fragment) {
+                $('#chatRoomTable').replaceWith(fragment);
+            });
+    }
+
     $('#msg').on("keyup", function (e) {
         if (e.key === "Enter") {
-            console.log('Enter');
+            console.log('msg send enter event');
             sendMsg()
+        }
+    });
+
+    $('#searchChatRoomName').on("keyup", function (e) {
+        if (e.key === "Enter") {
+            console.log('search chat room enter event');
+            searchChatRoom()
         }
     });
 
