@@ -15,6 +15,7 @@ import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.workspaces.WorkSpaceRepository;
 import com.likelion.stepstone.workspaces.WorkSpaceService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +32,7 @@ public class SpringConfig {
     private final ChatRoomJoinRepository chatRoomJoinRepository;
     private final SimpMessageSendingOperations messagingTemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ApplicationEventPublisher eventPublisher;
     private final WorkSpaceRepository workSpaceRepository;
     private final ProjectRepository projectRepository;
 
@@ -43,7 +45,7 @@ public class SpringConfig {
                         WorkSpaceRepository workSpaceRepository,
                         ProjectRepository projectRepository,
                         SimpMessageSendingOperations messagingTemplate,
-                        BCryptPasswordEncoder bCryptPasswordEncoder) {
+                        BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationEventPublisher eventPublisher) {
 
         this.postRepository = postRepository;
         this.likeRepository = likeRepository;
@@ -55,6 +57,7 @@ public class SpringConfig {
         this.projectRepository = projectRepository;
         this.messagingTemplate = messagingTemplate;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.eventPublisher = eventPublisher;
     }
 
     @Bean
@@ -79,7 +82,7 @@ public class SpringConfig {
 
     @Bean
     public ChatRoomService chatRoomService() {
-        return new ChatRoomService(chatRoomRepository, userRepository, chatRoomJoinRepository);
+        return new ChatRoomService(chatRoomRepository, userRepository, chatRoomJoinRepository, eventPublisher);
     }
 
     @Bean

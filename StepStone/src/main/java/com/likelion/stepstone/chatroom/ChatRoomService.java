@@ -1,10 +1,12 @@
 package com.likelion.stepstone.chatroom;
 
+import com.likelion.stepstone.chatroom.event.ChatRoomCreatedEvent;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -20,7 +22,7 @@ public class ChatRoomService {
 
     private final UserRepository userRepository;
     private final ChatRoomJoinRepository chatRoomJoinRepository;
-
+    private final ApplicationEventPublisher eventPublisher;
     private final static String chatRoomImageUrl = "https://www.bootdey.com/app/webroot/img/Content/icons/64/PNG/64/";
 
     /**
@@ -47,9 +49,14 @@ public class ChatRoomService {
 
         chatRoomEntity.setImageUrl(imageUrl);
 
+        createEvent(chatRoomEntity);
         chatRoomRepository.save(chatRoomEntity);
 
         return ChatRoomVo.toVo(ChatRoomDto.toDto(chatRoomEntity));
+    }
+
+    private void createEvent( ChatRoomEntity chatRoomEntity ){
+        eventPublisher.publishEvent(new ChatRoomCreatedEvent(chatRoomEntity));
     }
 
 
