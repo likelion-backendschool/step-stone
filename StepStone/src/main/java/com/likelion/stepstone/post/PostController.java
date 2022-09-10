@@ -7,6 +7,7 @@ import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,13 @@ public class PostController {
         this.likeService = likeService;
         this.userService = userService;
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createForm(PostForm postForm) {
         return "/post/form";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String create(Principal principal,Model model, PostForm postForm) {
 
