@@ -79,11 +79,11 @@
                                                                 aria-label="Close"></button>
                                                     </div>
                                                     <div class="mb-3 modal-body text-center">
-                                                        <label for="roomName" class="form-label">채팅방 이름을 입력해주세요</label>
+                                                        <label for="roomName" class="form-label">생성할 채팅방 이름을 입력해주세요</label>
                                                         <input type="text" class="form-control"
                                                                id="roomName">
-                                                        <input type="text" class="form-control"
-                                                               id="postCid">
+<!--                                                        <input type="text" class="form-control"-->
+<!--                                                               id="postCid">-->
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button id="createChatRoom" value="완료" class="btn btn-primary"
@@ -295,7 +295,7 @@
     function updateChatRoom() {
         var chatRoomBean = {
             roomName: $("#roomName").val(),
-            postCid: $("#postCid").val(),
+            postCid: 9,
         };
         $.ajax({
             url: "/chat/room/create",
