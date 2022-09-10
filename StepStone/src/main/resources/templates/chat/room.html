@@ -212,9 +212,11 @@
     //1. SockJS를 내부에 들고있는 stomp를 내어줌
     var stomp = Stomp.over(sockJs);
 
-    $(document).ready(
-        initStomp()
-    );
+    $(document).ready(function (){
+        initStomp();
+        const element = document.getElementById('chats');
+        element.scrollTop = element.scrollHeight;
+    });
 
     function initStomp() {
 
