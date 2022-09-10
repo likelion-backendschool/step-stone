@@ -1,5 +1,6 @@
 package com.likelion.stepstone.user;
 
+import com.likelion.stepstone.Util.DataNotFoundException;
 import com.likelion.stepstone.user.model.LoginVo;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
@@ -77,6 +78,11 @@ public class UserService {
 
     public void save(UserEntity userEntity) {
         userRepository.save(userEntity);
+    }
+
+    public UserEntity getUser(String name) {
+        return this.userRepository.findByUserId(name)
+                .orElseThrow(() -> new DataNotFoundException("siteuser not found"));
     }
 
 }

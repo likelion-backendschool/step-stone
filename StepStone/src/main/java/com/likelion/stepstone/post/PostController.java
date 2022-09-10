@@ -4,11 +4,14 @@ import com.likelion.stepstone.like.LikeService;
 import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
+import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
 
@@ -18,12 +21,13 @@ public class PostController {
 
     private final PostService postService;
     private final LikeService likeService;
+    private final UserService userService;
 
-    public PostController(PostService postService ,LikeService likeService ) {
+    public PostController(PostService postService ,LikeService likeService,UserService userService ) {
         this.postService = postService;
         this.likeService = likeService;
+        this.userService = userService;
     }
-
 
     @GetMapping("/create")
     public String createForm(PostForm postForm) {
@@ -31,7 +35,7 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String create(Model model, PostForm postForm) {
+    public String create(Principal principal,Model model, PostForm postForm) {
 
         //유효성 체크
         boolean hasError = false;
@@ -51,11 +55,13 @@ public class PostController {
             return "post/form";
         }
 
+        UserEntity siteUser = userService.getUser(principal.getName());
+
         PostDto postDto = PostDto.builder()
                 .title(postForm.getTitle())
                 .body(postForm.getBody())
+                .userCid(siteUser.getUserCid())
                 .build();
-
 
         postService.create(postDto);
 
@@ -63,7 +69,18 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(defaultValue = "0") int page) {
+    public String list(Model model, @RequestParam(defaultValue = "0") int page
+    ) {
+//        // 하트 버튼 골라서 나오기, detail.html에 넘겨줄 객체 생성.
+//        Long userCid = 1L;
+//        LikeEntity likeEntity = likeService.getLikeEntity(userCid);
+//        if(likeEntity != null){
+//            model.addAttribute("likeEntity",likeEntity);
+//        }else{
+//            model.addAttribute("likeEntity",likeEntity);
+//        }
+
+
         Page<PostEntity> paging = postService.getList(page);
         model.addAttribute("paging", paging);
         return "post/list";
@@ -100,7 +117,6 @@ public class PostController {
            model.addAttribute("likeEntity",notexist);
        }
 
-        //        model.addAttribute("newLineChar", '\n');
         PostEntity postEntity = postService.getPostEntity(postCid);
         model.addAttribute("postEntity", postEntity);
         return "post/detail";
