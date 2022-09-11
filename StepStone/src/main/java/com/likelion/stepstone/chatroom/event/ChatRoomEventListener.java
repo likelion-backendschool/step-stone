@@ -43,7 +43,7 @@ public class ChatRoomEventListener {
     private NotificationDto createNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
         NotificationDto dto = NotificationDto.builder()
                 .title("채팅방 생성")
-                .message(chatRoomEntity.getRoomName() + " 이 생성되었습니다.")
+                .message(chatRoomEntity.getRoomName() + " 채팅방이 생성되었습니다.")
                 .checked(false)
                 .notificationType(NotificationType.CHAT_ROOM_CREATED)
                 .userEntity(userEntity)
