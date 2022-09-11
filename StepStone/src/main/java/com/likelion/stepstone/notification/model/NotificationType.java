@@ -3,5 +3,6 @@ package com.likelion.stepstone.notification.model;
 public enum NotificationType {
     NEW_MESSAGE,
     CHAT_REQUEST,
-    PROJECT_START
+    PROJECT_START,
+    CHAT_ROOM_CREATED
 }
