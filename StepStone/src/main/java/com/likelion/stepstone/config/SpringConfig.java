@@ -7,6 +7,7 @@ import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.ChatRoomService;
 import com.likelion.stepstone.like.LikeRepository;
 import com.likelion.stepstone.like.LikeService;
+import com.likelion.stepstone.notification.NotificationRepository;
 import com.likelion.stepstone.post.PostRepository;
 import com.likelion.stepstone.post.PostService;
 import com.likelion.stepstone.projects.ProjectRepository;
@@ -35,6 +36,7 @@ public class SpringConfig {
     private final ApplicationEventPublisher eventPublisher;
     private final WorkSpaceRepository workSpaceRepository;
     private final ProjectRepository projectRepository;
+    private final NotificationRepository notificationRepository;
 
     public SpringConfig(PostRepository postRepository,
                         LikeRepository likeRepository,
@@ -45,7 +47,7 @@ public class SpringConfig {
                         WorkSpaceRepository workSpaceRepository,
                         ProjectRepository projectRepository,
                         SimpMessageSendingOperations messagingTemplate,
-                        BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationEventPublisher eventPublisher) {
+                        BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationEventPublisher eventPublisher, NotificationRepository notificationRepository) {
 
         this.postRepository = postRepository;
         this.likeRepository = likeRepository;
@@ -58,6 +60,7 @@ public class SpringConfig {
         this.messagingTemplate = messagingTemplate;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.eventPublisher = eventPublisher;
+        this.notificationRepository = notificationRepository;
     }
 
     @Bean
@@ -82,7 +85,7 @@ public class SpringConfig {
 
     @Bean
     public ChatRoomService chatRoomService() {
-        return new ChatRoomService(chatRoomRepository, userRepository, chatRoomJoinRepository, eventPublisher);
+        return new ChatRoomService(chatRoomRepository, userRepository, chatRoomJoinRepository, eventPublisher,notificationRepository);
     }
 
     @Bean
