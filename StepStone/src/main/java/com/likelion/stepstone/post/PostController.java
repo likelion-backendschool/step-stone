@@ -6,12 +6,15 @@ import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserEntity;
+import org.apache.catalina.LifecycleState;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 
 @RequestMapping("/post")
@@ -70,16 +73,16 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(defaultValue = "0") int page
-    ) {
-//        // 하트 버튼 골라서 나오기, detail.html에 넘겨줄 객체 생성.
-//        Long userCid = 1L;
-//        LikeEntity likeEntity = likeService.getLikeEntity(userCid);
-//        if(likeEntity != null){
-//            model.addAttribute("likeEntity",likeEntity);
-//        }else{
-//            model.addAttribute("likeEntity",likeEntity);
-//        }
+    public String list(Principal principal,Model model, @RequestParam(defaultValue = "0") int page ) {
+
+        // 하트 버튼 골라서 나오기, list.html에 넘겨줄 객체 생성.
+        UserEntity user = userService.getUser(principal.getName());
+        List<LikeEntity> likeEntity = likeService.getLikeEntity(user);
+        if(likeEntity != null){
+            model.addAttribute("likeEntity",likeEntity);
+        }else{  // list로 받아야 될 것 같은데..
+            model.addAttribute("likeEntity",likeEntity);
+        }
 
 
         Page<PostEntity> paging = postService.getList(page);
@@ -112,6 +115,7 @@ public class PostController {
         String exist = "notnull";
         String notexist = "null";
         LikeEntity likeEntity = likeService.getLikeEntity(postCid, user);
+
        if(likeEntity != null){
            model.addAttribute("likeEntity",exist);
        }else{

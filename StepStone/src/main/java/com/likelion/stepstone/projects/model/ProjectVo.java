@@ -23,10 +23,7 @@ public class ProjectVo {
     @Setter
     private String body;
 
-//    @Setter
-//    private Long userCid;
     private final UserEntity user;
-
 
     @Setter
     private LocalDateTime createdAt;

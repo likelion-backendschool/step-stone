@@ -99,7 +99,7 @@ public class ProjectController {
     @GetMapping("/detail/{projectCid}")
     public String detail(Model model, @PathVariable  long projectCid) {
         ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
-        model.addAttribute("newLineChar", '\n');
+//        model.addAttribute("newLineChar", '\n');
         model.addAttribute("projectEntity", projectEntity);
         return "project/project_detail";
     }

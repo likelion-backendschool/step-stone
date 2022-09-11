@@ -61,7 +61,6 @@ public class ProjectEntity {
                 .projectId(dto.getProjectId())
                 .title(dto.getTitle())
                 .body(dto.getBody())
-//                .userCid(dto.getUserCid())
                 .user(dto.getUser())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())

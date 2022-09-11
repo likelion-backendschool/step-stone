@@ -54,4 +54,8 @@ public class LikeService {
         postRepository.save(post);
 
     }
+
+    public List<LikeEntity> getLikeEntity(UserEntity user) {
+        return likeRepository.findByUser(user);
+    }
 }

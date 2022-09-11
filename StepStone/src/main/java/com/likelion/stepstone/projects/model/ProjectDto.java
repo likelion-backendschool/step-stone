@@ -27,8 +27,6 @@ public class ProjectDto {
     @Setter
     private String body;
 
-//    @Setter
-//    private Long userCid;
     @Setter
     private UserEntity user;
 
@@ -45,7 +43,6 @@ public class ProjectDto {
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .user(entity.getUser())
-//                .userCid(entity.getUserCid())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();

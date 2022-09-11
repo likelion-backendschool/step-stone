@@ -27,8 +27,6 @@ public class WorkSpaceDto {
     @Setter
     private String body;
 
-//    @Setter
-//    private Long userCid;
     @Setter
     private UserEntity user;
 

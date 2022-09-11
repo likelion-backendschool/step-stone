@@ -29,8 +29,6 @@ public class WorkSpaceVo {
     @Setter
     private String body;
 
-//    @Setter
-//    private Long userCid;
     private final UserEntity user;
 
 

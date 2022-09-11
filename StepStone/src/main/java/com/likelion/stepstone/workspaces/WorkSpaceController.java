@@ -56,7 +56,6 @@ public class WorkSpaceController {
         // 객체 저장방법 고르기
         //  workspaceService.create(workSpaceForm.getSubject(), workSpaceForm.getContent());
 
-
         WorkSpaceDto workSpaceDto = WorkSpaceDto.builder()
                 .title(workSpaceForm.getTitle())
                 .body(workSpaceForm.getBody())
@@ -94,10 +93,8 @@ public class WorkSpaceController {
     }
 
     @GetMapping("/detail/{workspaceCid}")
-
     public String detail(Model model, @PathVariable  long workspaceCid) {
         WorkSpaceEntity workSpaceEntity = workSpaceService.getWorkSpaceEntity(workspaceCid);
-        model.addAttribute("newLineChar", '\n');
         model.addAttribute("workSpaceEntity", workSpaceEntity);
         return "workspace/workspace_detail";
     }
