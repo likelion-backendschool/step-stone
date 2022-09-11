@@ -1,7 +1,6 @@
 package com.likelion.stepstone.workspaces;
 
 import com.likelion.stepstone.Util.DataNotFoundException;
-import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;

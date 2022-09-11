@@ -13,9 +13,7 @@
         <!--  유효성 체크  -->
         <div class="alert alert-danger" role="alert" th:if="${titleErrorMsg != null}" th:text="${titleErrorMsg}"></div>
         <div class="alert alert-danger" role="alert" th:if="${bodyErrorMsg != null}" th:text="${bodyErrorMsg}"></div>
-
         <form th:action="@{''}" th:object="${postForm}" method="post" onclick="getHtml()">
-
             <div class="mb-10">
                 <label class="form-label">제목</label>
                 <input th:value="${postForm?.title}" type="text" th:field="*{title}" class="form-control"
@@ -23,15 +21,11 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">내용</label>
-
                 <textarea th:field="*{body}" class="form-control" rows="25" name="body"
                           placeholder=" " th:text="${postForm?.body}"></textarea>
             </div>
-
             <input type="submit" value="저장하기" class="btn btn-primary my-2">
-
         </form>
-
     </div>
 </div>
 </html>

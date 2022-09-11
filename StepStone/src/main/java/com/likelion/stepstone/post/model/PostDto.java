@@ -33,13 +33,11 @@ public class PostDto {
     @Setter
     private UserEntity user;
 
-
     @Setter
     private LocalDateTime createdAt;
 
     @Setter
     private LocalDateTime updatedAt;
-
 
     public static PostDto toDto(PostEntity entity) {
         PostDto dto = PostDto.builder()

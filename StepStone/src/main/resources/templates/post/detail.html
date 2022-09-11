@@ -31,6 +31,7 @@
     </div>
 
     <!-- 좋아요 -->
+
     <script>
     function heart_info(){
  var likeEntity = "[[${likeEntity}]]";
@@ -42,7 +43,6 @@
          }
          return src;
     }
-
     </script>
 
     <a th:href="@{|/post/${postEntity.postCid}/likes|}">
@@ -50,6 +50,7 @@
         <script>document.getElementById('heart').src=heart_info()</script>
     </a>
     <!-- 좋아요 -->
+
     <div class="d-flex justify-content-end my-2">
         <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"

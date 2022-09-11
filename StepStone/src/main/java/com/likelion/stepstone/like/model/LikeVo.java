@@ -30,7 +30,6 @@ public class LikeVo {
     public static LikeVo toVo(LikeDto dto) {
         LikeVo vo = LikeVo.builder()
                 .likeId(dto.getLikeId())
-//                .userCid(dto.getUserCid())
                 .user(dto.getUser())
                 .postCid(dto.getPostCid())
                 .createdAt(dto.getCreatedAt())

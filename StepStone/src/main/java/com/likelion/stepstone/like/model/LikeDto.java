@@ -21,9 +21,6 @@ public class LikeDto {
 
     private Long likeId;
 
-//    @Setter
-//    private Long userCid;
-
     @Setter
     private UserEntity user;
 
@@ -37,7 +34,6 @@ public class LikeDto {
     public static LikeDto toDto(LikeEntity entity) {
         LikeDto dto = LikeDto.builder()
                 .likeId(entity.getLikeId())
-//                .userCid(entity.getUserCid())
                 .user(entity.getUser())
                 .postCid(entity.getPostCid())
                 .createdAt(entity.getCreatedAt())

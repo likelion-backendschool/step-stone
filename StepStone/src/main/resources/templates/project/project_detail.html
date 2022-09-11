@@ -18,10 +18,8 @@
                 </div>
             </div>
             <div  style="white-space:pre-wrap;" class="card-text" th:text="${projectEntity.body}" rows="35"></div>
-<!--            <div class="card-text" th:utext=" ${#strings.replace(projectEntity.body, newLineChar,'&lt;br /&gt;')}" rows="35"></div>-->
         </div>
     </div>
-
     <div class="d-flex justify-content-end my-2">
         <a th:href="@{|/project/modify/${projectEntity.projectCid}|}" class="btn btn-sm btn-outline-secondary"
            th:text="수정"></a>
