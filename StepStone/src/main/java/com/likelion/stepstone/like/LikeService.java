@@ -1,11 +1,11 @@
-
-
 package com.likelion.stepstone.like;
 
 import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.PostRepository;
 import com.likelion.stepstone.post.model.PostEntity;
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,40 +16,33 @@ public class LikeService {
     private LikeRepository likeRepository;
     private PostRepository postRepository;
 
+    public  LikeEntity getLikeEntity(long postCid, UserEntity user) {
 
-    public  LikeEntity getLikeEntity(long postCid, Long userCid) {
-
-        return likeRepository.findByPostCidAndUserCid(postCid,userCid)
+        return likeRepository.findByPostCidAndUser(postCid,user)
                 .orElse(null);
     }
 
-//    public  LikeEntity getLikeEntity( Long userCid) {
-//
-//        return likeRepository.findByPostCidAndUserCid(userCid)
-//                .orElse(null);
-//    }
-
-    public void idCheck2(Long postCid, Long userCid) {
-        Optional<LikeEntity> likes = likeRepository.findByPostCidAndUserCid(postCid, userCid); //userId 가 좋아요한 게시글 찾기
+    public void idCheck2(Long postCid, UserEntity user) {
+        Optional<LikeEntity> likes = likeRepository.findByPostCidAndUser(postCid, user); //userId 가 좋아요한 게시글 찾기
         if (likes.isPresent()) {
-            deletelikes(postCid, userCid);
+            deletelikes(postCid, user);
         } else {  // 있으면 좋아요 한 번 더 클릭한 것 -> 삭제
-            like(postCid, userCid);
+            like(postCid, user);
         }
         updateLikesCount(postCid);  //좋아요 수 업뎃
     }
 
-    public void like(Long postCid, Long userCid) { // 좋아요 등록 > 테이블에 등록
+    public void like(Long postCid, UserEntity user) { // 좋아요 등록 > 테이블에 등록
 
         LikeEntity likeEnti = new LikeEntity();
-        likeEnti.setUserCid(userCid);
+        likeEnti.setUser(user);
         likeEnti.setPostCid(postCid);
         likeEnti.setCreatedAt(LocalDateTime.now());
         likeRepository.save(likeEnti);
     }
 
-    public void deletelikes(Long postCid, Long userCid) { //좋아요 취소 > 테이블에서 row 삭제
-        likeRepository.deleteByPostCidAndUserCid(postCid, userCid);
+    public void deletelikes(Long postCid,  UserEntity user) { //좋아요 취소 > 테이블에서 row 삭제
+        likeRepository.deleteByPostCidAndUser(postCid, user);
     }
 
     public void updateLikesCount(Long postCid) {

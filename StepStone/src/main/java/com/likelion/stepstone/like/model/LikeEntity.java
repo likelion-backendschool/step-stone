@@ -1,6 +1,7 @@
 package com.likelion.stepstone.like.model;
 
 
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,9 +25,13 @@ public class LikeEntity {
     // null 값이 넘어와도 AUTO_INCREMENT를 사용하여 기본키를 생성한다.
     private Long likeId;
 
+//    @Setter
+//    @Column(name = "user_cid")
+//    private Long userCid;
+
     @Setter
-    @Column(name = "user_cid")
-    private Long userCid;
+    @ManyToOne
+    private UserEntity user;
 
     @Setter
     @Column(name = "post_cid")
@@ -36,10 +41,13 @@ public class LikeEntity {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+
+
     public static LikeEntity toEntity(LikeDto dto) {
         LikeEntity entity = LikeEntity.builder()
                 .likeId(dto.getLikeId())
-                .userCid(dto.getUserCid())
+//                .userCid(dto.getUserCid())
+                .user(dto.getUser())
                 .postCid(dto.getPostCid())
                 .createdAt(dto.getCreatedAt())
                 .build();

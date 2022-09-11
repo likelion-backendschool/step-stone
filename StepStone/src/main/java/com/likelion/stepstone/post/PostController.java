@@ -106,12 +106,12 @@ public class PostController {
     }
 
     @GetMapping("/detail/{postCid}")
-    public String detail(Model model, @PathVariable  long postCid) {
-        // 하트 버튼 골라서 나오기, detail.html에 넘겨줄 객체 생성.
-        Long userCid = 1L;
+    public String detail(Principal principal,Model model, @PathVariable  long postCid) {
+
+        UserEntity user = userService.getUser(principal.getName());
         String exist = "notnull";
         String notexist = "null";
-        LikeEntity likeEntity = likeService.getLikeEntity(postCid, userCid);
+        LikeEntity likeEntity = likeService.getLikeEntity(postCid, user);
        if(likeEntity != null){
            model.addAttribute("likeEntity",exist);
        }else{
@@ -133,7 +133,3 @@ public class PostController {
     }
 
 }
-
-
-
-
