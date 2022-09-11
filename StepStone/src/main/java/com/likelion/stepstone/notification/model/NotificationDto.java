@@ -41,4 +41,8 @@ public class NotificationDto {
 
         return dto;
     }
+
+    public void read(){
+        this.checked = true;
+    }
 }
