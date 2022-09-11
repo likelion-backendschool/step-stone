@@ -1,5 +1,6 @@
 <html
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         xmlns:th="http://thymeleaf.org"
         layout:decorate="~{layout}">
 <head>
@@ -29,7 +30,7 @@
         </div>
     </div>
 
-<!-- 좋아요 -->
+    <!-- 좋아요 -->
     <script>
     function heart_info(){
  var likeEntity = "[[${likeEntity}]]";
@@ -41,23 +42,25 @@
          }
          return src;
     }
+
     </script>
 
     <a th:href="@{|/post/${postEntity.postCid}/likes|}">
-        <img id="heart" src="" />
+        <img id="heart" src=""/>
         <script>document.getElementById('heart').src=heart_info()</script>
     </a>
     <!-- 좋아요 -->
     <div class="d-flex justify-content-end my-2">
-        <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"  th:text="수정"></a>
-
-<!--           sec:authorize="isAuthenticated()"-->
-<!--           테이블 수정 해야할 듯.. OneToMany 설정하기-->
-<!--           th:if="${postEntity.userCid != null and #authentication.getPrincipal().getUsername() == postEntity.userCid.userName}"-->
+        <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
+           th:text="수정"></a>
 
         <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
-           th:href="@{|/post/delete/${postEntity.postCid}|}"
-           class="btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+           th:href="@{|/post/delete/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
+           th:text="삭제"></a>
     </div>
 </div>
 </html>
