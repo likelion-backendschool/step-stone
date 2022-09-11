@@ -20,11 +20,10 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void create(PostDto postDto, UserEntity user) {
+    public void create(PostDto postDto) {
         PostEntity postEntity = PostEntity.toEntity(postDto);
         postEntity.setPostId(UUID.randomUUID());
         postEntity.setLikes(0);
-        postEntity.setUser(user);
 
         postRepository.save(postEntity);
 

@@ -1,5 +1,6 @@
 package com.likelion.stepstone.projects.model;
 
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +23,10 @@ public class ProjectVo {
     @Setter
     private String body;
 
-    @Setter
-    private Long userCid;
+//    @Setter
+//    private Long userCid;
+    private final UserEntity user;
+
 
     @Setter
     private LocalDateTime createdAt;
@@ -37,7 +40,8 @@ public class ProjectVo {
                 .projectId(dto.getProjectId())
                 .title(dto.getTitle())
                 .body(dto.getBody())
-                .userCid(dto.getUserCid())
+//                .userCid(dto.getUserCid())
+                .user(dto.getUser())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .build();

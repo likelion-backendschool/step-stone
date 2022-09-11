@@ -36,7 +36,7 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
 //    @ResponseBody
-    public String create(Principal principal,Model model, PostForm postForm,UserEntity  user) {
+    public String create(Principal principal,Model model, PostForm postForm) {
 
         //유효성 체크
         boolean hasError = false;
@@ -56,7 +56,7 @@ public class PostController {
             return "post/form";
         }
 
-        UserEntity siteUser = userService.getUser(principal.getName());
+        UserEntity user = userService.getUser(principal.getName());
 
         PostDto postDto = PostDto.builder()
                 .title(postForm.getTitle())
@@ -64,7 +64,7 @@ public class PostController {
                 .user(user)
                 .build();
 
-        postService.create(postDto, siteUser);
+        postService.create(postDto);
         //return siteUser;
         return "redirect:/post/list";
     }

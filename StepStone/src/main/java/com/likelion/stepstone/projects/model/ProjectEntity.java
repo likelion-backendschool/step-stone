@@ -1,5 +1,6 @@
 package com.likelion.stepstone.projects.model;
 
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -38,8 +39,10 @@ public class ProjectEntity {
     private String body;
 
 
-    @Column(name = "user_cid")
-    private Long userCid;
+    //    @Column(name = "user_cid")
+//    private Long userCid;
+    @ManyToOne
+    private UserEntity user;
 
     @Setter
     @CreationTimestamp
@@ -58,7 +61,8 @@ public class ProjectEntity {
                 .projectId(dto.getProjectId())
                 .title(dto.getTitle())
                 .body(dto.getBody())
-                .userCid(dto.getUserCid())
+//                .userCid(dto.getUserCid())
+                .user(dto.getUser())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .build();

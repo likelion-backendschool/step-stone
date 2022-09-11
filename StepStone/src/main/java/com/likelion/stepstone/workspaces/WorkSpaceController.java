@@ -1,29 +1,38 @@
 package com.likelion.stepstone.workspaces;
 
+import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RequestMapping("/workspace")
 @Controller
 public class WorkSpaceController {
 
     private final WorkSpaceService workSpaceService;
+    private final UserService userService;
 
-    public WorkSpaceController(WorkSpaceService workSpaceService) {
+    public WorkSpaceController(WorkSpaceService workSpaceService,UserService userService) {
         this.workSpaceService = workSpaceService;
+        this.userService = userService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String create(WorkSpaceForm workSpaceForm) {
         return "workspace/workspace_form";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String createPost(Model model, WorkSpaceForm workSpaceForm) {
+    public String createPost(Principal principal, Model model, WorkSpaceForm workSpaceForm) {
 
         //유효성 체크
         boolean hasError = false;
@@ -43,6 +52,7 @@ public class WorkSpaceController {
             return "workspace/workspace_form";
         }
 
+        UserEntity user = userService.getUser(principal.getName());
         // 객체 저장방법 고르기
         //  workspaceService.create(workSpaceForm.getSubject(), workSpaceForm.getContent());
 
@@ -50,6 +60,7 @@ public class WorkSpaceController {
         WorkSpaceDto workSpaceDto = WorkSpaceDto.builder()
                 .title(workSpaceForm.getTitle())
                 .body(workSpaceForm.getBody())
+                .user(user)
                 .build();
 
         workSpaceService.create(workSpaceDto);
