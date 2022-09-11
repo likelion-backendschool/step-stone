@@ -49,8 +49,12 @@
     </a>
     <!-- 좋아요 -->
     <div class="d-flex justify-content-end my-2">
-        <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
-           th:text="수정"></a>
+        <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"  th:text="수정"></a>
+
+<!--           sec:authorize="isAuthenticated()"-->
+<!--           테이블 수정 해야할 듯.. OneToMany 설정하기-->
+<!--           th:if="${postEntity.userCid != null and #authentication.getPrincipal().getUsername() == postEntity.userCid.userName}"-->
+
         <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
            th:href="@{|/post/delete/${postEntity.postCid}|}"
            class="btn btn-sm btn-outline-secondary" th:text="삭제"></a>

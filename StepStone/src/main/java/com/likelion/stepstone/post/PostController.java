@@ -11,9 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
-import java.util.Optional;
 
 
 @RequestMapping("/post")
@@ -37,7 +35,8 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String create(Principal principal,Model model, PostForm postForm) {
+//    @ResponseBody
+    public String create(Principal principal,Model model, PostForm postForm,UserEntity  user) {
 
         //유효성 체크
         boolean hasError = false;
@@ -62,11 +61,11 @@ public class PostController {
         PostDto postDto = PostDto.builder()
                 .title(postForm.getTitle())
                 .body(postForm.getBody())
-                .userCid(siteUser.getUserCid())
+                .user(user)
                 .build();
 
-        postService.create(postDto);
-
+        postService.create(postDto, siteUser);
+        //return siteUser;
         return "redirect:/post/list";
     }
 

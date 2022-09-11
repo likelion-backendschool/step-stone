@@ -1,5 +1,6 @@
 package com.likelion.stepstone.post.model;
 
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,8 @@ public class PostDto {
     private Integer likes;
 
     @Setter
-    private long userCid;
+    private UserEntity user;
+
 
     @Setter
     private LocalDateTime createdAt;
@@ -42,7 +44,7 @@ public class PostDto {
     public static PostDto toDto(PostEntity entity) {
         PostDto dto = PostDto.builder()
                 .postCid(entity.getPostCid())
-                .userCid(entity.getUserCid())
+                .user(entity.getUser())
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .likes(entity.getLikes())
