@@ -12,7 +12,8 @@
             <img src="/stepstone_icon.png" width="55" height="55"/>
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -40,19 +41,28 @@
         <!-- 알림 아이콘 부분 -->
         <div class="justify-content-center">
             <ul class="navbar-nav">
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="">-->
-<!--                        <i class="fa-solid fa-bell"></i>-->
-<!--                    </a>-->
-<!--                </li>-->
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link" href="">-->
+                <!--                        <i class="fa-solid fa-bell"></i>-->
+                <!--                    </a>-->
+                <!--                </li>-->
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <div class="dropdown">
-                        <a th:if="${!hasNotification}" class="fa fa-bell-o" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
-                        <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <div class="dropdown-center" id="dropdown">
+                        <a th:if="${!hasNotification}" class="fa fa-bell-o"></a>
+                        <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle" type="button"
+                           data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
+                        <ul class="dropdown-menu" id="dropdown-menu">
+                            <li th:each="notification : ${notifications}">
+                                <a class="dropdown-item" th:text="${notification.title}"
+                                   style="font-size : 12px" data-bs-toggle="collapse"
+                                th:href="'#collapse' + ${notification.id}" aria-expanded="false" th:attr="aria-controls='#collapse' + ${notification.id}">Action</a>
+                                <!--                                   th:attr="data-bs-target='#collapse' + ${notification.id}"-->
+                                <div class="collapse ms-1 mt-1" th:id="'collapse' + ${notification.id}" >
+                                <div style="font-size : 10px" th:text="${notification.message}">
+                                    Lorem ipsum dolor text....
+                                </div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -75,5 +85,16 @@
         </div>
 
     </div>
+    <script>
+        function stopProp(event) {
+            event.stopPropagation();
+        }
+
+        let textarea = document.getElementById('dropdown-menu');
+        // 이벤트 리스너가 catch 한 이벤트를 submitTextarea 에 넘겨줍니다.
+        textarea.addEventListener('click', event => stopProp(event));
+
+    </script>
 </nav>
+
 </html>
