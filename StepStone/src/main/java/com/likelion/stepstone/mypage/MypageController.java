@@ -4,7 +4,6 @@ package com.likelion.stepstone.mypage;
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.post.PostService;
 import com.likelion.stepstone.post.model.PostEntity;
-import com.likelion.stepstone.post.model.PostVo;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
@@ -44,20 +43,19 @@ public class MypageController {
 
         String userName = userEntity.getName();
         String userRole = userEntity.getRole();
+        Long userCid = userEntity.getUserCid();
         // Role이 사용자 -> post 디비에서 usercid로 가져오기
         // Role이 개발자 -> project 디비에서 usercid로 가져오기
-        if (userRole.equals("ROLE_USER")) {
-            Page<PostEntity> paging = postService.getPostList(page);
-            model.addAttribute("paging", paging);
-        }
-        /*
-        @GetMapping("/list")
-        public String list(Model model, @RequestParam(defaultValue = "0") int page) {
-            Page<PostEntity> paging = postService.getPostList(page);
-            model.addAttribute("paging", paging);
-            return "post/list";
-        }
-         */
+
+//        if (userRole.equals("ROLE_DEVELOPER")) {
+//            Page<PostEntity> paging = postService.getUserPostList(page, userCid);
+//            model.addAttribute("paging", paging);
+//        }
+//
+//        if (userRole.equals("ROLE_USER")) {
+//            Page<PostEntity> paging = postService.getUserPostList(page, userCid);
+//            model.addAttribute("paging", paging);
+//        }
 
         model.addAttribute("userName", userName);
 
