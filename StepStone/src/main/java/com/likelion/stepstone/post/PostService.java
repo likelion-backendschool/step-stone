@@ -59,6 +59,23 @@ public class PostService {
 
     }
 
+    public Page<PostEntity> getPostList(int page) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
+        return postRepository.findAll(pageable);
+    }
+
+    private Pageable getPageable(int page, int size, Sort DESC) {
+        Pageable pageable = PageRequest.of(page, size, DESC);
+        return pageable;
+    }
+
+
+    public List<PostVo> getPostList() {
+        List<PostEntity> postEntities = postRepository.findAll();
+        return postEntities.stream().map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity))).collect(Collectors.toList());
+    }
+
+
     public List<PostVo> getSortedPostList() {
         List<PostEntity> postEntities = postRepository.findAll();
 

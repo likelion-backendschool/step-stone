@@ -72,33 +72,32 @@ public class PostController {
 
     }
 
-
-//    @GetMapping("/list")
-//    public String boardList(Model model) {
-//
-//        model.addAttribute("list", PostService.postList());
-//        return "boardList";
-//    }
-
-        @GetMapping("/read/{pageNo}")
-        public String findPaginated ( @PathVariable(value = "pageNo") int pageNo, Model model){
-
-            Page<PostDto> page = postService.findPaginated(1, 3, "likes", "desc");
-            List<PostDto> likePosts = page.getContent();
-
-            model.addAttribute("likePosts", likePosts);
-
-            Page<PostDto> currPage = postService.findPaginated(pageNo, 10, "createdAt", "desc");
-            List<PostDto> listPosts = currPage.getContent();
-
-            model.addAttribute("listPosts", listPosts);
-            model.addAttribute("currentPage", pageNo);
-            model.addAttribute("totalPages", currPage.getTotalPages());
-            model.addAttribute("totalItems", currPage.getTotalElements());
-
-            return "post/list";
-        }
+    @GetMapping("/list")
+    public String list(Model model, @RequestParam(defaultValue = "0") int page) {
+        Page<PostEntity> paging = postService.getPostList(page);
+        model.addAttribute("paging", paging);
+        return "post/list";
     }
+
+//    @GetMapping("/read/{pageNo}")
+//    public String findPaginated ( @PathVariable(value = "pageNo") int pageNo, Model model){
+//
+//        Page<PostDto> page = postService.findPaginated(1, 3, "likes", "desc");
+//        List<PostDto> likePosts = page.getContent();
+//
+//        model.addAttribute("likePosts", likePosts);
+//
+//        Page<PostDto> currPage = postService.findPaginated(pageNo, 10, "createdAt", "desc");
+//        List<PostDto> listPosts = currPage.getContent();
+//
+//        model.addAttribute("listPosts", listPosts);
+//        model.addAttribute("currentPage", pageNo);
+//        model.addAttribute("totalPages", currPage.getTotalPages());
+//        model.addAttribute("totalItems", currPage.getTotalElements());
+//
+//        return "post/list";
+//    }
+}
 
 
 

@@ -1,100 +1,190 @@
-<!DOCTYPE html>
-<html lang="ko"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://thymeleaf.org"
-      layout:decorate="~{layout}">
+<html  lang="ko"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       xmlns:th="http://thymeleaf.org"
+       layout:decorate="~{layout}">
 
 
-<head>
-    <meta charset="utf-8">
-    <title>Posts System</title>
+<div layout:fragment="content">
+    <div class="container my-3">
+        <h3 class="my-3 border-bottom pb-2"></h3>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-</head>
-
-<body style="background-color: #FFFFFF;">
-
-<div layout:fragment="content" class="container my-2">
-    <h1>Posts List <a th:href="@{/post/form}" class="btn btn-primary">글쓰기</a></h1>
-
-
-    <table border="1" class="table table-striped table-responsive-md">
-        <thead class=>
-        <tr>
-            <th>Id</th>
-            <th>title</th>
-            <th>body</th>
-            <th>likes</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="post : ${likePosts}" >
-            <td th:text="${post.userCid}"></td>
-            <td>
-                <a th:text="${post.title}" th:href="@{|/post/detail/${post.postCid}|}" ></a>
-            </td>
-            <td th:text="${post.body}"></td>
-            <td th:text="${post.likes}"></td>
-
-        </tr>
-        </tbody>
-    </table>
-
-    <table border="1" class="table table-striped table-responsive-md">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>title</th>
-            <th>body</th>
-            <th>likes</th>
-            <th>postCid</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="post : ${listPosts}">
-            <td th:text="${post.userCid}"></td>
-            <td>
-                <a th:text="${post.title}" th:href="@{|/post/detail/${post.postCid}|}" >
-                </a>
-            </td>
-            <td th:text="${post.body}"></td>
-            <td th:text="${post.likes}"></td>
-            <td th:text="${post.postCid}"></td>
-
-        </tr>
-        </tbody>
-    </table>
-
-    <div th:if="${totalPages > 1}">
-        <div class="row col-sm-10">
-            <div class="col-sm-2">
-                Total Rows: [[${totalItems}]]
+        <!-- 최근 이슈 게시글 부분 -->
+        <div style="margin: 100px 0;">
+            <div class="container-fluid">
+                <h4 class="mx-3 my-4">최근 이슈 게시글</h4>
             </div>
-            <div class="col-sm-1">
-                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-      <a th:if="${currentPage != i}" th:href="@{'/post/read/' + ${i}}">[[${i}]]</a>
-      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                    </span>
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/post/read/' + ${currentPage + 1}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
-            </div>
+            <div class="container-fluid">
+                <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/post/read/' + ${totalPages}}">Last</a>
-                <span th:unless="${currentPage < totalPages}">Last</span>
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="cards-wrapper">
+                                <tr><div class="card" th:each="post: ${posts1}">
+                                    <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
+                                    <div class="card-body">
+                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
+                                        <td><p class="card-text" th:text="${post.body}"></p><td>
+                                        <td><p>
+                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                            <span class="card-text" th:text="${post.likes}"></span>
+                                        </p><td>
+                                        <td><div><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a></div><td>
+                                    </div>
+                                </div><tr>
+                                <!-- 아래 코드는 뼈대를 위한 코드 (참고용) / display: none
+                                <div class="card" style="display: none">
+                                    <div class="card-body">
+                                        <h5 class="card-title">최근 이슈 게시글 제목</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">작성자</h6>
+                                        <p class="card-text">최근 이슈 게시글 본문 내용</p>
+                                        <a href="#" class="card-link">Card link</a>
+                                    </div>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="cards-wrapper">
+                                <tr><div class="card" th:each="post: ${posts2}">
+                                    <!-- 4, 5, 6번 게시글 -->
+                                    <div class="card-body">
+                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
+                                        <td><p class="card-text" th:text="${post.body}"></p><td>
+                                        <td><p>
+                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                            <span class="card-text" th:text="${post.likes}"></span>
+                                        </p><td>
+                                        <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
+                                    </div>
+                                </div><tr>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="cards-wrapper">
+                                <tr><div class="card" th:each="post: ${posts3}">
+                                    <!-- 7, 8, 9번 게시글 -->
+                                    <div class="card-body">
+                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
+                                        <td><p class="card-text" th:text="${post.body}"></p><td>
+                                        <td><p>
+                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                            <span class="card-text" th:text="${post.likes}"></span>
+                                        </p><td>
+                                        <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
+                                    </div>
+                                </div><tr>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
         </div>
+
+
+
+        <div class="d-flex justify-content-end my-2">
+            <a th:href="@{/post/create}" class="btn btn-light">게시글 쓰기 </a>
+        </div>
+
+
+        <table class="table">
+            <thead>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${paging}">
+
+                <div class="card my-3">
+
+                    <div class="card-header" th:onclick="|location.href='@{|detail/${post.postCid}|}'|"
+                         style="cursor:pointer;">
+                        <span th:text="${post.title}"></span>
+
+                    </div>
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+
+                            <div th:text="${post.body}"></div>
+
+                            <div class="badge bg-light text-dark p-2 text-start">
+                                <span th:text="${post.postCid}"></span>
+                                <span th:text="${post.likes}"></span>
+                            </div>
+                        </blockquote>
+
+                    </div>
+
+            </tr>
+            </tbody>
+        </table>
+        <!-- 페이징처리 시작 -->
+        <div th:if="${!paging.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{|?page=${paging.number-1}|}">
+                        <!--  <span>이전</span>  -->
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                    th:classappend="${page == paging.number} ? 'active'"
+                    th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                    class="page-item">
+                    <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                        <!--  <span>다음</span>  -->
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- 페이징처리 끝 -->
+
+        <!--    <div th:if="${totalPages > 1}">-->
+        <!--        <div class="row col-sm-10">-->
+        <!--            <div class="col-sm-2">-->
+        <!--                Total Rows: [[${totalItems}]]-->
+        <!--            </div>-->
+        <!--            <div class="col-sm-1">-->
+        <!--                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+        <!--      <a th:if="${currentPage != i}" th:href="@{'/post/list/' + ${i}}">[[${i}]]</a>-->
+        <!--      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;-->
+        <!--                    </span>-->
+        <!--            </div>-->
+        <!--            <div class="col-sm-1">-->
+        <!--                <a th:if="${currentPage < totalPages}" th:href="@{'/post/list/' + ${currentPage + 1}}">Next</a>-->
+        <!--                <span th:unless="${currentPage < totalPages}">Next</span>-->
+        <!--            </div>-->
+
+        <!--            <div class="col-sm-1">-->
+        <!--                <a th:if="${currentPage < totalPages}" th:href="@{'/post/list/' + ${totalPages}}">Last</a>-->
+        <!--                <span th:unless="${currentPage < totalPages}">Last</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+
+
     </div>
-
-
 </div>
-</body>
-
 </html>
-
-
-
