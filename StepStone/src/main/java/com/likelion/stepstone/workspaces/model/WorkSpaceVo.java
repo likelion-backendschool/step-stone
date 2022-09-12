@@ -1,5 +1,6 @@
 package com.likelion.stepstone.workspaces.model;
 
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +31,6 @@ public class WorkSpaceVo {
     private String body;
 
     private final UserEntity user;
-
 
     @Setter
     private LocalDateTime createdAt;

@@ -3,6 +3,8 @@ package com.likelion.stepstone.projects;
 import com.likelion.stepstone.Util.DataNotFoundException;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
+import com.likelion.stepstone.user.model.UserDto;
+import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,11 +19,14 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public void create(ProjectDto projectDto) {
+    public void create(ProjectDto projectDto, UserDto userDto) {
         ProjectEntity projectEntity = ProjectEntity.toEntity(projectDto);
+        UserEntity user = UserEntity.toEntity(userDto);
+
         projectEntity.setTitle(projectDto.getTitle());
         projectEntity.setBody(projectDto.getBody());
         projectEntity.setCreatedAt(LocalDateTime.now());
+        projectEntity.setUser(user);
 
         projectRepository.save(projectEntity);
     }

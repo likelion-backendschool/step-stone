@@ -1,6 +1,7 @@
 package com.likelion.stepstone.workspaces;
 
 import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
@@ -52,17 +53,15 @@ public class WorkSpaceController {
             return "workspace/workspace_form";
         }
 
-        UserEntity user = userService.getUser(principal.getName());
-        // 객체 저장방법 고르기
-        //  workspaceService.create(workSpaceForm.getSubject(), workSpaceForm.getContent());
+//        UserEntity user = userService.getUser(principal.getName());
+        UserDto user = userService.getUser(principal.getName());
 
         WorkSpaceDto workSpaceDto = WorkSpaceDto.builder()
                 .title(workSpaceForm.getTitle())
                 .body(workSpaceForm.getBody())
-                .user(user)
                 .build();
 
-        workSpaceService.create(workSpaceDto);
+        workSpaceService.create(workSpaceDto,user);
 
         return "redirect:/workspace/list";
     }

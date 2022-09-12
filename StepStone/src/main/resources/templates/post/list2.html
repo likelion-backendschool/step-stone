@@ -167,7 +167,8 @@
                                  th:text="${post.body}"></div>
                             <div>
                                 <span class="badge bg-light text-dark p-2 text-start" th:text="${post.postCid}"></span>
-                                <span>
+                                <span  th:each="user, customStat : ${users}">
+
                                 <img id="heart" src="" />
                                 <script>document.getElementById('heart').src=heart_info()</script>
                                 </span>

@@ -49,6 +49,9 @@ public class PostEntity {
     @ManyToOne
     private UserEntity user;
 
+//    @Column(name = "likeOX")
+//    private boolean likeresult;
+
     @Setter
     @CreationTimestamp
     @Column(name = "created_at")
@@ -64,6 +67,7 @@ public class PostEntity {
         PostEntity entity = PostEntity.builder()
                 .postId(dto.getPostId())
                 .user(dto.getUser())
+//                .likeresult(false)
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())

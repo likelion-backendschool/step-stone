@@ -1,5 +1,6 @@
 package com.likelion.stepstone.like.model;
 
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 

@@ -1,8 +1,10 @@
 package com.likelion.stepstone.post;
 
+import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,8 +22,11 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void create(PostDto postDto) {
+    public void create(PostDto postDto, UserDto userDto) {
         PostEntity postEntity = PostEntity.toEntity(postDto);
+        UserEntity user = UserEntity.toEntity(userDto);
+
+        postEntity.setUser(user);
         postEntity.setPostId(UUID.randomUUID());
         postEntity.setLikes(0);
 
@@ -34,7 +39,13 @@ public class PostService {
         return postEntities.stream().map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity))).collect(Collectors.toList());
     }
 
-    public Page<PostEntity> getList(int page) {
+    public Page<PostEntity> getList(int page/*UserEntity user,  List<LikeEntity> likeEntity */) {
+//    for(LikeEntity likes : likeEntity){
+//        if(likes.getUser() == user){
+//
+//        }
+//    }
+
         Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
         return postRepository.findAll(pageable);
     }
@@ -53,15 +64,19 @@ public class PostService {
     }
 */
 
-    public PostEntity getPostEntity(long postCid) {
-        return postRepository.findByPostCid(postCid);
+    public PostDto getPostDto(long postCid) {
+        PostDto postDto = PostDto.toDto(postRepository.findByPostCid(postCid));
+        return postDto;
     }
-    public void delete(PostEntity postEntity) {postRepository.delete(postEntity);}
+    public void delete(PostDto postDto) {
+        PostEntity postEntity = PostEntity.toEntity(postDto);
+        postRepository.delete(postEntity);}
 
-    public void modify(PostEntity postEntity, String title, String body) {
-        postEntity.setTitle(title);
-        postEntity.setBody(body);
-        postEntity.setUpdatedAt(LocalDateTime.now());
+    public void modify(PostDto postDto, String title, String body) {
+        postDto.setTitle(title);
+        postDto.setBody(body);
+        postDto.setUpdatedAt(LocalDateTime.now());
+        PostEntity postEntity = PostEntity.toEntity(postDto);
         postRepository.save(postEntity);
     }
 

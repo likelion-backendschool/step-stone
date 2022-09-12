@@ -4,6 +4,7 @@ package com.likelion.stepstone.projects;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.workspaces.WorkSpaceForm;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
@@ -56,17 +57,15 @@ public class ProjectController {
             return "project/project_form";
         }
 
-        UserEntity user = userService.getUser(principal.getName());
-     // 객체 저장방법 고르기
-     //  questionService.create(questionFrom.getSubject(), questionFrom.getContent());
+//        UserEntity user = userService.getUser(principal.getName());
+        UserDto user = userService.getUser(principal.getName());
 
         ProjectDto projectDto = ProjectDto.builder()
                 .title(projectForm.getTitle())
                 .body(projectForm.getBody())
-                .user(user)
                 .build();
 
-        projectService.create(projectDto);
+        projectService.create(projectDto,user);
 
         return "redirect:/project/list";
     }

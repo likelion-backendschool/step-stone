@@ -80,9 +80,12 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public UserEntity getUser(String name) {
-        return this.userRepository.findByUserId(name)
-                .orElseThrow(() -> new DataNotFoundException("siteuser not found"));
+    public UserDto getUser(String name) {
+        UserEntity userEntity =userRepository.findByUserId(name)
+                        .orElseThrow(() -> new DataNotFoundException("user not found"));
+        UserDto userDto = UserDto.toDto(userEntity);
+
+        return userDto;
     }
 
 }

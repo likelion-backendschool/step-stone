@@ -1,6 +1,7 @@
 package com.likelion.stepstone.like;
 
 import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,8 @@ public class LikeController {
     @RequestMapping("/post/{postCid}/likes")
     public String like(Principal principal,@PathVariable Long postCid) {
 
-        UserEntity user = userService.getUser(principal.getName());
+//        UserEntity user = userService.getUser(principal.getName());
+        UserDto user = userService.getUser(principal.getName());
 
         likeService.idCheck2(postCid, user);
         return "redirect:/post/detail/{postCid}";
