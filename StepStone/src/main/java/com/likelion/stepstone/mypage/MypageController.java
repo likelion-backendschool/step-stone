@@ -3,10 +3,16 @@ package com.likelion.stepstone.mypage;
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.post.PostService;
+import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
+import com.likelion.stepstone.post.model.PostVo;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
+import com.likelion.stepstone.workspaces.WorkSpaceService;
+import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
+import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
+import com.likelion.stepstone.workspaces.model.WorkSpaceVo;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -24,14 +31,15 @@ public class MypageController {
 
     private final UserService userService;
     private final PostService postService;
+    private final WorkSpaceService workSpaceService;
 
-    public MypageController(UserService userService, PostService postService) {
+    public MypageController(UserService userService, PostService postService, WorkSpaceService workSpaceService) {
         this.userService = userService;
         this.postService = postService;
+        this.workSpaceService = workSpaceService;
     }
 
     @GetMapping("/mypage")
-    // Todo : 게시글 띄우기 부분 구현 (해당 user가 작성한 게시글 보여주기 / Role에 따라 다름)
     public String showMypage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @RequestParam(defaultValue = "0") int page) {
 
         // 로그인을 하지 않았으면 마이페이지 접속시 로그인 띄우기
@@ -44,16 +52,15 @@ public class MypageController {
         String userName = userEntity.getName();
         String userRole = userEntity.getRole();
         Long userCid = userEntity.getUserCid();
-        // Role이 사용자 -> post 디비에서 usercid로 가져오기
-        // Role이 개발자 -> project 디비에서 usercid로 가져오기
 
-//        if (userRole.equals("ROLE_DEVELOPER")) {
-//            Page<PostEntity> paging = postService.getUserPostList(page, userCid);
-//            model.addAttribute("paging", paging);
-//        }
-//
+        if (userRole.equals("ROLE_DEVELOPER")) {
+            List<WorkSpaceDto> workSpaceDtoList = workSpaceService.getUserWPostList(userCid);
+            model.addAttribute("workpost", workSpaceDtoList);
+        }
+
+        // TODO : Post 작성 시에도 로그인 정보 할당 수정해서 getUserPostList 완성하기
 //        if (userRole.equals("ROLE_USER")) {
-//            Page<PostEntity> paging = postService.getUserPostList(page, userCid);
+//            List<PostDto> postDtoList = postService.getUserPostList(userCid);
 //            model.addAttribute("paging", paging);
 //        }
 

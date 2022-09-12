@@ -3,12 +3,16 @@ package com.likelion.stepstone.workspaces;
 import com.likelion.stepstone.Util.DataNotFoundException;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
+import com.likelion.stepstone.workspaces.model.WorkSpaceVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class WorkSpaceService {
     public final WorkSpaceRepository workspaceRepository;
@@ -48,5 +52,17 @@ public class WorkSpaceService {
         workSpaceEntity.setUpdatedAt(LocalDateTime.now());
         workspaceRepository.save(workSpaceEntity);
     }
+
+    public List<WorkSpaceDto> getUserWPostList(Long userCid) {
+        List<WorkSpaceEntity> workSpaceEntities = workspaceRepository.findAll();
+
+        List<WorkSpaceDto> workSpaceDtos = workSpaceEntities.stream()
+                .filter(workSpaceEntity -> workSpaceEntity.getUser().getUserCid().equals(userCid))
+                .map(workSpaceEntity -> WorkSpaceVo.toVo(WorkSpaceDto.toDto(workSpaceEntity)))
+                .collect(Collectors.toList());
+
+        return workSpaceDtos;
+    }
+
 
 }

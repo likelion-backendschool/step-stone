@@ -3,6 +3,9 @@ package com.likelion.stepstone.post;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
+import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
+import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
+import com.likelion.stepstone.workspaces.model.WorkSpaceVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -87,4 +90,17 @@ public class PostService {
         return postVoList;
     }
 
+    // TODO : Post 작성 시에도 로그인 정보 할당 수정해서 getUserPostList 완성하기
+    /*
+    public List<PostDto> getUserPostList(Long userCid) {
+        List<PostEntity> postEntities = postRepository.findAll();
+
+        List<PostDto> postDtos = postEntities.stream()
+                .filter(workSpaceEntity -> workSpaceEntity.getUser().getUserCid().equals(userCid))
+                .map(workSpaceEntity -> WorkSpaceVo.toVo(WorkSpaceDto.toDto(workSpaceEntity)))
+                .collect(Collectors.toList());
+
+        return workSpaceVos;
+    }
+     */
 }
