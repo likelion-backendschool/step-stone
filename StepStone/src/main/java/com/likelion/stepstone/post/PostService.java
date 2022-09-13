@@ -30,7 +30,7 @@ public class PostService {
         PostEntity postEntity = PostEntity.toEntity(postDto);
         postEntity.setPostId(UUID.randomUUID());
         postEntity.setLikes(0);
-        postEntity.setUserCid(1L);
+//        postEntity.setUserCid(1L);
 
         postRepository.save(postEntity);
     }
