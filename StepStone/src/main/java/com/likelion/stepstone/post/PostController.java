@@ -1,6 +1,7 @@
 package com.likelion.stepstone.post;
 
 import com.likelion.stepstone.like.LikeService;
+import com.likelion.stepstone.like.model.LikeDto;
 import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
@@ -37,7 +38,6 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-//    @ResponseBody
     public String create(Principal principal,Model model, PostForm postForm) {
 
         //유효성 체크
@@ -58,7 +58,6 @@ public class PostController {
             return "post/form";
         }
 
-//        UserEntity user = userService.getUser(principal.getName());
         UserDto user = userService.getUser(principal.getName());
 
         PostDto postDto = PostDto.builder()
@@ -67,7 +66,7 @@ public class PostController {
                 .build();
 
         postService.create(postDto,user);
-        //return siteUser;
+
         return "redirect:/post/list";
     }
 
@@ -113,9 +112,10 @@ public class PostController {
         UserDto user = userService.getUser(principal.getName());
         String exist = "notnull";
         String notexist = "null";
-        LikeEntity likeEntity = likeService.getLikeEntity(postCid, user);
 
-       if(likeEntity != null){
+        LikeDto likeDto = likeService.getLikeDto(postCid, user);
+
+       if(likeDto != null){
            model.addAttribute("likeEntity",exist);
        }else{
            model.addAttribute("likeEntity",notexist);

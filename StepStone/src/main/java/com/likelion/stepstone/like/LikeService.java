@@ -1,13 +1,12 @@
 package com.likelion.stepstone.like;
 
+import com.likelion.stepstone.like.model.LikeDto;
 import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.PostRepository;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +16,20 @@ public class LikeService {
     private LikeRepository likeRepository;
     private PostRepository postRepository;
 
-    public  LikeEntity getLikeEntity(long postCid, UserDto userDto) {
-    UserEntity user = UserEntity.toEntity(userDto);
-        return likeRepository.findByPostCidAndUser(postCid,user)
+    public LikeDto getLikeDto(long postCid, UserDto userDto) {
+
+        UserEntity user = UserEntity.toEntity(userDto);
+        LikeEntity likeEntity = likeRepository.findByPostCidAndUser(postCid, user)
                 .orElse(null);
+
+        LikeDto likeDto;
+
+        if (likeEntity != null) {
+            likeDto = LikeDto.toDto(likeEntity);
+        } else {
+            likeDto = null; }
+
+        return likeDto;
     }
 
     public void idCheck2(Long postCid, UserDto userDto) {
@@ -43,7 +52,7 @@ public class LikeService {
         likeRepository.save(likeEnti);
     }
 
-    public void deletelikes(Long postCid,  UserDto userDto) { //좋아요 취소 > 테이블에서 row 삭제
+    public void deletelikes(Long postCid, UserDto userDto) { //좋아요 취소 > 테이블에서 row 삭제
         UserEntity user = UserEntity.toEntity(userDto);
         likeRepository.deleteByPostCidAndUser(postCid, user);
     }
@@ -62,4 +71,7 @@ public class LikeService {
         UserEntity user = UserEntity.toEntity(userDto);
         return likeRepository.findByUser(user);
     }
+
+//    public List<LikeDto> getLikeDto(UserDto user) {
+//    }
 }
