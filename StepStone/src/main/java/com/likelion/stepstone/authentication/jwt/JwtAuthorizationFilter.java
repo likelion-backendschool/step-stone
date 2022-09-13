@@ -2,7 +2,6 @@ package com.likelion.stepstone.authentication.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
@@ -19,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
-
-import static com.likelion.stepstone.authentication.CookieUtils.addStrictCookie;
 
 // 시큐리티가 fliter 가지고 있는데 그 필터중에 BasicAuthenticationFilter 라는 것이 있음.
 // 권한이나 인증이 필요한 특정 주소를 요청했을 때 위 필터를 무조건 타게 되어있음.
