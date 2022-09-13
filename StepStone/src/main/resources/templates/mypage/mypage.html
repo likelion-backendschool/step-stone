@@ -36,8 +36,12 @@
 
                 <!-- user 이름 -->
                 <div class="col-md-auto">
-                  <span th:text="${userName}"></span>
+                  <div class="badge bg-light text-dark p-2 text-start">
+                    <span th:text="${userRole}"></span>
+                  </div>
+                  <span class="px-1" th:text="${userName}"></span>
                 </div>
+
 
                 <!-- user 비밀번호 변경 버튼 -->
                 <div class="col-md-auto">

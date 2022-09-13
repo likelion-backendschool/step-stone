@@ -56,11 +56,13 @@ public class MypageController {
         if (userRole.equals("ROLE_DEVELOPER")) {
             List<WorkSpaceDto> workSpaceDtoList = workSpaceService.getUserWPostList(userCid);
             model.addAttribute("postlist", workSpaceDtoList);
+            model.addAttribute("userRole", "개발자");
         }
 
         if (userRole.equals("ROLE_USER")) {
             List<PostVo> postVoList = postService.getUserPostList(userCid);
             model.addAttribute("postlist", postVoList);
+            model.addAttribute("userRole", "일반유저");
         }
 
         model.addAttribute("userName", userName);
