@@ -36,13 +36,10 @@ public class WorkSpaceEntity {
     @Column(name = "title")
     private String title;
 
-    // @Lob
+
     @Column(name = "body",columnDefinition = "TEXT")
     private String body;
 
-
-//    @Column(name = "user_cid")
-//    private Long userCid;
 
     @ManyToOne
     private UserEntity user;

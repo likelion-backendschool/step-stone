@@ -14,7 +14,8 @@
         <div class="card-body">
             <div class="badge bg-light text-dark p-2 text-start">
                 <div class="mb-2">
-                    <span th:text="|작성자 : ${workSpaceEntity.workspaceCid}|"></span>
+                    <span th:text="|작성자 : ${workSpaceEntity.user.name}|"></span> &nbsp&nbsp&nbsp&nbsp
+                    <span><img src="/envelop.svg"/></span>
                 </div>
             </div>
             <div  style="white-space:pre-wrap;" class="card-text" th:text="${workSpaceEntity.body}" rows="35"></div>

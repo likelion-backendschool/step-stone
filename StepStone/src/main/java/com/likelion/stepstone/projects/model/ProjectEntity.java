@@ -40,8 +40,6 @@ public class ProjectEntity {
     private String body;
 
 
-    //    @Column(name = "user_cid")
-//    private Long userCid;
     @ManyToOne
     private UserEntity user;
 

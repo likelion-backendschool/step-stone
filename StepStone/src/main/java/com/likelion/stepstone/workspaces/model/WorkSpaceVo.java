@@ -21,7 +21,6 @@ public class WorkSpaceVo {
      */
 
 
-
     private UUID workspaceId;
 
     @Setter
@@ -44,7 +43,6 @@ public class WorkSpaceVo {
                 .workspaceId(dto.getWorkspaceId())
                 .title(dto.getTitle())
                 .body(dto.getBody())
-//                .userCid(dto.getUserCid())
                 .user(dto.getUser())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
