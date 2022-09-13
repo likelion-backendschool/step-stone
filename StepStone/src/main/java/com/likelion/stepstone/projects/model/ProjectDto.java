@@ -41,6 +41,7 @@ public class ProjectDto {
     public static ProjectDto toDto(ProjectEntity entity) {
         ProjectDto dto = ProjectDto.builder()
                 .projectId(entity.getProjectId())
+                .projectCid(entity.getProjectCid())
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .user(entity.getUser())

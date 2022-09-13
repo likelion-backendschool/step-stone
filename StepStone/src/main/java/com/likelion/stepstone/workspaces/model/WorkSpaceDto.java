@@ -41,10 +41,10 @@ public class WorkSpaceDto {
     public static WorkSpaceDto toDto(WorkSpaceEntity entity) {
         WorkSpaceDto dto = WorkSpaceDto.builder()
                 .workspaceId(entity.getWorkspaceId())
+                .workspaceCid(entity.getWorkspaceCid())
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .user(entity.getUser())
-//                .userCid(entity.getUserCid())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();

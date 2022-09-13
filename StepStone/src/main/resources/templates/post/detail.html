@@ -45,12 +45,14 @@
     }
     </script>
 
-    <a th:href="@{|/post/${postEntity.postCid}/likes|}">
+    <span class="d-flex justify-content-end my-2">
+    게시글 공감하기&nbsp&nbsp&nbsp&nbsp
+        <a th:href="@{|/post/${postEntity.postCid}/likes|}">
         <img id="heart" src=""/>
         <script>document.getElementById('heart').src=heart_info()</script>
     </a>
     <!-- 좋아요 -->
-
+    </span>
     <div class="d-flex justify-content-end my-2">
         <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"

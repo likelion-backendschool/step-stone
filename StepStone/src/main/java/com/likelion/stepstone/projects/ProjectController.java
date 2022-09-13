@@ -5,10 +5,6 @@ import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
-import com.likelion.stepstone.user.model.UserEntity;
-import com.likelion.stepstone.workspaces.WorkSpaceForm;
-import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
-import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -57,7 +53,6 @@ public class ProjectController {
             return "project/project_form";
         }
 
-//        UserEntity user = userService.getUser(principal.getName());
         UserDto user = userService.getUser(principal.getName());
 
         ProjectDto projectDto = ProjectDto.builder()
@@ -80,34 +75,35 @@ public class ProjectController {
     @GetMapping("/modify/{projectCid}")
     public String projectModifyGet(@PathVariable long projectCid , ProjectForm projectForm) {
 
-        ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
+        ProjectDto projectDto = projectService.getProjectDto(projectCid);
 
-        projectForm.setTitle(projectEntity.getTitle());
-        projectForm.setBody(projectEntity.getBody());
+        projectForm.setTitle(projectDto.getTitle());
+        projectForm.setBody(projectDto.getBody());
         return "project/project_form";
     }
     @PostMapping("/modify/{projectCid}")
     public String projectModifyPost(@PathVariable long projectCid , ProjectForm projectForm) {
 
-        ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
-        projectService.modify(projectEntity, projectForm.getTitle(), projectForm.getBody());
+        ProjectDto projectDto = projectService.getProjectDto(projectCid);
+        projectService.modify(projectDto, projectForm.getTitle(), projectForm.getBody());
 
         return "redirect:/project/detail/{projectCid}";
     }
 
     @GetMapping("/detail/{projectCid}")
     public String detail(Model model, @PathVariable  long projectCid) {
-        ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
-//        model.addAttribute("newLineChar", '\n');
-        model.addAttribute("projectEntity", projectEntity);
+        ProjectDto projectDto = projectService.getProjectDto(projectCid);
+
+        model.addAttribute("projectEntity", projectDto);
         return "project/project_detail";
+
     }
 
     @GetMapping("/delete/{projectCid}")
     public String delete( @PathVariable long projectCid) {
-        ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
+        ProjectDto projectDto = projectService.getProjectDto(projectCid);
 
-        projectService.delete(projectEntity);
+        projectService.delete(projectDto);
 
         return "redirect:/workspace/list";
     }

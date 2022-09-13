@@ -1,6 +1,6 @@
 package com.likelion.stepstone.post;
 
-import com.likelion.stepstone.like.model.LikeEntity;
+
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
@@ -69,14 +69,17 @@ public class PostService {
         return postDto;
     }
     public void delete(PostDto postDto) {
-        PostEntity postEntity = PostEntity.toEntity(postDto);
+        PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
+
         postRepository.delete(postEntity);}
 
     public void modify(PostDto postDto, String title, String body) {
-        postDto.setTitle(title);
-        postDto.setBody(body);
-        postDto.setUpdatedAt(LocalDateTime.now());
-        PostEntity postEntity = PostEntity.toEntity(postDto);
+        PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
+
+        postEntity.setTitle(title);
+        postEntity.setBody(body);
+        postEntity.setUpdatedAt(LocalDateTime.now());
+
         postRepository.save(postEntity);
     }
 

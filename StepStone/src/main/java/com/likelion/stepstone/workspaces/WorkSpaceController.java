@@ -2,7 +2,6 @@ package com.likelion.stepstone.workspaces;
 
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
-import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;
@@ -76,33 +75,33 @@ public class WorkSpaceController {
     @GetMapping("/modify/{workspaceCid}")
     public String questionModifyGet(@PathVariable long workspaceCid , WorkSpaceForm workSpaceForm) {
        // @Valid WorkSpaceForm workSpaceForm
-        WorkSpaceEntity workSpaceEntity = workSpaceService.getWorkSpaceEntity(workspaceCid);
+        WorkSpaceDto workSpaceDto = workSpaceService.getWorkSpaceDto(workspaceCid);
 
-        workSpaceForm.setTitle(workSpaceEntity.getTitle());
-        workSpaceForm.setBody(workSpaceEntity.getBody());
+        workSpaceForm.setTitle(workSpaceDto.getTitle());
+        workSpaceForm.setBody(workSpaceDto.getBody());
         return "workspace/workspace_form";
     }
     @PostMapping("/modify/{workspaceCid}")
     public String questionModifyPost(@PathVariable long workspaceCid , WorkSpaceForm workSpaceForm) {
 
-        WorkSpaceEntity workSpaceEntity = workSpaceService.getWorkSpaceEntity(workspaceCid);
-        workSpaceService.modify(workSpaceEntity, workSpaceForm.getTitle(), workSpaceForm.getBody());
+        WorkSpaceDto workSpaceDto = workSpaceService.getWorkSpaceDto(workspaceCid);
+        workSpaceService.modify(workSpaceDto, workSpaceForm.getTitle(), workSpaceForm.getBody());
 
         return "redirect:/workspace/detail/{workspaceCid}";
     }
 
     @GetMapping("/detail/{workspaceCid}")
     public String detail(Model model, @PathVariable  long workspaceCid) {
-        WorkSpaceEntity workSpaceEntity = workSpaceService.getWorkSpaceEntity(workspaceCid);
-        model.addAttribute("workSpaceEntity", workSpaceEntity);
+        WorkSpaceDto workSpaceDto = workSpaceService.getWorkSpaceDto(workspaceCid);
+        model.addAttribute("workSpaceEntity", workSpaceDto);
         return "workspace/workspace_detail";
     }
 
     @GetMapping("/delete/{workspaceCid}")
     public String delete( @PathVariable long workspaceCid) {
-        WorkSpaceEntity workSpaceEntity = workSpaceService.getWorkSpaceEntity(workspaceCid);
+        WorkSpaceDto workSpaceDto = workSpaceService.getWorkSpaceDto(workspaceCid);
 
-        workSpaceService.delete(workSpaceEntity);
+        workSpaceService.delete(workSpaceDto);
 
         return "redirect:/workspace/list";
     }

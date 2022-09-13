@@ -6,7 +6,6 @@ import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
-
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -60,14 +59,14 @@ public class PostController {
         }
 
 //        UserEntity user = userService.getUser(principal.getName());
-        UserDto userDto = userService.getUser(principal.getName());
+        UserDto user = userService.getUser(principal.getName());
 
         PostDto postDto = PostDto.builder()
                 .title(postForm.getTitle())
                 .body(postForm.getBody())
                 .build();
 
-        postService.create(postDto,userDto);
+        postService.create(postDto,user);
         //return siteUser;
         return "redirect:/post/list";
     }

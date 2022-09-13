@@ -5,13 +5,14 @@ import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
-import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class ProjectService {
     public final ProjectRepository projectRepository;
@@ -41,16 +42,25 @@ public class ProjectService {
         return pageable;
     }
 
-public ProjectEntity getProjectEntity(Long projectCid) {
-    return projectRepository.findByProjectCid(projectCid)
+public ProjectDto getProjectDto(Long projectCid) {
+
+    ProjectEntity projectEntity =  projectRepository.findByProjectCid(projectCid)
             .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(projectCid)));
+    ProjectDto projectDto = ProjectDto.toDto(projectEntity);
+
+    return projectDto;
 }
 
-    public void delete(ProjectEntity projectEntity) {
-        projectRepository.delete(projectEntity);
+@Transactional
+    public void delete( ProjectDto projectDto) {
+        Long projectCid = projectDto.getProjectCid();
+        projectRepository.deleteByProjectCid(projectCid);
     }
 
-    public void modify(ProjectEntity projectEntity, String title, String body) {
+    public void modify( ProjectDto projectDto, String title, String body) {
+        Optional<ProjectEntity> projectEntities =  projectRepository.findByProjectCid(projectDto.getProjectCid());
+        ProjectEntity projectEntity = projectEntities.get();
+
         projectEntity.setTitle(title);
         projectEntity.setBody(body);
         projectEntity.setUpdatedAt(LocalDateTime.now());

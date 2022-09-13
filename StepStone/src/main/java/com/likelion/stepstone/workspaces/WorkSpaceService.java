@@ -9,8 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class WorkSpaceService {
     public final WorkSpaceRepository workspaceRepository;
@@ -38,20 +40,31 @@ public class WorkSpaceService {
         return pageable;
     }
 
-    public WorkSpaceEntity getWorkSpaceEntity(Long workspaceCid) {
-        return workspaceRepository.findByWorkspaceCid(workspaceCid)
-            .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(workspaceCid)));
+    public WorkSpaceDto getWorkSpaceDto(Long workspaceCid) {
+        WorkSpaceEntity workSpaceEntity =  workspaceRepository.findByWorkspaceCid(workspaceCid)
+                .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(workspaceCid)));
+        WorkSpaceDto workSpaceDto = WorkSpaceDto.toDto(workSpaceEntity);
+
+        return workSpaceDto;
     }
 
-    public void delete(WorkSpaceEntity workSpaceEntity) {
-        workspaceRepository.delete(workSpaceEntity);
+    @Transactional
+    public void delete(WorkSpaceDto workSpaceDto) {
+        Long workspaceCid = workSpaceDto.getWorkspaceCid();
+        workspaceRepository.deleteByWorkspaceCid(workspaceCid);
     }
 
-    public void modify(WorkSpaceEntity workSpaceEntity, String title, String body) {
+    public void modify(WorkSpaceDto workSpaceDto, String title, String body) {
+
+        Optional<WorkSpaceEntity> workSpaceEntities =  workspaceRepository.findByWorkspaceCid(workSpaceDto.getWorkspaceCid());
+        WorkSpaceEntity workSpaceEntity = workSpaceEntities.get();
+
         workSpaceEntity.setTitle(title);
         workSpaceEntity.setBody(body);
         workSpaceEntity.setUpdatedAt(LocalDateTime.now());
+
         workspaceRepository.save(workSpaceEntity);
+
     }
 
 }
