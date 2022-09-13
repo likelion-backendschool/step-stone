@@ -3,9 +3,6 @@ package com.likelion.stepstone.post;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
-import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
-import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
-import com.likelion.stepstone.workspaces.model.WorkSpaceVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -90,14 +87,8 @@ public class PostService {
         return postVoList;
     }
 
-    public List<PostVo> getUserPostList(Long userCid) {
-        List<PostEntity> postEntities = postRepository.findAll();
-
-        List<PostVo> postVoList = postEntities.stream()
-                .filter(postEntity -> postEntity.getUser().getUserCid().equals(userCid))
-                .map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity)))
-                .collect(Collectors.toList());
-
-        return postVoList;
+    public Page<PostEntity> getMyPostList(int page, Long userCid) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
+        return postRepository.findAllByUserUserCid(userCid, pageable);
     }
 }

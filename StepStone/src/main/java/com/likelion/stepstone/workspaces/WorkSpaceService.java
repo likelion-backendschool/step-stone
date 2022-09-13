@@ -53,16 +53,8 @@ public class WorkSpaceService {
         workspaceRepository.save(workSpaceEntity);
     }
 
-    public List<WorkSpaceDto> getUserWPostList(Long userCid) {
-        List<WorkSpaceEntity> workSpaceEntities = workspaceRepository.findAll();
-
-        List<WorkSpaceDto> workSpaceDtos = workSpaceEntities.stream()
-                .filter(workSpaceEntity -> workSpaceEntity.getUser().getUserCid().equals(userCid))
-                .map(workSpaceEntity -> WorkSpaceVo.toVo(WorkSpaceDto.toDto(workSpaceEntity)))
-                .collect(Collectors.toList());
-
-        return workSpaceDtos;
+    public Page<WorkSpaceEntity> getMyWorkPostList(int page, Long userCid) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "workspaceCid"));
+        return workspaceRepository.findAllByUserUserCid(userCid, pageable);
     }
-
-
 }

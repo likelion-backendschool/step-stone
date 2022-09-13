@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -53,20 +54,19 @@ public class MypageController {
         String userRole = userEntity.getRole();
         Long userCid = userEntity.getUserCid();
 
-        /*
-        Page<PostEntity> paging = postService.getPostList(page);
-        model.addAttribute("paging", paging);
-         */
-
         if (userRole.equals("ROLE_DEVELOPER")) {
-            List<WorkSpaceDto> workSpaceDtoList = workSpaceService.getUserWPostList(userCid);
-            model.addAttribute("postlist", workSpaceDtoList);
+//            List<WorkSpaceDto> workSpaceDtoList = workSpaceService.getUserWPostList(userCid);
+//            model.addAttribute("postlist", workSpaceDtoList);
+            Page<WorkSpaceEntity> paging = workSpaceService.getMyWorkPostList(page, userCid);
+            model.addAttribute("paging", paging);
             model.addAttribute("userRole", "개발자");
         }
 
         if (userRole.equals("ROLE_USER")) {
-            List<PostVo> postVoList = postService.getUserPostList(userCid);
-            model.addAttribute("postlist", postVoList);
+//            List<PostVo> postVoList = postService.getUserPostList(userCid);
+//            model.addAttribute("postlist", postVoList);
+            Page<PostEntity> paging = postService.getMyPostList(page, userCid);
+            model.addAttribute("paging", paging);
             model.addAttribute("userRole", "일반유저");
         }
 
