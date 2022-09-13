@@ -55,14 +55,13 @@ public class MypageController {
 
         if (userRole.equals("ROLE_DEVELOPER")) {
             List<WorkSpaceDto> workSpaceDtoList = workSpaceService.getUserWPostList(userCid);
-            model.addAttribute("workpost", workSpaceDtoList);
+            model.addAttribute("postlist", workSpaceDtoList);
         }
 
-        // TODO : Post 작성 시에도 로그인 정보 할당 수정해서 getUserPostList 완성하기
-//        if (userRole.equals("ROLE_USER")) {
-//            List<PostDto> postDtoList = postService.getUserPostList(userCid);
-//            model.addAttribute("paging", paging);
-//        }
+        if (userRole.equals("ROLE_USER")) {
+            List<PostVo> postVoList = postService.getUserPostList(userCid);
+            model.addAttribute("postlist", postVoList);
+        }
 
         model.addAttribute("userName", userName);
 

@@ -52,7 +52,7 @@
 
 
           <!-- My 게시글 부분 -->
-          <div class="container my-5 p-5">
+          <div class="container my-3 p-5">
             <h4 class="my-4">MY 게시글 관리</h4>
 
             <!-- 게시글 표시 부분 -->
@@ -61,7 +61,7 @@
                 <thead>
                 </thead>
                 <tbody>
-                <tr th:each="post : ${workpost}">
+                <tr th:each="post : ${postlist}">
                   <div class="card my-3">
                     <div class="card-header"
                          style="cursor:pointer;">
@@ -112,7 +112,7 @@
 
 
           <!-- My 채팅방 부분 -->
-          <div class="container my-5 p-5">
+          <div class="container my-1 p-5">
             <h4 class="my-4">MY 채팅방 이동</h4>
             <div class="container d-flex align-items-start">
 

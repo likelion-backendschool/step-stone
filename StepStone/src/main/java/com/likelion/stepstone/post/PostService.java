@@ -90,17 +90,14 @@ public class PostService {
         return postVoList;
     }
 
-    // TODO : Post 작성 시에도 로그인 정보 할당 수정해서 getUserPostList 완성하기
-    /*
-    public List<PostDto> getUserPostList(Long userCid) {
+    public List<PostVo> getUserPostList(Long userCid) {
         List<PostEntity> postEntities = postRepository.findAll();
 
-        List<PostDto> postDtos = postEntities.stream()
-                .filter(workSpaceEntity -> workSpaceEntity.getUser().getUserCid().equals(userCid))
-                .map(workSpaceEntity -> WorkSpaceVo.toVo(WorkSpaceDto.toDto(workSpaceEntity)))
+        List<PostVo> postVoList = postEntities.stream()
+                .filter(postEntity -> postEntity.getUser().getUserCid().equals(userCid))
+                .map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity)))
                 .collect(Collectors.toList());
 
-        return workSpaceVos;
+        return postVoList;
     }
-     */
 }
