@@ -39,6 +39,7 @@ public class WorkSpaceDto {
 
     public static WorkSpaceDto toDto(WorkSpaceEntity entity) {
         WorkSpaceDto dto = WorkSpaceDto.builder()
+                .workspaceCid(entity.getWorkspaceCid())
                 .workspaceId(entity.getWorkspaceId())
                 .title(entity.getTitle())
                 .body(entity.getBody())

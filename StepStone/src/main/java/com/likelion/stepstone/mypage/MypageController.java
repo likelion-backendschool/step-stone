@@ -53,6 +53,11 @@ public class MypageController {
         String userRole = userEntity.getRole();
         Long userCid = userEntity.getUserCid();
 
+        /*
+        Page<PostEntity> paging = postService.getPostList(page);
+        model.addAttribute("paging", paging);
+         */
+
         if (userRole.equals("ROLE_DEVELOPER")) {
             List<WorkSpaceDto> workSpaceDtoList = workSpaceService.getUserWPostList(userCid);
             model.addAttribute("postlist", workSpaceDtoList);

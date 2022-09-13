@@ -60,6 +60,7 @@ public class WorkSpaceEntity {
 
     public static WorkSpaceEntity toEntity(WorkSpaceDto dto) {
         WorkSpaceEntity entity = WorkSpaceEntity.builder()
+                .workspaceCid(dto.getWorkspaceCid())
                 .workspaceId(dto.getWorkspaceId())
                 .title(dto.getTitle())
                 .body(dto.getBody())

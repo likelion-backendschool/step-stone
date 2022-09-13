@@ -20,6 +20,7 @@ public class WorkSpaceVo {
      */
 
 
+    private final Long workspaceCid;
 
     private UUID workspaceId;
 
@@ -41,6 +42,7 @@ public class WorkSpaceVo {
 
     public static WorkSpaceDto toVo(WorkSpaceDto dto) {
         WorkSpaceVo vo = WorkSpaceVo.builder()
+                .workspaceCid(dto.getWorkspaceCid())
                 .workspaceId(dto.getWorkspaceId())
                 .title(dto.getTitle())
                 .body(dto.getBody())

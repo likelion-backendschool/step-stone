@@ -66,8 +66,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="post : ${postlist}">
-                  <div class="card my-3">
-                    <div class="card-header"
+                  <!-- 일반 유저일 때 -->
+                  <div class="card my-3" th:if="${userRole} == '일반유저'">
+                    <div class="card-header" th:onclick="|location.href='@{|post/detail/${post.postCid}|}'|"
                          style="cursor:pointer;">
                       <span th:text="${post.title}"></span>
                     </div>
@@ -80,6 +81,21 @@
                       </blockquote>
                     </div>
                   </div>
+                  <!-- 개발자일 때 -->
+                  <div class="card my-3" th:if="${userRole} == '개발자'">
+                    <div class="card-header" th:onclick="|location.href='@{|workspace/detail/${post.workspaceCid}|}'|"
+                         style="cursor:pointer;">
+                        <span th:text="${post.title}"></span>
+                      </div>
+                      <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                          <div th:text="${post.body}"></div>
+                            <div class="badge bg-light text-dark p-2 text-start">
+                              <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+                            </div>
+                        </blockquote>
+                      </div>
+                    </div>
                 </tr>
                 </tbody>
               </table>
