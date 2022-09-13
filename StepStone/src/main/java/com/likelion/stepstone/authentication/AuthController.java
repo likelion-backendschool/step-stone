@@ -63,7 +63,7 @@ public class AuthController {
 
     String jwtToken = JwtTokenProvider.provide(principalDetails);
     deleteCookie(request, response, JwtProperties.HEADER_STRING);
-    addStrictCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME);
+    addStrictCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME / 1000);
     if(!userEntity.isLoginBefore()) {
       return "user/oauthJoinForm";
     }

@@ -25,7 +25,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     String password = (String) authentication.getCredentials();
 
-    System.out.println("로그인 시도중인 아이디 : " + loginId + " " + password);
+//    System.out.println("로그인 시도중인 아이디 : " + loginId + " " + password);
     PrincipalDetails principalDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(loginId);
 
     if (!passwordEncoder.matches(password, principalDetails.getPassword())) {

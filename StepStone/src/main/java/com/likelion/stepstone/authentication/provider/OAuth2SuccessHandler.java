@@ -20,14 +20,14 @@ import static com.likelion.stepstone.authentication.provider.HttpCookieOAuth2Aut
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-    System.out.println("OAuth2 인증이 완료됨");
+//    System.out.println("OAuth2 인증이 완료됨");
     PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
     String jwtToken = JwtTokenProvider.provide(principalDetails);
 
     deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
     deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME);
-    addCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME);
+    addCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME / 1000);
 
     response.sendRedirect("/oauth/login");
   }
