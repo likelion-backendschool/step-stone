@@ -1,12 +1,10 @@
 package com.likelion.stepstone.projects.model;
 
-import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

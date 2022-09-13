@@ -28,7 +28,7 @@ public class PostVo {
 
     private final UserEntity user;
 
-//    private final boolean likeresult;
+    private final boolean checked;
 
     private final LocalDateTime createdAt;
 
@@ -38,7 +38,7 @@ public class PostVo {
         PostVo vo = PostVo.builder()
                 .postId(dto.getPostId())
                 .user(dto.getUser())
-//                .likeresult(false)
+//                .checked(false)
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())

@@ -1,6 +1,5 @@
 package com.likelion.stepstone.projects;
 
-
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
@@ -10,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 
 @RequestMapping("/project")
