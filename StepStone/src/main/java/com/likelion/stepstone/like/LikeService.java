@@ -72,6 +72,4 @@ public class LikeService {
         return likeRepository.findByUser(user);
     }
 
-//    public List<LikeDto> getLikeDto(UserDto user) {
-//    }
 }
