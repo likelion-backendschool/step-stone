@@ -1,6 +1,7 @@
 package com.likelion.stepstone.post.model;
 
 
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -45,8 +46,11 @@ public class PostEntity {
     @Column(name = "likes")
     private Integer likes;
 
-    @Column(name = "user_cid")
-    private Long userCid;
+//    @Column(name = "user_cid")
+//    private Long userCid;
+
+    @ManyToOne
+    private UserEntity user;
 
     @Setter
     @CreationTimestamp
@@ -62,15 +66,15 @@ public class PostEntity {
 
     public static PostEntity toEntity(PostDto dto) {
         PostEntity entity = PostEntity.builder()
-                .postId(dto.getPostId())
-                .userCid(dto.getUserCid())
+                .postCid(dto.getPostCid())
+//                .userCid(dto.getUserCid())
+                .user(dto.getUser())
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .build();
-
         return entity;
     }
 }

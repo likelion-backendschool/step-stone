@@ -27,7 +27,7 @@ public class PostService {
         PostEntity postEntity = PostEntity.toEntity(postDto);
         postEntity.setPostId(UUID.randomUUID());
         postEntity.setLikes(0);
-        postEntity.setUserCid(1L);
+//        postEntity.setUserCid(1L);
 
         postRepository.save(postEntity);
     }
@@ -59,9 +59,36 @@ public class PostService {
 
     }
 
+    public Page<PostEntity> getPostList(int page) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
+        return postRepository.findAll(pageable);
+    }
+
+    private Pageable getPageable(int page, int size, Sort DESC) {
+        Pageable pageable = PageRequest.of(page, size, DESC);
+        return pageable;
+    }
+
+
     public List<PostVo> getPostList() {
         List<PostEntity> postEntities = postRepository.findAll();
         return postEntities.stream().map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity))).collect(Collectors.toList());
     }
 
+
+    public List<PostVo> getSortedPostList() {
+        List<PostEntity> postEntities = postRepository.findAll();
+
+        List<PostVo> postVoList = postEntities.stream()
+                .sorted(Comparator.comparing(PostEntity::getLikes).reversed())
+                .map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity)))
+                .collect(Collectors.toList());
+
+        return postVoList;
+    }
+
+    public Page<PostEntity> getMyPostList(int page, Long userCid) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
+        return postRepository.findAllByUserUserCid(userCid, pageable);
+    }
 }
