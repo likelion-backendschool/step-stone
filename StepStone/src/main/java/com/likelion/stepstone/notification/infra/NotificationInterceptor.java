@@ -2,6 +2,9 @@ package com.likelion.stepstone.notification.infra;
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.notification.NotificationRepository;
+import com.likelion.stepstone.notification.NotificationService;
+import com.likelion.stepstone.notification.model.NotificationDto;
+import com.likelion.stepstone.notification.model.NotificationEntity;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -13,13 +16,17 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class NotificationInterceptor implements HandlerInterceptor {
 
     private final NotificationRepository notificationRepository;
+
+    private final NotificationService notificationService;
 
     /**
      * 1. 리다이렉트가 아니고
@@ -41,7 +48,13 @@ public class NotificationInterceptor implements HandlerInterceptor {
                 && authentication != null && isTypeOfUserAccount(authentication)) { // (2)
             UserEntity userEntity = ((PrincipalDetails) authentication.getPrincipal()).getUser(); // (3)
             long count = notificationRepository.countByUserEntityAndChecked(userEntity, false); // (4)
+            List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
+            notificationService.markAsRead(notificationEntities);
+//            notificationEntities.forEach(NotificationEntity::read);
+            List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
+//            long count = notificationDtos.size();
             modelAndView.addObject("hasNotification", count > 0); // (5)
+            modelAndView.addObject("notifications", notificationDtos);
         }
     }
 

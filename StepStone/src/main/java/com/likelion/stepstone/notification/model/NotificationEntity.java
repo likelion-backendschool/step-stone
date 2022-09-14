@@ -58,4 +58,8 @@ public class NotificationEntity {
 
         return entity;
     }
+
+    public void read(){
+        this.checked = true;
+    }
 }
