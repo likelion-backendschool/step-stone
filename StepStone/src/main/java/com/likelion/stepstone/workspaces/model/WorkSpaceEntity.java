@@ -1,5 +1,6 @@
 package com.likelion.stepstone.workspaces.model;
 
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -35,13 +36,9 @@ public class WorkSpaceEntity {
     @Column(name = "title")
     private String title;
 
-    // @Lob
+
     @Column(name = "body",columnDefinition = "TEXT")
     private String body;
-
-
-//    @Column(name = "user_cid")
-//    private Long userCid;
 
     @ManyToOne
     private UserEntity user;

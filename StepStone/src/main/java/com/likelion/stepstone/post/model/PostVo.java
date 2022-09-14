@@ -2,6 +2,7 @@
 
 package com.likelion.stepstone.post.model;
 
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 
@@ -27,9 +28,9 @@ public class PostVo {
 
     private final Integer likes;
 
-//    private final Long userCid;
-
     private final UserEntity user;
+
+    private final boolean checked;
 
     private final LocalDateTime createdAt;
 
@@ -37,9 +38,9 @@ public class PostVo {
 
     public static PostVo toVo(PostDto dto) {
         PostVo vo = PostVo.builder()
-                .postCid(dto.getPostCid())
-//                .userCid(dto.getUserCid())
+                .postId(dto.getPostId())
                 .user(dto.getUser())
+                .checked(false)
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())

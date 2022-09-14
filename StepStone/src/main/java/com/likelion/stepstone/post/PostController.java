@@ -1,17 +1,20 @@
 package com.likelion.stepstone.post;
 
+import com.likelion.stepstone.like.LikeService;
+import com.likelion.stepstone.like.model.LikeDto;
+import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
-import java.util.UUID;
+import java.util.List;
 
 
 @RequestMapping("/post")
@@ -19,10 +22,13 @@ import java.util.UUID;
 public class PostController {
 
     private final PostService postService;
+
+    private final LikeService likeService;
     private final UserService userService;
 
-    public PostController(PostService postService, UserService userService) {
+    public PostController(PostService postService ,LikeService likeService,UserService userService ) {
         this.postService = postService;
+        this.likeService = likeService;
         this.userService = userService;
     }
 
@@ -34,7 +40,8 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String create(Principal principal, Model model, PostForm postForm) {
+
+    public String create(Principal principal,Model model, PostForm postForm) {
 
         //유효성 체크
         boolean hasError = false;
@@ -54,100 +61,71 @@ public class PostController {
             return "post/form";
         }
 
-        /*
-        UserEntity user = userService.getUser(principal.getName());
-        // 객체 저장방법 고르기
-        //  workspaceService.create(workSpaceForm.getSubject(), workSpaceForm.getContent());
-
-        WorkSpaceDto workSpaceDto = WorkSpaceDto.builder()
-                .title(workSpaceForm.getTitle())
-                .body(workSpaceForm.getBody())
-                .user(user)
-                .build();
-
-        workSpaceService.create(workSpaceDto);
-
-        return "redirect:/workspace/list";
-         */
-        UserEntity user = userService.getUser(principal.getName());
+        UserDto user = userService.getUser(principal.getName());
 
         PostDto postDto = PostDto.builder()
                 .title(postForm.getTitle())
                 .body(postForm.getBody())
-                .user(user)
                 .build();
 
-
-        postService.create(postDto);
+        postService.create(postDto,user);
 
         return "redirect:/post/list";
     }
 
-    @GetMapping("/detail/{postCid}")
-    public String detail(Model model,@PathVariable Long postCid) {
-
-        model.addAttribute("post",postService.getPost(postCid));
-
-        return "post/detail";
-    }
-
-    @GetMapping("/update")
-    public String update(@RequestParam("postId") UUID postId, @RequestParam("title") String title, @RequestParam("body") String body, Model model) {
-        PostDto postDto = PostDto.builder()
-                .title(title)
-                .body(body)
-                .postId(postId)
-                .build();
-
-        postService.update(postDto);
-
-        model.addAttribute("title", title);
-        model.addAttribute("body", body);
-        return "post/create";
-    }
-
-    @GetMapping("/delete")
-    public String delete(@RequestParam Long postCid, Model model) {
-        PostDto postDto = PostDto.builder()
-                .postCid(postCid)
-                .build();
-
-        postService.delete(postDto);
-        model.addAttribute("postCid", postCid);
-        return "post/delete";
-
-    }
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<PostEntity> paging = postService.getPostList(page);
+    public String list(Principal principal,Model model, @RequestParam(defaultValue = "0") int page ) {
+
+        UserDto user = userService.getUser(principal.getName());  //현재 로그인 한 user
+        Page<PostEntity> paging = postService.getList(page , user);
         model.addAttribute("paging", paging);
         return "post/list";
     }
 
+    @GetMapping("/modify/{postCid}")
+    public String postModifyGet(@PathVariable long postCid , PostForm postForm) {
+        // @Valid PostForm postForm
+        PostDto postDto = postService.getPostDto(postCid);
 
+        postForm.setTitle(postDto.getTitle());
+        postForm.setBody(postDto.getBody());
+        return "post/form";
+    }
+    @PostMapping("/modify/{postCid}")
+    public String postModifyPost(@PathVariable long postCid , PostForm postForm) {
 
+        PostDto postDto = postService.getPostDto(postCid);
+        postService.modify(postDto, postForm.getTitle(), postForm.getBody());
 
+        return "redirect:/post/detail/{postCid}";
+    }
 
+    @GetMapping("/detail/{postCid}")
+    public String detail(Principal principal,Model model, @PathVariable  long postCid) {
 
-//        @GetMapping("/list/{pageNo}")
-//        public String findPaginated ( @PathVariable(value = "pageNo") int pageNo, Model model){
-//
-//            Page<PostDto> page = postService.findPaginated(1, 3, "likes", "desc");
-//            List<PostDto> likePosts = page.getContent();
-//
-//            model.addAttribute("likePosts", likePosts);
-//
-//            Page<PostDto> currPage = postService.findPaginated(pageNo, 10, "createdAt", "desc");
-//            List<PostDto> listPosts = currPage.getContent();
-//
-//            model.addAttribute("listPosts", listPosts);
-//            model.addAttribute("currentPage", pageNo);
-//            model.addAttribute("totalPages", currPage.getTotalPages());
-//            model.addAttribute("totalItems", currPage.getTotalElements());
-//
-//            return "post/list";
-//        }
+        UserDto user = userService.getUser(principal.getName());
+        String exist = "notnull";
+        String notexist = "null";
+
+        LikeDto likeDto = likeService.getLikeDto(postCid, user);
+
+        if(likeDto != null){
+            model.addAttribute("likeEntity",exist);
+        }else{
+            model.addAttribute("likeEntity",notexist);
+        }
+
+        PostDto postDto = postService.getPostDto(postCid);
+        model.addAttribute("postEntity", postDto);
+        return "post/detail";
+    }
+
+    @GetMapping("/delete/{postCid}")
+    public String delete( @PathVariable long postCid) {
+        PostDto postDto = postService.getPostDto(postCid);
+
+        postService.delete(postDto);
+
+        return "redirect:/post/list";
+    }
 }
-
-
-

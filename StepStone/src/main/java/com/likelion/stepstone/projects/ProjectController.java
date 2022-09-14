@@ -1,33 +1,37 @@
 package com.likelion.stepstone.projects;
 
-
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
-import com.likelion.stepstone.workspaces.WorkSpaceForm;
-import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
-import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
+import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserDto;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.security.Principal;
 
 @RequestMapping("/project")
 @Controller
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final UserService userService;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
+        this.userService = userService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String create(ProjectForm projectForm) {
         return "project/project_form";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String createProject(Model model, ProjectForm projectForm) {
+    public String createProject(Principal principal, Model model, ProjectForm projectForm) {
 
         //유효성 체크
         boolean hasError = false;
@@ -47,17 +51,14 @@ public class ProjectController {
             return "project/project_form";
         }
 
-     // 객체 저장방법 고르기
-     //  questionService.create(questionFrom.getSubject(), questionFrom.getContent());
-
-
+        UserDto user = userService.getUser(principal.getName());
 
         ProjectDto projectDto = ProjectDto.builder()
                 .title(projectForm.getTitle())
                 .body(projectForm.getBody())
                 .build();
 
-        projectService.create(projectDto);
+        projectService.create(projectDto,user);
 
         return "redirect:/project/list";
     }
@@ -69,47 +70,41 @@ public class ProjectController {
         return "project/project_list";
     }
 
-
     @GetMapping("/modify/{projectCid}")
     public String projectModifyGet(@PathVariable long projectCid , ProjectForm projectForm) {
 
-        ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
+        ProjectDto projectDto = projectService.getProjectDto(projectCid);
 
-        projectForm.setTitle(projectEntity.getTitle());
-        projectForm.setBody(projectEntity.getBody());
+        projectForm.setTitle(projectDto.getTitle());
+        projectForm.setBody(projectDto.getBody());
         return "project/project_form";
     }
     @PostMapping("/modify/{projectCid}")
     public String projectModifyPost(@PathVariable long projectCid , ProjectForm projectForm) {
 
-        ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
-        projectService.modify(projectEntity, projectForm.getTitle(), projectForm.getBody());
+        ProjectDto projectDto = projectService.getProjectDto(projectCid);
+        projectService.modify(projectDto, projectForm.getTitle(), projectForm.getBody());
 
         return "redirect:/project/detail/{projectCid}";
     }
 
     @GetMapping("/detail/{projectCid}")
-
     public String detail(Model model, @PathVariable  long projectCid) {
-        ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
-        model.addAttribute("projectEntity", projectEntity);
+        ProjectDto projectDto = projectService.getProjectDto(projectCid);
+
+        model.addAttribute("projectEntity", projectDto);
         return "project/project_detail";
 
     }
 
     @GetMapping("/delete/{projectCid}")
     public String delete( @PathVariable long projectCid) {
-        ProjectEntity projectEntity = projectService.getProjectEntity(projectCid);
+        ProjectDto projectDto = projectService.getProjectDto(projectCid);
 
-        projectService.delete(projectEntity);
+        projectService.delete(projectDto);
 
         return "redirect:/workspace/list";
     }
-
-
-
-
-
 }
 
 

@@ -40,17 +40,19 @@ public class PostEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "body")
+    @Column(name = "body",columnDefinition = "TEXT")
     private String body;
 
     @Column(name = "likes")
     private Integer likes;
 
-//    @Column(name = "user_cid")
-//    private Long userCid;
-
     @ManyToOne
     private UserEntity user;
+
+    @Column(name = "checked")
+    @Setter
+    @Transient
+    private boolean checked;
 
     @Setter
     @CreationTimestamp
@@ -63,12 +65,11 @@ public class PostEntity {
     private LocalDateTime updatedAt;
 
 
-
     public static PostEntity toEntity(PostDto dto) {
         PostEntity entity = PostEntity.builder()
-                .postCid(dto.getPostCid())
-//                .userCid(dto.getUserCid())
+                .postId(dto.getPostId())
                 .user(dto.getUser())
+                .checked(false)
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())

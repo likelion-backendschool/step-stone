@@ -12,6 +12,7 @@ import com.likelion.stepstone.post.PostRepository;
 import com.likelion.stepstone.post.PostService;
 import com.likelion.stepstone.projects.ProjectRepository;
 import com.likelion.stepstone.projects.ProjectService;
+import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.workspaces.WorkSpaceRepository;
@@ -87,14 +88,8 @@ public class SpringConfig {
     public ChatRoomService chatRoomService() {
         return new ChatRoomService(chatRoomRepository, userRepository, chatRoomJoinRepository, eventPublisher,notificationRepository);
     }
-
     @Bean
-    public WorkSpaceService workSpaceService() {
-        return new WorkSpaceService(workSpaceRepository);
-    }
-
+    public WorkSpaceService workSpaceService(){ return new WorkSpaceService(workSpaceRepository); }
     @Bean
-    public ProjectService projectService() {
-        return new ProjectService(projectRepository);
-    }
+    public ProjectService projectService(){ return new ProjectService(projectRepository); }
 }

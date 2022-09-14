@@ -1,5 +1,7 @@
 package com.likelion.stepstone.like.model;
 
+import com.likelion.stepstone.user.model.UserDto;
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,13 +23,15 @@ public class LikeVo {
 
     private final Long postCid;
 
+    private UserEntity user;
+
     private final LocalDateTime createdAt;
 
 
     public static LikeVo toVo(LikeDto dto) {
         LikeVo vo = LikeVo.builder()
                 .likeId(dto.getLikeId())
-                .userCid(dto.getUserCid())
+                .user(dto.getUser())
                 .postCid(dto.getPostCid())
                 .createdAt(dto.getCreatedAt())
                 .build();

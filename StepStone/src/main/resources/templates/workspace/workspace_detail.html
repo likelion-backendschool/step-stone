@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
 <div layout:fragment="content" class="container my-3">
-    <div class="d-flex justify-content-end my-2">
+        <div class="d-flex justify-content-end my-2">
         <a th:href="@{/workspace/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
     </div>
     <h2 class="border-bottom py-2" th:text="${workSpaceEntity.title}"></h2>
@@ -14,7 +14,8 @@
         <div class="card-body">
             <div class="badge bg-light text-dark p-2 text-start">
                 <div class="mb-2">
-                    <span th:text="|작성자 : ${workSpaceEntity.workspaceCid}|"></span>
+                    <span th:text="|작성자 : ${workSpaceEntity.user.name}|"></span> &nbsp&nbsp&nbsp&nbsp
+                    <span><img src="/envelop.svg"/></span>
                 </div>
             </div>
             <div  style="white-space:pre-wrap;" class="card-text" th:text="${workSpaceEntity.body}" rows="35"></div>

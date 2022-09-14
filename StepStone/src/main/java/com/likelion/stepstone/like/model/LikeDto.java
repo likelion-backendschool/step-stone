@@ -1,7 +1,10 @@
 package com.likelion.stepstone.like.model;
 
+import com.likelion.stepstone.user.model.UserDto;
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +23,7 @@ public class LikeDto {
     private Long likeId;
 
     @Setter
-    private Long userCid;
+    private UserEntity user;
 
     @Setter
     private Long postCid;
@@ -32,7 +35,7 @@ public class LikeDto {
     public static LikeDto toDto(LikeEntity entity) {
         LikeDto dto = LikeDto.builder()
                 .likeId(entity.getLikeId())
-                .userCid(entity.getUserCid())
+                .user(entity.getUser())
                 .postCid(entity.getPostCid())
                 .createdAt(entity.getCreatedAt())
                 .build();

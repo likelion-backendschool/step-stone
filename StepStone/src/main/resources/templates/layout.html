@@ -20,7 +20,6 @@
 
     <!-- css -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-
     <style>
         footer {
             left:0px;
@@ -35,24 +34,24 @@
 
 <body style="min-height:100vh; background-color: #DFE6F3;" class="d-flex flex-column">
 
-    <!-- 네비게이션바 -->
-    <header th:replace="navbar :: navbarFragment"></header>
 
-    <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-    <main class="flex-grow-1">
-        <th:block layout:fragment="content"></th:block>
-    </main>
-    <!-- 기본 템플릿 안에 삽입될 내용 End -->
+<!-- 네비게이션바 -->
+<header th:replace="navbar :: navbarFragment"></header>
 
-    <footer class="text-light" style="background-color: #A1B6E0">
-        <div class="container py-3 d-flex justify-content-center">
-            Copyright all rights reserved
-        </div>
-    </footer>
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<main class="flex-grow-1">
+    <th:block layout:fragment="content"></th:block>
+</main>
+<!-- 기본 템플릿 안에 삽입될 내용 End -->
 
-    <!-- 자바스크립트 Start -->
-    <th:block layout:fragment="script"></th:block>
-    <!-- 자바스크립트 End -->
+<footer class="site-footer text-light " style="background-color: #A1B6E0">
+    <div class="container py-3 d-flex justify-content-center">
+        Copyright all rights reserved
+    </div>
+</footer>
 
+<!-- 자바스크립트 Start -->
+<th:block layout:fragment="script"></th:block>
+<!-- 자바스크립트 End -->
 </body>
 </html>

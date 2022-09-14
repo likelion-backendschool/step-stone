@@ -1,8 +1,11 @@
 package com.likelion.stepstone.post.model;
 
+
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -37,17 +40,19 @@ public class PostDto {
     private UserEntity user;
 
     @Setter
+    private boolean checked;
+
+    @Setter
     private LocalDateTime createdAt;
 
     @Setter
     private LocalDateTime updatedAt;
 
-
     public static PostDto toDto(PostEntity entity) {
         PostDto dto = PostDto.builder()
                 .postCid(entity.getPostCid())
-//                .userCid(entity.getUserCid())
                 .user(entity.getUser())
+                .checked(false)
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .likes(entity.getLikes())

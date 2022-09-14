@@ -80,10 +80,10 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public UserEntity getUser(String name) {
-        return this.userRepository.findByUserId(name)
-                .orElseThrow(() -> new DataNotFoundException("siteuser not found"));
-    }
+//    public UserEntity getUser(String name) {
+//        return this.userRepository.findByUserId(name)
+//                .orElseThrow(() -> new DataNotFoundException("siteuser not found"));
+//    }
 
     public void updateUserPassword(UserDto userDto, String newPasswordConfirm) {
         UserEntity userEntity = UserEntity.toEntity(userDto);
@@ -92,4 +92,13 @@ public class UserService {
 
         userRepository.save(userEntity);
     }
+
+    public UserDto getUser(String name) {
+        UserEntity userEntity =userRepository.findByUserId(name)
+                        .orElseThrow(() -> new DataNotFoundException("user not found"));
+        UserDto userDto = UserDto.toDto(userEntity);
+
+        return userDto;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.likelion.stepstone.workspaces.model;
 
+
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
 
@@ -41,10 +43,10 @@ public class WorkSpaceDto {
         WorkSpaceDto dto = WorkSpaceDto.builder()
                 .workspaceCid(entity.getWorkspaceCid())
                 .workspaceId(entity.getWorkspaceId())
+                .workspaceCid(entity.getWorkspaceCid())
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .user(entity.getUser())
-//                .userCid(entity.getUserCid())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
