@@ -1,7 +1,6 @@
 
 body{
     background-color: #f4f7f6;
-    margin-top:20px;
 }
 .card {
     background: #fff;
@@ -256,4 +255,15 @@ body{
         overflow-x: auto
     }
 }
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #3C64B1;
+    border-color: #3C64B1;
+}
+
+.btn-secondary, .btn-secondary:hover, .btn-secondary:active, .btn-secondary:visited {
+    background-color: #A1B6E0;
+    border-color: #A1B6E0;
+}
+
 

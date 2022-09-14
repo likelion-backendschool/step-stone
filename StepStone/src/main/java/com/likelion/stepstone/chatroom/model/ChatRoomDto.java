@@ -25,6 +25,9 @@ public class ChatRoomDto {
     @Setter
     Integer userCount;
 
+    @Setter
+    String imageUrl;
+
     LocalDateTime createdAt;
 
     LocalDateTime updatedAt;
@@ -37,6 +40,7 @@ public class ChatRoomDto {
                 .postCid(chatRoomEntity.getPostCid())
                 .roomName(chatRoomEntity.getRoomName())
                 .userCount(chatRoomEntity.getUserCount())
+                .imageUrl(chatRoomEntity.getImageUrl())
                 .createdAt(chatRoomEntity.getCreatedAt())
                 .updatedAt(chatRoomEntity.getUpdatedAt())
                 .build();

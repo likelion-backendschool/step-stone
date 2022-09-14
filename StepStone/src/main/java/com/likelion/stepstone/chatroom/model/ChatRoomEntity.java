@@ -46,7 +46,16 @@ public class ChatRoomEntity {
     Integer userCount;
 
     @Setter
+    @Column(name = "chat_room_image_url")
+    String imageUrl;
+
+    @Setter
     @ManyToMany
+    @JoinTable(
+            name = "chat_rooms_users"    // 연결테이블 이름
+            ,joinColumns = @JoinColumn(name = "chat_room_cid")// 유저와 매핑할 조인 컬럼 정보를 지정
+            ,inverseJoinColumns = @JoinColumn(name = "user_cid")// 채팅방과 매핑할 조인 컬럼 정보를 지정
+    )
     Set<UserEntity> users;
 
     @Setter
@@ -64,6 +73,7 @@ public class ChatRoomEntity {
                 .chatRoomId(chatRoomDto.getChatRoomId())
                 .postCid(chatRoomDto.getPostCid())
                 .roomName(chatRoomDto.getRoomName())
+                .imageUrl(chatRoomDto.getImageUrl())
                 .userCount(chatRoomDto.getUserCount())
                 .createdAt(chatRoomDto.getCreatedAt())
                 .updatedAt(chatRoomDto.getUpdatedAt())
