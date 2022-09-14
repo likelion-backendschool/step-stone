@@ -75,9 +75,14 @@ public class PostController {
 
     @GetMapping("/list")
     public String list(Principal principal,Model model, @RequestParam(defaultValue = "0") int page ) {
+        UserDto user;
+        if(principal==null){  //로그인 안 했을 경우 게스트user로 사이트 이용
+             user = userService.getUser("게스트");
+        } else{
+             user = userService.getUser(principal.getName());
+        }
 
-        UserDto user = userService.getUser(principal.getName());  //현재 로그인 한 user
-        Page<PostEntity> paging = postService.getList(page , user);
+        Page<PostEntity> paging = postService.getList(page,user);
         model.addAttribute("paging", paging);
         return "post/list";
     }
@@ -103,7 +108,13 @@ public class PostController {
     @GetMapping("/detail/{postCid}")
     public String detail(Principal principal,Model model, @PathVariable  long postCid) {
 
-        UserDto user = userService.getUser(principal.getName());
+        UserDto user;
+        if(principal==null){
+            user = userService.getUser("게스트");
+        } else{
+            user = userService.getUser(principal.getName());  //현재 로그인 한 user
+        }
+
         String exist = "notnull";
         String notexist = "null";
 
