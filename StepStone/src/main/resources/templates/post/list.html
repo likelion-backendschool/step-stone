@@ -11,9 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- 최근 이슈 게시글 css -->
     <meta charset="utf-8">
     <style>
+        /* 최근 이슈 게시글 css */
         .cards-wrapper {
             display: flex;
             justify-content: center;
@@ -45,13 +45,34 @@
         .carousel-indicators {
             bottom: -50px;
         }
+
+        /* 페이징 부분 css */
+        .page-link {
+            color: #000000;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+        }
+
+        .page-item.active .page-link {
+            z-index: 1;
+            font-weight:bold;
+            background-color: #3C64B1;
+            color: #ffffff;
+            border-color: #3C64B1
+        }
+
+        .page-link:focus, .page-link:hover {
+            color: #000000;
+            background-color: #fafafa;
+            border-color: #cccccc;
+        }
     </style>
 </head>
 
 
 <div layout:fragment="content">
     <div class="container my-3">
-        <h3 class="my-3 border-bottom pb-2"></h3>
+        <h3 class="my-3 border-bottom pb-2">게시글 목록</h3>
 
         <!-- 최근 이슈 게시글 부분 -->
         <div style="margin: 100px 0;">

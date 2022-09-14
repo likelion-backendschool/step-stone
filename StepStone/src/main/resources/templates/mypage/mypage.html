@@ -6,6 +6,28 @@
 
 <head>
   <meta charset="utf-8">
+  <style>
+    /* 페이징 부분 css */
+    .page-link {
+      color: #000000;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+    }
+
+    .page-item.active .page-link {
+      z-index: 1;
+      font-weight:bold;
+      background-color: #3C64B1;
+      color: #ffffff;
+      border-color: #3C64B1
+    }
+
+    .page-link:focus, .page-link:hover {
+      color: #000000;
+      background-color: #fafafa;
+      border-color: #cccccc;
+    }
+  </style>
 </head>
 
 <div layout:fragment="content">

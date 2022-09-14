@@ -3,7 +3,33 @@
         xmlns:th="http://thymeleaf.org"
         layout:decorate="~{layout}">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+
+    <style>
+        .page-link {
+            color: #000000;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+        }
+
+        .page-item.active .page-link {
+            z-index: 1;
+            font-weight:bold;
+            background-color: #3C64B1;
+            color: #ffffff;
+            border-color: #3C64B1
+        }
+
+        .page-link:focus, .page-link:hover {
+            color: #000000;
+            background-color: #fafafa;
+            border-color: #cccccc;
+        }
+    </style>
+</head>
+
+
 <div layout:fragment="content" class="container my-3">
     <h3 class="my-3 border-bottom pb-2">WorkSpace</h3>
     <div class="d-flex justify-content-end my-2">
