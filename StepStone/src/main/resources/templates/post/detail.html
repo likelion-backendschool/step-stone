@@ -70,3 +70,13 @@
     </div>
 </div>
 </html>
+
+<!--
+
+<a onclick="if ( !confirm('로그인 후 이용해주세요') ) "
+   th:href="@{|/post/${postEntity.postCid}/likes|}"
+   sec:authorize="isAuthenticated()"
+   th:if="${#authentication.getPrincipal()==null}"
+
+
+-->

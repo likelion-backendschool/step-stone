@@ -2,19 +2,16 @@ package com.likelion.stepstone.post;
 
 import com.likelion.stepstone.like.LikeService;
 import com.likelion.stepstone.like.model.LikeDto;
-import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
-import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.util.List;
 
 
 @RequestMapping("/post")
@@ -77,7 +74,7 @@ public class PostController {
     public String list(Principal principal,Model model, @RequestParam(defaultValue = "0") int page ) {
         UserDto user;
         if(principal==null){  //로그인 안 했을 경우 게스트user로 사이트 이용
-             user = userService.getUser("게스트");
+             user = userService.getUser("guest");
         } else{
              user = userService.getUser(principal.getName());
         }
@@ -110,7 +107,7 @@ public class PostController {
 
         UserDto user;
         if(principal==null){
-            user = userService.getUser("게스트");
+            user = userService.getUser("guest");
         } else{
             user = userService.getUser(principal.getName());  //현재 로그인 한 user
         }

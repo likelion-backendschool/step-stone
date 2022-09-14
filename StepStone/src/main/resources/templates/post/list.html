@@ -114,13 +114,12 @@
                                  th:text="${post.body}"></div>
 <!--list페이지 게시글 폭 고르기        -webkit-line-clamp: 3;  line-height: 30px;  height: 90px;"    -->
                             <div>
-                                <span class="badge bg-light text-dark p-2 text-start" th:text="${post.user.name}"></span>
-
+                                <span class="badge bg-light text-dark p-2 text-start mt-3" th:text="${post.user.name}"></span>
                                 <span th:if="${post.checked} == true" >  <img src="/heart_fill.svg"/> </span>
                                 <span th:unless="${post.checked} == true">  <img src="/heart.svg"/></span>
                                 <img id="heart" src=""/>
-
-                                <span class="badge bg-light text-dark p-2 text-start"  th:text="${post.likes}"> </span>
+<!--                                class="badge bg-light text-dark p-2 text-start"-->
+                                <span th:text="${post.likes}"> </span>
                             </div>
                         </blockquote>
                     </div>

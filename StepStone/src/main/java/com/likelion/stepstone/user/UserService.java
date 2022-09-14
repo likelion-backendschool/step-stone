@@ -94,7 +94,7 @@ public class UserService {
     }
 
     public UserDto getUser(String name) {
-        UserEntity userEntity =userRepository.findByName(name)
+        UserEntity userEntity =userRepository.findByUserId(name)
                         .orElseThrow(() -> new DataNotFoundException("user not found"));
         UserDto userDto = UserDto.toDto(userEntity);
 
