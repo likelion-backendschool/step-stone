@@ -45,7 +45,8 @@
 
                 <!-- user 비밀번호 변경 버튼 -->
                 <div class="col-md-auto">
-                  <a type="button" class="btn btn-primary" th:href="@{/mypage/update}" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
+                  <a type="button" class="btn btn-primary" th:href="@{/mypage/update}" th:if="${#bools.isFalse(oauthlogin)}"
+                     style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
                     비밀번호 변경
                   </a>
                 </div>

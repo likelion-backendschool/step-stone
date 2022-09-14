@@ -53,24 +53,22 @@ public class MypageController {
         String userName = userEntity.getName();
         String userRole = userEntity.getRole();
         Long userCid = userEntity.getUserCid();
+        boolean loginBefore = userEntity.isLoginBefore();
 
         if (userRole.equals("ROLE_DEVELOPER")) {
-//            List<WorkSpaceDto> workSpaceDtoList = workSpaceService.getUserWPostList(userCid);
-//            model.addAttribute("postlist", workSpaceDtoList);
             Page<WorkSpaceEntity> paging = workSpaceService.getMyWorkPostList(page, userCid);
             model.addAttribute("paging", paging);
             model.addAttribute("userRole", "개발자");
         }
 
         if (userRole.equals("ROLE_USER")) {
-//            List<PostVo> postVoList = postService.getUserPostList(userCid);
-//            model.addAttribute("postlist", postVoList);
             Page<PostEntity> paging = postService.getMyPostList(page, userCid);
             model.addAttribute("paging", paging);
             model.addAttribute("userRole", "일반유저");
         }
 
         model.addAttribute("userName", userName);
+        model.addAttribute("oauthlogin", loginBefore);
 
         return "mypage/mypage";
     }
