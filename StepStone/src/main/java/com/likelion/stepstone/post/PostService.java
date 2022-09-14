@@ -40,31 +40,9 @@ public class PostService {
         postRepository.delete(postEntity);
     }
 
-    public Page<PostDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return postRepository.findAll(pageable).map(post -> PostDto.toDto(post));
-    }
-
-    public PostEntity getPost(Long postCid) {
-            return postRepository.findByPostCid(postCid);
-
-    }
-
-    public Page<PostEntity> getPostList(int page) {
-        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
-        return postRepository.findAll(pageable);
-    }
-
     private Pageable getPageable(int page, int size, Sort DESC) {
         Pageable pageable = PageRequest.of(page, size, DESC);
         return pageable;
-    }
-
-    public List<PostVo> getPostList() {
-        List<PostEntity> postEntities = postRepository.findAll();
-        return postEntities.stream().map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity))).collect(Collectors.toList());
     }
 
     public List<PostVo> getSortedPostList() {
@@ -82,13 +60,12 @@ public class PostService {
         Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
         return postRepository.findAllByUserUserCid(userCid, pageable);
     }
+
     public Page<PostEntity> getList(int page, UserDto user) {
 
         List<PostEntity> checkedPostEnties = postRepository.getPostEntitiy(user);
-        for(PostEntity checkedPostEntity:checkedPostEnties){
-           if(checkedPostEntity.getUser().getUserCid() == user.getUserCid()){
-               checkedPostEntity.setChecked(true);
-           }
+        for (PostEntity checkedPostEntity : checkedPostEnties) {
+            checkedPostEntity.setChecked(true);
         }
 
         Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
