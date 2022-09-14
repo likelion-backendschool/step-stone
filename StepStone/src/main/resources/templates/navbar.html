@@ -6,7 +6,7 @@
 <!-- 헤더 navbar -->
 <nav th:fragment="navbarFragment" class="navbar navbar-expand-lg" style="background-color: #F3F6FA;">
     <div class="container-fluid">
-
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <!-- 로고 부분 -->
         <a class="navbar-brand px-3" href="/">
             <img src="/stepstone_icon.png" width="55" height="55"/>
@@ -47,10 +47,10 @@
                 <!--                    </a>-->
                 <!--                </li>-->
                 <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true"></i>
                     <div class="dropdown-center" id="dropdown">
-                        <a th:if="${!hasNotification}" class="fa fa-bell-o"></a>
-                        <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle" type="button"
-                           data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
+
+                        <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
                         <ul class="dropdown-menu" id="dropdown-menu">
                             <li th:each="notification : ${notifications}">
                                 <a class="dropdown-item" th:text="${notification.title}"
