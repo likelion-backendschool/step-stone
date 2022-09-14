@@ -69,7 +69,7 @@ public class WorkSpaceService {
     }
 
     public Page<WorkSpaceEntity> getMyWorkPostList(int page, Long userCid) {
-        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "workspaceCid"));
+        Pageable pageable = getPageable(page, 3, Sort.by(Sort.Direction.DESC, "workspaceCid"));
         return workspaceRepository.findAllByUserUserCid(userCid, pageable);
     }
 }

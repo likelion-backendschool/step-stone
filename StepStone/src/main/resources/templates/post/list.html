@@ -104,13 +104,13 @@
             <tr th:each="post, loop : ${paging}">
                 <div class="card my-3">
                     <div class="card-header" th:onclick="|location.href='@{|detail/${post.postCid}|}'|"
-                         style="cursor:pointer;">
+                         style="cursor:pointer; font-size: large">
                         <span th:text="${post.title}"></span>
                     </div>
                     <div class="card-body">
                         <blockquote class="blockquote mb-0">
-                            <div style="  width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
-                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px;"
+                            <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em"
                                  th:text="${post.body}"></div>
 <!--list페이지 게시글 폭 고르기        -webkit-line-clamp: 3;  line-height: 30px;  height: 90px;"    -->
                             <div>

@@ -79,7 +79,7 @@ public class PostService {
     }
 
     public Page<PostEntity> getMyPostList(int page, Long userCid) {
-        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
+        Pageable pageable = getPageable(page, 3, Sort.by(Sort.Direction.DESC, "postCid"));
         return postRepository.findAllByUserUserCid(userCid, pageable);
     }
     public Page<PostEntity> getList(int page, UserDto user) {
