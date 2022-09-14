@@ -17,12 +17,12 @@
             <div class="mb-10">
                 <label class="form-label">제목</label>
                 <input th:value="${postForm?.title}" type="text" th:field="*{title}" class="form-control"
-                       placeholder="프로젝트 제목을 입력해주세요">
+                       placeholder="본문 내용과 관련된 제목으로 작성해 주세요. ">
             </div>
             <div class="mb-3">
                 <label class="form-label">내용</label>
                 <textarea th:field="*{body}" class="form-control" rows="25" name="body"
-                          placeholder=" " th:text="${postForm?.body}"></textarea>
+                          placeholder="필요한 서비스에 대한 설명을 자세히 작성해주시면 매칭 확률이 올라갑니다." th:text="${postForm?.body}"></textarea>
             </div>
             <input type="submit" value="저장하기" class="btn btn-primary my-2">
         </form>

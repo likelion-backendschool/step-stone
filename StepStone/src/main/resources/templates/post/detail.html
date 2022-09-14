@@ -22,11 +22,13 @@
         <div class="card-body">
             <div class="badge bg-light text-dark p-2 text-start">
                 <div class="mb-2">
-                    <span th:text="|작성자 : ${postEntity.user.name}|"></span> &nbsp&nbsp&nbsp&nbsp
-                    <span><img src="/envelop.svg"/></span>
+                    <h6 th:text="|작성자 : ${postEntity.user.name}|"></h6>
                 </div>
             </div>
             <div style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>
+            <span class="d-flex justify-content-end my-2">
+        <a th:href="@{/chat/room}" class="btn btn-light">문의하기 </a>
+    </span>
         </div>
     </div>
 
@@ -50,8 +52,7 @@
     게시글 공감하기&nbsp&nbsp&nbsp&nbsp
         <a th:href="@{|/post/${postEntity.postCid}/likes|}">
         <img id="heart" src=""/>
-        <script>document.getElementById('heart').src=heart_info()</script>
-        </a>
+        <script>document.getElementById('heart').src=heart_info()</script></a> &nbsp&nbsp
         <span th:text="${postEntity.likes}"> </span>
         <!-- 좋아요 -->
     </span>
@@ -60,7 +61,7 @@
            sec:authorize="isAuthenticated()"
            th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
            th:text="수정"></a>
-
+        &nbsp
         <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
            th:href="@{|/post/delete/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"

@@ -14,8 +14,7 @@
         <div class="card-body">
             <div class="badge bg-light text-dark p-2 text-start">
                 <div class="mb-2">
-                    <span th:text="|작성자 : ${workSpaceEntity.user.name}|"></span> &nbsp&nbsp&nbsp&nbsp
-                    <span><img src="/envelop.svg"/></span>
+                    <h6 th:text="|작성자 : ${workSpaceEntity.user.name}|"></h6>
                 </div>
             </div>
             <div  style="white-space:pre-wrap;" class="card-text" th:text="${workSpaceEntity.body}" rows="35"></div>
@@ -27,6 +26,7 @@
            sec:authorize="isAuthenticated()"
            th:if="${workSpaceEntity.user != null and #authentication.getPrincipal().getUsername() == workSpaceEntity.user.userId}"
            th:text="수정"></a>
+        &nbsp
         <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
            th:href="@{|/workspace/delete/${workSpaceEntity.workspaceCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"
