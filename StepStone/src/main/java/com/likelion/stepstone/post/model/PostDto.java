@@ -48,7 +48,7 @@ public class PostDto {
         PostDto dto = PostDto.builder()
                 .postCid(entity.getPostCid())
                 .user(entity.getUser())
-//                .checked(false)
+                .checked(false)
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .likes(entity.getLikes())

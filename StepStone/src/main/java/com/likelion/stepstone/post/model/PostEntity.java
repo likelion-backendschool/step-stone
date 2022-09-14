@@ -51,6 +51,7 @@ public class PostEntity {
 
     @Column(name = "checked")
     @Setter
+    @Transient
     private boolean checked;
 
     @Setter
@@ -68,7 +69,7 @@ public class PostEntity {
         PostEntity entity = PostEntity.builder()
                 .postId(dto.getPostId())
                 .user(dto.getUser())
-//                .checked(false)
+                .checked(false)
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .likes(dto.getLikes())

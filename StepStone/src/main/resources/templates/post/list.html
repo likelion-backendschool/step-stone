@@ -146,13 +146,8 @@
                             <div>
                                 <span class="badge bg-light text-dark p-2 text-start" th:text="${post.user.name}"></span>
 
-                                <span th:if="${post.checked} == true" >  <img src="/heart.svg"/> </span>
-                                <span th:unless="${post.checked} == true">  <img src="/heart_fill.svg"/></span>
-
-
-
-
-
+                                <span th:if="${post.checked} == true" >  <img src="/heart_fill.svg"/> </span>
+                                <span th:unless="${post.checked} == true">  <img src="/heart.svg"/></span>
                                 <img id="heart" src=""/>
 
                                 <span class="badge bg-light text-dark p-2 text-start"  th:text="${post.likes}"> </span>

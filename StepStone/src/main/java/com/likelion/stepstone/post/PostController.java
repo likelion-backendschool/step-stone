@@ -74,7 +74,7 @@ public class PostController {
     @GetMapping("/list")
     public String list(Principal principal,Model model, @RequestParam(defaultValue = "0") int page ) {
 
-        UserDto user = userService.getUser(principal.getName());
+        UserDto user = userService.getUser(principal.getName());  //현재 로그인 한 user
         Page<PostEntity> paging = postService.getList(page , user);
         model.addAttribute("paging", paging);
         return "post/list";

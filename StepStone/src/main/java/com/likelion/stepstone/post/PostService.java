@@ -41,21 +41,8 @@ public class PostService {
     }
 
     public Page<PostEntity> getList(int page, UserDto user) {
-        /*
-        * 레프트조인 했을 때 레프트 기준으로 해서
-        * 왼쪽 테이블값만 만족하는 값들만 나옴 > 만족 안 하는건 null
-        * 좋아요를 안 한 포스트도 나와야 하니까 > 일단 좋아요 안 해도 리스트엔 나타내줘야 하 ㅁ
-        * 그냥 조인하면 널값이 없이 걍 안 나옴 > 리스트에 안 나옴 , 좋아요한 게시글만 나옴
-        *
-        *이너는 걍
-        * 조인 조건을 둘 다 만족할때만 나옴
-        * 1      :       N
-        * post leftjoin like, user = login user
-        * postDto checkedPost true로 변경
-        */
 
-        //에러남.. 수정 해야함.. 쿼리 천재의 길 실패..
-        List<PostEntity> checkedPostEnties = postRepository.getPostEntitiy();
+        List<PostEntity> checkedPostEnties = postRepository.getPostEntitiy(user);
         for(PostEntity checkedPostEntity:checkedPostEnties){
            if(checkedPostEntity.getUser().getUserCid() == user.getUserCid()){
                checkedPostEntity.setChecked(true);

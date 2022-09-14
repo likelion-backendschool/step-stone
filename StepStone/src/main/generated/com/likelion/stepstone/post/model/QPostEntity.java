@@ -24,8 +24,6 @@ public class QPostEntity extends EntityPathBase<PostEntity> {
 
     public final StringPath body = createString("body");
 
-    public final BooleanPath checked = createBoolean("checked");
-
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final NumberPath<Integer> likes = createNumber("likes", Integer.class);

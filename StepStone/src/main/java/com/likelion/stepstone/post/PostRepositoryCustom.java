@@ -7,5 +7,5 @@ import com.likelion.stepstone.user.model.UserDto;
 import java.util.List;
 
 public interface PostRepositoryCustom {
-    List<PostEntity> getPostEntitiy();
+    List<PostEntity> getPostEntitiy(UserDto user);
 }
