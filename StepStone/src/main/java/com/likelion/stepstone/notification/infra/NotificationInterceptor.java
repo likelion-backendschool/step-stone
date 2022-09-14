@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -49,7 +48,7 @@ public class NotificationInterceptor implements HandlerInterceptor {
             UserEntity userEntity = ((PrincipalDetails) authentication.getPrincipal()).getUser(); // (3)
             long count = notificationRepository.countByUserEntityAndChecked(userEntity, false); // (4)
             List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
-            notificationService.markAsRead(notificationEntities);
+//            notificationService.markAsRead(notificationEntities);
 //            notificationEntities.forEach(NotificationEntity::read);
             List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
 //            long count = notificationDtos.size();

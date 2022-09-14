@@ -47,17 +47,23 @@
                 <!--                    </a>-->
                 <!--                </li>-->
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true"></i>
+
+                    <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true" type="submit"></i>
                     <div class="dropdown-center" id="dropdown">
 
-                        <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
+                        <a  th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
                         <ul class="dropdown-menu" id="dropdown-menu">
                             <li th:each="notification : ${notifications}">
-                                <a class="dropdown-item" th:text="${notification.title}"
-                                   style="font-size : 12px" data-bs-toggle="collapse"
+                                <form action="/notification/mark" name="markForm" method="POST">
+                                    <input th:id="'notification' + ${notification.id}" type="hidden" th:value="${notification.id}" id="id" name="id">
+<!--                                                                <button type="submit" > 제출 </button>-->
+                                </form>
+                                <a  th:onclick="'javascript:postMark(event, \'' + ${notification.id} + '\');'" id="notificationTitle" th:text="${notification.title}"
+                                   style="font-size : 12px; text-decoration:none; color : black;" data-bs-toggle="collapse"
                                 th:href="'#collapse' + ${notification.id}" aria-expanded="false" th:attr="aria-controls='#collapse' + ${notification.id}">Action</a>
                                 <!--                                   th:attr="data-bs-target='#collapse' + ${notification.id}"-->
                                 <div class="collapse ms-1 mt-1" th:id="'collapse' + ${notification.id}" >
+
                                 <div style="font-size : 10px" th:text="${notification.message}">
                                     Lorem ipsum dolor text....
                                 </div>
@@ -85,7 +91,9 @@
         </div>
 
     </div>
-    <script>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:inline="javascript">
         function stopProp(event) {
             event.stopPropagation();
         }
@@ -93,6 +101,15 @@
         let textarea = document.getElementById('dropdown-menu');
         // 이벤트 리스너가 catch 한 이벤트를 submitTextarea 에 넘겨줍니다.
         textarea.addEventListener('click', event => stopProp(event));
+
+        function postMark(event, id) {
+            console.log("mark");
+            // name이 paging인 태그
+            event.preventDefault();
+            $.post("/notification/mark", {id: id});
+            return false;
+        };
+
 
     </script>
 </nav>
