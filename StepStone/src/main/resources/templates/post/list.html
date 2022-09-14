@@ -1,7 +1,8 @@
 <html lang="ko"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://thymeleaf.org"
-      layout:decorate="~{layout}">>
+      layout:decorate="~{layout}">
+
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <!-- 좋아요 테스트 추가-->
@@ -9,7 +10,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- 최근 이슈 게시글 css -->
+    <meta charset="utf-8">
+    <style>
+        .cards-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        #postcard1, #postcard2, #postcard3 {
+            margin: 0 .5em;
+            width: calc(100% / 3);
+            box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+            border: none;
+            border-radius: 0;
+        }
+
+        .carousel-inner {
+            padding: 1em;
+            margin-bottom: 50px;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            background-color: #e1e1e1;
+            width: 5vh;
+            height: 5vh;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .carousel-indicators {
+            bottom: -50px;
+        }
+    </style>
 </head>
+
+
 <div layout:fragment="content">
     <div class="container my-3">
         <h3 class="my-3 border-bottom pb-2"></h3>
@@ -23,19 +62,19 @@
                 <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" th:style="${postSize > 0? 'display:block' : 'display:none'}"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" th:style="${postSize >= 6? 'display:block' : 'display:none'}"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" th:style="${postSize >= 9? 'display:block' : 'display:none'}"></button>
                     </div>
 
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        <div class="carousel-item active" th:if="${postSize} > 0">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts1}">
+                                <tr><div class="card" th:each="post: ${posts1}" id="postcard1">
                                     <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
                                     <div class="card-body">
                                         <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
+                                        <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
                                         <td><p class="card-text" th:text="${post.body}"></p><td>
                                         <td><p>
                                             <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
@@ -46,13 +85,13 @@
                                 </div><tr>
                             </div>
                         </div>
-                        <div class="carousel-item">
+                        <div class="carousel-item" th:if="${postSize} > 5">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts2}">
+                                <tr><div class="card" th:each="post: ${posts2}" id="postcard2">
                                     <!-- 4, 5, 6번 게시글 -->
                                     <div class="card-body">
                                         <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
+                                        <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
                                         <td><p class="card-text" th:text="${post.body}"></p><td>
                                         <td><p>
                                             <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
@@ -63,13 +102,13 @@
                                 </div><tr>
                             </div>
                         </div>
-                        <div class="carousel-item">
+                        <div class="carousel-item" th:if="${postSize} > 8">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts3}">
+                                <tr><div class="card" th:each="post: ${posts3}" id="postcard3">
                                     <!-- 7, 8, 9번 게시글 -->
                                     <div class="card-body">
                                         <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>
+                                        <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
                                         <td><p class="card-text" th:text="${post.body}"></p><td>
                                         <td><p>
                                             <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
@@ -77,23 +116,35 @@
                                         </p><td>
                                         <td><a class="card-link" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
                                     </div>
-                                </div><tr>
+                                </div>
                             </div>
                         </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev"
+                                th:style="${postSize > 0? 'display:block' : 'display:none'}">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next"
+                                th:style="${postSize > 0? 'display:block' : 'display:none'}">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
+
+                <div class="container-fluid" th:if="${postSize} == 0">
+                    <div class="container-fluid" style="text-align: center">
+                        <h5>최근 이슈 게시글이 없습니다.</h5>
+                    </div>
+                </div>
+
             </div>
         </div>
 
 
+        <!-- post list 부분 -->
         <div class="d-flex justify-content-end my-2">
             <a th:href="@{/post/create}" class="btn btn-light">게시글 쓰기 </a>
         </div>
@@ -128,6 +179,7 @@
             </tr>
             </tbody>
         </table>
+
         <!-- 페이징처리 시작 -->
         <div th:if="${!paging.isEmpty()}">
             <ul class="pagination justify-content-center">
