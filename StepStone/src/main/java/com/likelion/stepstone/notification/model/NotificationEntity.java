@@ -45,13 +45,13 @@ public class NotificationEntity {
     private NotificationType notificationType;
 
 
-    public static NotificationEntity toEntity(NotificationDto dto){
+    public static NotificationEntity toEntity(NotificationDto dto, UserEntity userEntity){
         NotificationEntity entity = NotificationEntity.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .message(dto.getMessage())
                 .checked(dto.isChecked())
-                .userEntity(dto.getUserEntity())
+                .userEntity(userEntity)
                 .createdAt(dto.getCreatedAt())
                 .notificationType(dto.getNotificationType())
                 .build();

@@ -2,6 +2,7 @@ package com.likelion.stepstone.chatroom.event;
 
 import com.likelion.stepstone.chat.ChatRepository;
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
+import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.notification.NotificationRepository;
 import com.likelion.stepstone.notification.model.NotificationDto;
@@ -24,6 +25,7 @@ import org.thymeleaf.TemplateEngine;
 @RequiredArgsConstructor
 public class ChatRoomEventListener {
     private final NotificationRepository notificationRepository;
+    private final UserRepository userRepository;
 
     @EventListener // @EventListener 애너테이션을 이용해 이벤트 리스너를 명시합니다.
     public void handleChatRoomCreatedEvent(ChatRoomCreatedEvent chatRoomCreatedEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
@@ -42,7 +44,7 @@ public class ChatRoomEventListener {
                 .message(chatRoomEntity.getRoomName() + " 채팅방이 생성되었습니다.")
                 .checked(false)
                 .notificationType(NotificationType.CHAT_ROOM_CREATED)
-                .userEntity(userEntity)
+                .userCid(userEntity.getUserCid())
                 .build();
 
 
@@ -51,7 +53,8 @@ public class ChatRoomEventListener {
 
 
     private void saveNotification(NotificationDto dto){
-        NotificationEntity notificationEntity = NotificationEntity.toEntity(dto);
+        UserEntity userEntity = userRepository.findById(dto.getUserCid()).orElseThrow(() -> new DataNotFoundException("user not found"));
+        NotificationEntity notificationEntity = NotificationEntity.toEntity(dto, userEntity);
 
         notificationRepository.save(notificationEntity);
     }

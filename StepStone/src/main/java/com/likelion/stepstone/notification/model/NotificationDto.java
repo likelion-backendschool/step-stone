@@ -22,7 +22,7 @@ public class NotificationDto {
     @Setter
     private boolean checked;
 
-    private UserEntity userEntity;
+    private Long userCid;
 
     private LocalDateTime createdAt;
     @Setter
@@ -34,7 +34,7 @@ public class NotificationDto {
                 .title(entity.getTitle())
                 .message(entity.getMessage())
                 .checked(entity.isChecked())
-                .userEntity(entity.getUserEntity())
+                .userCid(entity.getUserEntity().getUserCid())
                 .createdAt(entity.getCreatedAt())
                 .notificationType(entity.getNotificationType())
                 .build();
