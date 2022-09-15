@@ -46,9 +46,9 @@
                 <!--                        <i class="fa-solid fa-bell"></i>-->
                 <!--                    </a>-->
                 <!--                </li>-->
-                <li class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item" id="notificationIcon" sec:authorize="isAuthenticated()">
 
-                    <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true" type="submit"></i>
+                    <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true"></i>
                     <div class="dropdown-center" id="dropdown">
 
                         <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle"
@@ -137,11 +137,11 @@
             console.log("mark");
             // name이 paging인 태그
             // event.preventDefault();
-            $("#dropdown-menu").empty();
+            $("#dropdown").empty();
             $.post("/notification/mark/all");
 
-            str = "<div class=\"text-center\"><button onclick=\"postMarkAll()\" type=\"button\" class=\"btn btn-secondary\" style=\"font-size:12px;\">알림 모두 지우기</button></div>";
-            $("#dropdown-menu").append(str);
+            str = "<i th:if=\"${!hasNotification}\" class=\"fa fa-bell-o\" aria-hidden=\"true\"></i>";
+            $("#notificationIcon").append(str);
             return false;
         }
 
