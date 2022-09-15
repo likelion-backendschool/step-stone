@@ -35,6 +35,13 @@ public class NotificationService {
         return notificationDtos;
     }
 
+    public void markAll(String userId) {
+        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(() -> new DataNotFoundException("user not found"));
+        List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
+
+        markAsRead(notificationEntities);
+    }
+
     public void mark(Long id) {
         NotificationEntity notificationEntity = notificationRepository.findById(id).orElseThrow(() -> new DataNotFoundException("notification not found"));
 

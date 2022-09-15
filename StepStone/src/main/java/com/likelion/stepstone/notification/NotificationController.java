@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/notification")
@@ -28,7 +30,7 @@ public class NotificationController {
      * 페이지 refresh를 실행하지 않기 위해
      * ajax post 함수로 데이터를 전송함
      *
-     * 브라우저 콘솔에 404 에러가 발생하지만, 영향은 없다.
+     * 브라우저 콘솔에 404 or 500 에러가 발생하지만, 영향은 없다.
      * @param id
      * @return
      */
@@ -40,5 +42,10 @@ public class NotificationController {
         notificationService.mark(id);
         return "markNotification";
     }
+
+    @PostMapping("/mark/all")
+    public String markAll(Principal principal){
+        notificationService.markAll(principal.getName());
+        return "markNotification";
     }
 }
