@@ -35,8 +35,10 @@ public class NotificationController {
     @PostMapping("/mark")
     public String markAsRead(Long id ){
 //        List<NotificationDto> dtos = markingNotifications.getNotifications();
-
         System.out.println(id);
-        return "redirect:";
+
+        notificationService.mark(id);
+        return "markNotification";
+    }
     }
 }

@@ -35,4 +35,9 @@ public class NotificationService {
         return notificationDtos;
     }
 
+    public void mark(Long id) {
+        NotificationEntity notificationEntity = notificationRepository.findById(id).orElseThrow(() -> new DataNotFoundException("notification not found"));
+
+        notificationEntity.read();
+    }
 }
