@@ -58,16 +58,15 @@ public class AuthController {
   }
 
   @GetMapping("/oauth/login")
-  public String oauthLogin(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+  public String oauthLogin(HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
     UserEntity userEntity = principalDetails.getUser();
 
     String jwtToken = JwtTokenProvider.provide(principalDetails);
-    deleteCookie(request, response, JwtProperties.HEADER_STRING);
     addStrictCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME / 1000);
     if(!userEntity.isLoginBefore()) {
       return "user/oauthJoinForm";
     }
-    return "redirect:/";
+    return "trick";
   }
 
   @PostMapping("/oauth/login")
