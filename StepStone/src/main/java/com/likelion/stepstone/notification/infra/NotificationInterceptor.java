@@ -46,15 +46,20 @@ public class NotificationInterceptor implements HandlerInterceptor {
         if (modelAndView != null && !isRedirectView(modelAndView)  // (1)
                 && authentication != null && isTypeOfUserAccount(authentication)) { // (2)
             UserEntity userEntity = ((PrincipalDetails) authentication.getPrincipal()).getUser(); // (3)
-            long count = notificationRepository.countByUserEntityAndChecked(userEntity, false); // (4)
-            List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
 //            notificationService.markAsRead(notificationEntities);
 //            notificationEntities.forEach(NotificationEntity::read);
-            List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
 //            long count = notificationDtos.size();
-            modelAndView.addObject("hasNotification", count > 0); // (5)
-            modelAndView.addObject("notifications", notificationDtos);
+            setNotificationsOnUI(userEntity, modelAndView);
         }
+    }
+
+    private void setNotificationsOnUI(UserEntity userEntity, ModelAndView modelAndView){
+        long count = notificationRepository.countByUserEntityAndChecked(userEntity, false); // (4)
+        List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
+        List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
+
+        modelAndView.addObject("hasNotification", count > 0); // (5)
+        modelAndView.addObject("notifications", notificationDtos);
     }
 
     private boolean isRedirectView(ModelAndView modelAndView) {
