@@ -68,6 +68,7 @@ public class PostEntity {
     public static PostEntity toEntity(PostDto dto) {
         PostEntity entity = PostEntity.builder()
                 .postId(dto.getPostId())
+                .postCid(dto.getPostCid())
                 .user(dto.getUser())
                 .checked(false)
                 .title(dto.getTitle())

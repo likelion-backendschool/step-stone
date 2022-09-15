@@ -8,50 +8,50 @@
 <div layout:fragment="content">
     <section class="mt-5 h-100">
         <div class="container h-100">
-    <div class="row justify-content-sm-center h-100">
-        <div class="card shadow-lg">
-          <div class="card-body p-5">
-            <h1 class="fs-4 card-title fw-bold mb-4">Step Stone 이용을 위해 로그인을 해주세요.</h1>
-              <form th:action="@{/login}" method="post">
-                  <div th:if="${loginError}">
-                      <div class="alert alert-danger">
-                          사용자ID 또는 비밀번호를 확인해 주세요.
-                      </div>
-                  </div>
-              <div class="mb-3">
-                <input type="text" class="form-control" th:name="userId" placeholder="아이디" required autofocus>
-              </div>
+            <div class="row justify-content-sm-center h-100">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h1 class="fs-4 card-title fw-bold mb-4">Step Stone 이용을 위해 로그인을 해주세요.</h1>
+                        <form th:action="@{/login}" method="post">
+                            <div th:if="${loginError}">
+                                <div class="alert alert-danger">
+                                    사용자ID 또는 비밀번호를 확인해 주세요.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" th:name="userId" placeholder="아이디" required autofocus>
+                            </div>
 
-              <div class="mb-3">
-<!--                  <a href="forgot.html" class="float-end"\>-->
-<!--                    Forgot Password?-->
-<!--                  </a>-->
-                <input type="password" class="form-control" th:name="password" placeholder="비밀번호" required>
-              </div>
+                            <div class="mb-3">
+                                <!--                  <a href="forgot.html" class="float-end"\>-->
+                                <!--                    Forgot Password?-->
+                                <!--                  </a>-->
+                                <input type="password" class="form-control" th:name="password" placeholder="비밀번호" required>
+                            </div>
 
-              <div class="d-flex align-items-center">
-<!--                <div class="form-check">-->
-<!--                  <input type="checkbox" name="remember" id="remember" class="form-check-input">-->
-<!--                  <label for="remember" class="form-check-label">Remember Me</label>-->
-<!--                </div>-->
-                <button type="submit" class="btn btn-primary ms-auto">
-                  로그인
-                </button>
-              </div>
-              </form>
-                <br>
-                <div class="_form_05_socialmedia">
-                    <a class="btn btn-danger" style="background-color: #dd4b39; border-color: #dd4b39;" href="/oauth2/authorization/google" role="button"><i class="fab fa-google"> 구글 로그인</i></a>
-                    <a class="btn btn-success" style="background-color: #39dd49; border-color: #39dd49;" href="/oauth2/authorization/naver" role="button"><i class="fab fa-n"></i> 네이버 로그인</a>
+                            <div class="d-flex align-items-center">
+                                <!--                <div class="form-check">-->
+                                <!--                  <input type="checkbox" name="remember" id="remember" class="form-check-input">-->
+                                <!--                  <label for="remember" class="form-check-label">Remember Me</label>-->
+                                <!--                </div>-->
+                                <button type="submit" class="btn btn-primary ms-auto">
+                                    로그인
+                                </button>
+                            </div>
+                        </form>
+                        <br>
+                        <div class="_form_05_socialmedia">
+                            <a class="btn btn-danger" style="background-color: #dd4b39; border-color: #dd4b39;" href="/oauth2/authorization/google" role="button"><i class="fab fa-google"> 구글 로그인</i></a>
+                            <a class="btn btn-success" style="background-color: #39dd49; border-color: #39dd49;" href="/oauth2/authorization/naver" role="button"><i class="fab fa-n"></i> 네이버 로그인</a>
+                        </div>
+                    </div>
+                    <div class="card-footer py-3 border-0">
+                        <div class="text-center">
+                            계정이 없으신가요? <a href="join" class="text-dark">회원가입</a>
+                        </div>
+                    </div>
                 </div>
-          </div>
-          <div class="card-footer py-3 border-0">
-            <div class="text-center">
-              계정이 없으신가요? <a href="join" class="text-dark">회원가입</a>
             </div>
-          </div>
-        </div>
-      </div>
         </div>
     </section>
 </div>
