@@ -8,8 +8,8 @@
 <div layout:fragment="content">
 
 <section class="mt-5 h-100">
-  <div class="container h-100">
-    <div class="row justify-content-sm-center h-100">
+  <div class="container h-100 d-flex justify-content-center">
+    <div class="justify-content-sm-center h-100" style="max-width: 50rem; width: 600px">
         <div class="card shadow-lg">
           <div class="card-body p-5">
             <h1 class="fs-4 card-title fw-bold mb-4">안녕하세요! 개발자이신가요?</h1>
@@ -26,22 +26,26 @@
                   아니요, 일반 사용자 입니다.
                 </label>
               </div>
-              <div class="mb-3">
-                <input type="text" class="form-control" name="userId" placeholder="아이디" required autofocus>
-              </div>
 
-              <div class="mb-3">
-                <input type="password" class="form-control" name="password" placeholder="비밀번호" required>
-              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="userId" placeholder="아이디" required autofocus>
+                </div>
 
-              <div class="mb-3">
-                 <input type="name" class="form-control" name="name" placeholder="이름" required>
-              </div>
+                <div class="mb-3">
+                  <input type="password" class="form-control" name="password" placeholder="비밀번호" required>
+                </div>
 
-              <div class="d-flex align-items-center mb-3">
-                <button type="submit" class="btn btn-primary ms-auto">
-                  회원가입
-                </button>
+                <div class="mb-3">
+                   <input type="name" class="form-control" name="name" placeholder="이름" required>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                  <button type="submit" class="btn btn-primary ms-auto"
+                          style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
+                    회원가입
+                  </button>
+                </div>
               </div>
               </form>
           </div>

@@ -7,8 +7,8 @@
 
 <div layout:fragment="content">
     <section class="mt-5 h-100">
-        <div class="container h-100">
-            <div class="row justify-content-sm-center h-100">
+        <div class="container h-100 d-flex justify-content-center">
+            <div class="justify-content-sm-center h-100" style="max-width: 50rem; width: 600px">
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
                         <h1 class="fs-4 card-title fw-bold mb-4">Step Stone 이용을 위해 로그인을 해주세요.</h1>
@@ -34,7 +34,8 @@
                                 <!--                  <input type="checkbox" name="remember" id="remember" class="form-check-input">-->
                                 <!--                  <label for="remember" class="form-check-label">Remember Me</label>-->
                                 <!--                </div>-->
-                                <button type="submit" class="btn btn-primary ms-auto">
+                                <button type="submit" class="btn ms-auto"
+                                        style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
                                     로그인
                                 </button>
                             </div>
@@ -42,6 +43,7 @@
                         <br>
                         <div class="_form_05_socialmedia">
                             <a class="btn btn-danger" style="background-color: #dd4b39; border-color: #dd4b39;" href="/oauth2/authorization/google" role="button"><i class="fab fa-google"> 구글 로그인</i></a>
+                            &nbsp;
                             <a class="btn btn-success" style="background-color: #39dd49; border-color: #39dd49;" href="/oauth2/authorization/naver" role="button"><i class="fab fa-n"></i> 네이버 로그인</a>
                         </div>
                     </div>
