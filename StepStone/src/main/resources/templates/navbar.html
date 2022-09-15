@@ -51,24 +51,44 @@
                     <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true" type="submit"></i>
                     <div class="dropdown-center" id="dropdown">
 
-                        <a  th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
+                        <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle"
+                           data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
                         <ul class="dropdown-menu" id="dropdown-menu">
                             <li th:each="notification : ${notifications}">
-                                <form action="/notification/mark" name="markForm" method="POST">
-                                    <input th:id="'notification' + ${notification.id}" type="hidden" th:value="${notification.id}" id="id" name="id">
-<!--                                                                <button type="submit" > 제출 </button>-->
-                                </form>
-                                <a  th:onclick="'javascript:postMark(event, \'' + ${notification.id} + '\');'" id="notificationTitle" th:text="${notification.title}"
-                                   style="font-size : 12px; text-decoration:none; color : black;" data-bs-toggle="collapse"
-                                th:href="'#collapse' + ${notification.id}" aria-expanded="false" th:attr="aria-controls='#collapse' + ${notification.id}">Action</a>
-                                <!--                                   th:attr="data-bs-target='#collapse' + ${notification.id}"-->
-                                <div class="collapse ms-1 mt-1" th:id="'collapse' + ${notification.id}" >
+                                <div class="container-fluid" th:id="'notificationList' + ${notification.id}">
+                                    <form action="/notification/mark" name="markForm" method="POST"></form>
+                                    <div class="row gx-1">
+                                        <a class="ms-1 col"
+                                           th:onclick="'javascript:postMark(event, \'' + ${notification.id} + '\');'"
+                                           id="notificationTitle" th:text="${notification.title}"
+                                           style="font-size : 12px; text-decoration:none; color : black;"
+                                           data-bs-toggle="collapse"
+                                           th:href="'#collapse' + ${notification.id}" aria-expanded="false"
+                                           th:attr="aria-controls='#collapse' + ${notification.id}">Action
+                                        </a>
+                                        <span class="text-end col">
+                                            <svg th:onclick="'javascript:dropli(\'' + ${notification.id} + '\');'" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                            </svg>
+                                        </span>
+                                    </div>
 
-                                <div style="font-size : 10px" th:text="${notification.message}">
-                                    Lorem ipsum dolor text....
+                                    <!--                                   th:attr="data-bs-target='#collapse' + ${notification.id}"-->
+                                    <div class="collapse ms-1 mt-1" th:id="'collapse' + ${notification.id}">
+
+                                        <div style="font-size : 10px" th:text="${notification.message}">
+                                            Lorem ipsum dolor text....
+                                        </div>
+                                    </div>
                                 </div>
-                                </div>
+
                             </li>
+
+                            <div class="text-center">
+                                <button type="button" class="btn btn-secondary" style="font-size:12px;">알림 모두 지우기
+                                </button>
+                            </div>
                         </ul>
                     </div>
                 </li>
@@ -85,7 +105,8 @@
                     <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
                 </li>
                 <li class="nav-item">
-                    <a role="button" sec:authorize="isAnonymous()" th:href="@{/join}" class="btn" style="background-color: #3C64B1; color: #dddddd">회원가입</a>
+                    <a role="button" sec:authorize="isAnonymous()" th:href="@{/join}" class="btn"
+                       style="background-color: #3C64B1; color: #dddddd">회원가입</a>
                 </li>
             </ul>
         </div>
@@ -108,7 +129,13 @@
             event.preventDefault();
             $.post("/notification/mark", {id: id});
             return false;
-        };
+        }
+
+        function dropli(id){
+            $("#notificationList" + id).empty();
+            $.post("/notification/mark", {id: id});
+        }
+
 
 
     </script>
