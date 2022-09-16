@@ -1,18 +1,19 @@
 package com.likelion.stepstone.post;
 
+import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.like.LikeService;
 import com.likelion.stepstone.like.model.LikeDto;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
 import com.likelion.stepstone.user.UserService;
-import com.likelion.stepstone.user.model.UserDto;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class PostController {
     private final LikeService likeService;
     private final UserService userService;
 
-    public PostController(PostService postService ,LikeService likeService,UserService userService ) {
+    public PostController(PostService postService, LikeService likeService, UserService userService) {
         this.postService = postService;
         this.likeService = likeService;
         this.userService = userService;
@@ -40,8 +41,7 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-
-    public String create(Principal principal,Model model, PostForm postForm) {
+    public String create(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, PostForm postForm) {
 
         //유효성 체크
         boolean hasError = false;
@@ -61,29 +61,22 @@ public class PostController {
             return "post/form";
         }
 
-        UserDto user = userService.getUser(principal.getName());
-
         PostDto postDto = PostDto.builder()
                 .title(postForm.getTitle())
                 .body(postForm.getBody())
                 .build();
 
-        postService.create(postDto,user);
+        postService.create(postDto, principalDetails);
 
         return "redirect:/post/list";
     }
 
     @GetMapping("/list")
-    public String list(Principal principal,Model model, @RequestParam(defaultValue = "0") int page ) {
-        UserDto user;
-        if(principal==null){  //로그인 안 했을 경우 게스트user로 사이트 이용
-             user = userService.getUser("guest");
-        } else{
-             user = userService.getUser(principal.getName());
-        }
+    public String list(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @RequestParam(defaultValue = "0") int page) {
 
-        Page<PostEntity> paging = postService.getList(page,user);
+        Page<PostEntity> paging = postService.getList(page, principalDetails);
         model.addAttribute("paging", paging);
+
 
         // 최근 이슈 게시글 부분
         List<PostVo> postVoList = postService.getSortedPostList();
@@ -131,12 +124,11 @@ public class PostController {
             model.addAttribute("posts1", postVoList);
         }
 
-
-            return "post/list";
+        return "post/list";
     }
 
     @GetMapping("/modify/{postCid}")
-    public String postModifyGet(@PathVariable long postCid , PostForm postForm) {
+    public String postModifyGet(@PathVariable long postCid, PostForm postForm) {
         // @Valid PostForm postForm
         PostDto postDto = postService.getPostDto(postCid);
 
@@ -144,8 +136,9 @@ public class PostController {
         postForm.setBody(postDto.getBody());
         return "post/form";
     }
+
     @PostMapping("/modify/{postCid}")
-    public String postModifyPost(@PathVariable long postCid , PostForm postForm) {
+    public String postModifyPost(@PathVariable long postCid, PostForm postForm) {
 
         PostDto postDto = postService.getPostDto(postCid);
         postService.modify(postDto, postForm.getTitle(), postForm.getBody());
@@ -154,24 +147,17 @@ public class PostController {
     }
 
     @GetMapping("/detail/{postCid}")
-    public String detail(Principal principal,Model model, @PathVariable  long postCid) {
-
-        UserDto user;
-        if(principal==null){
-            user = userService.getUser("guest");
-        } else{
-            user = userService.getUser(principal.getName());  //현재 로그인 한 user
-        }
+    public String detail(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @PathVariable long postCid) {
 
         String exist = "notnull";
         String notexist = "null";
 
-        LikeDto likeDto = likeService.getLikeDto(postCid, user);
+        LikeDto likeDto = likeService.getLikeDto(postCid, principalDetails);
 
-        if(likeDto != null){
-            model.addAttribute("likeEntity",exist);
-        }else{
-            model.addAttribute("likeEntity",notexist);
+        if (likeDto != null) {
+            model.addAttribute("likeEntity", exist);
+        } else {
+            model.addAttribute("likeEntity", notexist);
         }
 
         PostDto postDto = postService.getPostDto(postCid);
@@ -180,9 +166,8 @@ public class PostController {
     }
 
     @GetMapping("/delete/{postCid}")
-    public String delete( @PathVariable long postCid) {
+    public String delete(@PathVariable long postCid) {
         PostDto postDto = postService.getPostDto(postCid);
-
         postService.delete(postDto);
 
         return "redirect:/post/list";

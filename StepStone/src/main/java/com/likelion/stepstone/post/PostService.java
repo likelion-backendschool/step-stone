@@ -1,15 +1,16 @@
 package com.likelion.stepstone.post;
 
 
+import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
-import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -23,11 +24,11 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void create(PostDto postDto, UserDto userDto) {
+    public void create(PostDto postDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         PostEntity postEntity = PostEntity.toEntity(postDto);
-        UserEntity user = UserEntity.toEntity(userDto);
+        UserEntity userEntity = principalDetails.getUser();
 
-        postEntity.setUser(user);
+        postEntity.setUser(userEntity);
         postEntity.setPostId(UUID.randomUUID());
         postEntity.setLikes(0);
 
@@ -61,11 +62,14 @@ public class PostService {
         return postRepository.findAllByUserUserCid(userCid, pageable);
     }
 
-    public Page<PostEntity> getList(int page, UserDto user) {
+    public Page<PostEntity> getList(int page, PrincipalDetails principalDetails) {
 
-        List<PostEntity> checkedPostEnties = postRepository.getPostEntitiy(user);
-        for (PostEntity checkedPostEntity : checkedPostEnties) {
-            checkedPostEntity.setChecked(true);
+        if (principalDetails != null) {
+            UserEntity userEntity = principalDetails.getUser();
+            List<PostEntity> checkedPostEnties = postRepository.getPostEntitiy(userEntity);
+            for (PostEntity checkedPostEntity : checkedPostEnties) {
+                checkedPostEntity.setChecked(true);
+            }
         }
 
         Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));

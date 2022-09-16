@@ -1,11 +1,13 @@
 package com.likelion.stepstone.projects;
 
+import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,7 @@ public class ProjectController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String createProject(Principal principal, Model model, ProjectForm projectForm) {
+    public String createProject(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, ProjectForm projectForm) {
 
         //유효성 체크
         boolean hasError = false;
@@ -51,14 +53,12 @@ public class ProjectController {
             return "project/project_form";
         }
 
-        UserDto user = userService.getUser(principal.getName());
-
         ProjectDto projectDto = ProjectDto.builder()
                 .title(projectForm.getTitle())
                 .body(projectForm.getBody())
                 .build();
 
-        projectService.create(projectDto,user);
+        projectService.create(projectDto,principalDetails);
 
         return "redirect:/project/list";
     }

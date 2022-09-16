@@ -1,6 +1,7 @@
 package com.likelion.stepstone.workspaces;
 
 import com.likelion.stepstone.Util.DataNotFoundException;
+import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
@@ -20,14 +21,14 @@ public class WorkSpaceService {
     public WorkSpaceService(WorkSpaceRepository workspaceRepository) {
         this.workspaceRepository = workspaceRepository;
     }
-    public void create(WorkSpaceDto workSpaceDto, UserDto userDto) {
+    public void create(WorkSpaceDto workSpaceDto, PrincipalDetails principalDetails) {
         WorkSpaceEntity workSpaceEntity = WorkSpaceEntity.toEntity(workSpaceDto);
-        UserEntity user = UserEntity.toEntity(userDto);
+        UserEntity userEntity = principalDetails.getUser();
 
         workSpaceEntity.setTitle(workSpaceDto.getTitle());
         workSpaceEntity.setBody(workSpaceDto.getBody());
         workSpaceEntity.setCreatedAt(LocalDateTime.now());
-        workSpaceEntity.setUser(user);
+        workSpaceEntity.setUser(userEntity);
 
         workspaceRepository.save(workSpaceEntity);
     }
