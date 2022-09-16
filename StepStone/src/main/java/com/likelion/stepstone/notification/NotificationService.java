@@ -59,4 +59,12 @@ public class NotificationService {
         onlineUsers.computeIfAbsent(roomId, k -> new ArrayList<>());
         onlineUsers.get(roomId).add(name);
     }
+
+    public void moveOnlineChatUser(String name, String beforeRoomId) {
+        Map<String, List<String>> onlineUsers = chatRoomOnlineFinder.getOnlineUsers();
+        onlineUsers.get(beforeRoomId).remove(name);
+
+        if (onlineUsers.get(beforeRoomId).isEmpty())
+            onlineUsers.remove(beforeRoomId);
+    }
 }

@@ -325,13 +325,21 @@
 
     function getChats(roomId) {
         console.log("chat room click")
+        if (roomId == $("#currRoomId").val()) {
+            console.log("room is identical!");
+            return;
+        }
+        var chatRoomIdBean = {
+            roomId: roomId,
+            beforeRoomId : $("#currRoomId").val()
+        };
 
         changeSubs(roomId);
 
         $.ajax({
-            url: "/chat/history?roomId=" + roomId,
-            type: "Get"
-            // data: chatBean,
+            url: "/chat/history",
+            type: "Get",
+            data: chatRoomIdBean,
         })
             .done(function (fragment) {
                 $('#chats').replaceWith(fragment);
@@ -360,10 +368,10 @@
     }
 
     function changeSubs(roomId) {
-        if (roomId == $("#currRoomId").val()) {
-            console.log("room is identical!");
-            return;
-        }
+        // if (roomId == $("#currRoomId").val()) {
+        //     console.log("room is identical!");
+        //     return;
+        // }
         stomp.unsubscribe($("#currRoomId").val());
         console.log("unsubscribe currRoomId : " + $("#currRoomId").val());
         $("#currRoomId").val(roomId);
