@@ -38,20 +38,23 @@ function initStomp() {
             var createdAt = content.createdAt;
             var message = content.message;
             var profileImageUrl = content.profileImageUrl;
+            var chatRoomId = content.chatRoomId;
             var str = '';
-            if (senderId !== userId) {
-                str = "<li class='clearfix my-3' >";
+
+            if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
+                str = "<li class='clearfix'>";
+                str += "<div>";
                 str += "<div class='message-data'>";
                 str += "<img src='" + profileImageUrl + "' alt='avatar'>";
                 str += "<span class='message-data-time'>" + sender + "</span>";
                 str += "<span class='message-data-time'>" + createdAt + "</span>";
                 str += "</div>";
                 str += "<div class='message other-message'>" + message + "</div>";
+                str += "</div>";
                 str += "</li>";
 
                 $("#chatList").append(str);
             }
-
 
         }, {id: roomId});
     });
@@ -74,16 +77,19 @@ function subscribe(roomId) {
         var createdAt = content.createdAt;
         var message = content.message;
         var profileImageUrl = content.profileImageUrl;
+        var chatRoomId = content.chatRoomId;
         var str = '';
 
-        if (senderId !== userId) {
-            str = "<li class='clearfix my-3>";
+        if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
+            str = "<li class='clearfix'>";
+            str += "<div>";
             str += "<div class='message-data'>";
             str += "<img src='" + profileImageUrl + "' alt='avatar'>";
             str += "<span class='message-data-time'>" + sender + "</span>";
             str += "<span class='message-data-time'>" + createdAt + "</span>";
             str += "</div>";
             str += "<div class='message other-message'>" + message + "</div>";
+            str += "</div>";
             str += "</li>";
 
             $("#chatList").append(str);

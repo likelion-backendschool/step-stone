@@ -153,8 +153,8 @@
                         </div>
                         <div id="chats" class="chat-history overflow-auto" style="height: 70vh; max-height: 70vh">
                             <ul class="m-b-0">
-                                <div id="chatList">
-                                    <div th:if="${chats!=null and !chats.empty}">
+                                <div>
+                                    <div id="chatList" th:if="${chats!=null and !chats.empty}">
                                         <li th:each="chat : ${chats}" class="clearfix">
                                             <div th:if="${chat.senderId} == ${senderId}">
                                                 <div class="message-data text-end">
