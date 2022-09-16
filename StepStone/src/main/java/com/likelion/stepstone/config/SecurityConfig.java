@@ -54,8 +54,6 @@ public class SecurityConfig {
             .and()
             .authorizeRequests(auth -> auth.antMatchers("/api/v1/user/**")
                     .access("hasRole('ROLE_USER') or hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
-                    .antMatchers("/api/v1/manager/**")
-                    .access("hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
                     .antMatchers("/api/v1/admin/**")
                     .access("hasRole('ROLE_ADMIN')")
                     .anyRequest().permitAll())

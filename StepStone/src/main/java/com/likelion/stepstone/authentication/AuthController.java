@@ -39,18 +39,10 @@ public class AuthController {
     return "user/loginForm";
   }
 
-  // user, manager, admin 권한만 접근 가능
   @GetMapping("api/v1/user")
   public @ResponseBody Object user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
     return principalDetails;
   }
-
-  // manager, admin 권한만 접근 가능
-  @GetMapping("api/v1/manager")
-  public @ResponseBody String manager() {
-    return "manager";
-  }
-
   @GetMapping("api/v1/admin")
   @ResponseBody
   public String admin() {
