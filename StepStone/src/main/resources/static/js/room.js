@@ -1,10 +1,4 @@
 
-// <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-//
-// <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-// <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 var jQueryScript = document.createElement('script');
 jQueryScript.setAttribute('src','https://code.jquery.com/jquery-1.10.2.min.js');
 document.head.appendChild(jQueryScript);
@@ -12,14 +6,6 @@ document.head.appendChild(jQueryScript);
 var ajaxScript = document.createElement('script');
 ajaxScript.setAttribute('src','https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js');
 document.head.appendChild(ajaxScript);
-
-var sockScript = document.createElement('script');
-sockScript.setAttribute('src','https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js');
-document.head.appendChild(sockScript);
-
-var stompScript = document.createElement('script');
-stompScript.setAttribute('src','https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js');
-document.head.appendChild(stompScript);
 
 var sockJs = new SockJS("/stomp/chat");
 //1. SockJS를 내부에 들고있는 stomp를 내어줌
