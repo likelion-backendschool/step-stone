@@ -6,6 +6,7 @@ import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomForm;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
 import com.likelion.stepstone.chatroom.model.InviteUserForm;
+import com.likelion.stepstone.notification.NotificationService;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
     private final ChatService chatService;
+    private final NotificationService notificationService;
 
     @GetMapping("/room")
     public String getRoom(Principal principal, Model model, ChatRoomForm chatRoomForm, InviteUserForm inviteUserForm) {
@@ -36,6 +38,7 @@ public class ChatRoomController {
             ChatRoomDto firstChatRoom = rooms.get(0);
             chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
 
+            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
             String imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
             String roomName = chatRoomService.findChatRoomNameByRoomId(firstChatRoom.getChatRoomId());
             model.addAttribute("roomImageUrl", imageUrl);
@@ -53,6 +56,8 @@ public class ChatRoomController {
     @GetMapping("/history") // 저장된 채팅 내역 조회
     String getHistory(Principal principal, Model model, String roomId) {
         List<ChatDto> chats = chatService.getHistories(roomId);
+
+        notificationService.registerOnlineChatUser(principal.getName(), roomId);
 
         model.addAttribute("chats", chats);
         model.addAttribute("senderId", principal.getName());

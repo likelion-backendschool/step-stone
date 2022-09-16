@@ -1,6 +1,7 @@
 package com.likelion.stepstone.notification;
 
 
+import com.likelion.stepstone.chat.ChatRoomOnlineFinder;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
@@ -9,17 +10,20 @@ import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class NotificationService {
     private final NotificationRepository notificationRepository;
-
     private final UserRepository userRepository;
+
+    private final ChatRoomOnlineFinder chatRoomOnlineFinder;
 
     public void markAsRead(List<NotificationEntity> notifications) {
         notifications.forEach(NotificationEntity::read);
@@ -46,5 +50,13 @@ public class NotificationService {
         NotificationEntity notificationEntity = notificationRepository.findById(id).orElseThrow(() -> new DataNotFoundException("notification not found"));
 
         notificationEntity.read();
+    }
+
+
+    public void registerOnlineChatUser(String name, String roomId) {
+        Map<String, List<String>> onlineUsers = chatRoomOnlineFinder.getOnlineUsers();
+
+        onlineUsers.computeIfAbsent(roomId, k -> new ArrayList<>());
+        onlineUsers.get(roomId).add(name);
     }
 }
