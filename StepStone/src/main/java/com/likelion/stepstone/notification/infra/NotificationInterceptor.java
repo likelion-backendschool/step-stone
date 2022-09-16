@@ -49,15 +49,7 @@ public class NotificationInterceptor implements HandlerInterceptor {
 //            notificationService.markAsRead(notificationEntities);
 //            notificationEntities.forEach(NotificationEntity::read);
 //            long count = notificationDtos.size();
-            String requestURI = request.getRequestURI();
-            if(requestURI.contains("chat")){
-                String roomId = (String) modelAndView.getModel().get("roomId");
-                String beforeRoomId = (String) modelAndView.getModel().get("beforeRoomId");
-                if (beforeRoomId != null)
-                    notificationService.removeOnlineChatUser(userEntity.getUserId(), beforeRoomId);
-                if (roomId != null)
-                    notificationService.registerOnlineChatUser(userEntity.getUserId(), roomId);
-            }
+
             setNotificationsOnUI(userEntity, modelAndView);
         }
     }
