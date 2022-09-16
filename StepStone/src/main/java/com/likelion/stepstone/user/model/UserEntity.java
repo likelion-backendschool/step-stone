@@ -28,7 +28,7 @@ public class UserEntity {
     private Long userCid;
 
     //사용자Id를 해싱한다.
-    @Column(name = "user_id")
+    @Column(name = "user_id", unique = true)
     private String userId;
 
     @Setter
