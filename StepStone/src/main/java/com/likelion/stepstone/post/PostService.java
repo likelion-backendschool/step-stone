@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,6 +36,7 @@ public class PostService {
 
     }
 
+    @PreAuthorize("isAuthenticated() and #postDto.user.userId == authentication.principal.username")
     public void delete(PostDto postDto) {
         PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
         postRepository.delete(postEntity);

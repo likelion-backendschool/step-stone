@@ -9,6 +9,7 @@ import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,15 +33,14 @@ public class PostController {
         this.userService = userService;
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/create")
     public String createForm(PostForm postForm) {
         return "/post/form";
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/create")
-
     public String create(Principal principal,Model model, PostForm postForm) {
 
         //유효성 체크
@@ -82,6 +82,7 @@ public class PostController {
         return "post/list";
     }
 
+    @PostAuthorize("isAuthenticated() and #postForm.userId == authentication.principal.username")
     @GetMapping("/modify/{postCid}")
     public String postModifyGet(@PathVariable long postCid , PostForm postForm) {
         // @Valid PostForm postForm
@@ -89,8 +90,12 @@ public class PostController {
 
         postForm.setTitle(postDto.getTitle());
         postForm.setBody(postDto.getBody());
+        postForm.setUserId(postDto.getUser().getUserId());
         return "post/form";
     }
+
+
+    @PreAuthorize("isAuthenticated() and #postForm.userId == authentication.principal.username")
     @PostMapping("/modify/{postCid}")
     public String postModifyPost(@PathVariable long postCid , PostForm postForm) {
 
