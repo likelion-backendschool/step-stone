@@ -1,6 +1,9 @@
 package com.likelion.stepstone.notification;
 
+import com.likelion.stepstone.chat.event.ChatSendEvent;
+import com.likelion.stepstone.chat.model.ChatDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,4 +51,17 @@ public class NotificationController {
         notificationService.markAll(principal.getName());
         return "markNotification";
     }
+
+    @PostMapping("/chat/new")
+    public String newChatArrived(Principal principal, ChatDto chatDto){
+        notificationService.publishNewChat(principal.getName(), chatDto);
+        return "newChatNotification";
+    }
+
+//    @PostMapping("/chatroom/enter/")
+//    public String registerOnlineChatUser(Principal principal, String roomId){
+//        notificationService.registerOnlineChatUser(principal.getName(), roomId);
+//
+//        return "onlineChatRoom";
+//    }
 }
