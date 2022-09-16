@@ -36,7 +36,7 @@ public class PostService {
 
     }
 
-    @PreAuthorize("isAuthenticated() and #postDto.user.userId == authentication.principal.username")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #postDto.user.userId == authentication.principal.username")
     public void delete(PostDto postDto) {
         PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
         postRepository.delete(postEntity);

@@ -56,6 +56,8 @@ public class SecurityConfig {
                     .access("hasRole('ROLE_USER') or hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
                     .antMatchers("/api/v1/admin/**")
                     .access("hasRole('ROLE_ADMIN')")
+                    .antMatchers("/post/create/**", "/post/modify/**", "/post/delete/**")
+                    .authenticated()
                     .anyRequest().permitAll())
             .oauth2Login(config ->
               config.loginPage("/login")

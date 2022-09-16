@@ -33,13 +33,11 @@ public class PostController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/create")
     public String createForm(PostForm postForm) {
         return "/post/form";
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/create")
     public String create(Principal principal,Model model, PostForm postForm) {
 
@@ -82,7 +80,7 @@ public class PostController {
         return "post/list";
     }
 
-    @PostAuthorize("isAuthenticated() and #postForm.userId == authentication.principal.username")
+    @PostAuthorize("hasRole('ROLE_ADMIN') or #postForm.userId == authentication.principal.username")
     @GetMapping("/modify/{postCid}")
     public String postModifyGet(@PathVariable long postCid , PostForm postForm) {
         // @Valid PostForm postForm
@@ -95,7 +93,7 @@ public class PostController {
     }
 
 
-    @PreAuthorize("isAuthenticated() and #postForm.userId == authentication.principal.username")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #postForm.userId == authentication.principal.username")
     @PostMapping("/modify/{postCid}")
     public String postModifyPost(@PathVariable long postCid , PostForm postForm) {
 
