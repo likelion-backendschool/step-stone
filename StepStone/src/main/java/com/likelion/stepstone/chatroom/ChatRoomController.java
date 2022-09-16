@@ -55,7 +55,7 @@ public class ChatRoomController {
     }
 
     @GetMapping("/history") // 저장된 채팅 내역 조회
-    String getHistory(Principal principal, Model model, String roomId, String beforeRoomId) {
+    String getHistory(Principal principal, Model model, String roomId) {
         List<ChatDto> chats = chatService.getHistories(roomId);
 
 //        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
@@ -63,7 +63,6 @@ public class ChatRoomController {
 
         model.addAttribute("chats", chats);
         model.addAttribute("roomId", roomId);
-        model.addAttribute("beforeRoomId", beforeRoomId);
         model.addAttribute("senderId", principal.getName());
         model.addAttribute("name", chatRoomService.getUsername(principal.getName()));
         return "chat/room :: #chats";
