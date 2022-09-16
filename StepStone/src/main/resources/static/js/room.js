@@ -54,6 +54,8 @@ function initStomp() {
                 str += "</li>";
 
                 $("#chatList").append(str);
+                const element = document.getElementById('chats');
+                element.scrollTop = element.scrollHeight;
             }
 
         }, {id: roomId});
@@ -93,6 +95,8 @@ function subscribe(roomId) {
             str += "</li>";
 
             $("#chatList").append(str);
+            const element = document.getElementById('chats');
+            element.scrollTop = element.scrollHeight;
         }
     }, {id: roomId});
 }
@@ -148,6 +152,8 @@ function getChats(roomId) {
     })
         .done(function (fragment) {
             $('#chats').replaceWith(fragment);
+            const element = document.getElementById('chats');
+            element.scrollTop = element.scrollHeight;
         });
 }
 
@@ -170,6 +176,7 @@ function representChatRoomAbout(roomId){
 function changeChatRoom( roomId){
     getChats(roomId);
     representChatRoomAbout(roomId);
+
 }
 
 function changeSubs(roomId) {
@@ -194,7 +201,7 @@ function changeSubs(roomId) {
 function sendMsg() {
     var msg = document.getElementById("msg");
     var today = new Date();
-    var dateTime = today.toLocaleString().toString().substring(2, 19);
+    var dateTime = today.toLocaleString().toString().substring(2, 21);
     if (msg.value !== "") {
         console.log("sendMessage:" + msg.value);
         stomp.send('/pub/chat/message', {}, JSON.stringify({
@@ -219,6 +226,8 @@ function sendMsg() {
 
         $("#chatList").append(str);
         msg.value = '';
+        const element = document.getElementById('chats');
+        element.scrollTop = element.scrollHeight;
     }
 }
 
