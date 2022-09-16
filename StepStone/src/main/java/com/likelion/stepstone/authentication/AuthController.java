@@ -90,10 +90,4 @@ public class AuthController {
   public String login() {
     return "user/loginForm";
   }
-
-  @GetMapping("/login-error")
-  public String loginError(Model model) {
-    model.addAttribute("loginError", true);
-    return "user/loginForm";
-  }
 }
