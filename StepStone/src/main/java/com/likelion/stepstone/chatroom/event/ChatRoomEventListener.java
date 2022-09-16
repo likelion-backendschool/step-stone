@@ -35,7 +35,7 @@ public class ChatRoomEventListener {
         NotificationDto notificationDto = createNotification(chatRoomCreatedEvent.getChatRoomEntity(), chatRoomCreatedEvent.getUserEntity());
         // TODO DB에 Notification 정보 저장
 
-        saveNotification(notificationDto);
+        saveNotification(notificationDto, chatRoomCreatedEvent.getUserEntity());
     }
 
     private NotificationDto createNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
@@ -52,8 +52,7 @@ public class ChatRoomEventListener {
     }
 
 
-    private void saveNotification(NotificationDto dto){
-        UserEntity userEntity = userRepository.findById(dto.getUserCid()).orElseThrow(() -> new DataNotFoundException("user not found"));
+    private void saveNotification(NotificationDto dto, UserEntity userEntity){
         NotificationEntity notificationEntity = NotificationEntity.toEntity(dto, userEntity);
 
         notificationRepository.save(notificationEntity);
