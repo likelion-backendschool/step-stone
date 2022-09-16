@@ -38,11 +38,12 @@ public class ChatRoomController {
             ChatRoomDto firstChatRoom = rooms.get(0);
             chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
 
-            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
+//            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
             String imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
             String roomName = chatRoomService.findChatRoomNameByRoomId(firstChatRoom.getChatRoomId());
             model.addAttribute("roomImageUrl", imageUrl);
             model.addAttribute("roomName", roomName);
+            model.addAttribute("roomId", firstChatRoom.getChatRoomId());
         }
 
         model.addAttribute("rooms", rooms);
@@ -57,10 +58,12 @@ public class ChatRoomController {
     String getHistory(Principal principal, Model model, String roomId, String beforeRoomId) {
         List<ChatDto> chats = chatService.getHistories(roomId);
 
-        notificationService.registerOnlineChatUser(principal.getName(), roomId);
-        notificationService.moveOnlineChatUser(principal.getName(), beforeRoomId);
+//        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
+//        notificationService.registerOnlineChatUser(principal.getName(), roomId);
 
         model.addAttribute("chats", chats);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("beforeRoomId", beforeRoomId);
         model.addAttribute("senderId", principal.getName());
         model.addAttribute("name", chatRoomService.getUsername(principal.getName()));
         return "chat/room :: #chats";
