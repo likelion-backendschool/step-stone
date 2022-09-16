@@ -58,6 +58,10 @@ function initStomp() {
                 element.scrollTop = element.scrollHeight;
             }
 
+            if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
+                postNewChatNotification(chat);
+            }
+
         }, {id: roomId});
     });
 
@@ -97,6 +101,10 @@ function subscribe(roomId) {
             $("#chatList").append(str);
             const element = document.getElementById('chats');
             element.scrollTop = element.scrollHeight;
+        }
+
+        if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
+            postNewChatNotification(chat);
         }
     }, {id: roomId});
 }
@@ -140,13 +148,12 @@ function getChats(roomId) {
     }
     var chatRoomIdBean = {
         roomId: roomId,
-        beforeRoomId : $("#currRoomId").val()
     };
 
     changeSubs(roomId);
 
     $.ajax({
-        url: "/chat/room/history",
+        url: "/chat/history",
         type: "Get",
         data: chatRoomIdBean,
     })
@@ -245,6 +252,13 @@ function searchChatRoom(){
         .done(function (fragment) {
             $('#chatRoomTable').replaceWith(fragment);
         });
+}
+
+function postNewChatNotification(chat) {
+    console.log("new Chat");
+    // name이 paging인 태그
+    $.post("/notification/chat/new", {chatDto: chat});
+    return false;
 }
 
 $('#msg').on("keyup", function (e) {
