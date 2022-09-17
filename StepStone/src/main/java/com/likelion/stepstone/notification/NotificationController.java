@@ -53,8 +53,8 @@ public class NotificationController {
     }
 
     @PostMapping("/chat/new")
-    public String newChatArrived(Principal principal, ChatDto chatDto){
-        notificationService.publishNewChat(principal.getName(), chatDto);
+    public String newChatArrived(Principal principal, String chatRoomId){
+        notificationService.publishNewChat(principal.getName(), chatRoomId);
         return "newChatNotification";
     }
 

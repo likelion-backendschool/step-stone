@@ -64,10 +64,9 @@ public class NotificationService {
 
 
 
-    public void publishNewChat(String userId, ChatDto chatDto) {
+    public void publishNewChat(String userId, String chatRoomId) {
         UserEntity userEntity = findUserEntityByUserId(userId);
-        ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
 
-        eventPublisher.publishEvent(new ChatSendEvent(chatEntity, userEntity));
+        eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
     }
 }

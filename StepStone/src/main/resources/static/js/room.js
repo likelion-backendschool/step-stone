@@ -107,8 +107,9 @@ function subscribe(roomId) {
         }
 
         if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
-            postNewChatNotification(chat);
+            postNewChatNotification(chatRoomId);
         }
+
     }, {id: roomId});
 }
 
@@ -153,7 +154,7 @@ function getChats(roomId) {
         roomId: roomId,
     };
 
-    changeSubs(roomId);
+    // changeSubs(roomId);
 
     $.ajax({
         url: "/chat/history",
@@ -257,10 +258,10 @@ function searchChatRoom(){
         });
 }
 
-function postNewChatNotification(chat) {
+function postNewChatNotification(chatRoomId) {
     console.log("new Chat");
     // name이 paging인 태그
-    $.post("/notification/chat/new", {chatDto: chat});
+    $.post("/notification/chat/new", {chatRoomId: chatRoomId});
     return false;
 }
 

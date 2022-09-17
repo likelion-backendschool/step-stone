@@ -30,22 +30,22 @@ public class ChatEventListener {
 
     @EventListener // @EventListener 애너테이션을 이용해 이벤트 리스너를 명시합니다.
     public void handleChatSendEvent(ChatSendEvent chatSendEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
-        ChatEntity chatEntity = chatSendEvent.getChatEntity();
-        log.info(chatEntity.getMessage() + " is send");
+        String chatRoomId = chatSendEvent.getChatRoomId();
+        String roomName = chatRoomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new DataNotFoundException("room not found")).getRoomName();
 
-        NotificationDto notificationDto = createNotification(chatSendEvent.getChatEntity(), chatSendEvent.getUserEntity());
+        log.info(roomName + ": new message arrived");
+
+        NotificationDto notificationDto = createNotification(roomName, chatSendEvent.getUserEntity());
         // TODO DB에 Notification 정보 저장
 
         saveNotification(notificationDto, chatSendEvent.getUserEntity());
     }
 
-    private NotificationDto createNotification(ChatEntity chatEntity, UserEntity userEntity){
-        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(chatEntity.getChatRoomId()).orElseThrow(() -> new DataNotFoundException("chat room not found"));
-
+    private NotificationDto createNotification(String roomName, UserEntity userEntity){
 
         NotificationDto dto = NotificationDto.builder()
                 .title("새로운 채팅")
-                .message(chatRoomEntity.getRoomName() + "채팅방에 새로운 채팅이 도착했습니다.")
+                .message(roomName + "채팅방에 새로운 채팅이 도착했습니다.")
                 .checked(false)
                 .notificationType(NotificationType.CHAT_SEND)
                 .userCid(userEntity.getUserCid())

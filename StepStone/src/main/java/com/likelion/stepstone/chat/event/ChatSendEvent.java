@@ -7,11 +7,11 @@ import lombok.Getter;
 
 @Getter
 public class ChatSendEvent {
-    private final ChatEntity chatEntity;
+    private final String chatRoomId;
     private final UserEntity userEntity;
 
-    public ChatSendEvent(ChatEntity chatEntity, UserEntity userEntity) {
-        this.chatEntity = chatEntity;
+    public ChatSendEvent(String chatRoomId, UserEntity userEntity) {
+        this.chatRoomId = chatRoomId;
         this.userEntity = userEntity;
 
     }
