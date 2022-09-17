@@ -192,10 +192,10 @@ public class PostController {
 
     private boolean createDate(PostDto postDto) {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime createAt = postDto.getCreatedAt();
+        LocalDateTime updatedAt = postDto.getUpdatedAt();
 
         Date toDay = java.sql.Timestamp.valueOf(now);
-        Date createDay = java.sql.Timestamp.valueOf(createAt);
+        Date createDay = java.sql.Timestamp.valueOf(updatedAt);
 
         long diffSec = (toDay.getTime() - createDay.getTime()) / 1000; //초 차이
         long diffDays = diffSec / (24 * 60 * 60);
