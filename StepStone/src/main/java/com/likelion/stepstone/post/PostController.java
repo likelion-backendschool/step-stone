@@ -13,9 +13,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -175,19 +175,35 @@ public class PostController {
     }
 
     @GetMapping("/postup/{postCid}")
-    public String postUp(@PathVariable long postCid,Model model){
+    public String postUp(@PathVariable long postCid, Model model) {
         PostDto postDto = postService.getPostDto(postCid);
 
         LocalDateTime now = LocalDateTime.now();
-        if( true){
-            model.addAttribute("msg","게시 글 작성 후 5일 이후부터 끌어올리기가 가능합니다.");
-            model.addAttribute("postCid",postCid);
+        if (createDate(postDto)) {
+            model.addAttribute("msg", "게시 글 작성 후 5일 이후부터 끌어올리기가 가능합니다.");
+            model.addAttribute("postCid", postCid);
             return "post/alert";
         }
 
         postService.postUp(postDto);
         return "redirect:/post/list";
 
+    }
+
+    private boolean createDate(PostDto postDto) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime createAt = postDto.getCreatedAt();
+
+        Date toDay = java.sql.Timestamp.valueOf(now);
+        Date createDay = java.sql.Timestamp.valueOf(createAt);
+
+        long diffSec = (toDay.getTime() - createDay.getTime()) / 1000; //초 차이
+        long diffDays = diffSec / (24 * 60 * 60);
+
+        if (diffDays < 5) {
+            return true;
+        }
+        return false;
     }
 
 }
