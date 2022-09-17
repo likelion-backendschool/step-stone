@@ -272,7 +272,7 @@ function postNewChatNotification(chatRoomId, currentURI) {
         data: chatRoomBean,
     })
         .done(function (fragment) {
-            $('#junkTag').replaceWith(fragment);
+            $('#notifications').replaceWith(fragment);
         });
 }
 

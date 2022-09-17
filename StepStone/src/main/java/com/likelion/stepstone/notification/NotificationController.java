@@ -57,12 +57,12 @@ public class NotificationController {
     }
 
     @PostMapping("/chat/new")
-    public String newChatArrived(Principal principal, Model model, String chatRoomId, String currentURI){
+    public String newChatArrived(Principal principal, Model model, String chatRoomId){
         notificationService.publishNewChat(principal.getName(), chatRoomId);
-        String path = notificationService.getCurrentUriPath(currentURI);
 
-
-        return path + "::#junkTag";
+        model.addAttribute("notifications", notificationService.readNewNotifications(principal.getName()));
+        model.addAttribute("hasNotification", notificationService.readNewNotifications(principal.getName()).size() > 0);
+        return "navbar :: #notifications";
     }
 
 //    @PostMapping("/chatroom/enter/")
