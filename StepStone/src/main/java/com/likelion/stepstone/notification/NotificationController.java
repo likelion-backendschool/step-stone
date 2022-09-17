@@ -2,14 +2,18 @@ package com.likelion.stepstone.notification;
 
 import com.likelion.stepstone.chat.event.ChatSendEvent;
 import com.likelion.stepstone.chat.model.ChatDto;
+import com.likelion.stepstone.notification.model.NotificationDto;
+import com.likelion.stepstone.notification.model.NotificationEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -53,9 +57,12 @@ public class NotificationController {
     }
 
     @PostMapping("/chat/new")
-    public String newChatArrived(Principal principal, String chatRoomId){
+    public String newChatArrived(Principal principal, Model model, String chatRoomId, String currentURI){
         notificationService.publishNewChat(principal.getName(), chatRoomId);
-        return "newChatNotification";
+        String path = notificationService.getCurrentUriPath(currentURI);
+
+
+        return path + "::#junkTag";
     }
 
 //    @PostMapping("/chatroom/enter/")

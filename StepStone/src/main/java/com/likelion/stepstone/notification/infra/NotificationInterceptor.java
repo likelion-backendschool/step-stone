@@ -49,7 +49,8 @@ public class NotificationInterceptor implements HandlerInterceptor {
 //            notificationService.markAsRead(notificationEntities);
 //            notificationEntities.forEach(NotificationEntity::read);
 //            long count = notificationDtos.size();
-
+            String uri = request.getRequestURI();
+            if (uri.contains("notification")) return;
             setNotificationsOnUI(userEntity, modelAndView);
         }
     }

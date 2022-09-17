@@ -69,4 +69,18 @@ public class NotificationService {
 
         eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
     }
+
+    public String getCurrentUriPath(String currentURI){
+        String[] paths = currentURI.split("/");
+
+        StringBuilder sb = new StringBuilder();
+        for(int i = 3; i < paths.length; i++){
+            sb.append(paths[i]);
+            sb.append("/");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        System.out.println(sb);
+
+        return sb.toString();
+    }
 }

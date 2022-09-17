@@ -59,7 +59,8 @@ function initStomp() {
                 }
 
                 if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
-                    postNewChatNotification(chatRoomId);
+                    // console.log(window.location.href);
+                    postNewChatNotification(chatRoomId, window.location.href);
                 }
 
             }, {id: item});
@@ -258,11 +259,21 @@ function searchChatRoom(){
         });
 }
 
-function postNewChatNotification(chatRoomId) {
+function postNewChatNotification(chatRoomId, currentURI) {
     console.log("new Chat");
-    // name이 paging인 태그
-    $.post("/notification/chat/new", {chatRoomId: chatRoomId});
-    return false;
+
+    var chatRoomBean = {
+        chatRoomId: chatRoomId,
+        currentURI: currentURI
+    };
+    $.ajax({
+        url: "/notification/chat/new",
+        type: "POST",
+        data: chatRoomBean,
+    })
+        .done(function (fragment) {
+            $('#junkTag').replaceWith(fragment);
+        });
 }
 
 $('#msg').on("keyup", function (e) {
