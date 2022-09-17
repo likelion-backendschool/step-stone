@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,4 +173,13 @@ public class PostController {
 
         return "redirect:/post/list";
     }
+
+    @GetMapping("/listup/{postCid}")
+    public String listUp(@PathVariable long postCid){
+        PostDto postDto = postService.getPostDto(postCid);
+        postService.listUP(postDto);
+        return "redirect:/post/detail/{postCid}";
+
+    }
+
 }

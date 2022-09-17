@@ -35,6 +35,9 @@ public class WorkSpaceController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String createPost(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, WorkSpaceForm workSpaceForm) {
+//        if (principalDetails == null) {
+//        model.addAttribute("msg","로그인 후 이용해주세요");
+//        return "like/login"; }
 
         //유효성 체크
         boolean hasError = false;
@@ -53,7 +56,6 @@ public class WorkSpaceController {
             model.addAttribute("workSpaceForm", workSpaceForm);
             return "workspace/workspace_form";
         }
-
 
         WorkSpaceDto workSpaceDto = WorkSpaceDto.builder()
                 .title(workSpaceForm.getTitle())

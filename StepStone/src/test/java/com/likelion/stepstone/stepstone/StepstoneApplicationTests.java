@@ -32,7 +32,6 @@ class StepstoneApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-<<<<<<< HEAD
 
 //	@Test
 //	void likeRepositorySave() {
@@ -223,8 +222,3 @@ class StepstoneApplicationTests {
 
 }
 
-=======
-}
-
-
->>>>>>> e45bb35b4dd841dbfb4b4b0531e4543e9f0a495c

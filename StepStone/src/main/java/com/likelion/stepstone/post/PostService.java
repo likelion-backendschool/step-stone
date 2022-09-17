@@ -2,6 +2,8 @@ package com.likelion.stepstone.post;
 
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
+import com.likelion.stepstone.like.LikeRepository;
+import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
@@ -19,9 +21,11 @@ import java.util.stream.Collectors;
 
 public class PostService {
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository,LikeRepository likeRepository) {
         this.postRepository = postRepository;
+        this.likeRepository = likeRepository;
     }
 
     public void create(PostDto postDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -31,6 +35,7 @@ public class PostService {
         postEntity.setUser(userEntity);
         postEntity.setPostId(UUID.randomUUID());
         postEntity.setLikes(0);
+        postEntity.setUpdatedAt(LocalDateTime.now());
 
         postRepository.save(postEntity);
 
@@ -39,6 +44,10 @@ public class PostService {
     public void delete(PostDto postDto) {
         PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
         postRepository.delete(postEntity);
+
+        List<LikeEntity> likeEntities = likeRepository.findByPostCid(postDto.getPostCid());
+       for(LikeEntity likeEntity:likeEntities){
+        likeRepository.delete(likeEntity);}
     }
 
     private Pageable getPageable(int page, int size, Sort DESC) {
@@ -72,7 +81,7 @@ public class PostService {
             }
         }
 
-        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "updatedAt"));
         return postRepository.findAll(pageable);
     }
 
@@ -86,9 +95,14 @@ public class PostService {
 
         postEntity.setTitle(title);
         postEntity.setBody(body);
-        postEntity.setUpdatedAt(LocalDateTime.now());
+//      postEntity.setUpdatedAt(LocalDateTime.now());
 
         postRepository.save(postEntity);
     }
 
+    public void listUP(PostDto postDto) {
+        PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
+        postEntity.setUpdatedAt(LocalDateTime.now());
+        postRepository.save(postEntity);
+    }
 }

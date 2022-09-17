@@ -31,6 +31,10 @@ public class LikeControllerTest {
     void contextLoads() {
     }
 
+}
+
+
+
 /*
     @Test
     public void addUserAndPost1(){
@@ -174,7 +178,7 @@ public class LikeControllerTest {
     }
      */
 
-}
+
 
 
 

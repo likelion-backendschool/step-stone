@@ -60,7 +60,7 @@ public class PostEntity {
     private LocalDateTime createdAt;
 
     @Setter
-    @UpdateTimestamp
+//    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
