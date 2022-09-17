@@ -57,7 +57,7 @@
         <!-- 좋아요 -->
     </span>
     <div class="d-flex justify-content-end my-2">
-        <a th:href="@{|/post/listup/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+        <a th:href="@{|/post/postup/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"
            th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
            th:text="끌어올리기"></a>

@@ -174,11 +174,19 @@ public class PostController {
         return "redirect:/post/list";
     }
 
-    @GetMapping("/listup/{postCid}")
-    public String listUp(@PathVariable long postCid){
+    @GetMapping("/postup/{postCid}")
+    public String postUp(@PathVariable long postCid,Model model){
         PostDto postDto = postService.getPostDto(postCid);
-        postService.listUP(postDto);
-        return "redirect:/post/detail/{postCid}";
+
+        LocalDateTime now = LocalDateTime.now();
+        if( true){
+            model.addAttribute("msg","게시 글 작성 후 5일 이후부터 끌어올리기가 가능합니다.");
+            model.addAttribute("postCid",postCid);
+            return "post/alert";
+        }
+
+        postService.postUp(postDto);
+        return "redirect:/post/list";
 
     }
 

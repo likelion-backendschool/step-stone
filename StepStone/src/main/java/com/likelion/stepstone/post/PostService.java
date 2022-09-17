@@ -100,7 +100,7 @@ public class PostService {
         postRepository.save(postEntity);
     }
 
-    public void listUP(PostDto postDto) {
+    public void postUp(PostDto postDto) {
         PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
         postEntity.setUpdatedAt(LocalDateTime.now());
         postRepository.save(postEntity);
