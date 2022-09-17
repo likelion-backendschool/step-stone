@@ -38,9 +38,12 @@ public class ChatRoomController {
             ChatRoomDto firstChatRoom = rooms.get(0);
             chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
 
+            List<String> allRoomId = chatRoomService.findAllRoomId(principal.getName());
 //            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
             String imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
             String roomName = chatRoomService.findChatRoomNameByRoomId(firstChatRoom.getChatRoomId());
+
+            model.addAttribute("allRoomId", allRoomId);
             model.addAttribute("roomImageUrl", imageUrl);
             model.addAttribute("roomName", roomName);
             model.addAttribute("roomId", firstChatRoom.getChatRoomId());

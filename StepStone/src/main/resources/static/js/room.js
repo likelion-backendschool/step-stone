@@ -19,50 +19,53 @@ $(document).ready(function (){
 
 function initStomp() {
 
-    var roomId = $("#currRoomId").val();
+    // var roomId = $("#currRoomId").val();
     var username = "test user";
-    console.log(roomId + ", " + username);
+    // console.log(roomId + ", " + username);
 
 
     //2. connection이 맺어지면 실행
     stomp.connect({}, function () {
         console.log("STOMP Connection")
 
-        //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-        stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-            console.log("chat : " + chat);
-            var content = JSON.parse(chat.body);
+        allRoomId.forEach(function (item){
+            stomp.subscribe("/sub/chat/room/" + item, function (chat) {
+                console.log("chat : " + chat);
+                var content = JSON.parse(chat.body);
 
-            var sender = content.senderName;
-            var senderId = content.senderId;
-            var createdAt = content.createdAt;
-            var message = content.message;
-            var profileImageUrl = content.profileImageUrl;
-            var chatRoomId = content.chatRoomId;
-            var str = '';
+                var sender = content.senderName;
+                var senderId = content.senderId;
+                var createdAt = content.createdAt;
+                var message = content.message;
+                var profileImageUrl = content.profileImageUrl;
+                var chatRoomId = content.chatRoomId;
+                var str = '';
 
-            if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
-                str = "<li class='clearfix'>";
-                str += "<div>";
-                str += "<div class='message-data'>";
-                str += "<img src='" + profileImageUrl + "' alt='avatar'>";
-                str += "<span class='message-data-time'>" + sender + "</span>";
-                str += "<span class='message-data-time'>" + createdAt + "</span>";
-                str += "</div>";
-                str += "<div class='message other-message'>" + message + "</div>";
-                str += "</div>";
-                str += "</li>";
+                if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
+                    str = "<li class='clearfix'>";
+                    str += "<div>";
+                    str += "<div class='message-data'>";
+                    str += "<img src='" + profileImageUrl + "' alt='avatar'>";
+                    str += "<span class='message-data-time'>" + sender + "</span>";
+                    str += "<span class='message-data-time'>" + createdAt + "</span>";
+                    str += "</div>";
+                    str += "<div class='message other-message'>" + message + "</div>";
+                    str += "</div>";
+                    str += "</li>";
 
-                $("#chatList").append(str);
-                const element = document.getElementById('chats');
-                element.scrollTop = element.scrollHeight;
-            }
+                    $("#chatList").append(str);
+                    const element = document.getElementById('chats');
+                    element.scrollTop = element.scrollHeight;
+                }
 
-            if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
-                postNewChatNotification(chat);
-            }
+                if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
+                    postNewChatNotification(chatRoomId);
+                }
 
-        }, {id: roomId});
+            }, {id: item});
+        })
+        // 4. subscribe(path, callback)으로 메세지를 받을 수 있음
+
     });
 
     //3. send(path, header, message)로 메세지를 보낼 수 있음

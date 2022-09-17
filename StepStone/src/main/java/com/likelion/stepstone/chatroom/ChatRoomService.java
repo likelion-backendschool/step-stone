@@ -153,4 +153,11 @@ public class ChatRoomService {
 
         return chatRoomEntities.stream().map(ChatRoomDto::toDto).collect(Collectors.toList());
     }
+
+    public List<String> findAllRoomId(String userId) {
+        List<ChatRoomDto> dtos = findAll(userId);
+        List<String> allRoomId = dtos.stream().map(ChatRoomDto::getChatRoomId).toList();
+
+        return allRoomId;
+    }
 }
