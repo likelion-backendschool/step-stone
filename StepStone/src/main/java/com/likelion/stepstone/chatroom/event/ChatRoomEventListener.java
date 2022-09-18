@@ -32,16 +32,41 @@ public class ChatRoomEventListener {
         ChatRoomEntity chatRoomEntity = chatRoomCreatedEvent.getChatRoomEntity();
         log.info(chatRoomEntity.getRoomName() + " is created");
 
-        NotificationDto notificationDto = createNotification(chatRoomCreatedEvent.getChatRoomEntity(), chatRoomCreatedEvent.getUserEntity());
+        NotificationDto notificationDto = createCreateNotification(chatRoomCreatedEvent.getChatRoomEntity(), chatRoomCreatedEvent.getUserEntity());
         // TODO DB에 Notification 정보 저장
 
         saveNotification(notificationDto, chatRoomCreatedEvent.getUserEntity());
     }
 
-    private NotificationDto createNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
+    @EventListener
+    public void handleChatRoomInviteEvent(ChatRoomInviteEvent chatRoomInviteEvent){
+        ChatRoomEntity chatRoomEntity = chatRoomInviteEvent.getChatRoomEntity();
+        UserEntity userEntity = chatRoomInviteEvent.getUserEntity();
+
+        log.info(userEntity.getName() + "is invited to" + chatRoomEntity.getRoomName());
+
+        NotificationDto notificationDto = createInviteNotification(chatRoomEntity, userEntity);
+        saveNotification(notificationDto, userEntity);
+
+    }
+
+    private NotificationDto createCreateNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
         NotificationDto dto = NotificationDto.builder()
                 .title("채팅방 생성")
                 .message(chatRoomEntity.getRoomName() + " 채팅방이 생성되었습니다.")
+                .checked(false)
+                .notificationType(NotificationType.CHAT_ROOM_CREATED)
+                .userCid(userEntity.getUserCid())
+                .build();
+
+
+        return dto;
+    }
+
+    private NotificationDto createInviteNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
+        NotificationDto dto = NotificationDto.builder()
+                .title("채팅방 초대")
+                .message(chatRoomEntity.getRoomName() + " 채팅방으로 초대되었습니다.")
                 .checked(false)
                 .notificationType(NotificationType.CHAT_ROOM_CREATED)
                 .userCid(userEntity.getUserCid())

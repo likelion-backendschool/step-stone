@@ -1,6 +1,7 @@
 package com.likelion.stepstone.chatroom;
 
 import com.likelion.stepstone.chatroom.event.ChatRoomCreatedEvent;
+import com.likelion.stepstone.chatroom.event.ChatRoomInviteEvent;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.notification.NotificationRepository;
@@ -123,6 +124,12 @@ public class ChatRoomService {
                 .chatRoomEntity(chatRoomEntity)
                         .profileImageUrl(profileImageUrl)
                 .build());
+
+        inviteEventPublish(chatRoomEntity, userEntity);
+    }
+
+    private void inviteEventPublish( ChatRoomEntity chatRoomEntity, UserEntity userEntity ){
+        eventPublisher.publishEvent(new ChatRoomInviteEvent(chatRoomEntity, userEntity));
     }
 
     public List<String> getListFromRes(){
