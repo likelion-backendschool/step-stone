@@ -1,12 +1,23 @@
+/*@font-face {*/
+/*    font-family: 'Pretendard-Regular';*/
+/*    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');*/
+/*    font-weight: 500;*/
+/*    font-style: normal;*/
+/*}*/
+/*!* 폰트 출처 : https://noonnu.cc/font_page/694 *!*/
+
+/*html > body {*/
+/*    font-family: "Pretendard-Regular";*/
+/*    font-size: 0.9em;*/
+/*}*/
+
 @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 500;
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
     font-style: normal;
 }
-/* 폰트 출처 : https://noonnu.cc/font_page/694 */
-
 html > body {
-    font-family: "Pretendard-Regular";
+    font-family: "NEXON Lv1 Gothic OTF";
     font-size: 0.9em;
 }
