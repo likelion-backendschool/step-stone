@@ -1,7 +1,9 @@
 package com.likelion.stepstone.chatroom;
 
+import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomUserJoinEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomUserJoinId;
+import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,4 +13,7 @@ public interface ChatRoomJoinRepository extends JpaRepository<ChatRoomUserJoinEn
     List<ChatRoomUserJoinEntity> findByIdChatRoomCid(Long chatRoomCid);
 
     List<ChatRoomUserJoinEntity> findByIdUserCid(Long userCid);
+
+    Optional<ChatRoomUserJoinEntity> findByChatRoomEntityAndUserEntity(ChatRoomEntity chatRoomEntity, UserEntity userEntity);
+
 }

@@ -58,6 +58,11 @@ public class ChatRoomService {
         chatRoomRepository.save(chatRoomEntity);
         createEventPublish(chatRoomEntity, userEntity);
 
+        String profileImage = pickProfileImage();
+        ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).orElseThrow(() -> new DataNotFoundException("chat room creation error"));
+        chatRoomUserJoinEntity.setProfileImageUrl(profileImage);
+
+        chatRoomJoinRepository.save(chatRoomUserJoinEntity);
         return ChatRoomVo.toVo(ChatRoomDto.toDto(chatRoomEntity));
     }
 
@@ -166,5 +171,20 @@ public class ChatRoomService {
         List<String> allRoomId = dtos.stream().map(ChatRoomDto::getChatRoomId).toList();
 
         return allRoomId;
+    }
+
+    private String pickProfileImage(){
+        String profileImageDefaultUrl = "https://www.bootdey.com/img/Content/avatar/";
+        int randomInt = (int)(Math.random()*6) + 1; //0 제외
+        String profileImageUrl = profileImageDefaultUrl + "avatar" + randomInt + ".png";
+
+        return profileImageUrl;
+    }
+
+    public String getCreationAvatar(String userId, String chatRoomId){
+        ChatRoomEntity chatRoomEntity = findByChatRoomId(chatRoomId);
+        UserEntity userEntity = findByUserId(userId);
+        ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).orElseThrow(() -> new DataNotFoundException("chatRoom not found"));
+        return chatRoomUserJoinEntity.getProfileImageUrl();
     }
 }

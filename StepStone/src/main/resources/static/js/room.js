@@ -151,11 +151,13 @@ function getChats(roomId) {
         console.log("room is identical!");
         return;
     }
+    changeSubs(roomId);
+
     var chatRoomIdBean = {
         roomId: roomId,
     };
 
-    // changeSubs(roomId);
+
 
     $.ajax({
         url: "/chat/history",
@@ -196,11 +198,11 @@ function changeSubs(roomId) {
     //     console.log("room is identical!");
     //     return;
     // }
-    stomp.unsubscribe($("#currRoomId").val());
+    // stomp.unsubscribe($("#currRoomId").val());
     console.log("unsubscribe currRoomId : " + $("#currRoomId").val());
     $("#currRoomId").val(roomId);
 
-    subscribe(roomId);
+    // subscribe(roomId);
     // var chatBean = {
     //     roomId: document.getElementById('roomId').value,
     //     roomName: $("#name").val()
@@ -214,6 +216,16 @@ function sendMsg() {
     var msg = document.getElementById("msg");
     var today = new Date();
     var dateTime = today.toLocaleString().toString().substring(2, 21);
+
+    const src = $("#myAvatar").attr('src');
+    console.log(src);
+
+    var profileImageUrI;
+    if (src===undefined) {
+        console.log('img src is empty');
+        profileImageUrI = $("#creationAvatar").attr('src');
+    }
+
     if (msg.value !== "") {
         console.log("sendMessage:" + msg.value);
         stomp.send('/pub/chat/message', {}, JSON.stringify({
@@ -222,12 +234,12 @@ function sendMsg() {
             createdAt: dateTime,
             senderName: username,
             senderId: userId, //사용중인 사용자로 변경 필요
-            profileImageUrl: $("#myAvatar").attr('src')
+            profileImageUrl: profileImageUrI
         }));
-        var profileImageUrl = $("#myAvatar").attr('src')
+        var profileImageUrl = profileImageUrI
         var name = username;
         // var dateTime = date+' '+time;
-        str = "<li class='clearfix my-3'>";
+        str = "<li class='clearfix'>";
         str += "<div class='message-data text-end'>";
         str += "<span class='message-data-time'>" + name + "</span>";
         str += "<span class='message-data-time'> " + dateTime + "</span>";

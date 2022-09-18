@@ -63,7 +63,9 @@ public class ChatRoomController {
 
 //        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
 //        notificationService.registerOnlineChatUser(principal.getName(), roomId);
-
+        if(chats.isEmpty()){
+            model.addAttribute("creationAvatar", chatRoomService.getCreationAvatar(principal.getName(), roomId));
+        }
         model.addAttribute("chats", chats);
         model.addAttribute("roomId", roomId);
         model.addAttribute("senderId", principal.getName());
