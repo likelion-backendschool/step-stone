@@ -56,8 +56,12 @@ public class SecurityConfig {
                     .access("hasRole('ROLE_USER') or hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
                     .antMatchers("/api/v1/admin/**")
                     .access("hasRole('ROLE_ADMIN')")
-                    .antMatchers("/post/create/**", "/post/modify/**", "/post/delete/**")
+                    .antMatchers("/post/create", "/post/modify/**", "/post/delete/**")
                     .authenticated()
+                    .antMatchers("/workspace/create", "/workspace/modify/**", "/workspace/delete/**")
+                    .access("hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
+                    .antMatchers("/project/create", "/project/modify/**", "/project/delete/**")
+                    .access("hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
                     .anyRequest().permitAll())
             .oauth2Login(config ->
               config.loginPage("/login")
