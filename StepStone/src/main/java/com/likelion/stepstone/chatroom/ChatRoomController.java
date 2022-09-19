@@ -6,6 +6,7 @@ import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomForm;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
 import com.likelion.stepstone.chatroom.model.InviteUserForm;
+import com.likelion.stepstone.notification.NotificationService;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
     private final ChatService chatService;
+    private final NotificationService notificationService;
 
     @GetMapping("/room")
     public String getRoom(Principal principal, Model model, ChatRoomForm chatRoomForm, InviteUserForm inviteUserForm) {
@@ -36,10 +38,15 @@ public class ChatRoomController {
             ChatRoomDto firstChatRoom = rooms.get(0);
             chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
 
+            List<String> allRoomId = chatRoomService.findAllRoomId(principal.getName());
+//            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
             String imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
             String roomName = chatRoomService.findChatRoomNameByRoomId(firstChatRoom.getChatRoomId());
+
+            model.addAttribute("allRoomId", allRoomId);
             model.addAttribute("roomImageUrl", imageUrl);
             model.addAttribute("roomName", roomName);
+            model.addAttribute("roomId", firstChatRoom.getChatRoomId());
         }
 
         model.addAttribute("rooms", rooms);
@@ -54,7 +61,13 @@ public class ChatRoomController {
     String getHistory(Principal principal, Model model, String roomId) {
         List<ChatDto> chats = chatService.getHistories(roomId);
 
+//        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
+//        notificationService.registerOnlineChatUser(principal.getName(), roomId);
+        if(chats.isEmpty()){
+            model.addAttribute("creationAvatar", chatRoomService.getCreationAvatar(principal.getName(), roomId));
+        }
         model.addAttribute("chats", chats);
+        model.addAttribute("roomId", roomId);
         model.addAttribute("senderId", principal.getName());
         model.addAttribute("name", chatRoomService.getUsername(principal.getName()));
         return "chat/room :: #chats";

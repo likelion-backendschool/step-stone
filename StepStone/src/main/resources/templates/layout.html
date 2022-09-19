@@ -52,6 +52,14 @@
 
 <!-- 자바스크립트 Start -->
 <th:block layout:fragment="script"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:inline="javascript">
+    var userId = [[${senderId}]];
+    var username = [[${name}]];
+    var allRoomId = [[${allRoomId}]];
+</script>
+<script type="text/javascript"  th:src="@{/js/room.js}"></script>
 <!-- 자바스크립트 End -->
 </body>
 </html>

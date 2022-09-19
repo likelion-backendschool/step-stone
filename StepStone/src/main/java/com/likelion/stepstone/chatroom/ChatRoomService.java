@@ -1,6 +1,7 @@
 package com.likelion.stepstone.chatroom;
 
 import com.likelion.stepstone.chatroom.event.ChatRoomCreatedEvent;
+import com.likelion.stepstone.chatroom.event.ChatRoomInviteEvent;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.notification.NotificationRepository;
@@ -57,6 +58,11 @@ public class ChatRoomService {
         chatRoomRepository.save(chatRoomEntity);
         createEventPublish(chatRoomEntity, userEntity);
 
+        String profileImage = pickProfileImage();
+        ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).orElseThrow(() -> new DataNotFoundException("chat room creation error"));
+        chatRoomUserJoinEntity.setProfileImageUrl(profileImage);
+
+        chatRoomJoinRepository.save(chatRoomUserJoinEntity);
         return ChatRoomVo.toVo(ChatRoomDto.toDto(chatRoomEntity));
     }
 
@@ -123,6 +129,12 @@ public class ChatRoomService {
                 .chatRoomEntity(chatRoomEntity)
                         .profileImageUrl(profileImageUrl)
                 .build());
+
+        inviteEventPublish(chatRoomEntity, userEntity);
+    }
+
+    private void inviteEventPublish( ChatRoomEntity chatRoomEntity, UserEntity userEntity ){
+        eventPublisher.publishEvent(new ChatRoomInviteEvent(chatRoomEntity, userEntity));
     }
 
     public List<String> getListFromRes(){
@@ -153,4 +165,40 @@ public class ChatRoomService {
 
         return chatRoomEntities.stream().map(ChatRoomDto::toDto).collect(Collectors.toList());
     }
+
+    public List<String> findAllRoomId(String userId) {
+        List<ChatRoomDto> dtos = findAll(userId);
+        List<String> allRoomId = dtos.stream().map(ChatRoomDto::getChatRoomId).toList();
+
+        return allRoomId;
+    }
+
+    private String pickProfileImage(){
+        String profileImageDefaultUrl = "https://www.bootdey.com/img/Content/avatar/";
+        int randomInt = (int)(Math.random()*6) + 1; //0 제외
+        String profileImageUrl = profileImageDefaultUrl + "avatar" + randomInt + ".png";
+
+        return profileImageUrl;
+    }
+
+    public String getCreationAvatar(String userId, String chatRoomId){
+        ChatRoomEntity chatRoomEntity = findByChatRoomId(chatRoomId);
+        UserEntity userEntity = findByUserId(userId);
+        ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).orElseThrow(() -> new DataNotFoundException("chatRoom not found"));
+        return chatRoomUserJoinEntity.getProfileImageUrl();
+    }
+
+    public List<UserEntity> findAllUserInChatRoom(String chatRoomId){
+        ChatRoomEntity chatRoomEntity = findByChatRoomId(chatRoomId);
+        List<ChatRoomUserJoinEntity> chatRoomUserJoinEntities = chatRoomJoinRepository.findByChatRoomEntity(chatRoomEntity);
+        List<UserEntity> users = new ArrayList<>();
+        for(ChatRoomUserJoinEntity chatRoomUserJoinEntity : chatRoomUserJoinEntities)
+        {
+            users.add(chatRoomUserJoinEntity.getUserEntity());
+        }
+
+        return users;
+
+    }
+
 }
