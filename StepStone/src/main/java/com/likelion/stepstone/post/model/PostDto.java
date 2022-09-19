@@ -51,6 +51,7 @@ public class PostDto {
     public static PostDto toDto(PostEntity entity) {
         PostDto dto = PostDto.builder()
                 .postCid(entity.getPostCid())
+                .postCid(entity.getPostCid())
                 .user(entity.getUser())
                 .checked(false)
                 .title(entity.getTitle())

@@ -6,6 +6,28 @@
 
 <head>
   <meta charset="utf-8">
+  <style>
+    /* 페이징 부분 css */
+    .page-link {
+      color: #000000;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+    }
+
+    .page-item.active .page-link {
+      z-index: 1;
+      font-weight:bold;
+      background-color: #3C64B1;
+      color: #ffffff;
+      border-color: #3C64B1
+    }
+
+    .page-link:focus, .page-link:hover {
+      color: #000000;
+      background-color: #fafafa;
+      border-color: #cccccc;
+    }
+  </style>
 </head>
 
 <div layout:fragment="content">
@@ -45,7 +67,8 @@
 
                 <!-- user 비밀번호 변경 버튼 -->
                 <div class="col-md-auto">
-                  <a type="button" class="btn btn-primary" th:href="@{/mypage/update}" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
+                  <a type="button" class="btn btn-primary" th:href="@{/mypage/update}" th:if="${#bools.isFalse(oauthlogin)}"
+                     style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
                     비밀번호 변경
                   </a>
                 </div>
@@ -74,7 +97,9 @@
                     </div>
                     <div class="card-body">
                       <blockquote class="blockquote mb-0">
-                        <div th:text="${post.body}"></div>
+                        <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-height: 30px;  height: 90px; font-size: 0.8em"
+                                th:text="${post.body}"></div>
                         <div class="badge bg-light text-dark p-2 text-start">
                           <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
                         </div>
@@ -89,7 +114,9 @@
                       </div>
                       <div class="card-body">
                         <blockquote class="blockquote mb-0">
-                          <div th:text="${post.body}"></div>
+                          <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-height: 30px;  height: 90px; font-size: 0.8em"
+                                  th:text="${post.body}"></div>
                             <div class="badge bg-light text-dark p-2 text-start">
                               <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
                             </div>
@@ -145,9 +172,9 @@
 
                 <!-- 채팅방 바로가기 버튼 -->
                 <div class="col-md-auto">
-                  <button type="button" class="btn btn-primary" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
+                  <a type="button" class="btn btn-primary" th:href="@{|/chat/room|}" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
                     채팅방 바로가기
-                  </button>
+                  </a>
                 </div>
 
               </div>
