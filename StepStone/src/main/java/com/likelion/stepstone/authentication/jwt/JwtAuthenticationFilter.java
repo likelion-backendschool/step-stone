@@ -2,6 +2,7 @@ package com.likelion.stepstone.authentication.jwt;
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -68,6 +69,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   @Override
   protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-    response.sendRedirect("/login-error");
+    response.sendRedirect("/login?error=true");
   }
 }

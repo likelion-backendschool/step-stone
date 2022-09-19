@@ -1,17 +1,15 @@
 package com.likelion.stepstone.user;
 
 import com.likelion.stepstone.Util.DataNotFoundException;
-import com.likelion.stepstone.user.model.LoginVo;
+import com.likelion.stepstone.user.model.JoinVo;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
-import com.likelion.stepstone.user.model.UserVo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class UserService {
 
@@ -70,7 +68,7 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public void join(LoginVo user) {
+    public void join(JoinVo user) {
         UserEntity userEntity = UserEntity.toEntity(user);
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         userRepository.save(userEntity);

@@ -6,6 +6,7 @@ import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,13 +26,11 @@ public class ProjectController {
         this.userService = userService;
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String create(ProjectForm projectForm) {
         return "project/project_form";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String createProject(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, ProjectForm projectForm) {
 
@@ -70,6 +69,7 @@ public class ProjectController {
         return "project/project_list";
     }
 
+    @PostAuthorize("hasRole('ROLE_ADMIN') or #projectForm.userId == authentication.principal.username")
     @GetMapping("/modify/{projectCid}")
     public String projectModifyGet(@PathVariable long projectCid , ProjectForm projectForm) {
 
@@ -77,8 +77,11 @@ public class ProjectController {
 
         projectForm.setTitle(projectDto.getTitle());
         projectForm.setBody(projectDto.getBody());
+        projectForm.setUserId(projectDto.getUser().getUserId());
         return "project/project_form";
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #projectForm.userId == authentication.principal.username")
     @PostMapping("/modify/{projectCid}")
     public String projectModifyPost(@PathVariable long projectCid , ProjectForm projectForm) {
 

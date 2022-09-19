@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -51,8 +52,8 @@ public ProjectDto getProjectDto(Long projectCid) {
 
     return projectDto;
 }
-
-@Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #projectDto.user.userId == authentication.principal.username")
+    @Transactional
     public void delete( ProjectDto projectDto) {
         Long projectCid = projectDto.getProjectCid();
         projectRepository.deleteByProjectCid(projectCid);

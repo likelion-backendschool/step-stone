@@ -2,7 +2,6 @@ package com.likelion.stepstone.user.model;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Builder
@@ -28,7 +26,7 @@ public class UserEntity {
     private Long userCid;
 
     //사용자Id를 해싱한다.
-    @Column(name = "user_id")
+    @Column(name = "user_id", unique = true)
     private String userId;
 
     @Setter
@@ -79,7 +77,7 @@ public class UserEntity {
         return entity;
     }
 
-    public static UserEntity toEntity(LoginVo vo) {
+    public static UserEntity toEntity(JoinVo vo) {
         UserEntity entity = UserEntity.builder()
                 .userId(vo.getUserId())
                 .name(vo.getName())

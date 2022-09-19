@@ -6,6 +6,7 @@ import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,13 +27,11 @@ public class WorkSpaceController {
         this.userService = userService;
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String create(WorkSpaceForm workSpaceForm) {
         return "workspace/workspace_form";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String createPost(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, WorkSpaceForm workSpaceForm) {
 //        if (principalDetails == null) {
@@ -74,6 +73,7 @@ public class WorkSpaceController {
         return "workspace/workspace_list";
     }
 
+    @PostAuthorize("hasRole('ROLE_ADMIN') or #workSpaceForm.userId == authentication.principal.username")
     @GetMapping("/modify/{workspaceCid}")
     public String questionModifyGet(@PathVariable long workspaceCid , WorkSpaceForm workSpaceForm) {
 
@@ -81,8 +81,11 @@ public class WorkSpaceController {
         WorkSpaceDto workSpaceDto = workSpaceService.getWorkSpaceDto(workspaceCid);
         workSpaceForm.setTitle(workSpaceDto.getTitle());
         workSpaceForm.setBody(workSpaceDto.getBody());
+        workSpaceForm.setUserId(workSpaceDto.getUser().getUserId());
         return "workspace/workspace_form";
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #workSpaceForm.userId == authentication.principal.username")
     @PostMapping("/modify/{workspaceCid}")
     public String questionModifyPost(@PathVariable long workspaceCid , WorkSpaceForm workSpaceForm) {
 

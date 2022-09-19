@@ -13,7 +13,7 @@
                     <div class="card-body p-5">
                         <h1 class="fs-4 card-title fw-bold mb-4">Step Stone 이용을 위해 로그인을 해주세요.</h1>
                         <form th:action="@{/login}" method="post">
-                            <div th:if="${loginError}">
+                            <div th:if="${param.error}">
                                 <div class="alert alert-danger">
                                     사용자ID 또는 비밀번호를 확인해 주세요.
                                 </div>

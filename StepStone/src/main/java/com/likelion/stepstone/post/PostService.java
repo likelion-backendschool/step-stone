@@ -1,18 +1,16 @@
 package com.likelion.stepstone.post;
 
 
-import com.likelion.stepstone.authentication.PrincipalDetails;
-import com.likelion.stepstone.like.LikeRepository;
-import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -21,38 +19,54 @@ import java.util.stream.Collectors;
 
 public class PostService {
     private final PostRepository postRepository;
-    private final LikeRepository likeRepository;
 
-    public PostService(PostRepository postRepository,LikeRepository likeRepository) {
+    public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
-        this.likeRepository = likeRepository;
     }
 
-    public void create(PostDto postDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public void create(PostDto postDto, UserDto userDto) {
         PostEntity postEntity = PostEntity.toEntity(postDto);
-        UserEntity userEntity = principalDetails.getUser();
+        UserEntity user = UserEntity.toEntity(userDto);
 
-        postEntity.setUser(userEntity);
+        postEntity.setUser(user);
         postEntity.setPostId(UUID.randomUUID());
         postEntity.setLikes(0);
-        postEntity.setUpdatedAt(LocalDateTime.now());
 
         postRepository.save(postEntity);
 
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #postDto.user.userId == authentication.principal.username")
     public void delete(PostDto postDto) {
         PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
         postRepository.delete(postEntity);
+    }
 
-        List<LikeEntity> likeEntities = likeRepository.findByPostCid(postDto.getPostCid());
-       for(LikeEntity likeEntity:likeEntities){
-        likeRepository.delete(likeEntity);}
+    public Page<PostDto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return postRepository.findAll(pageable).map(post -> PostDto.toDto(post));
+    }
+
+    public PostEntity getPost(Long postCid) {
+            return postRepository.findByPostCid(postCid);
+
+    }
+
+    public Page<PostEntity> getPostList(int page) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
+        return postRepository.findAll(pageable);
     }
 
     private Pageable getPageable(int page, int size, Sort DESC) {
         Pageable pageable = PageRequest.of(page, size, DESC);
         return pageable;
+    }
+
+    public List<PostVo> getPostList() {
+        List<PostEntity> postEntities = postRepository.findAll();
+        return postEntities.stream().map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity))).collect(Collectors.toList());
     }
 
     public List<PostVo> getSortedPostList() {
@@ -67,21 +81,19 @@ public class PostService {
     }
 
     public Page<PostEntity> getMyPostList(int page, Long userCid) {
-        Pageable pageable = getPageable(page, 3, Sort.by(Sort.Direction.DESC, "postCid"));
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
         return postRepository.findAllByUserUserCid(userCid, pageable);
     }
+    public Page<PostEntity> getList(int page, UserDto user) {
 
-    public Page<PostEntity> getList(int page, PrincipalDetails principalDetails) {
-
-        if (principalDetails != null) {
-            UserEntity userEntity = principalDetails.getUser();
-            List<PostEntity> checkedPostEnties = postRepository.getPostEntitiy(userEntity);
-            for (PostEntity checkedPostEntity : checkedPostEnties) {
-                checkedPostEntity.setChecked(true);
-            }
+        List<PostEntity> checkedPostEnties = postRepository.getPostEntitiy(user);
+        for(PostEntity checkedPostEntity:checkedPostEnties){
+           if(checkedPostEntity.getUser().getUserCid() == user.getUserCid()){
+               checkedPostEntity.setChecked(true);
+           }
         }
 
-        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "updatedAt"));
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "postCid"));
         return postRepository.findAll(pageable);
     }
 
@@ -95,14 +107,9 @@ public class PostService {
 
         postEntity.setTitle(title);
         postEntity.setBody(body);
-//      postEntity.setUpdatedAt(LocalDateTime.now());
-
-        postRepository.save(postEntity);
-    }
-
-    public void postUp(PostDto postDto) {
-        PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
         postEntity.setUpdatedAt(LocalDateTime.now());
+
         postRepository.save(postEntity);
     }
+
 }

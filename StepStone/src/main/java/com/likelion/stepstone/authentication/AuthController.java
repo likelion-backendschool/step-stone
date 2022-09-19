@@ -3,18 +3,20 @@ package com.likelion.stepstone.authentication;
 import com.likelion.stepstone.authentication.jwt.JwtProperties;
 import com.likelion.stepstone.authentication.jwt.JwtTokenProvider;
 import com.likelion.stepstone.user.UserService;
-import com.likelion.stepstone.user.model.LoginVo;
+import com.likelion.stepstone.user.model.JoinVo;
 import com.likelion.stepstone.user.model.UserEntity;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import static com.likelion.stepstone.authentication.CookieUtils.*;
 
@@ -29,28 +31,34 @@ public class AuthController {
   }
 
   @GetMapping("join")
-  public String join() {
+  public String join(JoinVo joinVo) {
     return "user/joinForm";
   }
 
   @PostMapping("join")
-  public String join(LoginVo loginVo) {
-    userService.join(loginVo);
+  public String join(@Valid JoinVo joinVo, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      return "user/joinForm";
+    }
+    try {
+      userService.join(joinVo);
+    } catch (DataIntegrityViolationException e) {
+      e.printStackTrace();
+      bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+      return "user/joinForm";
+    }catch(Exception e) {
+      e.printStackTrace();
+      bindingResult.reject("signupFailed", e.getMessage());
+      return "user/joinForm";
+    }
+
     return "user/loginForm";
   }
 
-  // user, manager, admin 권한만 접근 가능
   @GetMapping("api/v1/user")
   public @ResponseBody Object user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
     return principalDetails;
   }
-
-  // manager, admin 권한만 접근 가능
-  @GetMapping("api/v1/manager")
-  public @ResponseBody String manager() {
-    return "manager";
-  }
-
   @GetMapping("api/v1/admin")
   @ResponseBody
   public String admin() {
@@ -58,16 +66,15 @@ public class AuthController {
   }
 
   @GetMapping("/oauth/login")
-  public String oauthLogin(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+  public String oauthLogin(HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
     UserEntity userEntity = principalDetails.getUser();
 
     String jwtToken = JwtTokenProvider.provide(principalDetails);
-    deleteCookie(request, response, JwtProperties.HEADER_STRING);
     addStrictCookie(response, JwtProperties.HEADER_STRING, jwtToken, JwtProperties.EXPIRATION_TIME / 1000);
     if(!userEntity.isLoginBefore()) {
       return "user/oauthJoinForm";
     }
-    return "redirect:/";
+    return "trick";
   }
 
   @PostMapping("/oauth/login")
@@ -81,12 +88,6 @@ public class AuthController {
 
   @GetMapping("/login")
   public String login() {
-    return "user/loginForm";
-  }
-
-  @GetMapping("/login-error")
-  public String loginError(Model model) {
-    model.addAttribute("loginError", true);
     return "user/loginForm";
   }
 }
