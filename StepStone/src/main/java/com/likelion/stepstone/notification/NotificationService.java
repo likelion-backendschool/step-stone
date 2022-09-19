@@ -5,6 +5,7 @@ import com.likelion.stepstone.chat.ChatRoomOnlineFinder;
 import com.likelion.stepstone.chat.event.ChatSendEvent;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chat.model.ChatEntity;
+import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
@@ -26,7 +27,7 @@ import java.util.Map;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
-    private final ChatRoomOnlineFinder chatRoomOnlineFinder;
+    private final ChatRoomJoinRepository chatRoomJoinRepository;
     private final ApplicationEventPublisher eventPublisher;
 
 
@@ -61,7 +62,6 @@ public class NotificationService {
 
         notificationEntity.read();
     }
-
 
 
     public void publishNewChat(String userId, String chatRoomId) {

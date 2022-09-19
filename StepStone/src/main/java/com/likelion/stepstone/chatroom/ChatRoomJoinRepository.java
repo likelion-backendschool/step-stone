@@ -15,5 +15,6 @@ public interface ChatRoomJoinRepository extends JpaRepository<ChatRoomUserJoinEn
     List<ChatRoomUserJoinEntity> findByIdUserCid(Long userCid);
 
     Optional<ChatRoomUserJoinEntity> findByChatRoomEntityAndUserEntity(ChatRoomEntity chatRoomEntity, UserEntity userEntity);
+    List<ChatRoomUserJoinEntity> findByChatRoomEntity(ChatRoomEntity chatRoomEntity);
 
 }

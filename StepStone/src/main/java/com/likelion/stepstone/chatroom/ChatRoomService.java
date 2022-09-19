@@ -187,4 +187,18 @@ public class ChatRoomService {
         ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).orElseThrow(() -> new DataNotFoundException("chatRoom not found"));
         return chatRoomUserJoinEntity.getProfileImageUrl();
     }
+
+    public List<UserEntity> findAllUserInChatRoom(String chatRoomId){
+        ChatRoomEntity chatRoomEntity = findByChatRoomId(chatRoomId);
+        List<ChatRoomUserJoinEntity> chatRoomUserJoinEntities = chatRoomJoinRepository.findByChatRoomEntity(chatRoomEntity);
+        List<UserEntity> users = new ArrayList<>();
+        for(ChatRoomUserJoinEntity chatRoomUserJoinEntity : chatRoomUserJoinEntities)
+        {
+            users.add(chatRoomUserJoinEntity.getUserEntity());
+        }
+
+        return users;
+
+    }
+
 }
