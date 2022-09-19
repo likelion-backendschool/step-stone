@@ -49,6 +49,7 @@ public class PostController {
     @PostMapping("/create")
     public String create(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, PostForm postForm) {
 
+
         //유효성 체크
         boolean hasError = false;
 
@@ -193,10 +194,9 @@ public class PostController {
             model.addAttribute("postCid", postCid);
             return "post/alert";
         }
-
+        model.addAttribute("msg", "게시글이 끌어올리기가 완료되었습니다. 다음 끌어올리기는 5일 이후부터 가능합니다. ");
         postService.postUp(postDto);
-        return "redirect:/post/list";
-
+        return "post/postUp";
     }
 
     private boolean createDate(PostDto postDto) {
