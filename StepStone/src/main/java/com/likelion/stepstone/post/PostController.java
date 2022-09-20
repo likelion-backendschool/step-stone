@@ -131,6 +131,11 @@ public class PostController {
             model.addAttribute("posts1", postVoList);
         }
 
+        // 게시글이 존재하지 않는 경우 (0개 이하)
+        else {
+            model.addAttribute("postSize", postVoList.size());
+        }
+
         return "post/list";
     }
 
