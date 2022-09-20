@@ -49,7 +49,6 @@ public class PostController {
     @PostMapping("/create")
     public String create(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, PostForm postForm) {
 
-
         //유효성 체크
         boolean hasError = false;
 
@@ -130,6 +129,9 @@ public class PostController {
         if (postVoListSize > 0) {
             model.addAttribute("postSize", postVoList.size());
             model.addAttribute("posts1", postVoList);
+        }
+        else {
+            model.addAttribute("postSize", postVoList.size());
         }
 
         return "post/list";

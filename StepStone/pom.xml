@@ -126,6 +126,14 @@
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.atlassian.commonmark/commonmark -->
+		<dependency>
+			<groupId>com.atlassian.commonmark</groupId>
+			<artifactId>commonmark</artifactId>
+			<version>0.17.0</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
