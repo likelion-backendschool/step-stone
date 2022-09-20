@@ -62,6 +62,8 @@ public class SecurityConfig {
                     .access("hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
                     .antMatchers("/project/create", "/project/modify/**", "/project/delete/**")
                     .access("hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
+                    .antMatchers("/chat/**")
+                    .authenticated()
                     .anyRequest().permitAll())
             .oauth2Login(config ->
               config.loginPage("/login")
