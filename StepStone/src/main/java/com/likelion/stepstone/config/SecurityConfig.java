@@ -57,7 +57,7 @@ public class SecurityConfig {
                     .antMatchers("/api/v1/admin/**")
                     .access("hasRole('ROLE_ADMIN')")
                     .antMatchers("/post/create", "/post/modify/**", "/post/delete/**")
-                    .authenticated()
+                    .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                     .antMatchers("/workspace/create", "/workspace/modify/**", "/workspace/delete/**")
                     .access("hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
                     .antMatchers("/project/create", "/project/modify/**", "/project/delete/**")

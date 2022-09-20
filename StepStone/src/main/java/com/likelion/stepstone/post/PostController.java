@@ -39,13 +39,11 @@ public class PostController {
         this.userService = userService;
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createForm(PostForm postForm) {
         return "/post/form";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String create(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, PostForm postForm) {
 
