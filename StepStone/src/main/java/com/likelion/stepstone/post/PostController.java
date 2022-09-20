@@ -39,13 +39,11 @@ public class PostController {
         this.userService = userService;
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createForm(PostForm postForm) {
         return "/post/form";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String create(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, PostForm postForm) {
 
@@ -130,6 +128,11 @@ public class PostController {
             model.addAttribute("postSize", postVoList.size());
             model.addAttribute("posts1", postVoList);
         }
+        else {
+            model.addAttribute("postSize", postVoList.size());
+        }
+
+        // 게시글이 존재하지 않는 경우 (0개 이하)
         else {
             model.addAttribute("postSize", postVoList.size());
         }
