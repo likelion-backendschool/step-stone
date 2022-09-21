@@ -49,18 +49,18 @@
                 <li class="nav-item" id="notificationIcon" sec:authorize="isAuthenticated()">
 
                     <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true"></i>
-                    <div class="dropdown-center" id="dropdown">
+                    <div class="dropdown" id="dropdown">
 
                         <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle"
                            data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
-                        <ul class="dropdown-menu" id="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end" id="dropdown-menu" style="min-width:350px;">
                             <li th:each="notification : ${notifications}">
                                 <div class="container-fluid" th:id="'notificationList' + ${notification.id}">
                                     <form action="/notification/mark" name="markForm" method="POST"></form>
                                     <div class="row gx-1">
                                         <a class="ms-1 col"
                                            id="notificationTitle" th:text="${notification.title}"
-                                           style="font-size : 12px; text-decoration:none; color : black;"
+                                           style="font-size : 16px; text-decoration:none; color : black;"
                                            data-bs-toggle="collapse"
                                            th:href="'#collapse' + ${notification.id}" aria-expanded="false"
                                            th:attr="aria-controls='#collapse' + ${notification.id}">Action
@@ -75,9 +75,22 @@
 
                                     <!--                                   th:attr="data-bs-target='#collapse' + ${notification.id}"-->
                                     <div class="collapse ms-1 mt-1" th:id="'collapse' + ${notification.id}">
-
-                                        <div style="font-size : 10px" th:text="${notification.message}">
+                                        <div style="font-size : 14px" th:text="${notification.message}">
                                             Lorem ipsum dolor text....
+                                        </div>
+                                        <div class="my-3" th:if="${notification.notificationType =='CHAT_SEND'}">
+                                            <div class="btn-group-sm text-center">
+                                                <button id="invite_confirm_btn" type="button" class="btn btn-primary btn-sm">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                                                    </svg>
+                                                </button>
+                                                <button id="invite_reject_btn" type="button" class="btn btn-danger btn-sm" >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -167,9 +180,28 @@
             return false;
         }
 
-
-
     </script>
+    <style>
+        #invite_reject_btn {
+            background-color: #f8d7da;
+            border-color: #f8d7da;
+        }
+
+        #invite_reject_btn:hover, #invite_reject_btn:active, #invite_reject_btn:visited{
+            background-color: #f1aeb5;
+            border-color: #f1aeb5;
+        }
+
+        #invite_confirm_btn {
+            background-color: #cfe2ff;
+            border-color: #cfe2ff;
+        }
+
+        #invite_confirm_btn:hover, #invite_confirm_btn:active, #invite_confirm_btn:visited{
+            background-color: #9ec5fe;
+            border-color: #9ec5fe;
+        }
+    </style>
 </nav>
 
 </html>
