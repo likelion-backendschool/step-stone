@@ -62,7 +62,7 @@ public class NotificationController {
 
     @GetMapping("/subscribe/chat/new")
     public String newChatArrived(Principal principal, Model model, String chatRoomId){
-        notificationService.publishNewChat(chatRoomService.findAllUserInChatRoom(chatRoomId), chatRoomId, chatRoomService.findChatRoomNameByRoomId(chatRoomId));
+        notificationService.publishNewChat(chatRoomService.findAllUserInChatRoom(chatRoomId), chatRoomService.findChatRoomNameByRoomId(chatRoomId));
         List<NotificationDto> dtos = notificationService.readNewNotifications(principal.getName());
 
         model.addAttribute("notifications", dtos);

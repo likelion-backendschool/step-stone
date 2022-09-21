@@ -66,10 +66,10 @@ public class NotificationService {
     }
 
 
-    public void publishNewChat(List<UserEntity> users, String chatRoomId, String chatRoomName) {
+    public void publishNewChat(List<UserEntity> users,String chatRoomName) {
         for(UserEntity userEntity : users){
 //            eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
-            handleChatSendEvent(chatRoomId, chatRoomName, userEntity);
+            handleChatSendEvent( chatRoomName, userEntity);
         }
     }
 
@@ -86,13 +86,14 @@ public class NotificationService {
 
         return sb.toString();
     }
-    public void handleChatSendEvent(String chatRoomId, String chatRoomName, UserEntity userEntity){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
+    public void handleChatSendEvent(String chatRoomName, UserEntity userEntity){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
         log.info(chatRoomName + ": new message arrived");
 
         NotificationDto notificationDto = createNotification(chatRoomName, userEntity);
         // TODO DB에 Notification 정보 저장
 
-        saveNotification(notificationDto, userEntity);
+        if(!notificationRepository.existsByUserEntityAndNotificationTypeAndChecked(userEntity, NotificationType.CHAT_SEND, false))
+            saveNotification(notificationDto, userEntity);
     }
     private NotificationDto createNotification(String roomName, UserEntity userEntity){
 
