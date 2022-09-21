@@ -102,7 +102,7 @@ public class NotificationService {
                 .title("새로운 채팅")
                 .message(roomName + "채팅방에 새로운 채팅이 도착했습니다.")
                 .checked(false)
-                .notificationType(NotificationType.CHAT_SEND)
+                .notificationType(NotificationType.CHAT_SEND.toString())
                 .userCid(userEntity.getUserCid())
                 .build();
 

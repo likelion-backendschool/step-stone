@@ -53,7 +53,7 @@ public class NotificationEntity {
                 .checked(dto.isChecked())
                 .userEntity(userEntity)
                 .createdAt(dto.getCreatedAt())
-                .notificationType(dto.getNotificationType())
+                .notificationType(NotificationType.valueOf(dto.getNotificationType()))
                 .build();
 
         return entity;

@@ -55,7 +55,7 @@ public class ChatRoomEventListener {
                 .title("채팅방 생성")
                 .message(chatRoomEntity.getRoomName() + " 채팅방이 생성되었습니다.")
                 .checked(false)
-                .notificationType(NotificationType.CHAT_ROOM_CREATED)
+                .notificationType(NotificationType.CHAT_ROOM_CREATED.toString())
                 .userCid(userEntity.getUserCid())
                 .build();
 
@@ -68,7 +68,7 @@ public class ChatRoomEventListener {
                 .title("채팅방 초대")
                 .message(chatRoomEntity.getRoomName() + " 채팅방으로 초대되었습니다.")
                 .checked(false)
-                .notificationType(NotificationType.CHAT_ROOM_CREATED)
+                .notificationType(NotificationType.CHAT_ROOM_CREATED.toString())
                 .userCid(userEntity.getUserCid())
                 .build();
 
