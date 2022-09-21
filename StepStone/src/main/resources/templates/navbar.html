@@ -134,14 +134,16 @@
             $.post("/notification/mark", {id: id});
         }
         function postMarkAll(){
-            console.log("mark");
-            // name이 paging인 태그
-            // event.preventDefault();
-            $("#dropdown").empty();
-            $.post("/notification/mark/all");
 
-            str = "<i th:if=\"${!hasNotification}\" class=\"fa fa-bell-o\" aria-hidden=\"true\"></i>";
-            $("#notificationIcon").append(str);
+            $.ajax({
+                url: "/notification/mark/all",
+                type: "POST",
+            })
+                .done(function (fragment) {
+                    $('#notifications').replaceWith(fragment);
+                });
+            // str = "<i th:if=\"${!hasNotification}\" class=\"fa fa-bell-o\" aria-hidden=\"true\"></i>";
+            // $("#notificationIcon").append(str);
             return false;
         }
 

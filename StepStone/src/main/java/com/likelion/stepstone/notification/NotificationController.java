@@ -54,9 +54,10 @@ public class NotificationController {
     }
 
     @PostMapping("/mark/all")
-    public String markAll(Principal principal){
+    public String markAll(Principal principal, Model model){
         notificationService.markAll(principal.getName());
-        return "markNotification";
+        model.addAttribute("hasNotification", false);
+        return "navbar :: #notifications";
     }
 
     @PostMapping("/chat/new")
