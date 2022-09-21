@@ -64,10 +64,10 @@ public class NotificationService {
     }
 
 
-    public void publishNewChat(String userId, String chatRoomId) {
-        UserEntity userEntity = findUserEntityByUserId(userId);
-
-        eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
+    public void publishNewChat(List<UserEntity> users, String chatRoomId) {
+        for(UserEntity userEntity : users){
+            eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
+        }
     }
 
     public String getCurrentUriPath(String currentURI){

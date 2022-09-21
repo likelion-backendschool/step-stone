@@ -2,6 +2,7 @@ package com.likelion.stepstone.notification;
 
 import com.likelion.stepstone.chat.event.ChatSendEvent;
 import com.likelion.stepstone.chat.model.ChatDto;
+import com.likelion.stepstone.chatroom.ChatRoomService;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ import java.util.List;
 @RequestMapping("/notification")
 public class NotificationController {
     private final NotificationService notificationService;
+
+    private final ChatRoomService chatRoomService;
 
 //    @GetMapping("/read/new")
 //    public String readNewNotification(Principal principal, Model model){
@@ -58,7 +61,7 @@ public class NotificationController {
 
     @PostMapping("/chat/new")
     public String newChatArrived(Principal principal, Model model, String chatRoomId){
-        notificationService.publishNewChat(principal.getName(), chatRoomId);
+        notificationService.publishNewChat(chatRoomService.findAllUserInChatRoom(chatRoomId), chatRoomId);
 
         model.addAttribute("notifications", notificationService.readNewNotifications(principal.getName()));
         model.addAttribute("hasNotification", notificationService.readNewNotifications(principal.getName()).size() > 0);
