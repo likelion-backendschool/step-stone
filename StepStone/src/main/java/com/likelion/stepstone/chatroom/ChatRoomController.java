@@ -43,6 +43,7 @@ public class ChatRoomController {
             String imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
             String roomName = chatRoomService.findChatRoomNameByRoomId(firstChatRoom.getChatRoomId());
 
+            model.addAttribute("creationAvatar", chatRoomService.getCreationAvatar(principal.getName(), firstChatRoom.getChatRoomId()));
             model.addAttribute("allRoomId", allRoomId);
             model.addAttribute("roomImageUrl", imageUrl);
             model.addAttribute("roomName", roomName);
@@ -63,9 +64,10 @@ public class ChatRoomController {
 
 //        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
 //        notificationService.registerOnlineChatUser(principal.getName(), roomId);
-        if(chats.isEmpty()){
-            model.addAttribute("creationAvatar", chatRoomService.getCreationAvatar(principal.getName(), roomId));
-        }
+
+
+        model.addAttribute("creationAvatar", chatRoomService.getCreationAvatar(principal.getName(), roomId));
+
         model.addAttribute("chats", chats);
         model.addAttribute("roomId", roomId);
         model.addAttribute("senderId", principal.getName());

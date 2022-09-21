@@ -217,14 +217,10 @@ function sendMsg() {
     var today = new Date();
     var dateTime = today.toLocaleString().toString().substring(2, 21);
 
-    const src = $("#myAvatar").attr('src');
-    console.log(src);
 
     var profileImageUrI;
-    if (src===undefined) {
-        console.log('img src is empty');
-        profileImageUrI = $("#creationAvatar").attr('src');
-    }
+
+    profileImageUrI = $("#creationAvatar").attr('src');
 
     if (msg.value !== "") {
         console.log("sendMessage:" + msg.value);
@@ -240,12 +236,14 @@ function sendMsg() {
         var name = username;
         // var dateTime = date+' '+time;
         str = "<li class='clearfix'>";
+        str += "<div>"
         str += "<div class='message-data text-end'>";
         str += "<span class='message-data-time'>" + name + "</span>";
         str += "<span class='message-data-time'> " + dateTime + "</span>";
         str += "<img src='" + profileImageUrl + "' alt='avatar'>";
         str += "</div>";
         str += "<div class='message my-message float-right'>" + msg.value + "</div>";
+        str += "</div>";
         str += "</li>";
 
         $("#chatList").append(str);
