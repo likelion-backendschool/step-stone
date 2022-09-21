@@ -47,11 +47,7 @@ public class ChatRoomService {
 
         chatRoomEntity.getUsers().add(userRepository.findById(userEntity.getUserCid()).orElseThrow(() -> new DataNotFoundException("user not found")));
 
-        List<String> imageNames = getListFromRes();
-
-        Random rand = new Random();
-        String randomElement = imageNames.get(rand.nextInt(imageNames.size()));
-        String imageUrl = chatRoomImageUrl + randomElement;
+        String imageUrl = getChatRoomImageUrl();
 
         chatRoomEntity.setImageUrl(imageUrl);
 
@@ -70,6 +66,15 @@ public class ChatRoomService {
         eventPublisher.publishEvent(new ChatRoomCreatedEvent(chatRoomEntity, userEntity));
     }
 
+    public String getChatRoomImageUrl(){
+        List<String> imageNames = getListFromRes();
+
+        Random rand = new Random();
+        String randomElement = imageNames.get(rand.nextInt(imageNames.size()));
+        String imageUrl = chatRoomImageUrl + randomElement;
+
+        return imageUrl;
+    }
 
     /**
      * TODO

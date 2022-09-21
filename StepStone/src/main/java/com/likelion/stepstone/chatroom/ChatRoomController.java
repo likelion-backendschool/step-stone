@@ -33,23 +33,22 @@ public class ChatRoomController {
     public String getRoom(Principal principal, Model model, ChatRoomForm chatRoomForm, InviteUserForm inviteUserForm) {
         List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName()); // principal의 name은 userEntity의 user_id
         List<ChatDto> chats = new ArrayList<>();
-
+        String imageUrl = chatRoomService.getChatRoomImageUrl();
         if(!rooms.isEmpty()){
             ChatRoomDto firstChatRoom = rooms.get(0);
             chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
 
             List<String> allRoomId = chatRoomService.findAllRoomId(principal.getName());
 //            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
-            String imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
+            imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
             String roomName = chatRoomService.findChatRoomNameByRoomId(firstChatRoom.getChatRoomId());
 
             model.addAttribute("creationAvatar", chatRoomService.getCreationAvatar(principal.getName(), firstChatRoom.getChatRoomId()));
             model.addAttribute("allRoomId", allRoomId);
-            model.addAttribute("roomImageUrl", imageUrl);
             model.addAttribute("roomName", roomName);
             model.addAttribute("roomId", firstChatRoom.getChatRoomId());
         }
-
+        model.addAttribute("roomImageUrl", imageUrl);
         model.addAttribute("rooms", rooms);
         model.addAttribute("chats", chats);
         model.addAttribute("senderId", principal.getName());
