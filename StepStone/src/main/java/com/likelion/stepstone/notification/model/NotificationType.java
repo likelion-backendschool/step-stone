@@ -6,4 +6,5 @@ public enum NotificationType {
     CHAT_SEND,
     PROJECT_START,
     CHAT_ROOM_CREATED
+    CHAT_ROOM_INVITE_REQUEST
 }

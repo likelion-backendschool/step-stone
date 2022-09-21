@@ -50,6 +50,18 @@ public class ChatRoomEventListener {
 
     }
 
+    @EventListener
+    public void handleInquireEvent(ChatRoomInquireEvent chatRoomInquireEvent){
+        UserEntity user = chatRoomInquireEvent.getUser();
+        UserEntity developer = chatRoomInquireEvent.getDeveloper();
+
+        NotificationDto notificationUserDto = createInquireNotification(developer, user);
+        NotificationDto notificationDeveloperDto = createInquireDeveloperNotification(developer, user);
+        saveNotification(notificationUserDto, user);
+        saveNotification(notificationDeveloperDto, developer);
+    }
+
+
     private NotificationDto createCreateNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
         NotificationDto dto = NotificationDto.builder()
                 .title("채팅방 생성")
@@ -66,9 +78,9 @@ public class ChatRoomEventListener {
     private NotificationDto createInviteNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
         NotificationDto dto = NotificationDto.builder()
                 .title("채팅방 초대")
-                .message(chatRoomEntity.getRoomName() + " 채팅방으로 초대되었습니다.")
+                .message(chatRoomEntity.getRoomName() + " 채팅방으로 초대되었습니다. 채팅방에 참가하시려면 확인 버튼을 눌러주세요.")
                 .checked(false)
-                .notificationType(NotificationType.CHAT_ROOM_CREATED.toString())
+                .notificationType(NotificationType. CHAT_ROOM_INVITE_REQUEST.toString())
                 .userCid(userEntity.getUserCid())
                 .build();
 
@@ -76,6 +88,31 @@ public class ChatRoomEventListener {
         return dto;
     }
 
+    private NotificationDto createInquireNotification(UserEntity developer, UserEntity user){
+        NotificationDto dto = NotificationDto.builder()
+                .title("문의 요청")
+                .message(developer.getName() + " 으로 부터 " +user.getName() +"님이 작성하신 게시글에 대한 문의가 요청됐습니다. 대화를 나누시려면 확인 버튼을 눌러주세요. 채팅방이 생성됩니다.")
+                .checked(false)
+                .notificationType(NotificationType. CHAT_ROOM_INVITE_REQUEST.toString())
+                .userCid(user.getUserCid())
+                .build();
+
+
+        return dto;
+    }
+
+    private NotificationDto createInquireDeveloperNotification(UserEntity developer, UserEntity user){
+        NotificationDto dto = NotificationDto.builder()
+                .title("문의 요청 전송")
+                .message(developer.getName() + " 님이 요청하신 문의가 " +user.getName() +"님에게 요청되었습니다. "  +user.getName() + "님이 확인하시면 자동으로 채팅방이 생성됩니다.")
+                .checked(false)
+                .notificationType(NotificationType. CHAT_ROOM_INVITE_REQUEST.toString())
+                .userCid(developer.getUserCid())
+                .build();
+
+
+        return dto;
+    }
 
     private void saveNotification(NotificationDto dto, UserEntity userEntity){
         NotificationEntity notificationEntity = NotificationEntity.toEntity(dto, userEntity);

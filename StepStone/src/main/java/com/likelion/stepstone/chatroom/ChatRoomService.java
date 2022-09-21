@@ -1,6 +1,7 @@
 package com.likelion.stepstone.chatroom;
 
 import com.likelion.stepstone.chatroom.event.ChatRoomCreatedEvent;
+import com.likelion.stepstone.chatroom.event.ChatRoomInquireEvent;
 import com.likelion.stepstone.chatroom.event.ChatRoomInviteEvent;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.*;
@@ -206,4 +207,14 @@ public class ChatRoomService {
 
     }
 
+    public void inquire(String developerId, String userId) {
+        UserEntity developer = findByUserId(developerId);
+        UserEntity user = findByUserId(userId);
+
+        inquireEventPublish(developer, user);
+    }
+
+    public void inquireEventPublish(UserEntity developer, UserEntity user){
+        eventPublisher.publishEvent(new ChatRoomInquireEvent(developer, user));
+    }
 }

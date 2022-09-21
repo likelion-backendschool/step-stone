@@ -134,5 +134,12 @@ public class ChatRoomController {
         return "chat/room :: #chatRoomTable";
     }
 
+    @PostMapping("/room/inquiry")
+    public String inquire(Principal principal,String postCid, String userId){
+        chatRoomService.inquire(principal.getName(), userId);
+        
+        return "post/detail/" + postCid;
+    }
+
 
 }
