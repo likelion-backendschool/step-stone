@@ -266,4 +266,6 @@ body{
     border-color: #A1B6E0;
 }
 
-
+.input-group > *{
+    height: 100%;
+}
