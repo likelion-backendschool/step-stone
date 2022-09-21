@@ -85,7 +85,6 @@ public class WorkSpaceController {
         return "workspace/workspace_form";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #workSpaceForm.userId == authentication.principal.username")
     @PostMapping("/modify/{workspaceCid}")
     public String questionModifyPost(@PathVariable long workspaceCid , WorkSpaceForm workSpaceForm) {
 

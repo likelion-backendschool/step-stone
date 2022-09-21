@@ -78,10 +78,10 @@ public class ProjectController {
         projectForm.setTitle(projectDto.getTitle());
         projectForm.setBody(projectDto.getBody());
         projectForm.setUserId(projectDto.getUser().getUserId());
+
         return "project/project_form";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #projectForm.userId == authentication.principal.username")
     @PostMapping("/modify/{projectCid}")
     public String projectModifyPost(@PathVariable long projectCid , ProjectForm projectForm) {
 
