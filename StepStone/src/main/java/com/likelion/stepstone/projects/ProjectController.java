@@ -78,6 +78,7 @@ public class ProjectController {
         projectForm.setTitle(projectDto.getTitle());
         projectForm.setBody(projectDto.getBody());
         projectForm.setUserId(projectDto.getUser().getUserId());
+
         return "project/project_form";
     }
 
