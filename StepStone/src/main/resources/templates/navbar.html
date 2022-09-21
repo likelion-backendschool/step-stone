@@ -59,7 +59,6 @@
                                     <form action="/notification/mark" name="markForm" method="POST"></form>
                                     <div class="row gx-1">
                                         <a class="ms-1 col"
-                                           th:onclick="'javascript:postMark(event, \'' + ${notification.id} + '\');'"
                                            id="notificationTitle" th:text="${notification.title}"
                                            style="font-size : 12px; text-decoration:none; color : black;"
                                            data-bs-toggle="collapse"
@@ -131,8 +130,29 @@
 
         function dropli(id){
             $("#notificationList" + id).empty();
-            $.post("/notification/mark", {id: id});
+            var notiBean = {
+                id: id,
+                isEmpty : false,
+            };
+
+            if($("#dropdown-menu :not(:contains(li))")){
+                console.log("ul empty");
+                notiBean = {
+                    id: id,
+                    isEmpty : true,
+                };
+            }
+            $.ajax({
+                url: "/notification/mark",
+                type: "POST",
+                data: notiBean
+            })
+                .done(function (fragment) {
+                    $('#notifications').replaceWith(fragment);
+                });
+                // $.post("/notification/mark", {id: id});
         }
+
         function postMarkAll(){
 
             $.ajax({
