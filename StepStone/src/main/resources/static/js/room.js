@@ -31,6 +31,8 @@ function initStomp() {
         allRoomId.forEach(function (item){
             stomp.subscribe("/sub/chat/room/" + item, function (chat) {
                 console.log("chat : " + chat);
+                console.log("item : " + item);
+                console.log("----------------")
                 var content = JSON.parse(chat.body);
 
                 var sender = content.senderName;
@@ -60,7 +62,7 @@ function initStomp() {
 
                 if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
                     // console.log(window.location.href);
-                    postNewChatNotification(chatRoomId, window.location.href);
+                    postNewChatNotification(chatRoomId);
                 }
 
             }, {id: item});
@@ -269,12 +271,11 @@ function searchChatRoom(){
         });
 }
 
-function postNewChatNotification(chatRoomId, currentURI) {
+function postNewChatNotification(chatRoomId) {
     console.log("new Chat");
 
     var chatRoomBean = {
         chatRoomId: chatRoomId,
-        currentURI: currentURI
     };
     $.ajax({
         url: "/notification/chat/new",

@@ -1,6 +1,7 @@
 package com.likelion.stepstone.notification.infra;
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
+import com.likelion.stepstone.chatroom.ChatRoomService;
 import com.likelion.stepstone.notification.NotificationRepository;
 import com.likelion.stepstone.notification.NotificationService;
 import com.likelion.stepstone.notification.model.NotificationDto;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,7 @@ public class NotificationInterceptor implements HandlerInterceptor {
     private final NotificationRepository notificationRepository;
 
     private final NotificationService notificationService;
+    private final ChatRoomService chatRoomService;
 
     /**
      * 1. 리다이렉트가 아니고
@@ -50,6 +53,9 @@ public class NotificationInterceptor implements HandlerInterceptor {
 //            notificationEntities.forEach(NotificationEntity::read);
 //            long count = notificationDtos.size();
             String uri = request.getRequestURI();
+            String name =  SecurityContextHolder.getContext().getAuthentication().getName();
+            List<String> allRoomId = chatRoomService.findAllRoomId(name);
+            modelAndView.addObject("allRoomId", allRoomId);
             if (uri.contains("notification")) return;
             setNotificationsOnUI(userEntity, modelAndView);
         }
