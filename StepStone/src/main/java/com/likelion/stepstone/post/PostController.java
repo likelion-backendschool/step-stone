@@ -145,6 +145,8 @@ public class PostController {
 
         postForm.setTitle(postDto.getTitle());
         postForm.setBody(postDto.getBody());
+        postForm.setUserId(postDto.getUser().getUserId());
+
         return "post/form";
     }
 
