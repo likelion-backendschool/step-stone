@@ -9,18 +9,18 @@ import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
+import com.likelion.stepstone.notification.model.NotificationType;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -36,9 +36,11 @@ public class NotificationService {
     }
 
     public List<NotificationDto> readNewNotifications(String userId){
-        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(() -> new DataNotFoundException("user not found"));
-        List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
-        markAsRead(notificationEntities);
+
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        if(userEntity.isEmpty()) return new ArrayList<>();
+
+        List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity.get(), false);
 
         List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
 
@@ -64,9 +66,10 @@ public class NotificationService {
     }
 
 
-    public void publishNewChat(List<UserEntity> users, String chatRoomId) {
+    public void publishNewChat(List<UserEntity> users, String chatRoomId, String chatRoomName) {
         for(UserEntity userEntity : users){
-            eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
+//            eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
+            handleChatSendEvent(chatRoomId, chatRoomName, userEntity);
         }
     }
 
@@ -83,4 +86,32 @@ public class NotificationService {
 
         return sb.toString();
     }
+    public void handleChatSendEvent(String chatRoomId, String chatRoomName, UserEntity userEntity){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
+        log.info(chatRoomName + ": new message arrived");
+
+        NotificationDto notificationDto = createNotification(chatRoomName, userEntity);
+        // TODO DB에 Notification 정보 저장
+
+        saveNotification(notificationDto, userEntity);
+    }
+    private NotificationDto createNotification(String roomName, UserEntity userEntity){
+
+        NotificationDto dto = NotificationDto.builder()
+                .title("새로운 채팅")
+                .message(roomName + "채팅방에 새로운 채팅이 도착했습니다.")
+                .checked(false)
+                .notificationType(NotificationType.CHAT_SEND)
+                .userCid(userEntity.getUserCid())
+                .build();
+
+
+        return dto;
+    }
+
+    private void saveNotification(NotificationDto dto, UserEntity userEntity){
+        NotificationEntity notificationEntity = NotificationEntity.toEntity(dto, userEntity);
+
+        notificationRepository.save(notificationEntity);
+    }
+
 }

@@ -28,7 +28,6 @@ public class ChatEventListener {
     private final ChatRoomRepository chatRoomRepository;
     private final NotificationRepository notificationRepository;
 
-    @EventListener // @EventListener 애너테이션을 이용해 이벤트 리스너를 명시합니다.
     public void handleChatSendEvent(ChatSendEvent chatSendEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
         String chatRoomId = chatSendEvent.getChatRoomId();
         String roomName = chatRoomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new DataNotFoundException("room not found")).getRoomName();

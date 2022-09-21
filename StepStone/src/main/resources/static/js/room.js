@@ -62,7 +62,7 @@ function initStomp() {
 
                 if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
                     // console.log(window.location.href);
-                    postNewChatNotification(chatRoomId);
+                    getNewChatNotification(chatRoomId);
                 }
 
             }, {id: item});
@@ -76,45 +76,45 @@ function initStomp() {
 
 }
 
-function subscribe(roomId) {
-    console.log("STOMP Connection");
-    console.log(roomId);
-    //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-    stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-        console.log("function chat : " + chat);
-        var content = JSON.parse(chat.body);
-
-        var sender = content.senderName;
-        var senderId = content.senderId;
-        var createdAt = content.createdAt;
-        var message = content.message;
-        var profileImageUrl = content.profileImageUrl;
-        var chatRoomId = content.chatRoomId;
-        var str = '';
-
-        if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
-            str = "<li class='clearfix'>";
-            str += "<div>";
-            str += "<div class='message-data'>";
-            str += "<img src='" + profileImageUrl + "' alt='avatar'>";
-            str += "<span class='message-data-time'>" + sender + "</span>";
-            str += "<span class='message-data-time'>" + createdAt + "</span>";
-            str += "</div>";
-            str += "<div class='message other-message'>" + message + "</div>";
-            str += "</div>";
-            str += "</li>";
-
-            $("#chatList").append(str);
-            const element = document.getElementById('chats');
-            element.scrollTop = element.scrollHeight;
-        }
-
-        if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
-            postNewChatNotification(chatRoomId);
-        }
-
-    }, {id: roomId});
-}
+// function subscribe(roomId) {
+//     console.log("STOMP Connection");
+//     console.log(roomId);
+//     //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+//     stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+//         console.log("function chat : " + chat);
+//         var content = JSON.parse(chat.body);
+//
+//         var sender = content.senderName;
+//         var senderId = content.senderId;
+//         var createdAt = content.createdAt;
+//         var message = content.message;
+//         var profileImageUrl = content.profileImageUrl;
+//         var chatRoomId = content.chatRoomId;
+//         var str = '';
+//
+//         if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
+//             str = "<li class='clearfix'>";
+//             str += "<div>";
+//             str += "<div class='message-data'>";
+//             str += "<img src='" + profileImageUrl + "' alt='avatar'>";
+//             str += "<span class='message-data-time'>" + sender + "</span>";
+//             str += "<span class='message-data-time'>" + createdAt + "</span>";
+//             str += "</div>";
+//             str += "<div class='message other-message'>" + message + "</div>";
+//             str += "</div>";
+//             str += "</li>";
+//
+//             $("#chatList").append(str);
+//             const element = document.getElementById('chats');
+//             element.scrollTop = element.scrollHeight;
+//         }
+//
+//         if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
+//             getNewChatNotification(chatRoomId);
+//         }
+//
+//     }, {id: roomId});
+// }
 
 function updateChatRoom() {
     var chatRoomBean = {
@@ -271,19 +271,21 @@ function searchChatRoom(){
         });
 }
 
-function postNewChatNotification(chatRoomId) {
+function getNewChatNotification(chatRoomId) {
     console.log("new Chat");
-
+    event.preventDefault();
     var chatRoomBean = {
         chatRoomId: chatRoomId,
     };
     $.ajax({
-        url: "/notification/chat/new",
-        type: "POST",
+        url: "/notification/subscribe/chat/new",
+        type: "GET",
         data: chatRoomBean,
     })
         .done(function (fragment) {
+            console.log(fragment);
             $('#notifications').replaceWith(fragment);
+
         });
 }
 

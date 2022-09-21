@@ -60,14 +60,17 @@ public class NotificationController {
         return "navbar :: #notifications";
     }
 
-    @PostMapping("/chat/new")
+    @GetMapping("/subscribe/chat/new")
     public String newChatArrived(Principal principal, Model model, String chatRoomId){
-        notificationService.publishNewChat(chatRoomService.findAllUserInChatRoom(chatRoomId), chatRoomId);
+        notificationService.publishNewChat(chatRoomService.findAllUserInChatRoom(chatRoomId), chatRoomId, chatRoomService.findChatRoomNameByRoomId(chatRoomId));
+        List<NotificationDto> dtos = notificationService.readNewNotifications(principal.getName());
 
-        model.addAttribute("notifications", notificationService.readNewNotifications(principal.getName()));
-        model.addAttribute("hasNotification", notificationService.readNewNotifications(principal.getName()).size() > 0);
+        model.addAttribute("notifications", dtos);
+        model.addAttribute("hasNotification", dtos.size() > 0);
         return "navbar :: #notifications";
     }
+
+
 
 //    @PostMapping("/chatroom/enter/")
 //    public String registerOnlineChatUser(Principal principal, String roomId){
