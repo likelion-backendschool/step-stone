@@ -82,7 +82,6 @@ public class ProjectController {
         return "project/project_form";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #projectForm.userId == authentication.principal.username")
     @PostMapping("/modify/{projectCid}")
     public String projectModifyPost(@PathVariable long projectCid , ProjectForm projectForm) {
 

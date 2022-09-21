@@ -58,6 +58,7 @@ public class WorkSpaceService {
         workspaceRepository.deleteByWorkspaceCid(workspaceCid);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #workSpaceDto.user.userId == authentication.principal.username")
     public void modify(WorkSpaceDto workSpaceDto, String title, String body) {
 
         Optional<WorkSpaceEntity> workSpaceEntities =  workspaceRepository.findByWorkspaceCid(workSpaceDto.getWorkspaceCid());

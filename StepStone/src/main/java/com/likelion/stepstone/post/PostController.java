@@ -150,13 +150,11 @@ public class PostController {
         return "post/form";
     }
 
-
-
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #postForm.userId == authentication.principal.username")
     @PostMapping("/modify/{postCid}")
     public String postModifyPost(@PathVariable long postCid, PostForm postForm) {
 
         PostDto postDto = postService.getPostDto(postCid);
+        System.out.println(postDto.getUser().getUserId());
         postService.modify(postDto, postForm.getTitle(), postForm.getBody());
 
         return "redirect:/post/detail/{postCid}";

@@ -59,6 +59,7 @@ public ProjectDto getProjectDto(Long projectCid) {
         projectRepository.deleteByProjectCid(projectCid);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #projectDto.user.userId == authentication.principal.username")
     public void modify( ProjectDto projectDto, String title, String body) {
         Optional<ProjectEntity> projectEntities =  projectRepository.findByProjectCid(projectDto.getProjectCid());
         ProjectEntity projectEntity = projectEntities.get();

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
@@ -92,6 +93,7 @@ public class PostService {
         return postDto;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #postDto.user.userId == authentication.principal.username")
     public void modify(PostDto postDto, String title, String body) {
         PostEntity postEntity = postRepository.findByPostCid(postDto.getPostCid());
 
