@@ -62,7 +62,7 @@ function initStomp() {
 
                 if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
                     // console.log(window.location.href);
-                    getNewChatNotification(chatRoomId);
+                    getNewChatNotification(chatRoomId, senderId);
                 }
 
             }, {id: item});
@@ -271,11 +271,12 @@ function searchChatRoom(){
         });
 }
 
-function getNewChatNotification(chatRoomId) {
+function getNewChatNotification(chatRoomId, senderId) {
     console.log("new Chat");
     event.preventDefault();
     var chatRoomBean = {
         chatRoomId: chatRoomId,
+        senderId : senderId,
     };
     $.ajax({
         url: "/notification/subscribe/chat/new",

@@ -66,8 +66,9 @@ public class NotificationService {
     }
 
 
-    public void publishNewChat(List<UserEntity> users,String chatRoomName) {
+    public void publishNewChat(String userId, List<UserEntity> users,String chatRoomName) {
         for(UserEntity userEntity : users){
+            if(userEntity.getUserId().equals(userId)) continue;
 //            eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
             handleChatSendEvent( chatRoomName, userEntity);
         }
