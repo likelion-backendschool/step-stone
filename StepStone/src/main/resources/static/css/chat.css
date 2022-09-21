@@ -261,7 +261,7 @@ body{
     border-color: #3C64B1;
 }
 
-.btn-secondary, .btn-secondary:hover, .btn-secondary:active, .btn-secondary:visited {
+#invite_btn, #invite_btn:hover, #invite_btn:active, #invite_btn:visited {
     background-color: #A1B6E0;
     border-color: #A1B6E0;
 }
