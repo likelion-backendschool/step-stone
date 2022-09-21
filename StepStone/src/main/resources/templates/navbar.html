@@ -51,7 +51,7 @@
                     <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true"></i>
                     <div class="dropdown" id="dropdown">
 
-                        <a th:if="${hasNotification}" class="text-info fa fa-bell dropdown-toggle"
+                        <a th:if="${hasNotification}" class="text-info fas fa-bell fa-fw fa-lg fa-beat-fade dropdown-toggle" style="--fa-animation-duration:2s;"
                            data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="dropdown-menu" style="min-width:350px;">
                             <li th:each="notification : ${notifications}">
