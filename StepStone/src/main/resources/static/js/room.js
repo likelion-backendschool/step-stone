@@ -11,11 +11,11 @@ var sockJs = new SockJS("/stomp/chat");
 //1. SockJS를 내부에 들고있는 stomp를 내어줌
 var stomp = Stomp.over(sockJs);
 
-$(document).ready(function (){
-    initStomp();
-    const element = document.getElementById('chats');
-    element.scrollTop = element.scrollHeight;
-});
+// $(document).ready(function (){
+//
+// });
+initStomp();
+
 
 function initStomp() {
 
@@ -62,6 +62,7 @@ function initStomp() {
 
                 if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
                     // console.log(window.location.href);
+                    console.log("curr room Id : " + $('#currRoomId').val());
                     getNewChatNotification(chatRoomId, senderId);
                 }
 
@@ -284,7 +285,6 @@ function getNewChatNotification(chatRoomId, senderId) {
         data: chatRoomBean,
     })
         .done(function (fragment) {
-            console.log(fragment);
             $('#notifications').replaceWith(fragment);
 
         });
