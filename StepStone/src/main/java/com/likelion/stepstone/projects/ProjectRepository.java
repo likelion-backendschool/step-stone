@@ -14,4 +14,6 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     void deleteByProjectCid(Long projectCid);
 
     Page<ProjectEntity> findAllByPostCid(Long id, Pageable pageable);
+
+    Optional<ProjectEntity> findByWorkspaceCid(Long workspaceCid);
 }

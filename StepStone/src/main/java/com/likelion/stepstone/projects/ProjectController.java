@@ -53,6 +53,7 @@ public class ProjectController {
         ProjectDto projectDto = ProjectDto.builder()
                 .title(projectForm.getTitle())
                 .body(projectForm.getBody())
+                .workspaceCid(id)
                 .postCid(id)
                 .build();
 
@@ -95,14 +96,30 @@ public class ProjectController {
         return "redirect:/project/detail/{projectCid}";
     }
 
-    @GetMapping("/detail/{projectCid}")
-    public String detail(Model model, @PathVariable  long projectCid) {
-        ProjectDto projectDto = projectService.getProjectDto(projectCid);
+//    @GetMapping("/detail/{projectCid}")
+//    public String detail(Model model, @PathVariable  long projectCid) {
+//        ProjectDto projectDto = projectService.getProjectDto(projectCid);
+//
+//        model.addAttribute("projectEntity", projectDto);
+//        return "project/project_detail";
+//
+//    }
+
+    @GetMapping("/detail/{workspaceCid}")
+    public String detail(Model model, @PathVariable long workspaceCid) {
+        ProjectDto projectDto = projectService.getProjectDto(workspaceCid);
+        if(projectDto == null){
+            model.addAttribute("msg","완성된 프로젝트가 없습니다.");
+            model.addAttribute("workspaceCid", workspaceCid);
+            return "project/alert";
+        }
 
         model.addAttribute("projectEntity", projectDto);
         return "project/project_detail";
 
     }
+
+
 
     @GetMapping("/delete/{projectCid}")
     public String delete( @PathVariable long projectCid) {

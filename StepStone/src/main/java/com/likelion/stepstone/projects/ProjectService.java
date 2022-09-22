@@ -48,14 +48,28 @@ public class ProjectService {
         return pageable;
     }
 
-public ProjectDto getProjectDto(Long projectCid) {
+//public ProjectDto getProjectDto(Long projectCid) {
+//
+//    ProjectEntity projectEntity =  projectRepository.findByProjectCid(projectCid)
+//            .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(projectCid)));
+//    ProjectDto projectDto = ProjectDto.toDto(projectEntity);
+//
+//    return projectDto;
+//}
 
-    ProjectEntity projectEntity =  projectRepository.findByProjectCid(projectCid)
-            .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(projectCid)));
-    ProjectDto projectDto = ProjectDto.toDto(projectEntity);
 
-    return projectDto;
-}
+    public ProjectDto getProjectDto(Long workspaceCid) {
+        ProjectEntity projectEntity = projectRepository.findByWorkspaceCid(workspaceCid)
+                .orElse(null);
+
+        if(projectEntity == null){
+            return null;
+        }ProjectDto projectDto = ProjectDto.toDto(projectEntity);
+
+        return projectDto;
+    }
+
+
     @PreAuthorize("hasRole('ROLE_ADMIN') or #projectDto.user.userId == authentication.principal.username")
     @Transactional
     public void delete( ProjectDto projectDto) {

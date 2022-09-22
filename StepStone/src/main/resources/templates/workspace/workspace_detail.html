@@ -20,13 +20,13 @@
             <div  style="white-space:pre-wrap;" class="card-text" th:text="${workSpaceEntity.body}" rows="35"></div>
             <span class="d-flex justify-content-end my-2">
             <a th:href="@{|/post/detail/${workSpaceEntity.postCid}|}" class="btn btn-light">요청 글 본문 보기 </a>
-<!--            <a th:href="@{|/project/detail/${workSpaceEntity.workspaceCid}|}" class="btn btn-light">배포된 프로젝트 보기</a>     링크 뭐 걸지 결정해야 함-->
+            <a th:href="@{|/project/detail/${workSpaceEntity.workspaceCid}|}" class="btn btn-light">배포된 프로젝트 보기</a>
             </span>
         </div>
     </div>
 
     <div class="d-flex justify-content-end my-2">
-        <a th:href="@{|/project/create/${workSpaceEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+        <a th:href="@{|/project/create/${workSpaceEntity.workspaceCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"
            th:if="${workSpaceEntity.user != null and #authentication.getPrincipal().getUsername() == workSpaceEntity.user.userId}"
         >완료 글 작성</a>
