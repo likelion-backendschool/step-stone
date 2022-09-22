@@ -35,6 +35,10 @@ public class WorkSpaceService {
         Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "workspaceCid"));
         return workspaceRepository.findAll(pageable);
     }
+    public Page<WorkSpaceEntity> getListWithId(long id, int page) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "workspaceCid"));
+        return workspaceRepository.findAllByPostCid(id, pageable);
+    }
 
     private Pageable getPageable(int page, int size, Sort DESC) {
         Pageable pageable = PageRequest.of(page, size, DESC);

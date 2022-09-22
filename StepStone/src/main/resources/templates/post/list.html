@@ -222,9 +222,9 @@
                                 <span  style="color: grey; font-size: 10pt" th:text="${post.likes}"> </span>
 
                                 <span class="d-flex justify-content-end my-2">
-                                <a th:href="@{/workspace/list?page=0}" class="post1" >개발자 모집</a>
+                                <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" >개발자 모집</a>
                                 &nbsp;
-                                <a th:href="@{/project/list?page=0}" class="post2" >완성된 프로젝트</a>
+                                <a th:href="@{|/project/list/${post.postCid}|}" class="post2" >완성된 프로젝트</a>
                                 </span>
                             </div>
                         </blockquote>

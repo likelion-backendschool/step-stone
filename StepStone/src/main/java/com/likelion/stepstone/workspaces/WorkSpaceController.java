@@ -68,6 +68,12 @@ public class WorkSpaceController {
         model.addAttribute("paging", paging);
         return "workspace/workspace_list";
     }
+    @GetMapping("/list/{id}")
+    public String listwithid(Model model, @RequestParam(defaultValue = "0") int page , @PathVariable Long id) {
+        Page<WorkSpaceEntity> paging = workSpaceService.getListWithId(id, page);
+        model.addAttribute("paging", paging);
+        return "workspace/workspace_list";
+    }
 
     @PostAuthorize("hasRole('ROLE_ADMIN') or #workSpaceForm.userId == authentication.principal.username")
     @GetMapping("/modify/{workspaceCid}")

@@ -67,7 +67,12 @@ public class ProjectController {
         model.addAttribute("paging", paging);
         return "project/project_list";
     }
-
+    @GetMapping("/list/{id}")
+    public String listWithId(Model model, @RequestParam(defaultValue = "0") int page,@PathVariable Long id) {
+        Page<ProjectEntity> paging = projectService.getListWithId(id, page);
+        model.addAttribute("paging", paging);
+        return "project/project_list";
+    }
     @PostAuthorize("hasRole('ROLE_ADMIN') or #projectForm.userId == authentication.principal.username")
     @GetMapping("/modify/{projectCid}")
     public String projectModifyGet(@PathVariable long projectCid , ProjectForm projectForm) {

@@ -38,6 +38,11 @@ public class ProjectService {
         return projectRepository.findAll(pageable);
     }
 
+    public Page<ProjectEntity> getListWithId(Long id,int page) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "projectCid"));
+        return projectRepository.findAllByPostCid(id, pageable);
+    }
+
     private Pageable getPageable(int page, int size, Sort DESC) {
         Pageable pageable = PageRequest.of(page, size, DESC);
         return pageable;
