@@ -53,7 +53,7 @@
 
                         <a th:if="${hasNotification}" class="text-info fas fa-bell fa-fw fa-lg fa-beat-fade dropdown-toggle" style="--fa-animation-duration:2s;"
                            data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
-                        <ul class="dropdown-menu dropdown-menu-end" id="dropdown-menu" style="min-width:350px;">
+                        <ul class="dropdown-menu dropdown-menu-end" id="dropdown-menu" onclick="event.stopPropagation()" style="min-width:350px;">
                             <li th:each="notification : ${notifications}">
                                 <div class="container-fluid" th:id="'notificationList' + ${notification.id}">
                                     <form action="/notification/mark" name="markForm" method="POST"></form>
