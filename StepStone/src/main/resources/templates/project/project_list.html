@@ -19,7 +19,7 @@
         <tr th:each="project, loop : ${paging}">
 
             <div class="card my-3">
-                <div class="card-header" th:onclick="|location.href='@{|detail/${project.projectCid}|}'|"
+                <div class="card-header" th:onclick="|location.href='@{|/project/detail/${project.projectCid}|}'|"
                      style="cursor:pointer;">
                     <span th:text="${project.title}"></span>
                 </div>

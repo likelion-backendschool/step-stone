@@ -69,7 +69,7 @@ public class WorkSpaceController {
         return "workspace/workspace_list";
     }
     @GetMapping("/list/{id}")
-    public String listwithid(Model model, @RequestParam(defaultValue = "0") int page , @PathVariable Long id) {
+    public String listWithId(Model model, @RequestParam(defaultValue = "0") int page , @PathVariable Long id) {
         Page<WorkSpaceEntity> paging = workSpaceService.getListWithId(id, page);
         model.addAttribute("paging", paging);
         return "workspace/workspace_list";

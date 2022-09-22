@@ -26,6 +26,9 @@ public class ProjectDto {
     private Long postCid;
 
     @Setter
+    private Long workspaceCid;
+
+    @Setter
     private String title;
 
     @Setter
@@ -46,6 +49,7 @@ public class ProjectDto {
                 .projectId(entity.getProjectId())
                 .projectCid(entity.getProjectCid())
                 .postCid(entity.getPostCid())
+                .workspaceCid(entity.getWorkspaceCid())
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .user(entity.getUser())

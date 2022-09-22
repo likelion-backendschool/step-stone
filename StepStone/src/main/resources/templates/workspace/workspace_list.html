@@ -41,7 +41,7 @@
         <tbody>
         <tr th:each="workspace, loop : ${paging}">
             <div class="card my-3">
-                <div class="card-header" th:onclick="|location.href='@{|detail/${workspace.workspaceCid}|}'|"
+                <div class="card-header" th:onclick="|location.href='@{|/workspace/detail/${workspace.workspaceCid}|}'|"
                      style="cursor:pointer; font-size: large">
                     <span th:text="${workspace.title}"></span>
                 </div>

@@ -19,6 +19,8 @@ public class ProjectVo {
 
     private Long postCid;
 
+    private Long workspaceCid;
+
     @Setter
     private String title;
 
@@ -39,6 +41,7 @@ public class ProjectVo {
                 .projectCid(dto.getProjectCid())
                 .postCid(dto.getPostCid())
                 .projectId(dto.getProjectId())
+                .workspaceCid(dto.getWorkspaceCid())
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .user(dto.getUser())
