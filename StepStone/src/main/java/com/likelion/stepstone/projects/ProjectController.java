@@ -23,13 +23,14 @@ public class ProjectController {
         this.userService = userService;
     }
 
-    @GetMapping("/create")
-    public String create(ProjectForm projectForm) {
+    @GetMapping("/create/{id}")
+    public String create(ProjectForm projectForm, @PathVariable long id, Model model) {
+        model.addAttribute("id", id);
         return "project/project_form";
     }
 
-    @PostMapping("/create")
-    public String createProject(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, ProjectForm projectForm) {
+    @PostMapping("/create/{id}")
+    public String createProject(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, ProjectForm projectForm, @PathVariable long id) {
 
         //유효성 체크
         boolean hasError = false;
@@ -52,6 +53,7 @@ public class ProjectController {
         ProjectDto projectDto = ProjectDto.builder()
                 .title(projectForm.getTitle())
                 .body(projectForm.getBody())
+                .postCid(id)
                 .build();
 
         projectService.create(projectDto,principalDetails);

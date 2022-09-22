@@ -23,6 +23,9 @@ public class ProjectDto {
     private UUID projectId;
 
     @Setter
+    private Long postCid;
+
+    @Setter
     private String title;
 
     @Setter
@@ -42,6 +45,7 @@ public class ProjectDto {
         ProjectDto dto = ProjectDto.builder()
                 .projectId(entity.getProjectId())
                 .projectCid(entity.getProjectCid())
+                .postCid(entity.getPostCid())
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .user(entity.getUser())

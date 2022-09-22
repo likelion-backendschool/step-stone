@@ -23,13 +23,15 @@ public class WorkSpaceController {
         this.userService = userService;
     }
 
-    @GetMapping("/create")
-    public String create(WorkSpaceForm workSpaceForm) {
+    @GetMapping("/create/{id}")
+    public String create(WorkSpaceForm workSpaceForm,@PathVariable long id, Model model) {
+
+        model.addAttribute("id", id);
         return "workspace/workspace_form";
     }
 
-    @PostMapping("/create")
-    public String createPost(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, WorkSpaceForm workSpaceForm) {
+    @PostMapping("/create/{id}")
+    public String createPost(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, WorkSpaceForm workSpaceForm,@PathVariable long id) {
 
         //유효성 체크
         boolean hasError = false;
@@ -52,6 +54,7 @@ public class WorkSpaceController {
         WorkSpaceDto workSpaceDto = WorkSpaceDto.builder()
                 .title(workSpaceForm.getTitle())
                 .body(workSpaceForm.getBody())
+                .postCid(id)
                 .build();
 
         workSpaceService.create(workSpaceDto,principalDetails);
