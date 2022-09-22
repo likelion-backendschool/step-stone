@@ -4,15 +4,12 @@ import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
-import com.likelion.stepstone.user.model.UserDto;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
 
 @RequestMapping("/project")
 @Controller
@@ -109,5 +106,3 @@ public class ProjectController {
         return "redirect:/workspace/list";
     }
 }
-
-

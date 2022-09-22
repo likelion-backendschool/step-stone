@@ -4,7 +4,6 @@ import com.likelion.stepstone.Util.DataNotFoundException;
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
-import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -70,4 +69,3 @@ public ProjectDto getProjectDto(Long projectCid) {
         projectRepository.save(projectEntity);
     }
 }
-

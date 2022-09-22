@@ -2,11 +2,9 @@ package com.likelion.stepstone.workspaces;
 
 import com.likelion.stepstone.Util.DataNotFoundException;
 import com.likelion.stepstone.authentication.PrincipalDetails;
-import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
-import com.likelion.stepstone.workspaces.model.WorkSpaceVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

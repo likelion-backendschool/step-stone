@@ -26,7 +26,6 @@
                 </div>
             </div>
 
-<!--            th:utext="${@commonUtil.markdown(postEntity.body)}"-->
             <div style="white-space:pre-wrap;" class="card-text" th:utext="${@commonUtil.markdown(postEntity.body)}" rows="35"></div>
 <!--            <div style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>-->
             <span class="d-flex justify-content-end my-2">
@@ -36,7 +35,6 @@
     </div>
 
     <!-- 좋아요 -->
-
     <script>
     function heart_info(){
  var likeEntity = "[[${likeEntity}]]";
@@ -48,14 +46,13 @@
          }
          return src;
     }
-
     </script>
 
     <span class="d-flex justify-content-end my-2">
-    게시글 공감하기&nbsp&nbsp&nbsp&nbsp
+    게시글 공감하기&nbsp;&nbsp;&nbsp;&nbsp;
         <a th:href="@{|/post/${postEntity.postCid}/likes|}">
         <img id="heart" src=""/>
-        <script>document.getElementById('heart').src=heart_info()</script></a> &nbsp&nbsp
+        <script>document.getElementById('heart').src=heart_info()</script></a> &nbsp;&nbsp;
         <span th:text="${postEntity.likes}"> </span>
         <!-- 좋아요 -->
     </span>
@@ -64,12 +61,12 @@
            sec:authorize="isAuthenticated()"
            th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
            th:text="끌어올리기"></a>
-        &nbsp
+        &nbsp;
         <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"
            th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
            th:text="수정"></a>
-        &nbsp
+        &nbsp;
         <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
            th:href="@{|/post/delete/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"
@@ -78,13 +75,3 @@
     </div>
 </div>
 </html>
-
-<!--
-
-<a onclick="if ( !confirm('로그인 후 이용해주세요') ) "
-   th:href="@{|/post/${postEntity.postCid}/likes|}"
-   sec:authorize="isAuthenticated()"
-   th:if="${#authentication.getPrincipal()==null}"
-
-
--->

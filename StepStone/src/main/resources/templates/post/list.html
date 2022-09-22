@@ -66,6 +66,26 @@
             background-color: #fafafa;
             border-color: #cccccc;
         }
+
+<!--     워크스페이스, 프로젝트 페이지 연동 링크  -->
+        .post1 {
+            border : 1px solid red;
+            padding: 5px;
+            border-radius : 40px;
+            display: inline-block;
+            font-size : 13px;
+            text-decoration : none;
+            color : black;
+        }
+        .post2{
+            border : 1px solid green;
+            padding: 5px;
+            border-radius : 40px;
+            display: inline-block;
+            font-size : 13px;
+            text-decoration : none;
+            color : black;
+        }
     </style>
 </head>
 
@@ -196,13 +216,16 @@
 
                             <!--list페이지 게시글 폭 고르기        -webkit-line-clamp: 3;  line-height: 30px;  height: 90px;"    -->
                             <div>
-                                <span class="badge bg-light text-dark p-2 text-start" th:text="${post.user.name}"></span>
-
+                                <span class="badge bg-light text-dark p-2 text-start" style="font-size : 15px" th:text="${post.user.name}"></span>
                                 <span th:if="${post.checked} == true" >  <img src="/heart_fill.svg"/> </span>
-                                <span th:unless="${post.checked} == true">  <img src="/heart.svg"/></span>
-                                <img id="heart" src=""/>
+                                <span th:unless="${post.checked} == true" >  <img src="/heart.svg"/></span>
+                                <span  style="color: grey; font-size: 10pt" th:text="${post.likes}"> </span>
 
-                                <span class="badge bg-light text-dark p-2 text-start"  th:text="${post.likes}"> </span>
+                                <span class="d-flex justify-content-end my-2">
+                                <a th:href="@{/workspace/list?page=0}" class="post1" >개발자 모집</a>
+                                &nbsp;
+                                <a th:href="@{/project/list?page=0}" class="post2" >완성된 프로젝트</a>
+                                </span>
                             </div>
                         </blockquote>
                     </div>
