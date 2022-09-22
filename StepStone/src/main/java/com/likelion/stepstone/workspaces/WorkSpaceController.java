@@ -23,13 +23,6 @@ public class WorkSpaceController {
         this.userService = userService;
     }
 
-    @GetMapping("/create")
-    public String create(WorkSpaceForm workSpaceForm,@PathVariable long id, Model model) {
-
-        return "workspace/workspace_createAlert";
-    }
-
-
     @GetMapping("/create/{id}")
     public String createGet(WorkSpaceForm workSpaceForm,@PathVariable long id, Model model) {
 

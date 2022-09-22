@@ -39,7 +39,6 @@
 
 
         <!--모달-->
-
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">게시글 쓰기
         </button>
@@ -47,7 +46,8 @@
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
              aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
+<!--            <div class="modal-dialog">-->
+                <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
@@ -61,12 +61,13 @@
                         <button type="button" class="btn btn-primary"
                                 onclick="location.href='/post/list?page=0'">게시글 목록 가기
                         </button>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!--모달 -->
 
     <table class="table">
         <thead></thead>
