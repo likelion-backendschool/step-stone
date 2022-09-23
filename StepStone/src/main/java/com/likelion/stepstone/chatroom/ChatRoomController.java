@@ -91,23 +91,14 @@ public class ChatRoomController {
     }
 
     @PostMapping("/room/invite")
-    public String inviteRoom(Principal principal, Model model, @Valid InviteUserForm inviteUserForm) {
+    public String inviteRoom(Principal principal,@RequestParam String chatRoomId) {
 //        List<ChatDto> chats = chatService.getHistories(inviteUserForm.getChatRoomId());
 //        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
 //
 //        model.addAttribute("chats", chats);
 //        model.addAttribute("rooms", rooms);
-
-        if(!chatRoomService.isUserExist(inviteUserForm.getUserId())){
-            model.addAttribute("error", "user not found");
-            model.addAttribute("message", "유효한 아이디가 아닙니다.");
-            return "chat/room :: #message";
-        }
-
-        chatRoomService.invite(inviteUserForm.getChatRoomId(), inviteUserForm.getUserId());
-        model.addAttribute("message", "초대가 완료 되었습니다.");
-        return "chat/room :: #message";
-
+        chatRoomService.confirmInvite(chatRoomId, principal.getName());
+        return "chat/room";
     }
     // 채팅방 입장 화면
     @GetMapping("/enter/{roomId}")
