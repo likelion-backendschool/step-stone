@@ -11,8 +11,42 @@
 
 <h3 class="my-3 border-bottom pb-2">완성된 프로젝트</h3>
     <div class="d-flex justify-content-end my-2">
-        <a th:href="@{/project/create}" class="btn btn-light">게시글 쓰기 </a>
+<!--        <a th:href="@{/project/create}" class="btn btn-light">게시글 쓰기 </a>-->
+<!--    </div>-->
+
+
+        <!--모달-->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">게시글 쓰기
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <!--            <div class="modal-dialog">-->
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">작성하신 개발자 모집글을 통해서 작성해주세요</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="/zzzz.gif"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary"
+                                onclick="location.href='/workspace/list?page=0'">워크스페이스 목록 가기
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!--모달 -->
+
+
     <table class="table">
         <thead></thead>
         <tbody>
