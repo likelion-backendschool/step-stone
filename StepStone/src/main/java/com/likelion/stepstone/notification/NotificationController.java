@@ -3,6 +3,7 @@ package com.likelion.stepstone.notification;
 import com.likelion.stepstone.chat.event.ChatSendEvent;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chatroom.ChatRoomService;
+import com.likelion.stepstone.chatroom.model.InviteUserForm;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -71,6 +73,19 @@ public class NotificationController {
         model.addAttribute("notifications", dtos);
         model.addAttribute("hasNotification", dtos.size() > 0);
         return "navbar :: #notifications";
+    }
+
+    @PostMapping("/invite/publish")
+    public String invitePublish(Model model ,@Valid InviteUserForm inviteUserForm){
+        if(!chatRoomService.isUserExist(inviteUserForm.getUserId())){
+            model.addAttribute("error", "user not found");
+            model.addAttribute("message", "유효한 아이디가 아닙니다.");
+            return "chat/room :: #message";
+        }
+        chatRoomService.invite(inviteUserForm.getChatRoomId(), inviteUserForm.getUserId());
+
+        model.addAttribute("message", "초대가 완료 되었습니다.");
+        return "chat/room :: #message";
     }
 
 

@@ -138,7 +138,7 @@ function inviteChatRoom() {
         chatRoomId: $("#currRoomId").val()
     };
     $.ajax({
-        url: "/chat/room/invite",
+        url: "/notification/invite/publish",
         type: "POST",
         data: inviteChatRoomBean,
     })

@@ -118,7 +118,14 @@ public class ChatRoomService {
         return userRepository.findByUserId(principalName).orElseThrow(()-> new DataNotFoundException("User Name Not Found")).getName();
     }
 
-    public void invite(String roomId, String userId) {
+    public void invite(String roomId, String userId){
+        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Invalid room Id"));
+        UserEntity userEntity = findByUserId(userId);
+
+        inviteEventPublish(chatRoomEntity, userEntity);
+    }
+
+    public void confirmInvite(String roomId, String userId) {
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Invalid room Id"));
         //인원 수 추가
         chatRoomEntity.setUserCount(chatRoomEntity.getUserCount()+1);
@@ -136,7 +143,7 @@ public class ChatRoomService {
                         .profileImageUrl(profileImageUrl)
                 .build());
 
-        inviteEventPublish(chatRoomEntity, userEntity);
+
     }
 
     private void inviteEventPublish( ChatRoomEntity chatRoomEntity, UserEntity userEntity ){
