@@ -78,4 +78,11 @@ public class WorkSpaceService {
         Pageable pageable = getPageable(page, 3, Sort.by(Sort.Direction.DESC, "workspaceCid"));
         return workspaceRepository.findAllByUserUserCid(userCid, pageable);
     }
+
+    public WorkSpaceDto getWorkspaceDto(long id) {
+        WorkSpaceEntity workSpaceEntity = workspaceRepository.findByWorkspaceCid(id);
+        WorkSpaceDto workSpaceDto = WorkSpaceDto.toDto(workSpaceEntity);
+
+        return workSpaceDto;
+    }
 }

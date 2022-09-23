@@ -62,6 +62,7 @@ public class SpringConfig {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.eventPublisher = eventPublisher;
         this.notificationRepository = notificationRepository;
+
     }
 
     @Bean

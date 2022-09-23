@@ -4,6 +4,8 @@ import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.workspaces.WorkSpaceService;
+import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectController {
 
     private final ProjectService projectService;
-    private final UserService userService;
 
-    public ProjectController(ProjectService projectService, UserService userService) {
+    private final  WorkSpaceService workspaceService;
+    public ProjectController(ProjectService projectService, WorkSpaceService workspaceService) {
         this.projectService = projectService;
-        this.userService = userService;
+        this.workspaceService = workspaceService;
     }
 
     @GetMapping("/create/{id}")
@@ -50,11 +52,14 @@ public class ProjectController {
             return "project/project_form";
         }
 
+        WorkSpaceDto workSpaceDto = workspaceService.getWorkspaceDto(id);
+        Long postCid = workSpaceDto.getPostCid();
+
         ProjectDto projectDto = ProjectDto.builder()
                 .title(projectForm.getTitle())
                 .body(projectForm.getBody())
                 .workspaceCid(id)
-                .postCid(id)
+                .postCid(postCid)
                 .build();
 
         projectService.create(projectDto,principalDetails);
