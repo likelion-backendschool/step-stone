@@ -33,7 +33,7 @@
         &nbsp;
         <a th:href="@{|/workspace/modify/${workSpaceEntity.workspaceCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"
-           th:if="${workSpaceEntity.user != null and #authentication.getPrincipal().getUsername() == workSpaceEntity.user.userId}"
+           th:if="${workSpaceEntity.user != null and #authentication.getPrincipal().getUsername() == workSpaceEntity.user.userId and }"
            th:text="수정"></a>
         &nbsp;
         <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"

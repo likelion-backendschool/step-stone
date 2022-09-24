@@ -41,6 +41,7 @@
             background-color : #39ac73;
             color : white;
         }
+
     </style>
 </head>
 
@@ -60,8 +61,8 @@
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
              aria-labelledby="staticBackdropLabel" aria-hidden="true">
-<!--            <div class="modal-dialog">-->
-                <div class="modal-dialog modal-dialog-centered">
+            <!--            <div class="modal-dialog">-->
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">게시글 상세페이지를 통해서 작성해주세요</h5>
@@ -93,19 +94,19 @@
                     <span th:text="${workspace.title}"></span>
                 </div>
 
-<!--                <div class="card-body">-->
-<!--                    <blockquote class="blockquote mb-0">-->
-<!--                        <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;-->
-<!--                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em"-->
-<!--                             th:text="${workspace.body}"></div>-->
+                <!--                <div class="card-body">-->
+                <!--                    <blockquote class="blockquote mb-0">-->
+                <!--                        <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;-->
+                <!--                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em"-->
+                <!--                             th:text="${workspace.body}"></div>-->
 
-<!--                        <span class="badge bg-light text-dark p-2 text-start mt-3"-->
-<!--                             th:text="${workspace.user.name}"></span>-->
-<!--                        <span class="d-flex justify-content-end my-2">-->
-<!--                                <a th:href="@{|/project/detail/${workspace.workspaceCid}|}" class="post2 ">배포된 프로젝트</a>-->
-<!--                        </span>-->
-<!--                    </blockquote>-->
-<!--                </div>-->
+                <!--                        <span class="badge bg-light text-dark p-2 text-start mt-3"-->
+                <!--                             th:text="${workspace.user.name}"></span>-->
+                <!--                        <span class="d-flex justify-content-end my-2">-->
+                <!--                                <a th:href="@{|/project/detail/${workspace.workspaceCid}|}" class="post2 ">배포된 프로젝트</a>-->
+                <!--                        </span>-->
+                <!--                    </blockquote>-->
+                <!--                </div>-->
 
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
@@ -116,16 +117,31 @@
                         <span class="badge bg-light text-dark p-2 " style="float:left"
                               th:text="${workspace.user.name}"></span>
                         <span style="float:right">
-                                <a th:href="@{|/project/detail/${workspace.workspaceCid}|}" class="post2 ">배포된 프로젝트</a>
+                                 <a th:href="@{|/project/detail/${workspace.workspaceCid}|}" class="post2 "
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop2">배포된 프로젝트</a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1"
+                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body">배포된 프로젝트 소개글로 이동하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                                th:onclick="|location.href='@{|/project/detail/${workspace.workspaceCid}|}'|">
+                                           이동
+                                        </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         </span>
                     </blockquote>
                 </div>
-
-
-
-
-
-
             </div>
         </tr>
         </tbody>
