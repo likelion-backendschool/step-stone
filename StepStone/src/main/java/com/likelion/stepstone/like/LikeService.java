@@ -4,16 +4,26 @@ import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.like.model.LikeDto;
 import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.PostRepository;
+import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
+import com.likelion.stepstone.post.model.PostVo;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
+import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class LikeService {
@@ -82,6 +92,27 @@ public class LikeService {
     public List<LikeEntity> getLikeEntity(UserDto userDto) {
         UserEntity user = UserEntity.toEntity(userDto);
         return likeRepository.findByUser(user);
+    }
+
+    public List<PostEntity> getLikedPost(List<LikeEntity> likeEntities) {
+        List<PostEntity> likedPostEntities = new ArrayList<>();
+
+        for (int i = 0; i < likeEntities.size(); i++) {
+            Long postCid = likeEntities.get(i).getPostCid();;
+            likedPostEntities.add(postRepository.findByPostCid(postCid));
+        }
+
+        return likedPostEntities;
+    }
+
+    private Pageable getPageable(int page, int size, Sort DESC) {
+        Pageable pageable = PageRequest.of(page, size, DESC);
+        return pageable;
+    }
+
+    public Page<PostEntity> getMyLikedPostList(int page) {
+        Pageable pageable = getPageable(page, 3, Sort.by(Sort.Direction.DESC, "postCid"));
+        return postRepository.findAll(pageable);
     }
 
 }
