@@ -144,7 +144,7 @@ function inviteChatRoom() {
     })
         .done(function (fragment) {
             console.log("invite")
-            $("#message").replaceWith(fragment)
+            $("#alertMessage").replaceWith(fragment)
         });
 }
 

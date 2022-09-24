@@ -79,13 +79,13 @@ public class NotificationController {
     public String invitePublish(Model model ,@Valid InviteUserForm inviteUserForm){
         if(!chatRoomService.isUserExist(inviteUserForm.getUserId())){
             model.addAttribute("error", "user not found");
-            model.addAttribute("message", "유효한 아이디가 아닙니다.");
-            return "chat/room :: #message";
+            model.addAttribute("alertMessage", "유효한 아이디가 아닙니다.");
+            return "chat/room :: #alertMessage";
         }
         chatRoomService.invite(inviteUserForm.getChatRoomId(), inviteUserForm.getUserId());
 
-        model.addAttribute("message", "초대가 완료 되었습니다.");
-        return "chat/room :: #message";
+        model.addAttribute("alertMessage", "초대가 완료 되었습니다.");
+        return "chat/room :: #alertMessage";
     }
 
 
