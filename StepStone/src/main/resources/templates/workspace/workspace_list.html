@@ -133,6 +133,7 @@
 
                         <span class="badge bg-light text-dark p-2 " style="float:left"
                               th:text="${workspace.user.name}"></span>
+
                         <span style="float:right">
                             <a th:href="@{|/post/detail/${workspace.postCid}|}" class="post1" data-bs-toggle="modal"
                                data-bs-target="#staticBackdrop2">요청글 본문 보기</a>
@@ -154,8 +155,6 @@
                                 </div>
                             </div>
                         </div>
-
-
 
                                  <a th:href="@{|/project/detail/${workspace.workspaceCid}|}" class="post2 "
                                     data-bs-toggle="modal"

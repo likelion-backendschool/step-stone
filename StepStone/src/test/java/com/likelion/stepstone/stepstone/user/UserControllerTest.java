@@ -1,39 +1,63 @@
 package com.likelion.stepstone.stepstone.user;
 
 import com.likelion.stepstone.user.UserRepository;
+import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDateTime;
 
 @SpringBootTest
 public class UserControllerTest {
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
     @Test
     public void addUserTest1(){
-        UserEntity user1 = new UserEntity();
-        user1.setUserId("test5");
-        user1.setName("테스트5");
-        user1.setCreatedAt(LocalDateTime.now());
-        user1.setUpdatedAt(LocalDateTime.now());
-        user1.setPassword("1234");
-        user1.setRole("user");
 
-        userRepository.save(user1);
 
-        UserEntity user2 = new UserEntity();
-        user2.setUserId("test6");
-        user2.setName("테스트6");
-        user2.setCreatedAt(LocalDateTime.now());
-        user2.setUpdatedAt(LocalDateTime.now());
-        user2.setPassword("1234");
-        user2.setRole("user");
+        UserDto user1 = UserDto.builder()
+                .userId("user1")
+                .password(passwordEncoder.encode("qwer1234"))
+                .name("일반이지현")
+                .role("ROLE_USER")
+                .build();
+        userService.createUser(user1);
 
-        userRepository.save(user2);
+
+        UserDto user2 = UserDto.builder()
+                .userId("user2")
+                .password(passwordEncoder.encode("qwer1234"))
+                .name("일반이지현2")
+                .role("ROLE_USER")
+                .build();
+        userService.createUser(user2);
+
+
+        UserDto user3 = UserDto.builder()
+                .userId("devel1")
+                .password(passwordEncoder.encode("qwer1234"))
+                .name("개발이지현")
+                .role("ROLE_DEVELOPER")
+                .build();
+        userService.createUser(user3);
+
+
+        UserDto user4 = UserDto.builder()
+                .userId("devel2")
+                .password(passwordEncoder.encode("qwer1234"))
+                .name("개발이지현2")
+                .role("ROLE_DEVELOPER")
+                .build();
+        userService.createUser(user4);
+
+
+
     }
 
 }
