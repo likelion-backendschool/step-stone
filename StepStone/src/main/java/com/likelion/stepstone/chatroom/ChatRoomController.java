@@ -99,6 +99,22 @@ public class ChatRoomController {
 
         return "redirect:/chat/room";
     }
+
+    @PostMapping("/room/exit")
+    public String exitRoom(Principal principal, Model model, String chatRoomId) {
+
+        if(!chatRoomService.isUserAlreadyIn(principal.getName(), chatRoomId)){
+            model.addAttribute("error", "user is not in chat room");
+            model.addAttribute("alertMessage", "사용자가 채팅방에 존재하지 않습니다.");
+            return "chat/room :: #alertMessage";
+        }
+
+        chatRoomService.exit(principal.getName(), chatRoomId);
+
+        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
+        model.addAttribute("rooms", rooms);
+        return "redirect:/chat/room";
+    }
     // 채팅방 입장 화면
     @GetMapping("/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {

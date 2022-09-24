@@ -131,7 +131,22 @@ function updateChatRoom() {
             $('#chatRoomTable').replaceWith(fragment);
         });
 }
-
+function exitChatRoom() {
+    console.log("exit in")
+    var exitChatRoomBean = {
+        chatRoomId: $("#currRoomId").val()
+    };
+    $.ajax({
+        url: "/chat/room/exit",
+        type: "POST",
+        data: exitChatRoomBean,
+    })
+        .done(function (fragment) {
+            console.log("exit")
+            // $("#alertMessage").replaceWith(fragment)
+            window.location.href = 'room';
+        });
+}
 function inviteChatRoom() {
     var inviteChatRoomBean = {
         userId: $("#inviteUserId").val(),
@@ -147,6 +162,8 @@ function inviteChatRoom() {
             $("#alertMessage").replaceWith(fragment)
         });
 }
+
+
 
 function getChats(roomId) {
     console.log("chat room click")
@@ -317,4 +334,9 @@ $("#createChatRoom").on("click", function (e) {
 $("#inviteChatRoomButton").on("click", function (e) {
     e.preventDefault();
     inviteChatRoom();
+});
+
+$("#exitChatRoom").on("click", function (e) {
+    e.preventDefault();
+    exitChatRoom();
 });

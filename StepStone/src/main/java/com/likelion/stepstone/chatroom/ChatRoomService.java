@@ -132,6 +132,14 @@ public class ChatRoomService {
         inviteEventPublish(chatRoomEntity, userEntity);
     }
 
+    public void exit(String userId, String chatRoomId) {
+        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new DataNotFoundException("Invalid room Id"));
+        UserEntity userEntity = findByUserId(userId);
+
+        ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).get();
+        chatRoomJoinRepository.deleteById(chatRoomUserJoinEntity.getId());
+    }
+
     public void confirmInvite(String roomId, String userId) {
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Invalid room Id"));
         //인원 수 추가
