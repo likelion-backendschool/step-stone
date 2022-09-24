@@ -24,6 +24,8 @@ public class NotificationDto {
 
     private Long userCid;
 
+    private String chatRoomId;
+
     private LocalDateTime createdAt;
     @Setter
     private String notificationType;
@@ -35,6 +37,7 @@ public class NotificationDto {
                 .message(entity.getMessage())
                 .checked(entity.isChecked())
                 .userCid(entity.getUserEntity().getUserCid())
+                .chatRoomId(entity.getChatRoomEntity().getChatRoomId())
                 .createdAt(entity.getCreatedAt())
                 .notificationType(entity.getNotificationType().toString())
                 .build();
