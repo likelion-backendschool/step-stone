@@ -7,6 +7,7 @@ import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chat.model.ChatEntity;
 import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
+import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationType;
@@ -66,11 +67,11 @@ public class NotificationService {
     }
 
 
-    public void publishNewChat(String userId, List<UserEntity> users,String chatRoomName) {
+    public void publishNewChat(String userId, List<UserEntity> users, ChatRoomEntity chatRoomEntity) {
         for(UserEntity userEntity : users){
             if(userEntity.getUserId().equals(userId)) continue;
 //            eventPublisher.publishEvent(new ChatSendEvent(chatRoomId, userEntity));
-            handleChatSendEvent( chatRoomName, userEntity);
+            handleChatSendEvent( chatRoomEntity, userEntity);
         }
     }
 
@@ -87,33 +88,26 @@ public class NotificationService {
 
         return sb.toString();
     }
-    public void handleChatSendEvent(String chatRoomName, UserEntity userEntity){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
-        log.info(chatRoomName + ": new message arrived");
+    public void handleChatSendEvent(ChatRoomEntity chatRoomEntity, UserEntity userEntity){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
+        log.info(chatRoomEntity.getRoomName() + ": new message arrived");
 
-        NotificationDto notificationDto = createNotification(chatRoomName, userEntity);
+        NotificationEntity notificationEntity = createNotification(chatRoomEntity, userEntity);
         // TODO DB에 Notification 정보 저장
 
         if(!notificationRepository.existsByUserEntityAndNotificationTypeAndChecked(userEntity, NotificationType.CHAT_SEND, false))
-            saveNotification(notificationDto, userEntity);
+            notificationRepository.save(notificationEntity);
     }
-    private NotificationDto createNotification(String roomName, UserEntity userEntity){
+    private NotificationEntity createNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
 
-        NotificationDto dto = NotificationDto.builder()
+        return NotificationEntity.builder()
                 .title("새로운 채팅")
-                .message(roomName + "채팅방에 새로운 채팅이 도착했습니다.")
+                .message(chatRoomEntity.getRoomName() + " 채팅방에 새로운 채팅이 도착했습니다.")
                 .checked(false)
-                .notificationType(NotificationType.CHAT_SEND.toString())
-                .userCid(userEntity.getUserCid())
+                .notificationType(NotificationType.CHAT_SEND)
+                .userEntity(userEntity)
+                .chatRoomEntity(chatRoomEntity)
                 .build();
-
-
-        return dto;
     }
 
-    private void saveNotification(NotificationDto dto, UserEntity userEntity){
-        NotificationEntity notificationEntity = NotificationEntity.toEntity(dto, userEntity);
-
-        notificationRepository.save(notificationEntity);
-    }
 
 }
