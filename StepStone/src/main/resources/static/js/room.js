@@ -163,6 +163,21 @@ function inviteChatRoom() {
         });
 }
 
+function getUsers() {
+    var inviteChatRoomBean = {
+        chatRoomId: $("#currRoomId").val()
+    };
+    $.ajax({
+        url: "/chat/room/users",
+        type: "GET",
+        data: inviteChatRoomBean,
+    })
+        .done(function (fragment) {
+            console.log("get users")
+            $("#usersInChatRoom").replaceWith(fragment)
+        });
+}
+
 
 
 function getChats(roomId) {
@@ -172,7 +187,7 @@ function getChats(roomId) {
         return;
     }
     changeSubs(roomId);
-
+    getUsers();
     var chatRoomIdBean = {
         roomId: roomId,
     };

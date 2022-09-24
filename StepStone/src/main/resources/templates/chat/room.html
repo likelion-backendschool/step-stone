@@ -162,10 +162,12 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                     </div>
-                                                    <div id="usersInChatRoom" class="mb-3 modal-body text-center">
-                                                        <label class="form-label">정말 채팅방을 떠나시겠습니까?</label>
+                                                    <div id="usersInChatRoom"  th:if="${usersInChatRoom!=null and not #lists.isEmpty(usersInChatRoom)}"class="mb-3 modal-body text-center">
+                                                        <label class="form-label">현재 대화 중인 상대</label>
                                                         <ul class="list-group">
-                                                            <li class="list-group-item">An item</li>
+                                                            <li th:each="user : ${usersInChatRoom}" class="list-group-item">
+                                                                <a th:text="${user.userId}"></a>
+                                                            </li>
                                                         </ul>
                                                     </div>
 
