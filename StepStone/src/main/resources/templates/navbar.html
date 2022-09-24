@@ -66,7 +66,7 @@
                                            th:attr="aria-controls='#collapse' + ${notification.id}">Action
                                         </a>
                                         <span class="text-end col">
-                                            <svg th:onclick="'javascript:dropli(\'' + ${notification.id} + '\');'" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            <svg th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                             </svg>
@@ -80,13 +80,13 @@
                                         </div>
                                         <div class="my-3" th:if="${notification.notificationType =='CHAT_ROOM_INVITE_REQUEST'}">
                                             <div class="btn-group-sm text-center">
-                                                <form th:action="@{/chat/room/invite/(chatRoomId=${notification.chatRoomId})}" th:method="post">
+                                                <form th:action="@{/chat/room/invite/(chatRoomId=${notification.chatRoomId},notificationId=${notification.id})}" th:method="post">
                                                     <button type="submit" id="invite_confirm_btn" class="btn btn-primary btn-sm">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                                                             <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                                         </svg>
                                                     </button>
-                                                    <button id="invite_reject_btn" type="button" class="btn btn-danger btn-sm" >
+                                                    <button th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'" id="invite_reject_btn" type="button" class="btn btn-danger btn-sm" >
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                                                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                                         </svg>
@@ -146,6 +146,10 @@
 
         function dropli(id){
             $("#notificationList" + id).empty();
+        }
+
+        function markli(id){
+            dropli(id);
             var notiBean = {
                 id: id,
                 isEmpty : false,

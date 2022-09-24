@@ -46,7 +46,8 @@ public class NotificationInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (modelAndView != null && !isRedirectView(modelAndView)  // (1)
+        if (modelAndView != null
+//                && !isRedirectView(modelAndView)  // (1)
                 && authentication != null && isTypeOfUserAccount(authentication)) { // (2)
             UserEntity userEntity = ((PrincipalDetails) authentication.getPrincipal()).getUser(); // (3)
 //            notificationService.markAsRead(notificationEntities);

@@ -49,8 +49,7 @@ public class NotificationController {
     @PostMapping("/mark")
     public String markAsRead(Model model, Long id , boolean isEmpty){
 //        List<NotificationDto> dtos = markingNotifications.getNotifications();
-        System.out.println(id);
-        notificationService.mark(id);
+        notificationService.markAsRead(id);
         if(isEmpty){
             model.addAttribute("hasNotification", false);
             return "navbar :: #notifications";

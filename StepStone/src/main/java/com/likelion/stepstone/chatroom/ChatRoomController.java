@@ -88,14 +88,15 @@ public class ChatRoomController {
     }
 
     @PostMapping("/room/invite/")
-    public String inviteRoom(Principal principal,Model model, @RequestParam String chatRoomId) {
+    public String inviteRoom(Principal principal,Model model, @RequestParam String chatRoomId, @RequestParam Long notificationId) {
 //        List<ChatDto> chats = chatService.getHistories(inviteUserForm.getChatRoomId());
 //        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
 //
 //        model.addAttribute("chats", chats);
 //        model.addAttribute("rooms", rooms);
+        notificationService.markAsRead(notificationId);
         chatRoomService.confirmInvite(chatRoomId, principal.getName());
-        
+
         return "redirect:/chat/room";
     }
     // 채팅방 입장 화면

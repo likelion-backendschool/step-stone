@@ -60,7 +60,7 @@ public class NotificationService {
         markAsRead(notificationEntities);
     }
 
-    public void mark(Long id) {
+    public void markAsRead(Long id) {
         NotificationEntity notificationEntity = notificationRepository.findById(id).orElseThrow(() -> new DataNotFoundException("notification not found"));
 
         notificationEntity.read();
