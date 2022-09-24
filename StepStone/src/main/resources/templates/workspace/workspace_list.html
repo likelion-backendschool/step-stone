@@ -27,6 +27,22 @@
             border-color: #cccccc;
         }
 
+/* 페이지 연동 링크  css */
+        .post1 {
+            border : 1px solid #ff6666;
+            padding: 5px;
+            border-radius : 40px;
+            display: inline-block;
+            font-size : 13px;
+            text-decoration : none;
+            color : black;
+        }
+
+        .post1:hover {
+            background-color : #ff6666;
+            color : white;
+        }
+
         .post2{
             border : 1px solid #39ac73;
             padding: 5px;
@@ -69,6 +85,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        *개발자로 가입하신 경우에만 글 작성이 가능합니다.*<br>
                         <img src="/zzzz.gif"/>
                     </div>
                     <div class="modal-footer">
@@ -117,11 +134,34 @@
                         <span class="badge bg-light text-dark p-2 " style="float:left"
                               th:text="${workspace.user.name}"></span>
                         <span style="float:right">
-                                 <a th:href="@{|/project/detail/${workspace.workspaceCid}|}" class="post2 "
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop2">배포된 프로젝트</a>
+                            <a th:href="@{|/post/detail/${workspace.postCid}|}" class="post1" data-bs-toggle="modal"
+                               data-bs-target="#staticBackdrop2">요청글 본문 보기</a>
                             <!-- Modal -->
                             <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1"
+                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body"> 요청글 본문으로 이동하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                                th:onclick="|location.href='@{|/post/detail/${workspace.postCid}|}'|">
+                                            요청글 본문으로 이동
+                                        </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                                 <a th:href="@{|/project/detail/${workspace.workspaceCid}|}" class="post2 "
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop3">배포된 프로젝트</a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static"
                                  data-bs-keyboard="false" tabindex="-1"
                                  aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
