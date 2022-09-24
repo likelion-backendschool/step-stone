@@ -114,6 +114,13 @@ public class ChatRoomService {
         return userRepository.findByUserId(userId).isPresent();
     }
 
+    public boolean isUserAlreadyIn(String userId, String chatRoomId){
+        UserEntity userEntity = findByUserId(userId);
+        ChatRoomEntity chatRoomEntity = findByChatRoomId(chatRoomId);
+
+        return chatRoomJoinRepository.existsByUserEntityAndChatRoomEntity(userEntity, chatRoomEntity);
+
+    }
     public String getUsername(String principalName){
         return userRepository.findByUserId(principalName).orElseThrow(()-> new DataNotFoundException("User Name Not Found")).getName();
     }

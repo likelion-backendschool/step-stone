@@ -81,6 +81,12 @@ public class NotificationController {
             model.addAttribute("alertMessage", "유효한 아이디가 아닙니다.");
             return "chat/room :: #alertMessage";
         }
+        if(chatRoomService.isUserAlreadyIn(inviteUserForm.getUserId(), inviteUserForm.getChatRoomId())){
+            model.addAttribute("error", "user is already in chat room");
+            model.addAttribute("alertMessage", "사용자가 이미 채팅방에 존재합니다.");
+            return "chat/room :: #alertMessage";
+        }
+
         chatRoomService.invite(inviteUserForm.getChatRoomId(), inviteUserForm.getUserId());
 
         model.addAttribute("alertMessage", "초대가 완료 되었습니다.");
