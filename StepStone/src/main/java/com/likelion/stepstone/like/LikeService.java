@@ -98,7 +98,7 @@ public class LikeService {
         List<PostEntity> likedPostEntities = new ArrayList<>();
 
         for (int i = 0; i < likeEntities.size(); i++) {
-            Long postCid = likeEntities.get(i).getPostCid();;
+            Long postCid = likeEntities.get(i).getPostCid();
             likedPostEntities.add(postRepository.findByPostCid(postCid));
         }
 

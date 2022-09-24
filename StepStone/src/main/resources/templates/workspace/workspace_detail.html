@@ -5,19 +5,22 @@
         layout:decorate="~{layout}">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+
+
 <div layout:fragment="content" class="container my-3">
-        <div class="d-flex justify-content-end my-2">
+
+    <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">개발자 모집</h3>
+
+    <div class="d-flex justify-content-end my-2">
         <a th:href="@{/workspace/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
     </div>
-    <h2 class="border-bottom py-2" th:text="${workSpaceEntity.title}"></h2>
+    <h4 class="py-2" th:text="${workSpaceEntity.title}"></h4>
     <div class="card my-3">
         <div class="card-body">
             <div class="badge bg-light text-dark p-2 text-start">
-                <div class="mb-2">
-                    <h6 th:text="|작성자 : ${workSpaceEntity.user.name}|"></h6>
-                </div>
+                <span class="h6" th:text="|작성자 : ${workSpaceEntity.user.name}|"></span>
             </div>
-            <div  style="white-space:pre-wrap;" class="card-text" th:text="${workSpaceEntity.body}" rows="35"></div>
+            <div  style="white-space:pre-wrap;" class="card-text my-4" th:text="${workSpaceEntity.body}" rows="35"></div>
         </div>
     </div>
 

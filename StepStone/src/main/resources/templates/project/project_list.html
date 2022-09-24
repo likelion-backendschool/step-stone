@@ -36,7 +36,7 @@
 <div layout:fragment="content" class="container my-3">
 
 <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">완성된 프로젝트</h3>
-    <p class="mx-3">완성된 프로젝트를 뽐내주세요</p>
+    <p class="mx-3">완성된 프로젝트를 뽐내주세요 🥳</p>
 
     <div class="d-flex justify-content-end my-2">
         <a th:href="@{/project/create}" class="btn btn-light">게시글 쓰기 </a>
@@ -48,13 +48,13 @@
 
             <div class="card my-3">
                 <div class="card-header" th:onclick="|location.href='@{|detail/${project.projectCid}|}'|"
-                     style="cursor:pointer;">
-                    <span th:text="${project.title}"></span>
+                     style="cursor:pointer; font-size: large">
+                    <span th:text="${project.title}" ></span>
                 </div>
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
-                        <div style="  width: auto; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; white-space:pre-wrap;
-                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px;"
+                        <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em"
                                       th:text="${project.body}"></div>
                         <div class="badge bg-light text-dark p-2 text-start mt-3">
                             <span th:text="${project.user.name}"></span>

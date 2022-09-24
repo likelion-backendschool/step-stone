@@ -58,7 +58,7 @@
 
                 <!-- user 이름 -->
                 <div class="col-md-auto">
-                  <div class="badge bg-light text-dark p-2 text-start">
+                  <div class="badge bg-light text-dark p-2 text-start" style="font-size: 14px">
                     <span th:text="${userRole}"></span>
                   </div>
                   <span class="px-1" th:text="${userName}"></span>
@@ -175,7 +175,10 @@
                     <div class="card-header" th:onclick="|location.href='@{|post/detail/${post.postCid}|}'|"
                          style="cursor:pointer;">
                       <span class="fw-bold" th:text="${post.title}" style="float: left;"></span>
-                      <span class="badge bg-secondary bg-opacity-10 text-dark" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}" style="float: right"></span>
+                        <span class="badge bg-secondary bg-opacity-10 text-dark float-end" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}" style="float: right"></span>
+                        <span class="float-end">&nbsp;&nbsp;&nbsp;</span>
+                        <span class="badge text-dark float-end" th:text="${post.likes}"></span>
+                        <span class="text-dark float-end"><i class="fa-solid fa-heart" style="color: #d31e37"></i></span>
                     </div>
                     <div class="card-body">
                       <blockquote class="blockquote mb-0">
