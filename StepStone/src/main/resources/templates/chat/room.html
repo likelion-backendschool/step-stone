@@ -150,8 +150,34 @@
                                                 </form>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="modal fade" id="getUsersModal" aria-hidden="true"
+                                         aria-labelledby="usersModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <!--                                            <form th:action="@{/chat/room/create}" th:object="${chatRoomForm}" method="post">-->
+                                                <form>
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="usersModalToggleLabel">대화 상대</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div id="usersInChatRoom" class="mb-3 modal-body text-center">
+                                                        <label class="form-label">정말 채팅방을 떠나시겠습니까?</label>
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item">An item</li>
+                                                        </ul>
+                                                    </div>
 
-
+                                                    <div class="modal-footer">
+                                                        <button value="닫기" class="btn btn-primary"
+                                                                data-bs-toggle="modal">
+                                                            닫기
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <a class="btn btn-primary" data-bs-toggle="modal" href="#createChatRoomModal"
@@ -180,11 +206,20 @@
                                             <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
                                         </svg>
                                     </a>
+                                    <a id="getUsersInChatRoom" class="btn btn-outline-secondary" data-bs-toggle="modal" href="#getUsersModal"
+                                            role="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                            <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+                                            <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                                        </svg>
+                                    </a>
                                     <div id="alertMessage" class="my-3">
                                         <span th:unless = ${alertMessage==null} th:classappend="${error==null ? 'alert-success' : 'alert-danger'}" class="alert" role="alert"  th:text="${alertMessage}">invite message</span>
                                     </div>
 
                                 </div>
+
                             </div>
                         </div>
                         <div id="chats" class="chat-history overflow-auto" style="height: 70vh; max-height: 70vh">
