@@ -2,10 +2,7 @@ package com.likelion.stepstone.chatroom;
 
 import com.likelion.stepstone.chat.ChatService;
 import com.likelion.stepstone.chat.model.ChatDto;
-import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
-import com.likelion.stepstone.chatroom.model.ChatRoomForm;
-import com.likelion.stepstone.chatroom.model.ChatRoomDto;
-import com.likelion.stepstone.chatroom.model.InviteUserForm;
+import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.notification.NotificationService;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -90,15 +87,16 @@ public class ChatRoomController {
         return "chat/room :: #chatRoomTable";
     }
 
-    @PostMapping("/room/invite")
-    public String inviteRoom(Principal principal,@RequestParam String chatRoomId) {
+    @PostMapping("/room/invite/")
+    public String inviteRoom(Principal principal,Model model, @RequestParam String chatRoomId) {
 //        List<ChatDto> chats = chatService.getHistories(inviteUserForm.getChatRoomId());
 //        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
 //
 //        model.addAttribute("chats", chats);
 //        model.addAttribute("rooms", rooms);
         chatRoomService.confirmInvite(chatRoomId, principal.getName());
-        return "chat/room";
+        
+        return "redirect:/chat/room";
     }
     // 채팅방 입장 화면
     @GetMapping("/enter/{roomId}")
