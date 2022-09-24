@@ -266,6 +266,11 @@ body{
     border-color: #A1B6E0;
 }
 
+#exit_btn, #exit_btn:hover, #exit_btn:active, #exit_btn:visited {
+    background-color: #ffda6a;
+    border-color: #ffda6a;
+}
+
 .input-group > *{
     height: 100%;
 }
