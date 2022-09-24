@@ -105,14 +105,4 @@ public class LikeService {
         return likedPostEntities;
     }
 
-    private Pageable getPageable(int page, int size, Sort DESC) {
-        Pageable pageable = PageRequest.of(page, size, DESC);
-        return pageable;
-    }
-
-    public Page<PostEntity> getMyLikedPostList(int page) {
-        Pageable pageable = getPageable(page, 3, Sort.by(Sort.Direction.DESC, "postCid"));
-        return postRepository.findAll(pageable);
-    }
-
 }
