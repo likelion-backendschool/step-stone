@@ -54,6 +54,9 @@
                         <a th:if="${hasNotification}" class="text-info fas fa-bell fa-fw fa-lg fa-beat-fade dropdown-toggle" style="--fa-animation-duration:2s;"
                            data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="dropdown-menu" onclick="event.stopPropagation()" style="min-width:350px;">
+                            <div id="alertMessage" class="my-3 text-center">
+                                <span th:unless = ${alertMessage==null} th:classappend="${error==null ? 'alert-success' : 'alert-danger'}" class="alert " role="alert"  th:text="${alertMessage}">invite message</span>
+                            </div>
                             <li th:each="notification : ${notifications}">
                                 <div class="container-fluid" th:id="'notificationList' + ${notification.id}">
                                     <form action="/notification/mark" name="markForm" method="POST"></form>

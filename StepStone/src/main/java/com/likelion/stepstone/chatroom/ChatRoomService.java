@@ -145,6 +145,12 @@ public class ChatRoomService {
 
         chatRoomJoinRepository.save(chatRoomUserJoinEntity);
 
+        profileImage = pickProfileImage();
+        chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, publisher).orElseThrow(() -> new DataNotFoundException("chat room creation error"));
+        chatRoomUserJoinEntity.setProfileImageUrl(profileImage);
+
+        chatRoomJoinRepository.save(chatRoomUserJoinEntity);
+
     }
 
     private String pickProfileImage(){
