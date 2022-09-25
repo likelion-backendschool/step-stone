@@ -263,21 +263,34 @@
                                 <span style="color: grey; font-size: 10pt" th:text="${post.likes}"> </span>
                                 <span style="float:right">
 
+
+<span th:text="${post.postCid}"></span>
+
+
 <!--                         <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" >개발자 모집</a>-->
                                 <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" data-bs-toggle="modal"
-                                   data-bs-target="#staticBackdrop">개발자 모집</a>
+                                   data-bs-target="#staticBackdrop" > 개발자 모집</a>
                                     <!-- Modal -->
                             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
                                  data-bs-keyboard="false" tabindex="-1"
                                  aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                        <div class="modal-body">현재 게시글로 모집중인 개발자 모집글로 이동하시겠습니까?
+                                        <div class="modal-body">
+
+
+                                            <span th:text="${post.postCid}">현재 게시글로 모집중인 개발자 모집글로 이동하시겠습니까?
+                                            </span>
+
+
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary"
+
+                                                th:text="${post.postCid}"
+
                                                 th:onclick="|location.href='@{|/workspace/list/${post.postCid}|}'|">
-                                            개발자 모집글로 이동
+<!--                                              개발자 모집글로 이동-->
                                         </button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                                     </div>
