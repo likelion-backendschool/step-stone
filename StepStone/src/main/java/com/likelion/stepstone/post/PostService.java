@@ -107,4 +107,12 @@ public class PostService {
         postEntity.setUpdatedAt(LocalDateTime.now());
         postRepository.save(postEntity);
     }
+
+
+    //region ChoYeonJun Add
+    public PostEntity findByPostCid(Long postCid){
+        return postRepository.findByPostCid(postCid);
+    }
+
+    //endregion
 }

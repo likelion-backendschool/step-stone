@@ -74,8 +74,11 @@ public class ChatRoomService {
         UserEntity developer = findByUserId(developerId);
         UserEntity user = postEntity.getUser();
 
+        ChatRoomEntity chatRoomEntity = ChatRoomEntity.getNullInstance();
+        if(!chatRoomRepository.existsById(chatRoomEntity))
+            chatRoomRepository.save(chatRoomEntity);
 
-        inquireEventPublish(developer, user, ChatRoomEntity.getNullInstance());
+        inquireEventPublish(developer, user, chatRoomEntity);
     }
 
     public List<ChatRoomDto> searchByUserIdAndChatRoomName(String name, String chatRoomName) {

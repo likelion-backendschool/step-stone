@@ -56,7 +56,7 @@ public class ChatRoomEventListener {
         UserEntity developer = chatRoomInquireEvent.getDeveloper();
         ChatRoomEntity chatRoomEntity = chatRoomInquireEvent.getChatRoomEntity();
 
-        NotificationEntity notificationUserEntity = createInquireNotification(developer, user, chatRoomEntity);
+        NotificationEntity notificationUserEntity = createInquireUserNotification(developer, user, chatRoomEntity);
         NotificationEntity notificationDeveloperEntity = createInquireDeveloperNotification(developer, user, chatRoomEntity);
         notificationRepository.save(notificationUserEntity);
         notificationRepository.save(notificationDeveloperEntity);
@@ -91,12 +91,12 @@ public class ChatRoomEventListener {
         return notificationEntity;
     }
 
-    private NotificationEntity createInquireNotification(UserEntity developer, UserEntity user, ChatRoomEntity chatRoomEntity){
+    private NotificationEntity createInquireUserNotification(UserEntity developer, UserEntity user, ChatRoomEntity chatRoomEntity){
         NotificationEntity notificationEntity = NotificationEntity.builder()
                 .title("문의 요청")
                 .message(developer.getName() + " 으로 부터 " +user.getName() +"님이 작성하신 게시글에 대한 문의가 요청됐습니다. 대화를 나누시려면 확인 버튼을 눌러주세요. 채팅방이 생성됩니다.")
                 .checked(false)
-                .notificationType(NotificationType. CHAT_ROOM_INVITE_REQUEST)
+                .notificationType(NotificationType.INQUIRE_REQUEST)
                 .userEntity(user)
                 .chatRoomEntity(chatRoomEntity)
                 .build();
@@ -108,9 +108,9 @@ public class ChatRoomEventListener {
     private NotificationEntity createInquireDeveloperNotification(UserEntity developer, UserEntity user, ChatRoomEntity chatRoomEntity){
         NotificationEntity notificationEntity = NotificationEntity.builder()
                 .title("문의 요청 전송")
-                .message(developer.getName() + " 님이 요청하신 문의가 " +user.getName() +"님에게 요청되었습니다. "  +user.getName() + "님이 확인하시면 자동으로 채팅방이 생성됩니다.")
+                .message(developer.getName() + "님이 요청하신 문의가 " +user.getName() +"님에게 요청되었습니다. "  +user.getName() + "님이 확인하시면 자동으로 채팅방이 생성됩니다.")
                 .checked(false)
-                .notificationType(NotificationType. CHAT_ROOM_INVITE_REQUEST)
+                .notificationType(NotificationType.INQUIRE_SEND)
                 .userEntity(developer)
                 .chatRoomEntity(chatRoomEntity)
                 .build();

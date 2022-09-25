@@ -3,9 +3,11 @@ package com.likelion.stepstone.notification;
 import com.likelion.stepstone.chat.event.ChatSendEvent;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chatroom.ChatRoomService;
+import com.likelion.stepstone.chatroom.model.InquireForm;
 import com.likelion.stepstone.chatroom.model.InviteUserForm;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
+import com.likelion.stepstone.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
@@ -23,8 +25,8 @@ import java.util.List;
 @RequestMapping("/notification")
 public class NotificationController {
     private final NotificationService notificationService;
-
     private final ChatRoomService chatRoomService;
+    private final PostService postService;
 
 //    @GetMapping("/read/new")
 //    public String readNewNotification(Principal principal, Model model){
@@ -92,6 +94,14 @@ public class NotificationController {
         model.addAttribute("alertMessage", "초대가 완료 되었습니다.");
         return "chat/room :: #alertMessage";
     }
+
+    @PostMapping("/inquiry/publish")
+    public String inquiryPublish(Principal principal ,@RequestParam Long postCid){
+        chatRoomService.inquire(principal.getName(), postService.findByPostCid(postCid));
+
+        return "navbar :: #notifications";
+    }
+
 
 
 
