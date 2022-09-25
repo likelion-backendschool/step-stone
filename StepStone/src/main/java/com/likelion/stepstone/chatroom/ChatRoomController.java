@@ -4,6 +4,7 @@ import com.likelion.stepstone.chat.ChatService;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.notification.NotificationService;
+import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,9 @@ public class ChatRoomController {
             model.addAttribute("allRoomId", allRoomId);
             model.addAttribute("roomName", roomName);
             model.addAttribute("roomId", firstChatRoom.getChatRoomId());
+            List<UserDto> users = chatRoomService.findAllUserDtoInChatRoom(firstChatRoom.getChatRoomId());
+
+            model.addAttribute("usersInChatRoom", users);
         }
         model.addAttribute("roomImageUrl", imageUrl);
         model.addAttribute("rooms", rooms);
@@ -61,7 +65,9 @@ public class ChatRoomController {
 //        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
 //        notificationService.registerOnlineChatUser(principal.getName(), roomId);
 
+        List<UserDto> users = chatRoomService.findAllUserDtoInChatRoom(roomId);
 
+        model.addAttribute("usersInChatRoom", users);
         model.addAttribute("creationAvatar", chatRoomService.getCreationAvatar(principal.getName(), roomId));
 
         model.addAttribute("chats", chats);
@@ -87,7 +93,7 @@ public class ChatRoomController {
         return "chat/room :: #chatRoomTable";
     }
 
-    @PostMapping("/room/invite/")
+    @PostMapping("/room/invite")
     public String inviteRoom(Principal principal,Model model, @RequestParam String chatRoomId, @RequestParam Long notificationId) {
 //        List<ChatDto> chats = chatService.getHistories(inviteUserForm.getChatRoomId());
 //        List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName());
@@ -115,6 +121,17 @@ public class ChatRoomController {
         model.addAttribute("rooms", rooms);
         return "redirect:/chat/room";
     }
+
+    @GetMapping("/room/users")
+    public String getUsersInChatRoom(Principal principal, Model model, String chatRoomId) {
+
+
+        List<UserDto> users = chatRoomService.findAllUserDtoInChatRoom( chatRoomId);
+
+        model.addAttribute("usersInChatRoom", users);
+        return "chat/room :: #usersInChatRoom";
+    }
+
     // 채팅방 입장 화면
     @GetMapping("/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {
