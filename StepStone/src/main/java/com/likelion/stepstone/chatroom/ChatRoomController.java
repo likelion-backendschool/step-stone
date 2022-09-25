@@ -158,10 +158,10 @@ public class ChatRoomController {
     }
 
     @PostMapping("/room/inquiry")
-    public String inquire(Principal principal,String postCid, String userId){
-        chatRoomService.inquire(principal.getName(), userId);
-        
-        return "post/detail/" + postCid;
+    public String inquire(Principal principal, Model model, @RequestParam String publisherId, @RequestParam String chatRoomName){
+
+        chatRoomService.confirmInquiry(principal.getName(), publisherId, chatRoomName);
+        return "navbar :: #alertMessage";
     }
 
 

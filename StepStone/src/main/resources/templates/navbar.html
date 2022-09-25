@@ -127,13 +127,12 @@
                                                             </svg>
                                                         </button>
                                                     </p>
-                                                    <form th:action="@{/chat/room/invite/(chatRoomId=${notification.chatRoomId},notificationId=${notification.id})}"
-                                                          th:method="post">
+                                                    <form>
                                                         <div class="collapse input-group mb-0" id="collapseExample">
-                                                            <input id="msg" type="text" class="form-control h-25"  placeholder="채팅방 이름을 입력해 주세요.">
+                                                            <input th:id="'inquiryChatRoomName' + ${notification.id}" type="text" class="form-control h-25"  placeholder="채팅방 이름을 입력해 주세요.">
                                                             <div id="sendMessage" class="input-group-prepend ">
-                                                                <button type="submit" id="inquire_confirm_btn"
-                                                                        class="btn btn-primary btn-sm input-group-text" >
+                                                                <button type="button" id="inquire_confirm_btn" th:notiId="${notification.id}" th:publihserId="${notification.publisherId}"
+                                                                        class="btn btn-primary btn-sm input-group-text" th:onclick="confirmInquiry(this.getAttribute('notiId'), this.getAttribute('publihserId'));">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                          height="16"
                                                                          fill="currentColor" class="bi bi-check"
@@ -237,6 +236,27 @@
             })
                 .done(function (fragment) {
                     $('#notifications').replaceWith(fragment);
+                });
+            // str = "<i th:if=\"${!hasNotification}\" class=\"fa fa-bell-o\" aria-hidden=\"true\"></i>";
+            // $("#notificationIcon").append(str);
+            return false;
+        }
+
+        function confirmInquiry(id, publisherId){
+            var chatRoomName = $("#inquiryChatRoomName" + id).val()
+            console.log(chatRoomName);
+            dropli(id)
+            inquiryBean = {
+                publisherId: publisherId,
+                chatRoomName : chatRoomName,
+            };
+            $.ajax({
+                url: "/chat/room/inquiry",
+                type: "POST",
+                data: inquiryBean
+            })
+                .done(function (fragment) {
+                    $('#alertMessage').replaceWith(fragment);
                 });
             // str = "<i th:if=\"${!hasNotification}\" class=\"fa fa-bell-o\" aria-hidden=\"true\"></i>";
             // $("#notificationIcon").append(str);

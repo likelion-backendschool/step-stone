@@ -117,6 +117,36 @@ public class ChatRoomService {
                 .build());
     }
 
+    public void confirmInquiry(String userId, String publisherId, String chatRoomName){
+
+        UserEntity userEntity = findByUserId(userId);
+        UserEntity publisher = findByUserId(publisherId);
+
+        ChatRoomEntity chatRoomEntity = ChatRoomEntity.builder()
+                .chatRoomId(UUID.randomUUID().toString())
+                .roomName(chatRoomName)
+                .postCid(-1l)
+                .imageUrl(getChatRoomImageUrl())
+                .userCount(2)
+                .build();
+
+        if(chatRoomEntity.getUsers() == null)
+            chatRoomEntity.setUsers(new HashSet<>());
+
+        chatRoomEntity.getUsers().add(userRepository.findById(userEntity.getUserCid()).orElseThrow(() -> new DataNotFoundException("user not found")));
+        chatRoomEntity.getUsers().add(userRepository.findById(publisher.getUserCid()).orElseThrow(() -> new DataNotFoundException("user not found")));
+
+        chatRoomRepository.save(chatRoomEntity);
+        createEventPublish(chatRoomEntity, userEntity);
+
+        String profileImage = pickProfileImage();
+        ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).orElseThrow(() -> new DataNotFoundException("chat room creation error"));
+        chatRoomUserJoinEntity.setProfileImageUrl(profileImage);
+
+        chatRoomJoinRepository.save(chatRoomUserJoinEntity);
+
+    }
+
     private String pickProfileImage(){
         String profileImageDefaultUrl = "https://www.bootdey.com/img/Content/avatar/";
         int randomInt = (int)(Math.random()*6) + 1; //0 제외
