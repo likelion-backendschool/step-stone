@@ -3,21 +3,16 @@ package com.likelion.stepstone.post;
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.like.LikeService;
 import com.likelion.stepstone.like.model.LikeDto;
-import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
 import com.likelion.stepstone.user.UserService;
-import com.likelion.stepstone.user.model.UserDto;
-import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -128,8 +123,6 @@ public class PostController {
             model.addAttribute("postSize", postVoList.size());
             model.addAttribute("posts1", postVoList);
         }
-
-        // 게시글이 존재하지 않는 경우 (0개 이하)
         else {
             model.addAttribute("postSize", postVoList.size());
         }
@@ -196,10 +189,9 @@ public class PostController {
             model.addAttribute("postCid", postCid);
             return "post/alert";
         }
-
+        model.addAttribute("msg", "게시글이 끌어올리기가 완료되었습니다. 다음 끌어올리기는 5일 이후부터 가능합니다. ");
         postService.postUp(postDto);
-        return "redirect:/post/list";
-
+        return "post/postUp";
     }
 
     private boolean createDate(PostDto postDto) {

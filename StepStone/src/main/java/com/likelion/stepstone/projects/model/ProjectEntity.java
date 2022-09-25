@@ -32,6 +32,13 @@ public class ProjectEntity {
     @Column(name = "project_id")
     private UUID projectId;
 
+    @Setter
+    @Column(name = "post_cid")
+    private Long postCid;
+
+    @Setter
+    @Column(name = "workspace_cid")
+    private Long workspaceCid;
 
     @Column(name = "title")
     private String title;
@@ -58,6 +65,8 @@ public class ProjectEntity {
     public static ProjectEntity toEntity(ProjectDto dto) {
         ProjectEntity entity = ProjectEntity.builder()
                 .projectId(dto.getProjectId())
+                .workspaceCid(dto.getWorkspaceCid())
+                .postCid(dto.getPostCid())
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .user(dto.getUser())

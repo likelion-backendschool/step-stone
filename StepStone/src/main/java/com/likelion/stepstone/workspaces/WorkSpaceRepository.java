@@ -11,4 +11,8 @@ public interface WorkSpaceRepository extends JpaRepository<WorkSpaceEntity, Long
 
     Page<WorkSpaceEntity> findAllByUserUserCid(Long userCid, Pageable pageable);
     void deleteByWorkspaceCid(Long workspaceCid);
+
+    Page<WorkSpaceEntity> findAllByPostCid(Long postCid, Pageable pageable);
+
+    WorkSpaceEntity findByWorkspaceCid (long id);
 }

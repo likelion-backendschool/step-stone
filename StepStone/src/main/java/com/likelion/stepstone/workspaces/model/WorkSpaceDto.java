@@ -24,6 +24,9 @@ public class WorkSpaceDto {
     private UUID workspaceId;
 
     @Setter
+    private Long postCid;
+
+    @Setter
     private String title;
 
     @Setter
@@ -43,7 +46,7 @@ public class WorkSpaceDto {
         WorkSpaceDto dto = WorkSpaceDto.builder()
                 .workspaceCid(entity.getWorkspaceCid())
                 .workspaceId(entity.getWorkspaceId())
-                .workspaceCid(entity.getWorkspaceCid())
+                .postCid(entity.getPostCid())
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .user(entity.getUser())

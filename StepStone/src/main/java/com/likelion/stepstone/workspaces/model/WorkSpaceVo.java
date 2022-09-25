@@ -1,13 +1,11 @@
 package com.likelion.stepstone.workspaces.model;
 
 
-import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,6 +24,8 @@ public class WorkSpaceVo {
 
     private UUID workspaceId;
 
+    private Long postCid;
+
     @Setter
     private String title;
 
@@ -40,11 +40,11 @@ public class WorkSpaceVo {
     @Setter
     private LocalDateTime updatedAt;
 
-
     public static WorkSpaceDto toVo(WorkSpaceDto dto) {
         WorkSpaceVo vo = WorkSpaceVo.builder()
                 .workspaceCid(dto.getWorkspaceCid())
                 .workspaceId(dto.getWorkspaceId())
+                .postCid(dto.getPostCid())
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .user(dto.getUser())

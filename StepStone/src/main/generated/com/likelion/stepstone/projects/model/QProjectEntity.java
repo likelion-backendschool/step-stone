@@ -26,6 +26,8 @@ public class QProjectEntity extends EntityPathBase<ProjectEntity> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
+    public final NumberPath<Long> postCid = createNumber("postCid", Long.class);
+
     public final NumberPath<Long> projectCid = createNumber("projectCid", Long.class);
 
     public final ComparablePath<java.util.UUID> projectId = createComparable("projectId", java.util.UUID.class);

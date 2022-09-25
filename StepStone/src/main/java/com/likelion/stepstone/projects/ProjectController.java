@@ -4,35 +4,35 @@ import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
-import com.likelion.stepstone.user.model.UserDto;
+import com.likelion.stepstone.workspaces.WorkSpaceService;
+import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
 
 @RequestMapping("/project")
 @Controller
 public class ProjectController {
 
     private final ProjectService projectService;
-    private final UserService userService;
 
-    public ProjectController(ProjectService projectService, UserService userService) {
+    private final  WorkSpaceService workspaceService;
+    public ProjectController(ProjectService projectService, WorkSpaceService workspaceService) {
         this.projectService = projectService;
-        this.userService = userService;
+        this.workspaceService = workspaceService;
     }
 
-    @GetMapping("/create")
-    public String create(ProjectForm projectForm) {
+    @GetMapping("/create/{id}")
+    public String create(ProjectForm projectForm, @PathVariable long id, Model model) {
+        model.addAttribute("id", id);
         return "project/project_form";
     }
 
-    @PostMapping("/create")
-    public String createProject(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, ProjectForm projectForm) {
+    @PostMapping("/create/{id}")
+    public String createProject(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, ProjectForm projectForm, @PathVariable long id) {
 
         //유효성 체크
         boolean hasError = false;
@@ -52,9 +52,14 @@ public class ProjectController {
             return "project/project_form";
         }
 
+        WorkSpaceDto workSpaceDto = workspaceService.getWorkspaceDto(id);
+        Long postCid = workSpaceDto.getPostCid();
+
         ProjectDto projectDto = ProjectDto.builder()
                 .title(projectForm.getTitle())
                 .body(projectForm.getBody())
+                .workspaceCid(id)
+                .postCid(postCid)
                 .build();
 
         projectService.create(projectDto,principalDetails);
@@ -68,7 +73,12 @@ public class ProjectController {
         model.addAttribute("paging", paging);
         return "project/project_list";
     }
-
+    @GetMapping("/list/{id}")
+    public String listWithId(Model model, @RequestParam(defaultValue = "0") int page,@PathVariable Long id) {
+        Page<ProjectEntity> paging = projectService.getListWithId(id, page);
+        model.addAttribute("paging", paging);
+        return "project/project_list";
+    }
     @PostAuthorize("hasRole('ROLE_ADMIN') or #projectForm.userId == authentication.principal.username")
     @GetMapping("/modify/{projectCid}")
     public String projectModifyGet(@PathVariable long projectCid , ProjectForm projectForm) {
@@ -91,14 +101,30 @@ public class ProjectController {
         return "redirect:/project/detail/{projectCid}";
     }
 
-    @GetMapping("/detail/{projectCid}")
-    public String detail(Model model, @PathVariable  long projectCid) {
-        ProjectDto projectDto = projectService.getProjectDto(projectCid);
+//    @GetMapping("/detail/{projectCid}")
+//    public String detail(Model model, @PathVariable  long projectCid) {
+//        ProjectDto projectDto = projectService.getProjectDto(projectCid);
+//
+//        model.addAttribute("projectEntity", projectDto);
+//        return "project/project_detail";
+//
+//    }
+
+    @GetMapping("/detail/{workspaceCid}")
+    public String detail(Model model, @PathVariable long workspaceCid) {
+        ProjectDto projectDto = projectService.getProjectDto(workspaceCid);
+        if(projectDto == null){
+            model.addAttribute("msg","완성된 프로젝트가 없습니다.");
+            model.addAttribute("workspaceCid", workspaceCid);
+            return "project/alert";
+        }
 
         model.addAttribute("projectEntity", projectDto);
         return "project/project_detail";
 
     }
+
+
 
     @GetMapping("/delete/{projectCid}")
     public String delete( @PathVariable long projectCid) {
@@ -109,5 +135,3 @@ public class ProjectController {
         return "redirect:/workspace/list";
     }
 }
-
-

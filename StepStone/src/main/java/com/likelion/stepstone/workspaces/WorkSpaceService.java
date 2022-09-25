@@ -2,11 +2,9 @@ package com.likelion.stepstone.workspaces;
 
 import com.likelion.stepstone.Util.DataNotFoundException;
 import com.likelion.stepstone.authentication.PrincipalDetails;
-import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
-import com.likelion.stepstone.workspaces.model.WorkSpaceVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +34,10 @@ public class WorkSpaceService {
     public Page<WorkSpaceEntity> getList(int page) {
         Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "workspaceCid"));
         return workspaceRepository.findAll(pageable);
+    }
+    public Page<WorkSpaceEntity> getListWithId(long id, int page) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "workspaceCid"));
+        return workspaceRepository.findAllByPostCid(id, pageable);
     }
 
     private Pageable getPageable(int page, int size, Sort DESC) {
@@ -75,5 +77,12 @@ public class WorkSpaceService {
     public Page<WorkSpaceEntity> getMyWorkPostList(int page, Long userCid) {
         Pageable pageable = getPageable(page, 3, Sort.by(Sort.Direction.DESC, "workspaceCid"));
         return workspaceRepository.findAllByUserUserCid(userCid, pageable);
+    }
+
+    public WorkSpaceDto getWorkspaceDto(long id) {
+        WorkSpaceEntity workSpaceEntity = workspaceRepository.findByWorkspaceCid(id);
+        WorkSpaceDto workSpaceDto = WorkSpaceDto.toDto(workSpaceEntity);
+
+        return workSpaceDto;
     }
 }

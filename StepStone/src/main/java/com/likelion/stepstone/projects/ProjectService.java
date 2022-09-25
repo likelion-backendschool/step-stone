@@ -4,7 +4,6 @@ import com.likelion.stepstone.Util.DataNotFoundException;
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
-import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,19 +38,38 @@ public class ProjectService {
         return projectRepository.findAll(pageable);
     }
 
+    public Page<ProjectEntity> getListWithId(Long id,int page) {
+        Pageable pageable = getPageable(page, 5, Sort.by(Sort.Direction.DESC, "projectCid"));
+        return projectRepository.findAllByPostCid(id, pageable);
+    }
+
     private Pageable getPageable(int page, int size, Sort DESC) {
         Pageable pageable = PageRequest.of(page, size, DESC);
         return pageable;
     }
 
-public ProjectDto getProjectDto(Long projectCid) {
+//public ProjectDto getProjectDto(Long projectCid) {
+//
+//    ProjectEntity projectEntity =  projectRepository.findByProjectCid(projectCid)
+//            .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(projectCid)));
+//    ProjectDto projectDto = ProjectDto.toDto(projectEntity);
+//
+//    return projectDto;
+//}
 
-    ProjectEntity projectEntity =  projectRepository.findByProjectCid(projectCid)
-            .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(projectCid)));
-    ProjectDto projectDto = ProjectDto.toDto(projectEntity);
 
-    return projectDto;
-}
+    public ProjectDto getProjectDto(Long workspaceCid) {
+        ProjectEntity projectEntity = projectRepository.findByWorkspaceCid(workspaceCid)
+                .orElse(null);
+
+        if(projectEntity == null){
+            return null;
+        }ProjectDto projectDto = ProjectDto.toDto(projectEntity);
+
+        return projectDto;
+    }
+
+
     @PreAuthorize("hasRole('ROLE_ADMIN') or #projectDto.user.userId == authentication.principal.username")
     @Transactional
     public void delete( ProjectDto projectDto) {
@@ -70,4 +88,3 @@ public ProjectDto getProjectDto(Long projectCid) {
         projectRepository.save(projectEntity);
     }
 }
-

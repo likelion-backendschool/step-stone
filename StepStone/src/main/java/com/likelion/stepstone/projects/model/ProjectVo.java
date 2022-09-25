@@ -13,8 +13,13 @@ import java.util.UUID;
 @ToString
 public class ProjectVo {
 
+    private Long projectCid;
 
     private UUID projectId;
+
+    private Long postCid;
+
+    private Long workspaceCid;
 
     @Setter
     private String title;
@@ -33,7 +38,10 @@ public class ProjectVo {
 
     public static ProjectDto toVo(ProjectDto dto) {
         ProjectVo vo = ProjectVo.builder()
+                .projectCid(dto.getProjectCid())
+                .postCid(dto.getPostCid())
                 .projectId(dto.getProjectId())
+                .workspaceCid(dto.getWorkspaceCid())
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .user(dto.getUser())

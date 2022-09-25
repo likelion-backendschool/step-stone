@@ -2,18 +2,14 @@ package com.likelion.stepstone.workspaces;
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.user.UserService;
-import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import com.likelion.stepstone.workspaces.model.WorkSpaceEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RequestMapping("/workspace")
 @Controller
@@ -27,16 +23,15 @@ public class WorkSpaceController {
         this.userService = userService;
     }
 
-    @GetMapping("/create")
-    public String create(WorkSpaceForm workSpaceForm) {
+    @GetMapping("/create/{id}")
+    public String createGet(WorkSpaceForm workSpaceForm,@PathVariable long id, Model model) {
+
+        model.addAttribute("id", id);
         return "workspace/workspace_form";
     }
 
-    @PostMapping("/create")
-    public String createPost(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, WorkSpaceForm workSpaceForm) {
-//        if (principalDetails == null) {
-//        model.addAttribute("msg","로그인 후 이용해주세요");
-//        return "like/login"; }
+    @PostMapping("/create/{id}")
+    public String createPost(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, WorkSpaceForm workSpaceForm,@PathVariable long id) {
 
         //유효성 체크
         boolean hasError = false;
@@ -59,6 +54,7 @@ public class WorkSpaceController {
         WorkSpaceDto workSpaceDto = WorkSpaceDto.builder()
                 .title(workSpaceForm.getTitle())
                 .body(workSpaceForm.getBody())
+                .postCid(id)
                 .build();
 
         workSpaceService.create(workSpaceDto,principalDetails);
@@ -69,6 +65,12 @@ public class WorkSpaceController {
     @GetMapping("/list")
     public String list(Model model, @RequestParam(defaultValue = "0") int page) {
         Page<WorkSpaceEntity> paging = workSpaceService.getList(page);
+        model.addAttribute("paging", paging);
+        return "workspace/workspace_list";
+    }
+    @GetMapping("/list/{id}")
+    public String listWithId(Model model, @RequestParam(defaultValue = "0") int page , @PathVariable Long id) {
+        Page<WorkSpaceEntity> paging = workSpaceService.getListWithId(id, page);
         model.addAttribute("paging", paging);
         return "workspace/workspace_list";
     }

@@ -26,6 +26,7 @@
             background-color: #fafafa;
             border-color: #cccccc;
         }
+
     </style>
 </head>
 
@@ -35,15 +36,47 @@
     <p class="mx-3">함께 프로젝트를 진행할 개발자들을 모집하는 공간입니다 👩🏻‍💻</p>
 
     <div class="d-flex justify-content-end my-2">
-        <a th:href="@{/workspace/create}" class="btn btn-light"> 게시글 쓰기 </a>
+        <!--        <a th:href="@{/workspace/create}" class="btn btn-light"> 게시글 쓰기 </a>-->
+        <!--    </div>-->
+
+
+        <!--모달-->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">게시글 쓰기
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!--            <div class="modal-dialog">-->
+                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        게시글 목록의 요청글을 통해 작성해주세요
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-primary"
+                                onclick="location.href='/post/list?page=0'">게시글 목록 가기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!--모달 -->
 
     <table class="table">
         <thead></thead>
         <tbody>
         <tr th:each="workspace, loop : ${paging}">
             <div class="card my-3">
-                <div class="card-header" th:onclick="|location.href='@{|detail/${workspace.workspaceCid}|}'|"
+                <div class="card-header" th:onclick="|location.href='@{|/workspace/detail/${workspace.workspaceCid}|}'|"
                      style="cursor:pointer; font-size: large">
                     <span th:text="${workspace.title}"></span>
                 </div>
@@ -53,7 +86,7 @@
                                      -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em"
                              th:text="${workspace.body}"></div>
                         <div class="badge bg-light text-dark p-2 text-start mt-3">
-                        <span th:text="${workspace.user.name}"></span>
+                            <span th:text="${workspace.user.name}"></span>
                         </div>
                     </blockquote>
                 </div>
@@ -67,7 +100,7 @@
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{|?page=${paging.number-1}|}">
-                  <span aria-hidden="true">&laquo;</span>
+                    <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
@@ -78,7 +111,7 @@
             </li>
             <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
                 <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-                   <span aria-hidden="true">&raquo;</span>
+                    <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>

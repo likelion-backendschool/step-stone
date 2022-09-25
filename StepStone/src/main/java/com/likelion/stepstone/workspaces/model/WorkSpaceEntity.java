@@ -32,6 +32,9 @@ public class WorkSpaceEntity {
     @Column(name = "workspace_id")
     private UUID workspaceId;
 
+    @Column(name = "post_cid")
+    @Setter
+    private Long postCid;
 
     @Column(name = "title")
     private String title;
@@ -59,6 +62,7 @@ public class WorkSpaceEntity {
         WorkSpaceEntity entity = WorkSpaceEntity.builder()
                 .workspaceCid(dto.getWorkspaceCid())
                 .workspaceId(dto.getWorkspaceId())
+                .postCid(dto.getPostCid())
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .user(dto.getUser())
