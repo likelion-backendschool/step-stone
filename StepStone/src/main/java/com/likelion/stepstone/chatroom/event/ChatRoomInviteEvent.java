@@ -8,10 +8,11 @@ import lombok.Getter;
 public class ChatRoomInviteEvent {
     private final ChatRoomEntity chatRoomEntity;
     private final UserEntity userEntity;
+    private final UserEntity publisher;
 
-    public ChatRoomInviteEvent(ChatRoomEntity chatRoomEntity, UserEntity userEntity) {
+    public ChatRoomInviteEvent(ChatRoomEntity chatRoomEntity, UserEntity userEntity, UserEntity publisher) {
         this.chatRoomEntity = chatRoomEntity;
         this.userEntity = userEntity;
-
+        this.publisher = publisher;
     }
 }

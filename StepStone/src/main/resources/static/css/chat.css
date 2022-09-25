@@ -261,9 +261,16 @@ body{
     border-color: #3C64B1;
 }
 
-.btn-secondary, .btn-secondary:hover, .btn-secondary:active, .btn-secondary:visited {
+#invite_btn, #invite_btn:hover, #invite_btn:active, #invite_btn:visited {
     background-color: #A1B6E0;
     border-color: #A1B6E0;
 }
 
+#exit_btn, #exit_btn:hover, #exit_btn:active, #exit_btn:visited {
+    background-color: #ffda6a;
+    border-color: #ffda6a;
+}
 
+.input-group > *{
+    height: 100%;
+}

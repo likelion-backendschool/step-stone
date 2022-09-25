@@ -81,4 +81,14 @@ public class ChatRoomEntity {
 
         return entity;
     }
+
+    public static ChatRoomEntity getNullInstance(){
+        return ChatRoomEntity.builder()
+                .chatRoomId("nullInstanceRoomId")
+                .postCid(Long.MAX_VALUE)
+                .roomName("nullInstanceRoomName")
+                .imageUrl("nullInstanceImageUrl")
+                .userCount(0)
+                .build();
+    }
 }

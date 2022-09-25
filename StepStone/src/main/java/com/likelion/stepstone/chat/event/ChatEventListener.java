@@ -25,39 +25,38 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class ChatEventListener {
-    private final ChatRoomRepository chatRoomRepository;
-    private final NotificationRepository notificationRepository;
-
-    @EventListener // @EventListener 애너테이션을 이용해 이벤트 리스너를 명시합니다.
-    public void handleChatSendEvent(ChatSendEvent chatSendEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
-        String chatRoomId = chatSendEvent.getChatRoomId();
-        String roomName = chatRoomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new DataNotFoundException("room not found")).getRoomName();
-
-        log.info(roomName + ": new message arrived");
-
-        NotificationDto notificationDto = createNotification(roomName, chatSendEvent.getUserEntity());
-        // TODO DB에 Notification 정보 저장
-
-        saveNotification(notificationDto, chatSendEvent.getUserEntity());
-    }
-
-    private NotificationDto createNotification(String roomName, UserEntity userEntity){
-
-        NotificationDto dto = NotificationDto.builder()
-                .title("새로운 채팅")
-                .message(roomName + "채팅방에 새로운 채팅이 도착했습니다.")
-                .checked(false)
-                .notificationType(NotificationType.CHAT_SEND)
-                .userCid(userEntity.getUserCid())
-                .build();
-
-
-        return dto;
-    }
-
-    private void saveNotification(NotificationDto dto, UserEntity userEntity){
-        NotificationEntity notificationEntity = NotificationEntity.toEntity(dto, userEntity);
-
-        notificationRepository.save(notificationEntity);
-    }
+//    private final ChatRoomRepository chatRoomRepository;
+//    private final NotificationRepository notificationRepository;
+//
+//    public void handleChatSendEvent(ChatSendEvent chatSendEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
+//        String chatRoomId = chatSendEvent.getChatRoomId();
+//        String roomName = chatRoomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new DataNotFoundException("room not found")).getRoomName();
+//
+//        log.info(roomName + ": new message arrived");
+//
+//        NotificationDto notificationDto = createNotification(roomName, chatSendEvent.getUserEntity());
+//        // TODO DB에 Notification 정보 저장
+//
+//        saveNotification(notificationDto, chatSendEvent.getUserEntity(), cha);
+//    }
+//
+//    private NotificationDto createNotification(String roomName, UserEntity userEntity){
+//
+//        NotificationDto dto = NotificationDto.builder()
+//                .title("새로운 채팅")
+//                .message(roomName + "채팅방에 새로운 채팅이 도착했습니다.")
+//                .checked(false)
+//                .notificationType(NotificationType.CHAT_SEND.toString())
+//                .userCid(userEntity.getUserCid())
+//                .build();
+//
+//
+//        return dto;
+//    }
+//
+//    private void saveNotification(NotificationDto dto, UserEntity userEntity, ChatRoomEntity chatRoomEntity){
+//        NotificationEntity notificationEntity = NotificationEntity.toEntity(dto, userEntity, chatRoomEntity);
+//
+//        notificationRepository.save(notificationEntity);
+//    }
 }
