@@ -22,11 +22,15 @@ public class NotificationDto {
     @Setter
     private boolean checked;
 
-    private Long userCid;
+    private String userId;
+
+    private String publisherId;
+
+    private String chatRoomId;
 
     private LocalDateTime createdAt;
     @Setter
-    private NotificationType notificationType;
+    private String notificationType;
 
     public static NotificationDto toDto(NotificationEntity entity){
         NotificationDto dto = NotificationDto.builder()
@@ -34,9 +38,11 @@ public class NotificationDto {
                 .title(entity.getTitle())
                 .message(entity.getMessage())
                 .checked(entity.isChecked())
-                .userCid(entity.getUserEntity().getUserCid())
+                .userId(entity.getUserEntity().getUserId())
+                .publisherId(entity.getPublisher().getUserId())
+                .chatRoomId(entity.getChatRoomEntity().getChatRoomId())
                 .createdAt(entity.getCreatedAt())
-                .notificationType(entity.getNotificationType())
+                .notificationType(entity.getNotificationType().toString())
                 .build();
 
         return dto;

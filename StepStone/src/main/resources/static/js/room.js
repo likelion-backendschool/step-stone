@@ -11,11 +11,11 @@ var sockJs = new SockJS("/stomp/chat");
 //1. SockJS를 내부에 들고있는 stomp를 내어줌
 var stomp = Stomp.over(sockJs);
 
-$(document).ready(function (){
-    initStomp();
-    const element = document.getElementById('chats');
-    element.scrollTop = element.scrollHeight;
-});
+// $(document).ready(function (){
+//
+// });
+initStomp();
+
 
 function initStomp() {
 
@@ -31,6 +31,8 @@ function initStomp() {
         allRoomId.forEach(function (item){
             stomp.subscribe("/sub/chat/room/" + item, function (chat) {
                 console.log("chat : " + chat);
+                console.log("item : " + item);
+                console.log("----------------")
                 var content = JSON.parse(chat.body);
 
                 var sender = content.senderName;
@@ -60,7 +62,8 @@ function initStomp() {
 
                 if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
                     // console.log(window.location.href);
-                    postNewChatNotification(chatRoomId, window.location.href);
+                    console.log("curr room Id : " + $('#currRoomId').val());
+                    getNewChatNotification(chatRoomId, senderId);
                 }
 
             }, {id: item});
@@ -74,45 +77,45 @@ function initStomp() {
 
 }
 
-function subscribe(roomId) {
-    console.log("STOMP Connection");
-    console.log(roomId);
-    //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-    stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-        console.log("function chat : " + chat);
-        var content = JSON.parse(chat.body);
-
-        var sender = content.senderName;
-        var senderId = content.senderId;
-        var createdAt = content.createdAt;
-        var message = content.message;
-        var profileImageUrl = content.profileImageUrl;
-        var chatRoomId = content.chatRoomId;
-        var str = '';
-
-        if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
-            str = "<li class='clearfix'>";
-            str += "<div>";
-            str += "<div class='message-data'>";
-            str += "<img src='" + profileImageUrl + "' alt='avatar'>";
-            str += "<span class='message-data-time'>" + sender + "</span>";
-            str += "<span class='message-data-time'>" + createdAt + "</span>";
-            str += "</div>";
-            str += "<div class='message other-message'>" + message + "</div>";
-            str += "</div>";
-            str += "</li>";
-
-            $("#chatList").append(str);
-            const element = document.getElementById('chats');
-            element.scrollTop = element.scrollHeight;
-        }
-
-        if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
-            postNewChatNotification(chatRoomId);
-        }
-
-    }, {id: roomId});
-}
+// function subscribe(roomId) {
+//     console.log("STOMP Connection");
+//     console.log(roomId);
+//     //4. subscribe(path, callback)으로 메세지를 받을 수 있음
+//     stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+//         console.log("function chat : " + chat);
+//         var content = JSON.parse(chat.body);
+//
+//         var sender = content.senderName;
+//         var senderId = content.senderId;
+//         var createdAt = content.createdAt;
+//         var message = content.message;
+//         var profileImageUrl = content.profileImageUrl;
+//         var chatRoomId = content.chatRoomId;
+//         var str = '';
+//
+//         if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
+//             str = "<li class='clearfix'>";
+//             str += "<div>";
+//             str += "<div class='message-data'>";
+//             str += "<img src='" + profileImageUrl + "' alt='avatar'>";
+//             str += "<span class='message-data-time'>" + sender + "</span>";
+//             str += "<span class='message-data-time'>" + createdAt + "</span>";
+//             str += "</div>";
+//             str += "<div class='message other-message'>" + message + "</div>";
+//             str += "</div>";
+//             str += "</li>";
+//
+//             $("#chatList").append(str);
+//             const element = document.getElementById('chats');
+//             element.scrollTop = element.scrollHeight;
+//         }
+//
+//         if (senderId !== userId && chatRoomId !== $('#currRoomId').val()) {
+//             getNewChatNotification(chatRoomId);
+//         }
+//
+//     }, {id: roomId});
+// }
 
 function updateChatRoom() {
     var chatRoomBean = {
@@ -128,22 +131,54 @@ function updateChatRoom() {
             $('#chatRoomTable').replaceWith(fragment);
         });
 }
-
+function exitChatRoom() {
+    console.log("exit in")
+    var exitChatRoomBean = {
+        chatRoomId: $("#currRoomId").val()
+    };
+    $.ajax({
+        url: "/chat/room/exit",
+        type: "POST",
+        data: exitChatRoomBean,
+    })
+        .done(function (fragment) {
+            console.log("exit")
+            // $("#alertMessage").replaceWith(fragment)
+            window.location.href = 'room';
+        });
+}
 function inviteChatRoom() {
     var inviteChatRoomBean = {
         userId: $("#inviteUserId").val(),
         chatRoomId: $("#currRoomId").val()
     };
     $.ajax({
-        url: "/chat/room/invite",
+        url: "/notification/invite/publish",
         type: "POST",
         data: inviteChatRoomBean,
     })
         .done(function (fragment) {
             console.log("invite")
-            $("#message").replaceWith(fragment)
+            $("#alertMessage").replaceWith(fragment)
         });
 }
+
+function getUsers() {
+    var inviteChatRoomBean = {
+        chatRoomId: $("#currRoomId").val()
+    };
+    $.ajax({
+        url: "/chat/room/users",
+        type: "GET",
+        data: inviteChatRoomBean,
+    })
+        .done(function (fragment) {
+            console.log("get users")
+            $("#usersInChatRoom").replaceWith(fragment)
+        });
+}
+
+
 
 function getChats(roomId) {
     console.log("chat room click")
@@ -152,7 +187,7 @@ function getChats(roomId) {
         return;
     }
     changeSubs(roomId);
-
+    getUsers();
     var chatRoomIdBean = {
         roomId: roomId,
     };
@@ -217,14 +252,10 @@ function sendMsg() {
     var today = new Date();
     var dateTime = today.toLocaleString().toString().substring(2, 21);
 
-    const src = $("#myAvatar").attr('src');
-    console.log(src);
 
     var profileImageUrI;
-    if (src===undefined) {
-        console.log('img src is empty');
-        profileImageUrI = $("#creationAvatar").attr('src');
-    }
+
+    profileImageUrI = $("#creationAvatar").attr('src');
 
     if (msg.value !== "") {
         console.log("sendMessage:" + msg.value);
@@ -240,12 +271,14 @@ function sendMsg() {
         var name = username;
         // var dateTime = date+' '+time;
         str = "<li class='clearfix'>";
+        str += "<div>"
         str += "<div class='message-data text-end'>";
         str += "<span class='message-data-time'>" + name + "</span>";
         str += "<span class='message-data-time'> " + dateTime + "</span>";
         str += "<img src='" + profileImageUrl + "' alt='avatar'>";
         str += "</div>";
         str += "<div class='message my-message float-right'>" + msg.value + "</div>";
+        str += "</div>";
         str += "</li>";
 
         $("#chatList").append(str);
@@ -271,20 +304,21 @@ function searchChatRoom(){
         });
 }
 
-function postNewChatNotification(chatRoomId, currentURI) {
+function getNewChatNotification(chatRoomId, senderId) {
     console.log("new Chat");
-
+    event.preventDefault();
     var chatRoomBean = {
         chatRoomId: chatRoomId,
-        currentURI: currentURI
+        senderId : senderId,
     };
     $.ajax({
-        url: "/notification/chat/new",
-        type: "POST",
+        url: "/notification/subscribe/chat/new",
+        type: "GET",
         data: chatRoomBean,
     })
         .done(function (fragment) {
             $('#notifications').replaceWith(fragment);
+
         });
 }
 
@@ -315,4 +349,9 @@ $("#createChatRoom").on("click", function (e) {
 $("#inviteChatRoomButton").on("click", function (e) {
     e.preventDefault();
     inviteChatRoom();
+});
+
+$("#exitChatRoom").on("click", function (e) {
+    e.preventDefault();
+    exitChatRoom();
 });

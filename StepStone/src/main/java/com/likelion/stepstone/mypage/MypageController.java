@@ -2,6 +2,8 @@ package com.likelion.stepstone.mypage;
 
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
+import com.likelion.stepstone.like.LikeService;
+import com.likelion.stepstone.like.model.LikeEntity;
 import com.likelion.stepstone.post.PostService;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
@@ -32,11 +34,13 @@ public class MypageController {
 
     private final UserService userService;
     private final PostService postService;
+    private final LikeService likeService;
     private final WorkSpaceService workSpaceService;
 
-    public MypageController(UserService userService, PostService postService, WorkSpaceService workSpaceService) {
+    public MypageController(UserService userService, PostService postService, LikeService likeService, WorkSpaceService workSpaceService) {
         this.userService = userService;
         this.postService = postService;
+        this.likeService = likeService;
         this.workSpaceService = workSpaceService;
     }
 
@@ -50,18 +54,19 @@ public class MypageController {
 
         UserEntity userEntity = principalDetails.getUser();
 
+        // 사용자 정보, My 게시글 관리
         String userName = userEntity.getName();
         String userRole = userEntity.getRole();
         Long userCid = userEntity.getUserCid();
         boolean loginBefore = userEntity.isLoginBefore();
 
-        if (userRole.equals("ROLE_DEVELOPER")) {
+        if (userRole.equals("ROLE_DEVELOPER")) {    // 개발자
             Page<WorkSpaceEntity> paging = workSpaceService.getMyWorkPostList(page, userCid);
             model.addAttribute("paging", paging);
             model.addAttribute("userRole", "개발자");
         }
 
-        if (userRole.equals("ROLE_USER")) {
+        if (userRole.equals("ROLE_USER")) {     // 일반 유저
             Page<PostEntity> paging = postService.getMyPostList(page, userCid);
             model.addAttribute("paging", paging);
             model.addAttribute("userRole", "일반유저");
@@ -69,6 +74,13 @@ public class MypageController {
 
         model.addAttribute("userName", userName);
         model.addAttribute("oauthlogin", loginBefore);
+
+        // 좋아요 누른 게시글
+        UserDto userDto = UserDto.toDto(userEntity);
+        List<LikeEntity> likeEntities = likeService.getLikeEntity(userDto);     // 해당 user의 like 관련 데이터 얻기
+        List<PostEntity> likePostEntities = likeService.getLikedPost(likeEntities);     // like 누른 post들 찾기
+
+        model.addAttribute("likedPost", likePostEntities);
 
         return "mypage/mypage";
     }

@@ -48,14 +48,14 @@ public class ProjectService {
         return pageable;
     }
 
-//public ProjectDto getProjectDto(Long projectCid) {
-//
-//    ProjectEntity projectEntity =  projectRepository.findByProjectCid(projectCid)
-//            .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(projectCid)));
-//    ProjectDto projectDto = ProjectDto.toDto(projectEntity);
-//
-//    return projectDto;
-//}
+public ProjectDto getNowProjectDto(Long projectCid) {
+
+    ProjectEntity projectEntity =  projectRepository.findByProjectCid(projectCid)
+            .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(projectCid)));
+    ProjectDto projectDto = ProjectDto.toDto(projectEntity);
+
+    return projectDto;
+}
 
 
     public ProjectDto getProjectDto(Long workspaceCid) {

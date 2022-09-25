@@ -12,26 +12,58 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
+
+<script>
+ function notification(postCid){
+    let f = document.createElement('form');
+
+    let obj;
+    obj = document.createElement('input');
+    obj.setAttribute('type','hidden');
+    obj.setAttribute('name','postCid');
+    obj.setAttribute('value',postCid);
+
+    f.appendChild(obj);
+    f.setAttribute('method','post');
+    f.setAttribute('action','/notification/inquiry/publish');
+    document.body.appendChild(f);
+    f.submit();
+    }
+
+</script>
+
+
+
 <div layout:fragment="content" class="container my-3">
+
+    <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">게시글 목록</h3>
 
     <div class="d-flex justify-content-end my-2">
         <a th:href="@{/post/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
     </div>
-    <h2 class="border-bottom py-2" th:text="${postEntity.title}"></h2>
+    <h4 class="py-2" th:text="${postEntity.title}"></h4>
     <div class="card my-3">
         <div class="card-body">
             <div class="badge bg-light text-dark p-2 text-start">
-                <div class="mb-2">
-                    <h6 th:text="|작성자 : ${postEntity.user.name}|"></h6>
-                </div>
+                <span class="h6" th:text="|작성자 : ${postEntity.user.name}|"></span>
             </div>
 
-            <div style="white-space:pre-wrap;" class="card-text" th:utext="${@commonUtil.markdown(postEntity.body)}" rows="35"></div>
+            <div style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(postEntity.body)}" rows="35"></div>
 <!--            <div style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>-->
             <span class="d-flex justify-content-end my-2">
-        <a th:href="@{/chat/room}" class="btn btn-light">문의하기 </a>
-<!--        &nbsp;-->
+<!--             <a th:href="@{|/notification/inquiry/publish?postCid=${postEntity.postCid}|}" class="btn btn-light" >문의하기 </a>-->
+<!--                <span href="javascript:notification('${postEntity.postCid}')"  class="btn btn-light" >문의하기</span>-->
+<!--                 <a th:href="javascript:notification(3)"  class="btn btn-light" >문의하기</a>-->
+<!--                 <a style="cursor:pointer" onclick="notification(3)" class="btn btn-light" >문의하기</a>-->
+<!--                <a href='#' onclick='notification(3);' class="btn btn-light" >문의하기</a>-->
+<!--                <button type="button" th:onclick="'javascript:notification(3);'">문의하기</button>-->
+<!--                <a href=javascript:; th:onclick="notification(3);" class="btn btn-light" >문의하기</a>-->
+
+<!--                <a href='#' th:onclick="notification(3); return false;" class="btn btn-light" >문의하기</a>-->
+                <a href='javascript:void(0);' onclick='notification(3); return false'  class="btn btn-light" >문의하기</a>
+
 <!--        <a th:href="@{|/workspace/create/${postEntity.postCid}|}" class="btn btn-light">개발자 모집 글 작성하기 </a>-->
+
     </span>
         </div>
     </div>

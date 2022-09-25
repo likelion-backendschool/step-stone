@@ -59,6 +59,7 @@ public class PostService {
         List<PostEntity> postEntities = postRepository.findAll();
 
         List<PostVo> postVoList = postEntities.stream()
+                .sorted(Comparator.comparing(PostEntity::getCreatedAt).reversed())
                 .sorted(Comparator.comparing(PostEntity::getLikes).reversed())
                 .map(postEntity -> PostVo.toVo(PostDto.toDto(postEntity)))
                 .collect(Collectors.toList());
@@ -106,4 +107,12 @@ public class PostService {
         postEntity.setUpdatedAt(LocalDateTime.now());
         postRepository.save(postEntity);
     }
+
+
+    //region ChoYeonJun Add
+    public PostEntity findByPostCid(Long postCid){
+        return postRepository.findByPostCid(postCid);
+    }
+
+    //endregion
 }

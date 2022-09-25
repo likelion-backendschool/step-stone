@@ -6,24 +6,24 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
 <div layout:fragment="content" class="container" style="float: none; margin:100 auto;">
 
-    <h4 class="container my-3 border-bottom pb-2">게시글 작성</h4>
+    <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">개발자 모집글 작성</h3>
     <!--  유효성 체크  -->
     <div class="alert alert-danger" role="alert" th:if="${titleErrorMsg != null}" th:text="${titleErrorMsg}"></div>
     <div class="alert alert-danger" role="alert" th:if="${bodyErrorMsg != null}" th:text="${bodyErrorMsg}"></div>
 
     <form th:action="@{''}" th:object="${workSpaceForm}" method="post">
-        <div class="mb-10">
+        <div class="mb-10 mt-4">
             <label class="form-label">제목</label>
             <input th:value="${workspaceFrom?.title}" type="text" th:field="*{title}" class="form-control"
                    placeholder="프로젝트 제목을 입력해주세요">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 mt-3">
             <label class="form-label">내용</label>
             <textarea th:field="*{body}" class="form-control" rows="18"
                       placeholder="프로젝트 기반 아이디어, 모집 대상, 예상 개발 일정, 연락방법 등을 포함하여 작성해주세요."
                       th:value="${workspaceFrom?.body}" )></textarea>
         </div>
-        <input type="submit" value="저장하기" class="btn btn-primary my-2">
+        <input type="submit" value="저장하기" class="btn btn-primary my-2" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
     </form>
 </div>
 </html>

@@ -101,14 +101,14 @@ public class ProjectController {
         return "redirect:/project/detail/{projectCid}";
     }
 
-//    @GetMapping("/detail/{projectCid}")
-//    public String detail(Model model, @PathVariable  long projectCid) {
-//        ProjectDto projectDto = projectService.getProjectDto(projectCid);
-//
-//        model.addAttribute("projectEntity", projectDto);
-//        return "project/project_detail";
-//
-//    }
+    @GetMapping("/detail/now/{projectCid}")
+    public String nowDetail(Model model, @PathVariable  long projectCid) {
+        ProjectDto projectDto = projectService.getNowProjectDto(projectCid);
+
+        model.addAttribute("projectEntity", projectDto);
+        return "project/project_detail";
+
+    }
 
     @GetMapping("/detail/{workspaceCid}")
     public String detail(Model model, @PathVariable long workspaceCid) {

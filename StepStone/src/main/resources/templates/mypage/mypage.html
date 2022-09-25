@@ -58,7 +58,7 @@
 
                 <!-- user 이름 -->
                 <div class="col-md-auto">
-                  <div class="badge bg-light text-dark p-2 text-start">
+                  <div class="badge bg-light text-dark p-2 text-start" style="font-size: 14px">
                     <span th:text="${userRole}"></span>
                   </div>
                   <span class="px-1" th:text="${userName}"></span>
@@ -153,6 +153,44 @@
                   </li>
                 </ul>
               </div>
+
+            </div>
+          </div>
+
+
+
+          <!-- 내가 좋아요 누른 게시글 부분 -->
+          <div class="container my-3 p-5">
+            <h4 class="my-4">내가 좋아요 누른 게시글</h4>
+
+            <!-- 게시글 표시 부분 -->
+            <div style="height: 400px; overflow: auto">
+              <table class="table">
+                <thead>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${likedPost}">
+
+                  <div class="card my-3">
+                    <div class="card-header" th:onclick="|location.href='@{|post/detail/${post.postCid}|}'|"
+                         style="cursor:pointer;">
+                      <span class="fw-bold" th:text="${post.title}" style="float: left;"></span>
+                        <span class="badge bg-secondary bg-opacity-10 text-dark float-end" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}" style="float: right"></span>
+                        <span class="float-end">&nbsp;&nbsp;&nbsp;</span>
+                        <span class="badge text-dark float-end" th:text="${post.likes}"></span>
+                        <span class="text-dark float-end"><i class="fa-solid fa-heart" style="color: #d31e37"></i></span>
+                    </div>
+                    <div class="card-body">
+                      <blockquote class="blockquote mb-0">
+                        <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-height: 20px; font-size: 0.7em"
+                             th:text="${post.body}"></div>
+                      </blockquote>
+                    </div>
+                  </div>
+                </tr>
+                </tbody>
+              </table>
 
             </div>
           </div>

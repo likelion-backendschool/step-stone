@@ -9,46 +9,65 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
 
-
     <style>
+        .page-link {
+            color: #000000;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+        }
 
-/* 페이지 연동 링크  css */
+        .page-item.active .page-link {
+            z-index: 1;
+            font-weight: bold;
+            background-color: #3C64B1;
+            color: #ffffff;
+            border-color: #3C64B1
+        }
+
+        .page-link:focus, .page-link:hover {
+            color: #000000;
+            background-color: #fafafa;
+            border-color: #cccccc;
+        }
+
         .post1 {
-            border : 1px solid #ff6666;
+            border: 1px solid #ff6666;
             padding: 5px;
-            border-radius : 40px;
+            border-radius: 40px;
             display: inline-block;
-            font-size : 13px;
-            text-decoration : none;
-            color : black;
+            font-size: 13px;
+            text-decoration: none;
+            color: black;
         }
 
         .post1:hover {
-            background-color : #ff6666;
-            color : white;
+            background-color: #ff6666;
+            color: white;
         }
 
-        .post2{
-            border : 1px solid #39ac73;
+        .post2 {
+            border: 1px solid #39ac73;
             padding: 5px;
-            border-radius : 40px;
+            border-radius: 40px;
             display: inline-block;
-            font-size : 13px;
-            text-decoration : none;
-            color : black;
+            font-size: 13px;
+            text-decoration: none;
+            color: black;
         }
 
-         .post2:hover {
-            background-color : #39ac73;
-            color : white;
+        .post2:hover {
+            background-color: #39ac73;
+            color: white;
         }
-
-
-
     </style>
 </head>
+
+
 <div layout:fragment="content" class="container my-3">
-    <h3 class="my-3 border-bottom pb-2">완성된 프로젝트</h3>
+
+    <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">완성된 프로젝트</h3>
+    <p class="mx-3">완성된 프로젝트를 뽐내주세요 🥳</p>
+
     <div class="d-flex justify-content-end my-2">
         <!--        <a th:href="@{/project/create}" class="btn btn-light">게시글 쓰기 </a>-->
         <!--    </div>-->
@@ -84,23 +103,26 @@
         </div>
     </div>
 
+
     <!--모달 -->
-
-
     <table class="table">
         <thead></thead>
         <tbody>
         <tr th:each="project, loop : ${paging}">
 
             <div class="card my-3">
-                <div class="card-header" th:onclick="|location.href='@{|/project/detail/${project.projectCid}|}'|"
+
+                <div class="card-header" th:onclick="|location.href='@{|/project/detail/now/${project.projectCid}|}'|"
                      style="cursor:pointer;">
+
                     <span th:text="${project.title}"></span>
+
                 </div>
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
+
                         <div style="  width: auto; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; white-space:pre-wrap;
-                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px;"
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em"
                              th:text="${project.body}"></div>
                         <span class="badge bg-light text-dark p-2 " style="float:left"
                               th:text="${project.user.name}"></span>
@@ -127,11 +149,12 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
-                                      <a th:href="@{|/workspace/detail/${project.workspaceCid}|}" class="post2"
-                                         data-bs-toggle="modal"
-                                         data-bs-target="#staticBackdrop3">개발자 모집글 보기</a>
+                            <a th:href="@{|/workspace/detail/${project.workspaceCid}|}" class="post2"
+                               data-bs-toggle="modal"
+                               data-bs-target="#staticBackdrop3">개발자 모집글 보기</a>
                             <!-- Modal -->
                             <div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static"
                                  data-bs-keyboard="false"
