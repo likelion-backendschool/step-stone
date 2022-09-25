@@ -127,6 +127,7 @@ public class PostController {
             model.addAttribute("postSize", postVoList.size());
         }
 
+
         return "post/list";
     }
 

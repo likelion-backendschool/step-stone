@@ -234,7 +234,22 @@
 
             </div>
         </div>
+<!-- 모달 메서드 추가 -->
+        <script>
+            function move(){
+      location.href = "/workspace/list?page=0";
+            }
+        </script>
 
+        <script >
+
+
+            function move2(){
+      location.href = "/workspace/list/1";
+            }
+
+
+        </script>
 
         <!-- post list 부분 -->
         <div class="d-flex justify-content-end my-2">
@@ -265,10 +280,6 @@
                                 <span style="color: grey; font-size: 10pt" th:text="${post.likes}"> </span>
                                 <span style="float:right">
 
-
-<span th:text="${post.postCid}"></span>
-
-
 <!--                         <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" >개발자 모집</a>-->
                                 <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" data-bs-toggle="modal"
                                    data-bs-target="#staticBackdrop" > 개발자 모집</a>
@@ -279,22 +290,17 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-body">
-
-
-                                            <span th:text="${post.postCid}">현재 게시글로 모집중인 개발자 모집글로 이동하시겠습니까?
-                                            </span>
-
+                                            <span >현재 게시글로 모집중인 개발자 모집글로 이동하시겠습니까?</span>
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary"
+                                        <button th:if="${post.postCid == null}" type="button" class="btn btn-primary" th:onclick="move()">
+                                        모집글로 이동 </button>
+                                         <button th:unless="${post.postCid == null}" type="button" class="btn btn-primary" th:onclick="move2()">
+                                        모집글로 이동 </button>
 
-                                                th:text="${post.postCid}"
 
-                                                th:onclick="|location.href='@{|/workspace/list/${post.postCid}|}'|">
-<!--                                              개발자 모집글로 이동-->
-                                        </button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >닫기</button>
                                     </div>
                                 </div>
                             </div>
