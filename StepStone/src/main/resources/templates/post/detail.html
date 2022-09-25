@@ -30,8 +30,9 @@
 <!--            <div style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>-->
             <span class="d-flex justify-content-end my-2">
         <a th:href="@{/chat/room}" class="btn btn-light">문의하기 </a>
-        &nbsp;
-        <a th:href="@{|/workspace/create/${postEntity.postCid}|}" class="btn btn-light">개발자 모집 글 작성하기 </a>
+
+<!--        &nbsp;-->
+<!--        <a th:href="@{|/workspace/create/${postEntity.postCid}|}" class="btn btn-light">개발자 모집 글 작성하기 </a>-->
 
     </span>
         </div>
@@ -52,7 +53,13 @@
     </script>
 
     <span class="d-flex justify-content-end my-2">
-    게시글 공감하기&nbsp;&nbsp;&nbsp;&nbsp;
+<!--    게시글 공감하기&nbsp;&nbsp;&nbsp;&nbsp;-->
+        <a th:href="@{|/workspace/create/${postEntity.postCid}|}" style="text-decoration:none; color:black; font-size:15px;"
+           sec:authorize="isAuthenticated()"
+           th:if="${role == 'ROLE_DEVELOPER'}">
+        개발자 모집 글 작성하기<i class="bi bi-file-earmark-text"></i> </a>
+        &nbsp;&nbsp;
+        <!--좋아요-->
         <a th:href="@{|/post/${postEntity.postCid}/likes|}">
         <img id="heart" src=""/>
         <script>document.getElementById('heart').src=heart_info()</script></a> &nbsp;&nbsp;

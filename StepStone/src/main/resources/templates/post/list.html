@@ -69,7 +69,7 @@
 
 /* 페이지 연동 링크  css */
         .post1 {
-            border : 1px solid red;
+            border : 1px solid #ff6666;
             padding: 5px;
             border-radius : 40px;
             display: inline-block;
@@ -79,20 +79,12 @@
         }
 
         .post1:hover {
-        background-color : red;
-        color : white;
+            background-color : #ff6666;
+            color : white;
         }
-
-        .post2:hover {
-        background-color : green;
-        color : white;
-        }
-
-
-
 
         .post2{
-            border : 1px solid green;
+            border : 1px solid #39ac73;
             padding: 5px;
             border-radius : 40px;
             display: inline-block;
@@ -100,6 +92,14 @@
             text-decoration : none;
             color : black;
         }
+
+         .post2:hover {
+            background-color : #39ac73;
+            color : white;
+        }
+
+
+
     </style>
 </head>
 
@@ -119,79 +119,105 @@
                 <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" th:style="${postSize > 0? 'display:block' : 'display:none'}"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" th:style="${postSize >= 6? 'display:block' : 'display:none'}"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" th:style="${postSize >= 9? 'display:block' : 'display:none'}"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"
+                                th:style="${postSize > 0? 'display:block' : 'display:none'}"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                aria-label="Slide 2"
+                                th:style="${postSize >= 6? 'display:block' : 'display:none'}"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                aria-label="Slide 3"
+                                th:style="${postSize >= 9? 'display:block' : 'display:none'}"></button>
                     </div>
 
                     <div class="carousel-inner">
                         <div class="carousel-item active" th:if="${postSize} > 0">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts1}" id="postcard1">
-                                    <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
-                                    <div class="card-body">
-                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
-                                        <td><p class="card-text"
-                                               style="width: auto; text-overflow: ellipsis;  overflow: hidden;
+                                <tr>
+                                    <div class="card" th:each="post: ${posts1}" id="postcard1">
+                                        <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
+                                        <div class="card-body">
+                                            <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                            <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
+                                            <td><p class="card-text"
+                                                   style="width: auto; text-overflow: ellipsis;  overflow: hidden;
                                                display: -webkit-box; white-space:pre-wrap; -webkit-box-orient: vertical; -webkit-line-clamp: 1;"
-                                               th:text="${post.body}"></p><td>
-                                        <td><p>
-                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
-                                            <span class="card-text" th:text="${post.likes}"></span>
-                                        </p><td>
-                                        <td><div><a class="btn btn-sm btn-light" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a></div><td>
+                                                   th:text="${post.body}"></p>
+                                            <td>
+                                            <td><p>
+                                                <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                                <span class="card-text" th:text="${post.likes}"></span>
+                                            </p>
+                                            <td>
+                                            <td>
+                                                <div><a class="btn btn-sm btn-light"
+                                                        th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a></div>
+                                            <td>
+                                        </div>
                                     </div>
-                                </div><tr>
+                                <tr>
                             </div>
                         </div>
                         <div class="carousel-item" th:if="${postSize} > 5">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts2}" id="postcard2">
-                                    <!-- 4, 5, 6번 게시글 -->
-                                    <div class="card-body">
-                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
-                                        <td><p class="card-text"
-                                               style="width: auto; text-overflow: ellipsis;  overflow: hidden;
+                                <tr>
+                                    <div class="card" th:each="post: ${posts2}" id="postcard2">
+                                        <!-- 4, 5, 6번 게시글 -->
+                                        <div class="card-body">
+                                            <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                            <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
+                                            <td><p class="card-text"
+                                                   style="width: auto; text-overflow: ellipsis;  overflow: hidden;
                                                display: -webkit-box; white-space:pre-wrap; -webkit-box-orient: vertical; -webkit-line-clamp: 1;"
-                                               th:text="${post.body}"></p><td>
-                                        <td><p>
-                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
-                                            <span class="card-text" th:text="${post.likes}"></span>
-                                        </p><td>
-                                        <td><a class="btn btn-sm btn-light" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
+                                                   th:text="${post.body}"></p>
+                                            <td>
+                                            <td><p>
+                                                <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                                <span class="card-text" th:text="${post.likes}"></span>
+                                            </p>
+                                            <td>
+                                            <td><a class="btn btn-sm btn-light"
+                                                   th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a>
+                                            <td>
+                                        </div>
                                     </div>
-                                </div><tr>
+                                <tr>
                             </div>
                         </div>
                         <div class="carousel-item" th:if="${postSize} > 8">
                             <div class="cards-wrapper">
-                                <tr><div class="card" th:each="post: ${posts3}" id="postcard3">
-                                    <!-- 7, 8, 9번 게시글 -->
-                                    <div class="card-body">
-                                        <td><h5 class="card-title" th:text="${post.title}"></h5></td>
-                                        <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
-                                        <td><p class="card-text"
-                                               style="width: auto; text-overflow: ellipsis;  overflow: hidden;
+                                <tr>
+                                    <div class="card" th:each="post: ${posts3}" id="postcard3">
+                                        <!-- 7, 8, 9번 게시글 -->
+                                        <div class="card-body">
+                                            <td><h5 class="card-title" th:text="${post.title}"></h5></td>
+                                            <!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
+                                            <td><p class="card-text"
+                                                   style="width: auto; text-overflow: ellipsis;  overflow: hidden;
                                                display: -webkit-box; white-space:pre-wrap; -webkit-box-orient: vertical; -webkit-line-clamp: 1;"
-                                               th:text="${post.body}"></p><td>
-                                        <td><p>
-                                            <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
-                                            <span class="card-text" th:text="${post.likes}"></span>
-                                        </p><td>
-                                        <td><a class="btn btn-sm btn-light" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
+                                                   th:text="${post.body}"></p>
+                                            <td>
+                                            <td><p>
+                                                <i class="fa-solid fa-heart"></i>&nbsp;&nbsp;
+                                                <span class="card-text" th:text="${post.likes}"></span>
+                                            </p>
+                                            <td>
+                                            <td><a class="btn btn-sm btn-light"
+                                                   th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a>
+                                            <td>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                         </div>
 
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev"
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="prev"
                                 th:style="${postSize > 0? 'display:block' : 'display:none'}">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next"
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="next"
                                 th:style="${postSize > 0? 'display:block' : 'display:none'}">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
@@ -232,16 +258,54 @@
 
                             <!--list페이지 게시글 폭 고르기        -webkit-line-clamp: 3;  line-height: 30px;  height: 90px;"    -->
                             <div>
-                                <span class="badge bg-light text-dark p-2 text-start" style="font-size : 15px" th:text="${post.user.name}"></span>
-                                <span th:if="${post.checked} == true" >  <img src="/heart_fill.svg"/> </span>
-                                <span th:unless="${post.checked} == true" >  <img src="/heart.svg"/></span>
-                                <span  style="color: grey; font-size: 10pt" th:text="${post.likes}"> </span>
+                                <span class="badge bg-light text-dark p-2 " style="font-size : 15px; float:left "
+                                      th:text="${post.user.name}"></span>
+                                <span th:if="${post.checked} == true">  <img src="/heart_fill.svg"/> </span>
+                                <span th:unless="${post.checked} == true">  <img src="/heart.svg"/></span>
+                                <span style="color: grey; font-size: 10pt" th:text="${post.likes}"> </span>
+                                <span style="float:right">
 
-                                <span class="d-flex justify-content-end my-2">
-                                <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" >개발자 모집</a>
-                                &nbsp;
-                                <a th:href="@{|/project/list/${post.postCid}|}" class="post2" >완성된 프로젝트</a>
-                                </span>
+<!--                         <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" >개발자 모집</a>-->
+                                <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" data-bs-toggle="modal"
+                                   data-bs-target="#staticBackdrop">개발자 모집</a>
+                                    <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1"
+                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body">현재 게시글로 모집중인 개발자 모집글로 이동하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                                th:onclick="|location.href='@{|/workspace/list/${post.postCid}|}'|">
+                                            개발자 모집글로 이동
+                                        </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                                <a th:href="@{|/project/list/${post.postCid}|}" class="post2" data-bs-toggle="modal"
+                                   data-bs-target="#staticBackdrop2">완성된 프로젝트</a>
+                                    <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static"
+                                 data-bs-keyboard="false"
+                                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body">현재 게시글 내용으로 완료된 프로젝트 페이지로 이동하시겠습니까? </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary"
+                                                    th:onclick="|location.href='@{|/project/list/${post.postCid}|}'|">완료 게시판으로 이동
+                                            </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                 </div>
+                </span>
                             </div>
                         </blockquote>
                     </div>
@@ -249,6 +313,7 @@
             </tr>
             </tbody>
         </table>
+
 
         <!-- 페이징처리 시작 -->
         <div th:if="${!paging.isEmpty()}">

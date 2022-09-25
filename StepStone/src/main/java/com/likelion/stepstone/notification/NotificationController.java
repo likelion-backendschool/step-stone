@@ -3,7 +3,6 @@ package com.likelion.stepstone.notification;
 import com.likelion.stepstone.chat.event.ChatSendEvent;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chatroom.ChatRoomService;
-import com.likelion.stepstone.chatroom.model.InquireForm;
 import com.likelion.stepstone.chatroom.model.InviteUserForm;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
