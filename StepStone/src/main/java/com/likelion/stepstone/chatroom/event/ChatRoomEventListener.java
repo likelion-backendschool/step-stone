@@ -42,10 +42,11 @@ public class ChatRoomEventListener {
     public void handleChatRoomInviteEvent(ChatRoomInviteEvent chatRoomInviteEvent){
         ChatRoomEntity chatRoomEntity = chatRoomInviteEvent.getChatRoomEntity();
         UserEntity userEntity = chatRoomInviteEvent.getUserEntity();
+        UserEntity publisher = chatRoomInviteEvent.getPublisher();
 
         log.info(userEntity.getName() + "is invited to" + chatRoomEntity.getRoomName());
 
-        NotificationEntity notificationEntity = createInviteNotification(chatRoomEntity, userEntity);
+        NotificationEntity notificationEntity = createInviteNotification(chatRoomEntity, userEntity, publisher);
         notificationRepository.save(notificationEntity);
 
     }
@@ -70,6 +71,7 @@ public class ChatRoomEventListener {
                 .checked(false)
                 .notificationType(NotificationType.CHAT_ROOM_CREATED)
                 .userEntity(userEntity)
+                .publisher(userEntity)
                 .chatRoomEntity(chatRoomEntity)
                 .build();
 
@@ -77,13 +79,14 @@ public class ChatRoomEventListener {
         return notificationEntity;
     }
 
-    private NotificationEntity createInviteNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
+    private NotificationEntity createInviteNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity, UserEntity publisher){
         NotificationEntity notificationEntity = NotificationEntity.builder()
                 .title("채팅방 초대")
                 .message(chatRoomEntity.getRoomName() + " 채팅방으로 초대되었습니다. 채팅방에 참가하시려면 확인 버튼을 눌러주세요.")
                 .checked(false)
                 .notificationType(NotificationType. CHAT_ROOM_INVITE_REQUEST)
                 .userEntity(userEntity)
+                .publisher(publisher)
                 .chatRoomEntity(chatRoomEntity)
                 .build();
 
@@ -98,6 +101,7 @@ public class ChatRoomEventListener {
                 .checked(false)
                 .notificationType(NotificationType.INQUIRE_REQUEST)
                 .userEntity(user)
+                .publisher(developer)
                 .chatRoomEntity(chatRoomEntity)
                 .build();
 
@@ -112,6 +116,7 @@ public class ChatRoomEventListener {
                 .checked(false)
                 .notificationType(NotificationType.INQUIRE_SEND)
                 .userEntity(developer)
+                .publisher(developer)
                 .chatRoomEntity(chatRoomEntity)
                 .build();
 

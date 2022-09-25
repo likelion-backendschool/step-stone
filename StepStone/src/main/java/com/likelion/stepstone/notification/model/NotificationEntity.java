@@ -37,6 +37,9 @@ public class NotificationEntity {
     private UserEntity userEntity;
 
     @ManyToOne
+    private UserEntity publisher;
+
+    @ManyToOne
     private ChatRoomEntity chatRoomEntity;
 
     @Column(name="created_at")
@@ -48,13 +51,14 @@ public class NotificationEntity {
     private NotificationType notificationType;
 
 
-    public static NotificationEntity toEntity(NotificationDto dto, UserEntity userEntity, ChatRoomEntity chatRoomEntity){
+    public static NotificationEntity toEntity(NotificationDto dto, UserEntity userEntity, UserEntity publisher, ChatRoomEntity chatRoomEntity){
         NotificationEntity entity = NotificationEntity.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .message(dto.getMessage())
                 .checked(dto.isChecked())
                 .userEntity(userEntity)
+                .publisher(publisher)
                 .chatRoomEntity(chatRoomEntity)
                 .createdAt(dto.getCreatedAt())
                 .notificationType(NotificationType.valueOf(dto.getNotificationType()))

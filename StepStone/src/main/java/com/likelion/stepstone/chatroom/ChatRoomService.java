@@ -55,16 +55,18 @@ public class ChatRoomService {
         return ChatRoomVo.toVo(ChatRoomDto.toDto(chatRoomEntity));
     }
 
-    public void invite(String roomId, String userId){
+    public void invite(String roomId, String userId, String publisherId){
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Invalid room Id"));
         UserEntity userEntity = findByUserId(userId);
+        UserEntity publisher = findByUserId(publisherId);
 
-        inviteEventPublish(chatRoomEntity, userEntity);
+        inviteEventPublish(chatRoomEntity, userEntity, publisher);
     }
 
     public void exit(String userId, String chatRoomId) {
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(chatRoomId).orElseThrow(() -> new DataNotFoundException("Invalid room Id"));
         UserEntity userEntity = findByUserId(userId);
+        chatRoomEntity.setUserCount(chatRoomEntity.getUserCount()-1);
 
         ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).get();
         chatRoomJoinRepository.deleteById(chatRoomUserJoinEntity.getId());
@@ -128,8 +130,8 @@ public class ChatRoomService {
         eventPublisher.publishEvent(new ChatRoomCreatedEvent(chatRoomEntity, userEntity));
     }
 
-    private void inviteEventPublish( ChatRoomEntity chatRoomEntity, UserEntity userEntity ){
-        eventPublisher.publishEvent(new ChatRoomInviteEvent(chatRoomEntity, userEntity));
+    private void inviteEventPublish( ChatRoomEntity chatRoomEntity, UserEntity userEntity, UserEntity publisher ){
+        eventPublisher.publishEvent(new ChatRoomInviteEvent(chatRoomEntity, userEntity, publisher));
     }
 
     public void inquireEventPublish(UserEntity developer, UserEntity user, ChatRoomEntity chatRoomEntity){
