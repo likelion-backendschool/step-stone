@@ -78,19 +78,75 @@
                                         <div style="font-size : 14px" th:text="${notification.message}">
                                             Lorem ipsum dolor text....
                                         </div>
-                                        <div class="my-3" th:if="${notification.notificationType =='CHAT_ROOM_INVITE_REQUEST'}">
+                                        <div class="my-3"
+                                             th:if="${notification.notificationType =='CHAT_ROOM_INVITE_REQUEST'}">
                                             <div class="btn-group-sm text-center">
-                                                <form th:action="@{/chat/room/invite/(chatRoomId=${notification.chatRoomId},notificationId=${notification.id})}" th:method="post">
-                                                    <button type="submit" id="invite_confirm_btn" class="btn btn-primary btn-sm">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                                            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-                                                        </svg>
-                                                    </button>
-                                                    <button th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'" id="invite_reject_btn" type="button" class="btn btn-danger btn-sm" >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                                        </svg>
-                                                    </button>
+
+                                                <button type="submit" id="invite_confirm_btn"
+                                                        class="btn btn-primary btn-sm">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-check"
+                                                         viewBox="0 0 16 16">
+                                                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                                                    </svg>
+                                                </button>
+                                                <button th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'"
+                                                        id="invite_reject_btn" type="button"
+                                                        class="btn btn-danger btn-sm">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                    </svg>
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                        <div class="my-3" th:if="${notification.notificationType =='INQUIRE_REQUEST'}">
+                                            <div class="btn-group-sm text-center">
+                                                <form th:action="@{/chat/room/inquire/(chatRoomId=${notification.chatRoomId},notificationId=${notification.id})}"
+                                                      th:method="post">
+                                                    <p>
+                                                        <a id="require_chat_room_name_btn"
+                                                           class="btn btn-primary btn-sm"
+                                                           data-bs-toggle="collapse" href="#collapseExample"
+                                                           role="button" aria-expanded="false"
+                                                           aria-controls="collapseExample">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                 height="16" fill="currentColor" class="bi bi-check"
+                                                                 viewBox="0 0 16 16">
+                                                                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                                                            </svg>
+                                                        </a>
+                                                        <button th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'"
+                                                                id="inquire_reject_btn" type="button"
+                                                                class="btn btn-danger btn-sm">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                 height="16" fill="currentColor" class="bi bi-x"
+                                                                 viewBox="0 0 16 16">
+                                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                            </svg>
+                                                        </button>
+                                                    </p>
+                                                    <form th:action="@{/chat/room/invite/(chatRoomId=${notification.chatRoomId},notificationId=${notification.id})}"
+                                                          th:method="post">
+                                                        <div class="collapse input-group mb-0" id="collapseExample">
+                                                            <input id="msg" type="text" class="form-control h-25"  placeholder="채팅방 이름을 입력해 주세요.">
+                                                            <div id="sendMessage" class="input-group-prepend ">
+                                                                <button type="submit" id="inquire_confirm_btn"
+                                                                        class="btn btn-primary btn-sm input-group-text" >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                         height="16"
+                                                                         fill="currentColor" class="bi bi-check"
+                                                                         viewBox="0 0 16 16">
+                                                                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                                                                    </svg>
+                                                                </button>
+<!--                                                                <span class="input-group-text"><i class="fa fa-send"></i></span>-->
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+
                                                 </form>
 
                                             </div>
@@ -189,22 +245,24 @@
 
     </script>
     <style>
-        #invite_reject_btn {
+        #invite_reject_btn, #inquire_reject_btn {
             background-color: #f8d7da;
             border-color: #f8d7da;
         }
 
-        #invite_reject_btn:hover, #invite_reject_btn:active, #invite_reject_btn:visited{
+        #invite_reject_btn:hover, #invite_reject_btn:active, #invite_reject_btn:visited, #inquire_reject_btn:hover, #inquire_reject_btn:active, #inquire_reject_btn:visited {
             background-color: #f1aeb5;
             border-color: #f1aeb5;
         }
 
-        #invite_confirm_btn {
+        #invite_confirm_btn, #inquire_confirm_btn, #require_chat_room_name_btn {
             background-color: #cfe2ff;
             border-color: #cfe2ff;
         }
 
-        #invite_confirm_btn:hover, #invite_confirm_btn:active, #invite_confirm_btn:visited{
+        #invite_confirm_btn:hover, #invite_confirm_btn:active, #invite_confirm_btn:visited,
+        #inquire_confirm_btn:hover, #inquire_confirm_btn:active, #inquire_confirm_btn:visited,
+        #require_chat_room_name_btn:hover, #require_chat_room_name_btn:active, #require_chat_room_name_btn:visited,{
             background-color: #9ec5fe;
             border-color: #9ec5fe;
         }
