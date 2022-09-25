@@ -13,26 +13,6 @@
 </head>
 
 
-<script>
- function notification(postCid){
-    let f = document.createElement('form');
-
-    let obj;
-    obj = document.createElement('input');
-    obj.setAttribute('type','hidden');
-    obj.setAttribute('name','postCid');
-    obj.setAttribute('value',postCid);
-
-    f.appendChild(obj);
-    f.setAttribute('method','post');
-    f.setAttribute('action','/notification/inquiry/publish');
-    document.body.appendChild(f);
-    f.submit();
-    }
-
-</script>
-
-
 
 <div layout:fragment="content" class="container my-3">
 
@@ -51,16 +31,10 @@
             <div style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(postEntity.body)}" rows="35"></div>
 <!--            <div style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>-->
             <span class="d-flex justify-content-end my-2">
-<!--             <a th:href="@{|/notification/inquiry/publish?postCid=${postEntity.postCid}|}" class="btn btn-light" >문의하기 </a>-->
-<!--                <span href="javascript:notification('${postEntity.postCid}')"  class="btn btn-light" >문의하기</span>-->
-<!--                 <a th:href="javascript:notification(3)"  class="btn btn-light" >문의하기</a>-->
-<!--                 <a style="cursor:pointer" onclick="notification(3)" class="btn btn-light" >문의하기</a>-->
-<!--                <a href='#' onclick='notification(3);' class="btn btn-light" >문의하기</a>-->
-<!--                <button type="button" th:onclick="'javascript:notification(3);'">문의하기</button>-->
-<!--                <a href=javascript:; th:onclick="notification(3);" class="btn btn-light" >문의하기</a>-->
 
-<!--                <a href='#' th:onclick="notification(3); return false;" class="btn btn-light" >문의하기</a>-->
-                <a href='javascript:void(0);' onclick='notification(3); return false'  class="btn btn-light" >문의하기</a>
+            <form th:action="@{|/notification/inquiry/publish?postCid=${postEntity.postCid}|}" method="POST">
+                <input type="submit" value="문의하기" class="btn btn-light">
+            </form>
 
 <!--        <a th:href="@{|/workspace/create/${postEntity.postCid}|}" class="btn btn-light">개발자 모집 글 작성하기 </a>-->
 
