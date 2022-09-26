@@ -29,9 +29,10 @@ public class ProjectController {
     public String create(ProjectForm projectForm, @PathVariable long id, Model model) {
 
         ProjectDto projectDto = projectService.getProjectDto(id);   //id = workspaceCid
-        Long projectCid = projectDto.getProjectCid();
 
         if(projectDto != null){
+
+            Long projectCid = projectDto.getProjectCid();
             model.addAttribute("msg","이미 완료글을 작성하였습니다. 게시글 수정을 이용해주세요.");
             model.addAttribute("projectCid", projectCid);
             return "project/alert2";

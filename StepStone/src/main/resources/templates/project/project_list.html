@@ -1,7 +1,4 @@
-<html
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:th="http://thymeleaf.org"
-        layout:decorate="~{layout}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org" layout:decorate="~{layout}">
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
@@ -24,7 +21,8 @@
             border-color: #3C64B1
         }
 
-        .page-link:focus, .page-link:hover {
+        .page-link:focus,
+        .page-link:hover {
             color: #000000;
             background-color: #fafafa;
             border-color: #cccccc;
@@ -65,22 +63,36 @@
 
 <div layout:fragment="content" class="container my-3">
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function SetParamModal(modal_id) {
+            $('#modal_id').val(modal_id);
+        }
+
+        function work() {
+            id = $('#modal_id').val();
+            location.href = "/post/detail/" + id;
+        }
+
+        function project() {
+            id = $('#modal_id').val();
+            location.href = "/workspace/detail/" + id;
+        }
+
+        /*]]>*/
+    </script>
+
     <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">완성된 프로젝트</h3>
     <p class="mx-3">완성된 프로젝트를 뽐내주세요 🥳</p>
 
     <div class="d-flex justify-content-end my-2">
-        <!--        <a th:href="@{/project/create}" class="btn btn-light">게시글 쓰기 </a>-->
-        <!--    </div>-->
-
-
         <!--모달-->
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">게시글 쓰기
         </button>
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <!--            <div class="modal-dialog">-->
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -90,11 +102,10 @@
                     </div>
                     <div class="modal-body">
                         *개발자로 가입하신 경우에만 글 작성이 가능합니다.*<br>
-                        <img src="/zzzz.gif"/>
+                        <img src="/zzzz.gif" />
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary"
-                                onclick="location.href='/workspace/list?page=0'">워크스페이스 목록 가기
+                        <button type="button" class="btn btn-primary" onclick="location.href='/workspace/list?page=0'">워크스페이스 목록 가기
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
@@ -112,8 +123,7 @@
 
             <div class="card my-3">
 
-                <div class="card-header" th:onclick="|location.href='@{|/project/detail/now/${project.projectCid}|}'|"
-                     style="cursor:pointer;">
+                <div class="card-header" th:onclick="|location.href='@{|/project/detail/now/${project.projectCid}|}'|" style="cursor:pointer;">
 
                     <span th:text="${project.title}"></span>
 
@@ -122,57 +132,54 @@
                     <blockquote class="blockquote mb-0">
 
                         <div style="  width: auto; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; white-space:pre-wrap;
-                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em"
-                             th:text="${project.body}"></div>
-                        <span class="badge bg-light text-dark p-2 " style="float:left"
-                              th:text="${project.user.name}"></span>
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em" th:text="${project.body}"></div>
+                        <span class="badge bg-light text-dark p-2 " style="float:left" th:text="${project.user.name}"></span>
                         <!--이동 버튼-->
 
                         <span style="float:right">
-                            <a th:href="@{|/post/detail/${project.postCid}|}" class="post1" data-bs-toggle="modal"
-                               data-bs-target="#staticBackdrop2">요청글 본문 보기</a>
+
+                                <input type="hidden" name="modal_id" id="modal_id">
+                                <button type="button" class="post1" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop5" data-target="#Delete_Modal" th:onclick="SetParamModal([[${project.postCid}]]);">
+                                    요청글 본문 보기</button>
 
                             <!-- Modal -->
-                            <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static"
-                                 data-bs-keyboard="false" tabindex="-1"
-                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-body"> 요청글 본문으로 이동하시겠습니까?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary"
-                                                th:onclick="|location.href='@{|/post/detail/${project.postCid}|}'|">
-                                            요청글 본문으로 이동
-                                        </button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                <div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span> 요청글 본문으로 이동하시겠습니까?</span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" href="#" onclick="work()">
+                                                    본문 이동 </button>
+
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </div>
+                                <input type="hidden" name="modal_id" id="modal_id">
+                                <button type="button" class="post2" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" data-target="#Delete_Modal" th:onclick="SetParamModal([[${project.workspaceCid}]]);">
+                                    개발자 모집글 보기</button>
 
-                            <a th:href="@{|/workspace/detail/${project.workspaceCid}|}" class="post2"
-                               data-bs-toggle="modal"
-                               data-bs-target="#staticBackdrop3">개발자 모집글 보기</a>
                             <!-- Modal -->
-                            <div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static"
-                                 data-bs-keyboard="false"
-                                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-body">현재 게시글 내용으로 완료된 프로젝트 페이지로 이동하시겠습니까? </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary"
-                                                    th:onclick="|location.href='@{|/workspace/detail/${project.workspaceCid}|}'|">개발자 모집글로 이동
-                                            </button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                                </div>
-                            </div>
-                        </div>
-                 </div>
-                </span>
+                                <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span>개발자 모집글 보기로 이동하시겠습니까? </span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" href="#" onclick="project()">
+                                                    모집글이동 </button>
 
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
                     </blockquote>
                 </div>
             </div>
@@ -184,8 +191,7 @@
     <div th:if="${!paging.isEmpty()}">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{|?page=${paging.number-1}|}">
+                <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
                     <!--  <span>이전</span>  -->
                     <span aria-hidden="true">&laquo;</span>
                 </a>
@@ -207,4 +213,3 @@
     <!-- 페이징처리 끝 -->
 </div>
 </html>
-
