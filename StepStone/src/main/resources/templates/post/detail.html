@@ -31,7 +31,6 @@
             <div style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(postEntity.body)}" rows="35"></div>
 <!--            <div style="white-space:pre-wrap;" class="card-text" th:text="${postEntity.body}" rows="35"></div>-->
             <span class="d-flex justify-content-end my-2">
-
             <form th:action="@{|/notification/inquiry/publish?postCid=${postEntity.postCid}|}" method="POST">
                 <input type="submit" value="문의하기" class="btn btn-light">
             </form>

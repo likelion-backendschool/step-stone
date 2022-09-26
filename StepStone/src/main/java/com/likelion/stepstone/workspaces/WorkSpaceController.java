@@ -64,6 +64,7 @@ public class WorkSpaceController {
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(defaultValue = "0") int page) {
+
         Page<WorkSpaceEntity> paging = workSpaceService.getList(page);
         model.addAttribute("paging", paging);
         return "workspace/workspace_list";

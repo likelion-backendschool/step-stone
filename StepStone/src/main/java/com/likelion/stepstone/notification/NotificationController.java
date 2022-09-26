@@ -95,7 +95,6 @@ public class NotificationController {
     }
 
     @PostMapping("/inquiry/publish")
-    @ResponseBody
     public String inquiryPublish(Principal principal ,@RequestParam Long postCid){
         chatRoomService.inquire(principal.getName(), postService.findByPostCid(postCid));
 

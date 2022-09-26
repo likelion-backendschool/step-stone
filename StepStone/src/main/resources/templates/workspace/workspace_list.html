@@ -61,6 +61,18 @@
     </style>
 </head>
 
+<script>
+      function move(){
+        location.href = "/post/detail"+postCid;
+        }
+</script>
+
+<script >
+      function move2(){
+        location.href = "/project/detail"+workspaceCid;
+        }
+</script>
+
 
 <div layout:fragment="content" class="container my-3">
     <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">개발자 모집</h3>
@@ -113,20 +125,6 @@
                     <span th:text="${workspace.title}"></span>
                 </div>
 
-                <!--                <div class="card-body">-->
-                <!--                    <blockquote class="blockquote mb-0">-->
-                <!--                        <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;-->
-                <!--                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em"-->
-                <!--                             th:text="${workspace.body}"></div>-->
-
-                <!--                        <span class="badge bg-light text-dark p-2 text-start mt-3"-->
-                <!--                             th:text="${workspace.user.name}"></span>-->
-                <!--                        <span class="d-flex justify-content-end my-2">-->
-                <!--                                <a th:href="@{|/project/detail/${workspace.workspaceCid}|}" class="post2 ">배포된 프로젝트</a>-->
-                <!--                        </span>-->
-                <!--                    </blockquote>-->
-                <!--                </div>-->
-
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
                         <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
@@ -152,6 +150,13 @@
                                                 th:onclick="|location.href='@{|/post/detail/${workspace.postCid}|}'|">
                                             요청글 본문으로 이동
                                         </button>
+
+                                        <!------------------------------  위 코드 변경 ---------------------------------->
+<!--                                         <button th:unless="${post.postCid == null}" type="button" class="btn btn-primary" th:onclick="move()">-->
+<!--                                         이동 </button>-->
+                                        <!---->
+
+
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                                     </div>
                                 </div>
@@ -174,6 +179,12 @@
                                                 th:onclick="|location.href='@{|/project/detail/${workspace.workspaceCid}|}'|">
                                            이동
                                         </button>
+
+                                        <!------------------------------  위 코드 변경 ---------------------------------->
+<!--                                         <button th:unless="${post.postCid == null}" type="button" class="btn btn-primary" th:onclick="move2()">-->
+<!--                                         이동 </button>-->
+                                        <!---->
+
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                                     </div>
                                 </div>
