@@ -25,6 +25,7 @@ import org.thymeleaf.TemplateEngine;
 @RequiredArgsConstructor
 public class ChatRoomEventListener {
     private final NotificationRepository notificationRepository;
+    private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
 
     @EventListener // @EventListener 애너테이션을 이용해 이벤트 리스너를 명시합니다.
@@ -56,6 +57,11 @@ public class ChatRoomEventListener {
         UserEntity user = chatRoomInquireEvent.getUser();
         UserEntity developer = chatRoomInquireEvent.getDeveloper();
         ChatRoomEntity chatRoomEntity = chatRoomInquireEvent.getChatRoomEntity();
+
+        if(!chatRoomRepository.existsByChatRoomId(chatRoomEntity.getChatRoomId()))
+            chatRoomEntity = chatRoomRepository.save(chatRoomEntity);
+
+        chatRoomEntity = chatRoomRepository.findByChatRoomId(chatRoomEntity.getChatRoomId()).get();
 
         NotificationEntity notificationUserEntity = createInquireUserNotification(developer, user, chatRoomEntity);
         NotificationEntity notificationDeveloperEntity = createInquireDeveloperNotification(developer, user, chatRoomEntity);
