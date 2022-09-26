@@ -212,14 +212,17 @@
                 id: id,
                 isEmpty : false,
             };
-
-            if($("#dropdown-menu :not(:contains(li))")){
+            var num = $("#dropdown-menu").find("li").length;
+            console.log(num);
+            if (num <= 1) {
                 console.log("ul empty");
                 notiBean = {
                     id: id,
                     isEmpty : true,
                 };
             }
+
+
             $.ajax({
                 url: "/notification/mark",
                 type: "POST",
