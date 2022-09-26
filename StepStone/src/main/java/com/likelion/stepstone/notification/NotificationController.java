@@ -95,11 +95,10 @@ public class NotificationController {
     }
 
     @PostMapping("/inquiry/publish")
-    @ResponseBody
-    public String inquiryPublish(Principal principal ,@RequestParam Long postCid){
+    public String inquiryPublish(Principal principal,Model model, @RequestParam Long postCid){
         chatRoomService.inquire(principal.getName(), postService.findByPostCid(postCid));
 
-        return "navbar :: #notifications";
+        return "redirect:/post/detail/" + postCid;
     }
 
 
