@@ -68,19 +68,25 @@ public class MypageController {
 
         if (userRole.equals("ROLE_DEVELOPER")) {    // 개발자
             Page<WorkSpaceEntity> paging = workSpaceService.getMyWorkPostList(page, userCid);
+            int pageSize = paging.getSize();
             model.addAttribute("paging", paging);
+            model.addAttribute("pageSize", pageSize);
             model.addAttribute("userRole", "개발자");
 
             /*
-            Todo : 개발자로 로그인 시, 완성된 프로젝트 글 목록도 마이페이지에 띄우기
+            개발자로 로그인 시, 완성된 프로젝트 글 목록도 마이페이지에 띄우기
              */
-//            Page<ProjectEntity> paging = projectService.getListWithId(); // 1. 페이징 가능 ??
-//            List<ProjectEntity> projectEntities = projectService.getProjectPosts(); // 2. 좋아요 누른 게시글처럼 스크롤로 구현하기
+            List<ProjectEntity> projectEntities = projectService.getProjectPosts(userCid); // 2. 좋아요 누른 게시글처럼 스크롤로 구현하기
+            int projectSize = projectEntities.size();
+            model.addAttribute("myProject", projectEntities);
+            model.addAttribute("myProjectSize", projectSize);
         }
 
         if (userRole.equals("ROLE_USER")) {     // 일반 유저
             Page<PostEntity> paging = postService.getMyPostList(page, userCid);
+            int pageSize = paging.getContent().size();
             model.addAttribute("paging", paging);
+            model.addAttribute("pageSize", pageSize);
             model.addAttribute("userRole", "일반유저");
         }
 
@@ -94,7 +100,10 @@ public class MypageController {
         List<LikeEntity> likeEntities = likeService.getLikeEntity(userDto);     // 해당 user의 like 관련 데이터 얻기
         List<PostEntity> likePostEntities = likeService.getLikedPost(likeEntities);     // like 누른 post들 찾기
 
+        int likePostSize = likePostEntities.size();
+
         model.addAttribute("likedPost", likePostEntities);
+        model.addAttribute("likedPostSize", likePostSize);
 
         return "mypage/mypage";
     }

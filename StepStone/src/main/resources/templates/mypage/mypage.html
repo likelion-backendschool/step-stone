@@ -32,158 +32,168 @@
 
 <div layout:fragment="content">
 
-    <div class="container my-5 h-100">
+  <div class="container my-5 h-100">
 
-      <div class="card shadow-lg">
-        <div class="card-body">
+    <div class="card shadow-lg">
+      <div class="card-body">
 
-          <!-- My Page 제목 + 구분선 -->
-          <div class="container">
-            <h1 class="m-4">My Page</h1>
-            <hr class="my-2">
+        <!-- My Page 제목 + 구분선 -->
+        <div class="container">
+          <h1 class="m-4">My Page</h1>
+          <hr class="my-2">
+        </div>
+
+
+        <!-- 사용자 정보 부분 -->
+        <div class="container my-4 p-5">
+          <h4 class="my-4">사용자 정보</h4>
+          <div class="container d-flex align-items-start">
+
+            <div class="row justify-content-md-start align-items-center">
+
+              <!-- user 아이콘 -->
+              <div class="col-md-auto">
+                <i class="fa-solid fa-circle-user fa-3x"></i>
+              </div>
+
+              <!-- user 이름 -->
+              <div class="col-md-auto">
+                <div class="badge bg-light text-dark p-2 text-start" style="font-size: 14px">
+                  <span th:text="${userRole}"></span>
+                </div>
+                <span class="px-1" th:text="${userName}"></span>
+              </div>
+
+
+              <!-- user 비밀번호 변경 버튼 -->
+              <div class="col-md-auto">
+                <a type="button" class="btn btn-primary" th:href="@{/mypage/update}" th:if="${#bools.isFalse(oauthlogin)}"
+                   style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
+                  비밀번호 변경
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- My 게시글 부분 -->
+        <div class="container my-3 p-5">
+          <h4 class="my-4">MY 게시글 관리</h4>
+
+          <!-- My 게시글 없으면 띄움 -->
+          <div th:if="${pageSize} == 0">
+            <div style="text-align: start">
+              <span class="h6">My 게시글이 없습니다.</span>
+            </div>
           </div>
 
-
-          <!-- 사용자 정보 부분 -->
-          <div class="container my-4 p-5">
-            <h4 class="my-4">사용자 정보</h4>
-            <div class="container d-flex align-items-start">
-
-              <div class="row justify-content-md-start align-items-center">
-
-                <!-- user 아이콘 -->
-                <div class="col-md-auto">
-                  <i class="fa-solid fa-circle-user fa-3x"></i>
-                </div>
-
-                <!-- user 이름 -->
-                <div class="col-md-auto">
-                  <div class="badge bg-light text-dark p-2 text-start" style="font-size: 14px">
-                    <span th:text="${userRole}"></span>
+          <!-- My 게시글 표시 부분 -->
+          <div>
+            <table class="table">
+              <thead>
+              </thead>
+              <tbody>
+              <tr th:each="post : ${paging}">
+                <!-- 일반 유저일 때 -->
+                <div class="card my-3" th:if="${userRole} == '일반유저'">
+                  <div class="card-header" th:onclick="|location.href='@{|post/detail/${post.postCid}|}'|"
+                       style="cursor:pointer;">
+                    <span th:text="${post.title}"></span>
                   </div>
-                  <span class="px-1" th:text="${userName}"></span>
+                  <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                      <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-height: 30px;  height: 90px; font-size: 0.8em"
+                           th:text="${post.body}"></div>
+                      <div class="badge bg-light text-dark p-2 text-start">
+                        <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+                      </div>
+                    </blockquote>
+                  </div>
                 </div>
+                <!-- 개발자일 때 -->
+                <div class="card my-3" th:if="${userRole} == '개발자'">
+                  <div class="card-header" th:onclick="|location.href='@{|workspace/detail/${post.workspaceCid}|}'|"
+                       style="cursor:pointer;">
+                    <span th:text="${post.title}"></span>
+                  </div>
+                  <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                      <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-height: 30px;  height: 90px; font-size: 0.8em"
+                           th:text="${post.body}"></div>
+                      <div class="badge bg-light text-dark p-2 text-start">
+                        <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+                      </div>
+                    </blockquote>
+                  </div>
+                </div>
+              </tr>
+              </tbody>
+            </table>
 
-
-                <!-- user 비밀번호 변경 버튼 -->
-                <div class="col-md-auto">
-                  <a type="button" class="btn btn-primary" th:href="@{/mypage/update}" th:if="${#bools.isFalse(oauthlogin)}"
-                     style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
-                    비밀번호 변경
+            <!-- 페이징처리 -->
+            <div th:if="${!paging.isEmpty()}">
+              <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                  <a class="page-link"
+                     th:href="@{|?page=${paging.number-1}|}">
+                    <!--  <span>이전</span>  -->
+                    <span aria-hidden="true">&laquo;</span>
                   </a>
-                </div>
+                </li>
 
-              </div>
+                <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                    th:classappend="${page == paging.number} ? 'active'"
+                    th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                    class="page-item">
+                  <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                  <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
 
+        </div>
 
-          <!-- My 게시글 부분 -->
+
+        <div th:if="${userRole} == '개발자'">
+          <!-- 완성된 프로젝트 게시글 부분 -->
           <div class="container my-3 p-5">
-            <h4 class="my-4">MY 게시글 관리</h4>
+            <h4 class="my-4">My 완성된 프로젝트 모음</h4>
 
-            <!-- 게시글 표시 부분 -->
-            <div>
+            <!-- 완성된 프로젝트 게시글 없으면 띄움 -->
+            <div th:if="${myProjectSize} == 0">
+              <div style="text-align: start">
+                <span class="h6">My 완성된 프로젝트 글이 없습니다.</span>
+              </div>
+            </div>
+
+            <!-- 완성된 프로젝트 게시글 표시 부분 -->
+            <div th:style="${myProjectSize > 2? 'height: 300px; overflow: auto;' : 'height: auto;'}">
               <table class="table">
                 <thead>
                 </thead>
                 <tbody>
-                <tr th:each="post : ${paging}">
-                  <!-- 일반 유저일 때 -->
-                  <div class="card my-3" th:if="${userRole} == '일반유저'">
-                    <div class="card-header" th:onclick="|location.href='@{|post/detail/${post.postCid}|}'|"
-                         style="cursor:pointer;">
-                      <span th:text="${post.title}"></span>
-                    </div>
-                    <div class="card-body">
-                      <blockquote class="blockquote mb-0">
-                        <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
-                                     -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-height: 30px;  height: 90px; font-size: 0.8em"
-                                th:text="${post.body}"></div>
-                        <div class="badge bg-light text-dark p-2 text-start">
-                          <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
-                        </div>
-                      </blockquote>
-                    </div>
-                  </div>
-                  <!-- 개발자일 때 -->
-                  <div class="card my-3" th:if="${userRole} == '개발자'">
-                    <div class="card-header" th:onclick="|location.href='@{|workspace/detail/${post.workspaceCid}|}'|"
-                         style="cursor:pointer;">
-                        <span th:text="${post.title}"></span>
-                      </div>
-                      <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                          <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
-                                     -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-height: 30px;  height: 90px; font-size: 0.8em"
-                                  th:text="${post.body}"></div>
-                            <div class="badge bg-light text-dark p-2 text-start">
-                              <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
-                            </div>
-                        </blockquote>
-                      </div>
-                    </div>
-                </tr>
-                </tbody>
-              </table>
-
-              <!-- 페이징처리 -->
-              <div th:if="${!paging.isEmpty()}">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{|?page=${paging.number-1}|}">
-                      <!--  <span>이전</span>  -->
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-
-                  <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                      th:classappend="${page == paging.number} ? 'active'"
-                      th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                      class="page-item">
-                    <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
-                  </li>
-
-                  <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                    <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-                      <!--  <span>다음</span>  -->
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-            </div>
-          </div>
-
-
-
-          <!-- 내가 좋아요 누른 게시글 부분 -->
-          <div class="container my-3 p-5">
-            <h4 class="my-4">내가 좋아요 누른 게시글</h4>
-
-            <!-- 게시글 표시 부분 -->
-            <div style="height: 400px; overflow: auto">
-              <table class="table">
-                <thead>
-                </thead>
-                <tbody>
-                <tr th:each="post : ${likedPost}">
+                <tr th:each="post : ${myProject}">
 
                   <div class="card my-3">
-                    <div class="card-header" th:onclick="|location.href='@{|post/detail/${post.postCid}|}'|"
+                    <div class="card-header" th:onclick="|location.href='@{|project/detail/now/${post.projectCid}|}'|"
                          style="cursor:pointer;">
                       <span class="fw-bold" th:text="${post.title}" style="float: left;"></span>
-                        <span class="badge bg-secondary bg-opacity-10 text-dark float-end" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}" style="float: right"></span>
-                        <span class="float-end">&nbsp;&nbsp;&nbsp;</span>
-                        <span class="badge text-dark float-end" th:text="${post.likes}"></span>
-                        <span class="text-dark float-end"><i class="fa-solid fa-heart" style="color: #d31e37"></i></span>
+                      <span class="badge bg-secondary bg-opacity-10 text-dark float-end" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}" style="float: right"></span>
                     </div>
                     <div class="card-body">
                       <blockquote class="blockquote mb-0">
                         <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
-                                     -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-height: 20px; font-size: 0.7em"
+                                       -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-height: 20px; font-size: 0.7em"
                              th:text="${post.body}"></div>
                       </blockquote>
                     </div>
@@ -195,34 +205,82 @@
             </div>
           </div>
 
+        </div>
 
-          <!-- My 채팅방 부분 -->
-          <div class="container my-1 p-5">
-            <h4 class="my-4">MY 채팅방 이동</h4>
-            <div class="container d-flex align-items-start">
 
-              <div class="row justify-content-md-start align-items-center">
 
-                <!-- 채팅방 아이콘 -->
-                <div class="col-md-auto px-4">
-                  <i class="fa-solid fa-comments fa-2x"></i>
-                </div>
+        <!-- 내가 좋아요 누른 게시글 부분 -->
+        <div class="container my-3 p-5">
+          <h4 class="my-4">내가 좋아요 누른 게시글</h4>
 
-                <!-- 채팅방 바로가기 버튼 -->
-                <div class="col-md-auto">
-                  <a type="button" class="btn btn-primary" th:href="@{|/chat/room|}" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
-                    채팅방 바로가기
-                  </a>
-                </div>
-
-              </div>
+          <!-- 내가 좋아요 누른 게시글 없으면 띄움 -->
+          <div th:if="${likedPostSize} == 0">
+            <div style="text-align: start">
+              <span class="h6">내가 좋아요 누른 게시글이 없습니다.</span>
             </div>
+          </div>
+
+          <!-- 내가 좋아요 누른 게시글 표시 부분 -->
+          <div th:style="${likedPostSize > 2? 'height: 300px; overflow: auto;' : 'height: auto;'}">
+            <table class="table">
+              <thead>
+              </thead>
+              <tbody>
+              <tr th:each="post : ${likedPost}">
+
+                <div class="card my-3">
+                  <div class="card-header" th:onclick="|location.href='@{|post/detail/${post.postCid}|}'|"
+                       style="cursor:pointer;">
+                    <span class="fw-bold" th:text="${post.title}" style="float: left;"></span>
+                    <span class="badge bg-secondary bg-opacity-10 text-dark float-end" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}" style="float: right"></span>
+                    <span class="float-end">&nbsp;&nbsp;&nbsp;</span>
+                    <span class="badge text-dark float-end" th:text="${post.likes}"></span>
+                    <span class="text-dark float-end"><i class="fa-solid fa-heart" style="color: #d31e37"></i></span>
+                  </div>
+                  <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                      <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-height: 20px; font-size: 0.7em"
+                           th:text="${post.body}"></div>
+                    </blockquote>
+                  </div>
+                </div>
+              </tr>
+              </tbody>
+            </table>
 
           </div>
 
         </div>
 
+
+        <!-- My 채팅방 부분 -->
+        <div class="container my-1 p-5">
+          <h4 class="my-4">MY 채팅방 이동</h4>
+          <div class="container d-flex align-items-start">
+
+            <div class="row justify-content-md-start align-items-center">
+
+              <!-- 채팅방 아이콘 -->
+              <div class="col-md-auto px-4">
+                <i class="fa-solid fa-comments fa-2x"></i>
+              </div>
+
+              <!-- 채팅방 바로가기 버튼 -->
+              <div class="col-md-auto">
+                <a type="button" class="btn btn-primary" th:href="@{|/chat/room|}" style="background-color: #3C64B1; color: #ffffff; border-color: #3C64B1">
+                  채팅방 바로가기
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
       </div>
+
     </div>
+  </div>
 
 </div>

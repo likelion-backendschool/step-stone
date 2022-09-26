@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class ProjectService {
@@ -86,5 +87,9 @@ public ProjectDto getNowProjectDto(Long projectCid) {
         projectEntity.setBody(body);
         projectEntity.setUpdatedAt(LocalDateTime.now());
         projectRepository.save(projectEntity);
+    }
+
+    public List<ProjectEntity> getProjectPosts(Long userCid) {
+        return projectRepository.findByUserUserCid(userCid);
     }
 }
