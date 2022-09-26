@@ -102,6 +102,9 @@
                                                     </svg>
                                                 </button>
 
+                                                <form th:action="@{/chat/room/invite/(chatRoomId=${notification.chatRoomId},notificationId=${notification.id})}"
+                                                      th:method="post">
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="my-3" th:if="${notification.notificationType =='INQUIRE_REQUEST'}">
