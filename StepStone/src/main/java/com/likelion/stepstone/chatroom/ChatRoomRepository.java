@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface ChatRoomRepository extends JpaRepository<ChatRoomEntity, ChatRoomEntity> {
+public interface ChatRoomRepository extends JpaRepository<ChatRoomEntity, Long> {
     List<ChatRoomEntity> findByUsers_UserCid(Long userCid);
     Optional<ChatRoomEntity> findByChatRoomId(String chatRoomId);
 
@@ -18,4 +18,6 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoomEntity, ChatRo
     @Modifying(clearAutomatically = true)
     @Query("UPDATE ChatRoomEntity chatroom SET chatroom.userCount = :userCount where chatroom.chatRoomCid = :chatRoomId")
     int updateUserCount(@Param(value="userCount") Integer userCount, @Param(value="chatRoomId") Long chatRoomId);
+
+    boolean existsByChatRoomId(String chatRoomId);
 }

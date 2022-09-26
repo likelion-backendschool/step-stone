@@ -9,7 +9,7 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <!-- 로고 부분 -->
         <a class="navbar-brand px-3" href="/">
-            <img src="/stepstone_icon.png" width="55" height="55"/>
+            <img src="/img_files/stepstone_icon.png" width="55" height="55"/>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -51,11 +51,16 @@
                     <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true"></i>
                     <div class="dropdown" id="dropdown">
 
-                        <a th:if="${hasNotification}" class="text-info fas fa-bell fa-fw fa-lg fa-beat-fade dropdown-toggle" style="--fa-animation-duration:2s;"
+                        <a th:if="${hasNotification}"
+                           class="text-info fas fa-bell fa-fw fa-lg fa-beat-fade dropdown-toggle"
+                           style="--fa-animation-duration:2s;"
                            data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
-                        <ul class="dropdown-menu dropdown-menu-end" id="dropdown-menu" onclick="event.stopPropagation()" style="min-width:350px;">
+                        <ul class="dropdown-menu dropdown-menu-end" id="dropdown-menu" onclick="event.stopPropagation()"
+                            style="min-width:350px;">
                             <div id="alertMessage" class="my-3 text-center">
-                                <span th:unless = ${alertMessage==null} th:classappend="${error==null ? 'alert-success' : 'alert-danger'}" class="alert " role="alert"  th:text="${alertMessage}">invite message</span>
+                                <span th:unless=${alertMessage==null}
+                                      th:classappend="${error==null ? 'alert-success' : 'alert-danger'}" class="alert "
+                                      role="alert" th:text="${alertMessage}">invite message</span>
                             </div>
                             <li th:each="notification : ${notifications}">
                                 <div class="container-fluid" th:id="'notificationList' + ${notification.id}">
@@ -69,8 +74,9 @@
                                            th:attr="aria-controls='#collapse' + ${notification.id}">Action
                                         </a>
                                         <span class="text-end col">
-                                            <svg th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                            <svg th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'"
+                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                             </svg>
                                         </span>
@@ -84,24 +90,25 @@
                                         <div class="my-3"
                                              th:if="${notification.notificationType =='CHAT_ROOM_INVITE_REQUEST'}">
                                             <div class="btn-group-sm text-center">
-
-                                                <button type="submit" id="invite_confirm_btn"
-                                                        class="btn btn-primary btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-check"
-                                                         viewBox="0 0 16 16">
-                                                        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-                                                    </svg>
-                                                </button>
-                                                <button th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'"
-                                                        id="invite_reject_btn" type="button"
-                                                        class="btn btn-danger btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                         fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                                    </svg>
-                                                </button>
-
+                                                <form th:action="@{/chat/room/invite/(chatRoomId=${notification.chatRoomId},notificationId=${notification.id})}"
+                                                      th:method="post">
+                                                    <button type="submit" id="invite_confirm_btn"
+                                                            class="btn btn-primary btn-sm">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-check"
+                                                             viewBox="0 0 16 16">
+                                                            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <button th:onclick="'javascript:markli(\'' + ${notification.id} + '\');'"
+                                                            id="invite_reject_btn" type="button"
+                                                            class="btn btn-danger btn-sm">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                        </svg>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="my-3" th:if="${notification.notificationType =='INQUIRE_REQUEST'}">
@@ -132,10 +139,15 @@
                                                     </p>
                                                     <form>
                                                         <div class="collapse input-group mb-0" id="collapseExample">
-                                                            <input th:id="'inquiryChatRoomName' + ${notification.id}" type="text" class="form-control h-25"  placeholder="채팅방 이름을 입력해 주세요.">
+                                                            <input th:id="'inquiryChatRoomName' + ${notification.id}"
+                                                                   type="text" class="form-control h-25"
+                                                                   placeholder="채팅방 이름을 입력해 주세요.">
                                                             <div id="sendMessage" class="input-group-prepend ">
-                                                                <button type="button" id="inquire_confirm_btn" th:notiId="${notification.id}" th:publihserId="${notification.publisherId}"
-                                                                        class="btn btn-primary btn-sm input-group-text" th:onclick="confirmInquiry(this.getAttribute('notiId'), this.getAttribute('publihserId'));">
+                                                                <button type="button" id="inquire_confirm_btn"
+                                                                        th:notiId="${notification.id}"
+                                                                        th:publihserId="${notification.publisherId}"
+                                                                        class="btn btn-primary btn-sm input-group-text"
+                                                                        th:onclick="confirmInquiry(this.getAttribute('notiId'), this.getAttribute('publihserId'));">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                          height="16"
                                                                          fill="currentColor" class="bi bi-check"
@@ -143,7 +155,7 @@
                                                                         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                                                                     </svg>
                                                                 </button>
-<!--                                                                <span class="input-group-text"><i class="fa fa-send"></i></span>-->
+                                                                <!--                                                                <span class="input-group-text"><i class="fa fa-send"></i></span>-->
                                                             </div>
                                                         </div>
                                                     </form>
@@ -158,7 +170,11 @@
 
                             </li>
 
-                            <div class="text-center"><button onclick="postMarkAll()" type="button" class="btn btn-secondary" style="font-size:12px;">알림 모두 지우기</button></div>
+                            <div class="text-center">
+                                <button onclick="postMarkAll()" type="button" class="btn btn-secondary"
+                                        style="font-size:12px;">알림 모두 지우기
+                                </button>
+                            </div>
                         </ul>
 
                     </div>
@@ -202,24 +218,27 @@
             return false;
         }
 
-        function dropli(id){
+        function dropli(id) {
             $("#notificationList" + id).empty();
         }
 
-        function markli(id){
+        function markli(id) {
             dropli(id);
             var notiBean = {
                 id: id,
-                isEmpty : false,
+                isEmpty: false,
             };
-
-            if($("#dropdown-menu :not(:contains(li))")){
+            var num = $("#dropdown-menu").find("li").length;
+            console.log(num);
+            if (num <= 1) {
                 console.log("ul empty");
                 notiBean = {
                     id: id,
-                    isEmpty : true,
+                    isEmpty: true,
                 };
             }
+
+
             $.ajax({
                 url: "/notification/mark",
                 type: "POST",
@@ -228,10 +247,10 @@
                 .done(function (fragment) {
                     $('#notifications').replaceWith(fragment);
                 });
-                // $.post("/notification/mark", {id: id});
+            // $.post("/notification/mark", {id: id});
         }
 
-        function postMarkAll(){
+        function postMarkAll() {
 
             $.ajax({
                 url: "/notification/mark/all",
@@ -245,13 +264,13 @@
             return false;
         }
 
-        function confirmInquiry(id, publisherId){
+        function confirmInquiry(id, publisherId) {
             var chatRoomName = $("#inquiryChatRoomName" + id).val()
             console.log(chatRoomName);
             dropli(id)
             inquiryBean = {
                 publisherId: publisherId,
-                chatRoomName : chatRoomName,
+                chatRoomName: chatRoomName,
             };
             $.ajax({
                 url: "/chat/room/inquiry",
@@ -285,7 +304,7 @@
 
         #invite_confirm_btn:hover, #invite_confirm_btn:active, #invite_confirm_btn:visited,
         #inquire_confirm_btn:hover, #inquire_confirm_btn:active, #inquire_confirm_btn:visited,
-        #require_chat_room_name_btn:hover, #require_chat_room_name_btn:active, #require_chat_room_name_btn:visited,{
+        #require_chat_room_name_btn:hover, #require_chat_room_name_btn:active, #require_chat_room_name_btn:visited, {
             background-color: #9ec5fe;
             border-color: #9ec5fe;
         }

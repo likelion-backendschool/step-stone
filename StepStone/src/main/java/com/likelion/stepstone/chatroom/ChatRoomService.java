@@ -77,8 +77,7 @@ public class ChatRoomService {
         UserEntity user = postEntity.getUser();
 
         ChatRoomEntity chatRoomEntity = ChatRoomEntity.getNullInstance();
-        if(!chatRoomRepository.existsById(chatRoomEntity))
-            chatRoomRepository.save(chatRoomEntity);
+
 
         inquireEventPublish(developer, user, chatRoomEntity);
     }

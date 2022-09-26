@@ -8,6 +8,8 @@ import com.likelion.stepstone.post.PostService;
 import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
+import com.likelion.stepstone.projects.ProjectService;
+import com.likelion.stepstone.projects.model.ProjectEntity;
 import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
@@ -36,12 +38,14 @@ public class MypageController {
     private final PostService postService;
     private final LikeService likeService;
     private final WorkSpaceService workSpaceService;
+    private final ProjectService projectService;
 
-    public MypageController(UserService userService, PostService postService, LikeService likeService, WorkSpaceService workSpaceService) {
+    public MypageController(UserService userService, PostService postService, LikeService likeService, WorkSpaceService workSpaceService, ProjectService projectService) {
         this.userService = userService;
         this.postService = postService;
         this.likeService = likeService;
         this.workSpaceService = workSpaceService;
+        this.projectService = projectService;
     }
 
     @GetMapping("/mypage")
@@ -54,7 +58,9 @@ public class MypageController {
 
         UserEntity userEntity = principalDetails.getUser();
 
-        // 사용자 정보, My 게시글 관리
+        /*
+        1) 사용자 정보, My 게시글 관리
+         */
         String userName = userEntity.getName();
         String userRole = userEntity.getRole();
         Long userCid = userEntity.getUserCid();
@@ -64,6 +70,12 @@ public class MypageController {
             Page<WorkSpaceEntity> paging = workSpaceService.getMyWorkPostList(page, userCid);
             model.addAttribute("paging", paging);
             model.addAttribute("userRole", "개발자");
+
+            /*
+            Todo : 개발자로 로그인 시, 완성된 프로젝트 글 목록도 마이페이지에 띄우기
+             */
+//            Page<ProjectEntity> paging = projectService.getListWithId(); // 1. 페이징 가능 ??
+//            List<ProjectEntity> projectEntities = projectService.getProjectPosts(); // 2. 좋아요 누른 게시글처럼 스크롤로 구현하기
         }
 
         if (userRole.equals("ROLE_USER")) {     // 일반 유저
@@ -75,7 +87,9 @@ public class MypageController {
         model.addAttribute("userName", userName);
         model.addAttribute("oauthlogin", loginBefore);
 
-        // 좋아요 누른 게시글
+        /*
+        2) 좋아요 누른 게시글
+         */
         UserDto userDto = UserDto.toDto(userEntity);
         List<LikeEntity> likeEntities = likeService.getLikeEntity(userDto);     // 해당 user의 like 관련 데이터 얻기
         List<PostEntity> likePostEntities = likeService.getLikedPost(likeEntities);     // like 누른 post들 찾기

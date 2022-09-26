@@ -98,7 +98,7 @@ public class NotificationController {
     public String inquiryPublish(Principal principal ,@RequestParam Long postCid){
         chatRoomService.inquire(principal.getName(), postService.findByPostCid(postCid));
 
-        return "navbar :: #notifications";
+        return "redirect:/post/detail/" + postCid;
     }
 
 
