@@ -76,7 +76,6 @@ public class PostController {
 
         Page<PostEntity> paging = postService.getList(page, principalDetails);
         model.addAttribute("paging", paging);
-        model.addAttribute("fakePostCid", 3L);
 
         // 최근 이슈 게시글 부분
         List<PostVo> postVoList = postService.getSortedPostList();

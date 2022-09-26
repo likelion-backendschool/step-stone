@@ -225,24 +225,24 @@
             </div>
         </div>
         <!-- 모달 메서드 추가 -->
+        <script>
+            function move() {
+                location.href = "/workspace/list?page=0";
+            }
+        </script>
 
+        <script>
+            function move2() {
+                location.href = "/workspace/list/1";
+            }
+        </script>
 
         <script th:inline="javascript">
             /*<![CDATA[*/
-            function SetParamModal(modal_id) {
-                $('#modal_id').val(modal_id);
+             function move3() {
+            var postCid = /*[[${post}]]*/ null;
+            console.log(postCid);
             }
-
-            function work() {
-                id = $('#modal_id').val();
-                location.href = "/workspace/list/" + id;
-            }
-
-            function project() {
-                id = $('#modal_id').val();
-                location.href = "/project/list/" + id;
-            }
-
             /*]]>*/
         </script>
 
@@ -273,43 +273,22 @@
                                 <span style="color: grey; font-size: 10pt" th:text="${post.likes}"> </span>
                                 <span style="float:right">
 
-                                        <!------------------------------------------ Button trigger modal ------------------------------------------->
-
-                                        <input type="hidden" name="modal_id" id="modal_id">
-                                        <button type="button" class="post1" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop5" data-target="#Delete_Modal" th:onclick="SetParamModal([[${post.postCid}]]);">
-                                            개발자 모집</button>
-
-                                    <!-- Modal -->
-                                        <div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <span>현재 게시글로 모집중인 개발자 모집글로 이동하시겠습니까?</span>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary" href="#" onclick="work()">
-                                                            모집글로 이동 </button>
-
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <input type="hidden" name="modal_id" id="modal_id">
-                                        <button type="button" class="post2" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-target="#Delete_Modal" th:onclick="SetParamModal([[${post.postCid}]]);">
-                                            완성된 프로젝트</button>
-
+                                        <!--                         <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" >개발자 모집</a>-->
+                                        <a th:href="@{|/workspace/list/${post.postCid}|}" class="post1" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> 개발자 모집</a>
                                     <!-- Modal -->
                                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-body">
-                                                        <span>현재 게시글 내용으로 완료된 프로젝트 페이지로 이동하시겠습니까? </span>
+                                                        <span>현재 게시글로 모집중인 개발자 모집글로 이동하시겠습니까?</span>
+
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary" href="#" onclick="project()">
-                                                            완료 게시판 이동 </button>
+                                                        <button th:if="${post.postCid == null}" type="button" class="btn btn-primary" th:onclick="move()">
+                                                            모집글로 이동 </button>
+                                                        <button th:unless="${post.postCid == null}" type="button" class="btn btn-primary" th:onclick="move3()">
+                                                            모집글로 이동 </button>
+
 
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                                                     </div>
@@ -317,8 +296,20 @@
                                             </div>
                                         </div>
 
-                                    <!---------------------------------------------------------------------------------------------------------->
-
+                                        <a th:href="@{|/project/list/${post.postCid}|}" class="post2" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">완성된 프로젝트</a>
+                                    <!-- Modal -->
+                                        <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">현재 게시글 내용으로 완료된 프로젝트 페이지로 이동하시겠습니까? </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{|/project/list/${post.postCid}|}'|">완료 게시판으로 이동
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </span>
                             </div>
                         </blockquote>
@@ -327,6 +318,7 @@
             </tr>
             </tbody>
         </table>
+
 
         <!-- 페이징처리 시작 -->
         <div th:if="${!paging.isEmpty()}">
