@@ -7,6 +7,7 @@ import com.likelion.stepstone.post.model.PostDto;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.post.model.PostVo;
 import com.likelion.stepstone.user.UserService;
+import com.likelion.stepstone.user.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,7 +36,13 @@ public class PostController {
     }
 
     @GetMapping("/create")
-    public String createForm(PostForm postForm) {
+    public String createForm(@AuthenticationPrincipal PrincipalDetails principalDetails, PostForm postForm,Model model) {
+        UserEntity user = principalDetails.getUser();
+        if(user.getRole() == "ROLE_DEVELOPER"){
+          model.addAttribute("msg","일반 사용자만 글 작성이 가능합니다.");
+            return "post/alert2";
+        }
+
         return "/post/form";
     }
 
