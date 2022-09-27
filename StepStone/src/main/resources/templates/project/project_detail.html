@@ -21,7 +21,7 @@
                 <span class="h6" th:text="|작성자 : ${projectEntity.user.name}|"></span>
             </div>
 
-            <div  style="white-space:pre-wrap;" class="card-text my-4" th:text="${projectEntity.body}" rows="35"></div>
+            <div  style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(projectEntity.body)}" rows="35"></div>
             <span class="d-flex justify-content-end my-2">
             <a th:href="@{|/post/detail/${projectEntity.postCid}|}" class="btn btn-light">요청 글 본문 보기 </a>
             </span>
