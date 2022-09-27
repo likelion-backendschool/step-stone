@@ -5,7 +5,19 @@
         xmlns:th="http://thymeleaf.org"
         layout:decorate="~{layout}">
 
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/glassmorphism.css">
+</head>
+
 <div layout:fragment="content">
+
+    <div class="video-bg light-mode d-flex justify-content-center" style="z-index: -1">
+        <video autoplay loop muted>
+            <source src="/img_files/video/WhiteBlueGradient.mp4 " type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
     <section class="mt-5 h-100">
         <div class="container h-100 d-flex justify-content-center">
             <div class="justify-content-sm-center h-100" style="max-width: 50rem; width: 600px">

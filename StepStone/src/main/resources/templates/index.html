@@ -7,8 +7,27 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" th:href="@{css/card_carousel_style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{css/animate/animate.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/theme.scss}">
 
     <style>
+        :root {
+            --theme-bg-color: rgb(255 255 255 / 50%);
+            --theme-color: #3c3a3a;
+            --inactive-color: #333333;
+            --button-inactive: #3c3a3a;
+            --search-bg: rgb(255 255 255 / 50%);
+            --dropdown-bg: #f7f7f7;
+            --overlay-bg: rgb(255 255 255 / 30%);
+            --dropdown-hover: rgb(236 236 236);
+            --border-color: rgb(255 255 255 / 35%);
+            --popup-bg: rgb(255 255 255);
+            --hover-menu-bg: rgba(255 255 255 / 35%);
+            --scrollbar-bg: rgb(255 253 253 / 57%);
+            --content-title-color: --theme-color;
+            --first: #7F7FD5;
+            --second: #86A8E7;
+            --third: #91EAE4;
+        }
         .background_img1 {
             background-image: url("/img_files/mainpage/one.png");
             background-size: contain;
@@ -33,10 +52,58 @@
             background-repeat: no-repeat;
             align-content: center;
         }
+        /*.video-bg {*/
+        /*    position: fixed;*/
+        /*    right: 0;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+
+        /*    video {*/
+        /*        object-fit: cover;*/
+        /*        content: "";*/
+        /*        position: absolute;*/
+        /*        left: 0;*/
+        /*        top: 0;*/
+        /*        width: 100%;*/
+        /*        height: 100vh;*/
+        /*    }*/
+        /*}*/
+        /*.video-bg:before {*/
+        /*    content: "";*/
+        /*    position: absolute;*/
+        /*    left: 0;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100vh;*/
+        /*    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 50%, rgb(255 255 255 / 45%) 100%);*/
+        /*    backdrop-filter: saturate(2);*/
+        /*}*/
+        /*.app {*/
+        /*    background-color: var(--theme-bg-color);*/
+        /*    max-width: 93%;*/
+        /*    max-height: 90%;*/
+        /*    overflow: hidden;*/
+        /*    position: relative;*/
+        /*    width: 100%;*/
+        /*    border-radius: 14px;*/
+        /*    border: 1px solid rgba( 255, 255, 255, 0.18 );*/
+        /*    backdrop-filter: blur(20px);*/
+        /*    -webkit-backdrop-filter: blur(20px);*/
+        /*}*/
     </style>
 </head>
 
-<div layout:fragment="content">
+<div layout:fragment="content" class="d-flex justify-content-center pt-lg-5">
+
+<!--    <div class="video-bg light-mode d-flex justify-content-center" style="z-index: -1">-->
+<!--        <video autoplay loop muted>-->
+<!--            <source src="/img_files/video/WhiteBlueGradient.mp4 " type="video/mp4">-->
+<!--            Your browser does not support the video tag.-->
+<!--        </video>-->
+<!--    </div>-->
+
+    <div class="app">
 
     <!-- 메인 제목 -->
     <div class="container-xxl mt-lg-5" style="padding: 100px">
@@ -173,7 +240,7 @@
         </div>
 
         <div class="container text-center">
-            <div class="card bg-light my-4 animated slideInUp" style="max-width:50em; width: auto; border-right: 15px; float:none; margin:0 auto">
+            <div class="card my-4 animated slideInUp" style="max-width:50em; width: auto; border-right: 15px; float:none; margin:0 auto">
                 <p class="my-3">저희 Step Stone의 출발 동기가 되어준 Be My Eyes를 소개합니다.</p>
                 <div class="card-body">
                     <p class="fs-5">
@@ -182,7 +249,7 @@
                     <h6>시각장애인에게 시력을 주세요</h6>
                     Be My Eyes 는 시각장애인을 위해 만들어졌습니다.<br>Be My Eyes 는 빛을 잃은 사람들에게 시력을 주기 위해 기술을 통해<br>색깔 짝 맞추기부터 전등 확인, 저녁식사 준비까지 시각장애인에게 시각적 보조를 제공합니다.
                     </p>
-                    <a class="btn my-2" href="https://www.bemyeyes.com/language/korean" style="background-color: #DFE6F3">
+                    <a class="btn my-2 btn-light" href="https://www.bemyeyes.com/language/korean">
                         Be My Eyes 둘러보기
                     </a>
                 </div>
@@ -202,6 +269,7 @@
             </h3>
         </div>
 
+<!--        <div class="card px-lg-5 my-4 p-5" style="max-width: 80em; width: auto">-->
         <div class="background_img0"><div class="background_img1">
         <div class="container px-lg-5 py-4">
             <div class="row g-5 align-items-center">
@@ -210,7 +278,7 @@
                 </div>
                 <div class="col-lg-6 text-center text-lg-start d-flex justify-content-center">
                     <div class="background_img2"><div class="background_img1">
-                        <div class="row d-flex flex-column justify-content-center" style="height: 400px">
+                        <div class="row d-flex flex-column justify-content-center">
                             <div class="col-auto">
                                 <h1 class="fs-2 animated slideInDown" style="bottom: 0">도움이 필요해요</h1>
                             </div>
@@ -230,8 +298,8 @@
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
                     <h1 class="fs-2 animated slideInDown">디딤돌이 되어드립니다</h1>
-                    <p class="pb-3 animated slideInDown" style="white-space: pre-wrap">Step Stone에서는 소외계층 여러분의 문제점, 어려움을 직접 해결할 수 있는
-유능한 개발자 분들과의 연결을 도와드립니다.</p>
+                    <p class="pb-3 animated slideInDown" style="white-space: pre-wrap">Step Stone에서는 소외계층 여러분의 문제점, 어려움을
+직접 해결할 수 있는 유능한 개발자 분들과의 연결을 도와드립니다.</p>
                 </div>
                 <div class="col-lg-6 text-center text-lg-start">
                     <div class="background_img0"><div class="background_img1">
@@ -241,6 +309,8 @@
             </div>
         </div>
         </div></div>
+
+<!--        </div>-->
     </div>
     <!-- Step Stone의 역할 부분 끝 -->
 
@@ -248,8 +318,8 @@
     <div class="container-xxl">
         <div class="row justify-content-center">
             <div class="container text-center col-lg-12">
-                <h3 class="animated slideInDown">여러분의 어려움을 남겨주세요</h3>
-                <h3 class="animated slideInDown">그리고 도움이 필요한 누군가에게 디딤돌이 되어주세요</h3>
+                <h4 class="animated slideInDown">여러분의 어려움을 남겨주세요</h4>
+                <h4 class="animated slideInDown">그리고 도움이 필요한 누군가에게 디딤돌이 되어주세요</h4>
             </div>
             <div class="container px-lg-5 col-lg-12">
                 <div class="g-5 align-items-center">
@@ -261,6 +331,8 @@
         </div>
     </div>
     <!-- Step Stone의 역할 부분 끝 -->
+
+    </div>
 
 </div>
 </html>

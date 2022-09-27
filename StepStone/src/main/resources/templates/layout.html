@@ -29,25 +29,29 @@
             bottom:0px;
             height:60px;
             width:100%;
+            background-color: rgb(255 255 255 / 50%);
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
     </style>
 
     <title>StepStone</title>
 </head>
 
-<body style="min-height:100vh; background-color: #DFE6F3;" class="d-flex flex-column">
-
+<!-- 여기에 있는 background를 바꾸면 배경색이 바뀝니다 ! -->
+<body style="min-height:100vh; background: linear-gradient(to bottom, #85D8CE, #085078);" class="d-flex flex-column">
 
 <!-- 네비게이션바 -->
 <header th:replace="navbar :: navbarFragment"></header>
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-<main class="flex-grow-1">
+<main class="flex-grow-1 my-5 py-5">
     <th:block layout:fragment="content"></th:block>
 </main>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
-<footer class="site-footer text-light mt-3" style="background-color: #A1B6E0">
+<footer class="site-footer mt-3">
     <div class="container py-3 d-flex justify-content-center">
         Copyright 2022. LIKELION BES STEP STONE all rights reserved
     </div>

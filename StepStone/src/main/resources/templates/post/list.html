@@ -22,8 +22,13 @@
             margin: 0 .5em;
             width: calc(100% / 3);
             box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-            border: none;
-            border-radius: 15px;
+            /*border: none;*/
+            /*border-radius: 15px;*/
+            background-color: rgb(255 255 255 / 50%);
+            border-radius: 14px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
         .carousel-inner {
@@ -99,11 +104,56 @@
             background-color: #39ac73;
             color: white;
         }
+
+        /*.video-bg {*/
+        /*    position: fixed;*/
+        /*    right: 0;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+
+        /*video {*/
+        /*    object-fit: cover;*/
+        /*    content: "";*/
+        /*    position: absolute;*/
+        /*    left: 0;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100vh;*/
+        /*}*/
+        /*}*/
+        /*.video-bg:before {*/
+        /*    content: "";*/
+        /*    position: absolute;*/
+        /*    left: 0;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100vh;*/
+        /*    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 50%, rgb(255 255 255 / 60%) 100%);*/
+        /*    backdrop-filter: saturate(1);*/
+        /*}*/
+
+        .app {
+            background-color: rgb(255 255 255 / 50%);
+            border-radius: 14px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
     </style>
 </head>
 
+<body>
+<div layout:fragment="content" class="d-flex justify-content-center pt-lg-5">
 
-<div layout:fragment="content">
+<!--    <div class="video-bg light-mode d-flex justify-content-center" style="z-index: -1">-->
+<!--        <video autoplay loop muted>-->
+<!--            <source src="/img_files/video/WhiteBlueGradient.mp4 " type="video/mp4">-->
+<!--            Your browser does not support the video tag.-->
+<!--        </video>-->
+<!--    </div>-->
+
+    <div class="app container p-4 px-4 shadow-lg">
     <div class="container my-3">
         <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">디딤돌 쌓기</h3>
         <p class="mx-3">당신에게 필요한 디딤돌을 알려주세요 👀</p>
@@ -258,7 +308,7 @@
             </thead>
             <tbody>
             <tr th:each="post, loop : ${paging}">
-                <div class="card my-3">
+                <div class="card my-3" id="postcards">
                     <div class="card-header" th:onclick="|location.href='@{|detail/${post.postCid}|}'|" style="cursor:pointer; font-size: large">
                         <span th:text="${post.title}"></span>
                     </div>
@@ -357,5 +407,8 @@
             </ul>
         </div>
     </div>
+    </div>
 </div>
+
+</body>
 </html>
