@@ -140,7 +140,7 @@ public class PostController {
     @PostAuthorize("hasRole('ROLE_ADMIN') or #postForm.userId == authentication.principal.username")
     @GetMapping("/modify/{postCid}")
     public String postModifyGet(@PathVariable long postCid, PostForm postForm) {
-        // @Valid PostForm postForm
+
         PostDto postDto = postService.getPostDto(postCid);
 
         postForm.setTitle(postDto.getTitle());

@@ -23,7 +23,6 @@
             <div class="badge bg-light text-dark p-2 text-start">
                 <span class="h6" th:text="|작성자 : ${postEntity.user.name}|"></span>
             </div>
-
             <div style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(postEntity.body)}" rows="35"></div>
             <span class="d-flex justify-content-end my-2">
                 <span th:if="${role} != null">
@@ -71,15 +70,19 @@
     <div class="d-flex justify-content-end my-2">
         <a th:href="@{|/post/postup/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"
-           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}" th:text="끌어올리기"></a>
+           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
+           th:text="끌어올리기"></a>
         &nbsp;
         <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
            sec:authorize="isAuthenticated()"
-           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}" th:text="수정"></a>
+           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
+           th:text="수정"></a>
         &nbsp;
-        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/post/delete/${postEntity.postCid}|}"
-           class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
-           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}" th:text="삭제"></a>
+        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
+           th:href="@{|/post/delete/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
+           th:text="삭제"></a>
     </div>
 </div>
 
