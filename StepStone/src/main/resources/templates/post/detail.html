@@ -56,7 +56,6 @@
     </script>
 
     <span class="d-flex justify-content-end my-2">
-<!--    게시글 공감하기&nbsp;&nbsp;&nbsp;&nbsp;-->
         <a th:href="@{|/workspace/create/${postEntity.postCid}|}" style="text-decoration:none; color:black; font-size:15px;"
            sec:authorize="isAuthenticated()"
            th:if="${role == 'ROLE_DEVELOPER'}">
