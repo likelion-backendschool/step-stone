@@ -18,7 +18,6 @@ public class LikeController {
     @RequestMapping("/post/{postCid}/likes")
     public String like(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long postCid) {
         if (principalDetails == null) {
-            model.addAttribute("postCid",postCid);
             model.addAttribute("msg","로그인 후 이용해주세요");
             return "like/login";
         }
