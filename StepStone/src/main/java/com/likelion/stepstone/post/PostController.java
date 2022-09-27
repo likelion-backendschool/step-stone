@@ -173,7 +173,14 @@ public class PostController {
             model.addAttribute("likeEntity", notexist);
         }
 
-        String role = principalDetails.getUser().getRole();
+        String role;
+        if(principalDetails == null){
+             role = null;
+        } else{
+             role = principalDetails.getUser().getRole();
+        }
+
+
         model.addAttribute("role",role);
 
         PostDto postDto = postService.getPostDto(postCid);
