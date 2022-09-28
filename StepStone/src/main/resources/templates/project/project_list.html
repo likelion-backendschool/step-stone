@@ -59,11 +59,17 @@
             background-color: #39ac73;
             color: white;
         }
+
+        .app {
+            background-color: rgb(255 255 255 / 50%);
+            border-radius: 14px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
     </style>
 </head>
-
-
-<div layout:fragment="content" class="container my-3">
+<div layout:fragment="content" class="d-flex justify-content-center pt-lg-5">
 
     <script th:inline="javascript">
         /*<![CDATA[*/
@@ -83,6 +89,8 @@
 
         /*]]>*/
     </script>
+    <div class="app container p-4 px-4 shadow-lg">
+        <div class="container my-3">
 
     <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">완성된 프로젝트</h3>
     <p class="mx-3">완성된 프로젝트를 뽐내주세요 🥳</p>
@@ -213,5 +221,7 @@
         </ul>
     </div>
     <!-- 페이징처리 끝 -->
+        </div>
+    </div>
 </div>
 </html>
