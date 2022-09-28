@@ -300,7 +300,9 @@
 
         <!-- post list 부분 -->
         <div class="d-flex justify-content-end my-2">
-            <a th:href="@{/post/create}" class="btn btn-light">게시글 쓰기 </a>
+            <a th:if="${role != 'ROLE_DEVELOPER'}"
+               sec:authorize="isAuthenticated()"
+               th:href="@{/post/create}" class="btn btn-light">게시글 쓰기 </a>
         </div>
         <table class="table">
             <thead>

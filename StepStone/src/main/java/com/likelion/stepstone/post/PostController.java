@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,19 +30,15 @@ public class PostController {
     private final LikeService likeService;
     private final UserService userService;
 
-    public PostController(PostService postService ,LikeService likeService,UserService userService ) {
+    public PostController(PostService postService, LikeService likeService, UserService userService) {
         this.postService = postService;
         this.likeService = likeService;
         this.userService = userService;
     }
 
     @GetMapping("/create")
-    public String createForm(@AuthenticationPrincipal PrincipalDetails principalDetails, PostForm postForm,Model model) {
-        UserEntity user = principalDetails.getUser();
-        if(user.getRole() == "ROLE_DEVELOPER"){
-          model.addAttribute("msg","일반 사용자만 글 작성이 가능합니다.");
-            return "post/alert2";
-        }
+    public String createForm(@AuthenticationPrincipal PrincipalDetails principalDetails, PostForm postForm, Model model) {
+
 
         return "/post/form";
     }
@@ -78,8 +75,15 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public String list(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @RequestParam(defaultValue = "0") int page ) {
-
+    public String list(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @RequestParam(defaultValue = "0") int page) {
+        // 게시글 작성 막기
+        String role;
+        if (principalDetails == null) {
+            role = null;
+        } else {
+            role = principalDetails.getUser().getRole();
+        }
+        model.addAttribute("role", role);
 
         Page<PostEntity> paging = postService.getList(page, principalDetails);
         model.addAttribute("paging", paging);
@@ -128,8 +132,7 @@ public class PostController {
         if (postVoListSize > 0) {
             model.addAttribute("postSize", postVoList.size());
             model.addAttribute("posts1", postVoList);
-        }
-        else {
+        } else {
             model.addAttribute("postSize", postVoList.size());
         }
 
@@ -159,6 +162,7 @@ public class PostController {
 
         return "redirect:/post/detail/{postCid}";
     }
+
     @GetMapping("/detail/{postCid}")
     public String detail(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @PathVariable long postCid) {
 
@@ -174,14 +178,14 @@ public class PostController {
         }
 
         String role;
-        if(principalDetails == null){
-             role = null;
-        } else{
-             role = principalDetails.getUser().getRole();
+        if (principalDetails == null) {
+            role = null;
+        } else {
+            role = principalDetails.getUser().getRole();
         }
 
 
-        model.addAttribute("role",role);
+        model.addAttribute("role", role);
 
         PostDto postDto = postService.getPostDto(postCid);
         model.addAttribute("postEntity", postDto);
