@@ -24,7 +24,7 @@
             <span class="my-2" >
                 <span style="float:left;">
                     <span th:if="${role} != null">
-                    <form onsubmit="alert('채팅 요청이 완료되었습니다')" th:action="@{|/notification/inquiry/publish?postCid=${workSpaceEntity.postCid}|}" method="POST">
+                    <form onsubmit="alert('채팅 요청이 완료되었습니다')" th:action="@{|/notification/workspace/inquiry/publish?postCid=${workSpaceEntity.postCid}&workspaceCid=${workSpaceEntity.workspaceCid}|}" method="POST">
                 </span>
             <span th:unless="${role} != null">
                     <form onsubmit="alert('로그인 후 이용해주세요')" th:action="@{/login}" method="GET">

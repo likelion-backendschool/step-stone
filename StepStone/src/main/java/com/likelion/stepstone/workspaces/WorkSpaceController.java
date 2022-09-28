@@ -97,8 +97,18 @@ public class WorkSpaceController {
     }
 
     @GetMapping("/detail/{workspaceCid}")
-    public String detail(Model model, @PathVariable  long workspaceCid) {
+    public String detail(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @PathVariable  long workspaceCid) {
         WorkSpaceDto workSpaceDto = workSpaceService.getWorkSpaceDto(workspaceCid);
+
+        String role;
+        if (principalDetails == null) {
+            role = null;
+        } else {
+            role = principalDetails.getUser().getRole();
+        }
+
+
+        model.addAttribute("role", role);
         model.addAttribute("workSpaceEntity", workSpaceDto);
         return "workspace/workspace_detail";
     }
