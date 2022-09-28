@@ -91,74 +91,65 @@
         /*]]>*/
     </script>
 
-    <div class="app container p-4 px-4 shadow-lg">
-        <div class="container my-3">
-            <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">개발자 모집</h3>
-            <p class="mx-3">함께 프로젝트를 진행할 개발자들을 모집하는 공간입니다 👩🏻‍💻</p>
+    <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">개발자 모집</h3>
+    <p class="mx-3">함께 프로젝트를 진행할 개발자들을 모집하는 공간입니다 👩🏻‍💻</p>
 
-            <div class="d-flex justify-content-end my-2">
+    <div class="d-flex justify-content-end my-2">
 
-                <!--모달-->
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">게시글 쓰기
-                </button>
+        <!--모달-->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">게시글 쓰기
+        </button>
 
-                <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <!--            <div class="modal-dialog">-->
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">게시글 상세페이지를 통해서 작성해주세요</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                *개발자로 가입하신 경우에만 글 작성이 가능합니다.*<br>
-                                <img src="/img_files/gif/zzzz.gif"/>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" onclick="location.href='/post/list?page=0'">게시글 목록 가기
-                                </button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                            </div>
-                        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <!--            <div class="modal-dialog">-->
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">게시글 상세페이지를 통해서 작성해주세요</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        *개발자로 가입하신 경우에만 글 작성이 가능합니다.*<br>
+                        <img src="/img_files/gif/zzzz.gif"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="location.href='/post/list?page=0'">게시글 목록 가기
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!--모달 -->
+    <!--모달 -->
 
     <table class="table">
         <thead></thead>
         <tbody>
         <tr th:each="workspace, loop : ${paging}">
             <div class="card my-3">
-                <div class="card-header" th:onclick="|location.href='@{|/workspace/detail/${workspace.workspaceCid}|}'|"
-                     style="cursor:pointer; font-size: large">
+                <div class="card-header" th:onclick="|location.href='@{|/workspace/detail/${workspace.workspaceCid}|}'|" style="cursor:pointer; font-size: large">
                     <span th:text="${workspace.title}"></span>
                 </div>
 
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
                         <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
-                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 160%; height: 0.8em*1.6*5; font-size: 0.8em"
-                             th:utext="${@commonUtil.markdown(workspace.body)}"></div>
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 160%; height: 0.8em*1.6*5; font-size: 0.8em" th:utext="${@commonUtil.markdown(workspace.body)}"></div>
 
-                        <span class="badge bg-light text-dark p-2 " style="float:left"
-                              th:text="${workspace.user.name}"></span>
+                        <span class="badge bg-light text-dark p-2 " style="float:left" th:text="${workspace.user.name}"></span>
 
                         <span style="float:right">
 
                                 <input type="hidden" name="modal_id" id="modal_id">
-                                <button type="button" class="post1" data-toggle="modal" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop5" data-target="#Delete_Modal"
-                                        th:onclick="SetParamModal([[${workspace.postCid}]]);">
+                                <button type="button" class="post1" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop5" data-target="#Delete_Modal" th:onclick="SetParamModal([[${workspace.postCid}]]);">
                                     요청글 본문 보기</button>
 
                             <!-- Modal -->
-                                <div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static"
-                                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                     aria-hidden="true">
+                                <div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-body">
@@ -171,60 +162,59 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <input type="hidden" name="modal_id" id="modal_id">
-                                        <button type="button" class="post2" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" data-target="#Delete_Modal" th:onclick="SetParamModal([[${workspace.workspaceCid}]]);">
-                                            완성된 프로젝트</button>
+                                <button type="button" class="post2" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" data-target="#Delete_Modal" th:onclick="SetParamModal([[${workspace.workspaceCid}]]);">
+                                    완성된 프로젝트</button>
 
-                                    <!-- Modal -->
-                                        <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <span>배포된 프로젝트 소개글로 이동하시겠습니까? </span>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary" href="#" onclick="project()">
-                                                            완료글이동 </button>
+                            <!-- Modal -->
+                                <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span>배포된 프로젝트 소개글로 이동하시겠습니까? </span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" href="#" onclick="project()">
+                                                    완료글이동 </button>
 
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                                                    </div>
-                                                </div>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
 
-                                    <!---------------------------------------------------------------------------------------------------------->
+                            <!---------------------------------------------------------------------------------------------------------->
 
-                                    </span>
-                            </blockquote>
-                        </div>
-                    </div>
-                </tr>
-                </tbody>
-            </table>
-            <!-- 페이징처리 시작 -->
-            <div th:if="${!paging.isEmpty()}">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                        <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                        th:classappend="${page == paging.number} ? 'active'"
-                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                        class="page-item">
-                        <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
-                    </li>
-                    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                        <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                            </span>
+                    </blockquote>
+                </div>
             </div>
-            <!-- 페이징처리 끝 -->
-        </div>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 페이징처리 시작 -->
+    <div th:if="${!paging.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                th:classappend="${page == paging.number} ? 'active'"
+                th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                class="page-item">
+                <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
     </div>
+    <!-- 페이징처리 끝 -->
 </div>
 </html>
