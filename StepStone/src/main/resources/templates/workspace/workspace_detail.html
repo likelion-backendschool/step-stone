@@ -21,7 +21,21 @@
                 <span class="h6" th:text="|작성자 : ${workSpaceEntity.user.name}|"></span>
             </div>
             <div  style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(workSpaceEntity.body)}" rows="35"></div>
-            <span class="d-flex justify-content-end my-2">
+            <span class="my-2" >
+                <span style="float:left;">
+                    <span th:if="${role} != null">
+                    <form onsubmit="alert('채팅 요청이 완료되었습니다')" th:action="@{|/notification/inquiry/publish?postCid=${workSpaceEntity.postCid}|}" method="POST">
+                </span>
+            <span th:unless="${role} != null">
+                    <form onsubmit="alert('로그인 후 이용해주세요')" th:action="@{/login}" method="GET">
+                </span>
+            <input id="inquire_btn" type="submit" value="문의하기" class="btn btn-light">
+                    </form>
+            </span>
+                </span>
+
+            <span class="d-flex justify-content-end my-2" >
+
             <a th:href="@{|/post/detail/${workSpaceEntity.postCid}|}" class="btn btn-light">요청 글 본문 보기 </a>
             <a th:href="@{|/project/detail/${workSpaceEntity.workspaceCid}|}" class="btn btn-light">배포된 프로젝트 보기</a>
             </span>
