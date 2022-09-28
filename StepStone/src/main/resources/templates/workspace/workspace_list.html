@@ -63,7 +63,6 @@
             border: 1px solid rgba( 255, 255, 255, 0.18 );
         }
 
-
     </style>
 </head>
 <div layout:fragment="content" class="d-flex justify-content-center pt-lg-5">
@@ -105,15 +104,19 @@
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <!--            <div class="modal-dialog">-->
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">게시글 상세페이지를 통해서 작성해주세요</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        *개발자로 가입하신 경우에만 글 작성이 가능합니다.*<br>
-                        <img src="/img_files/gif/zzzz.gif"/>
+                    <div class="modal-body text-center">
+                        *개발자로 가입하신 경우에만 글 작성이 가능합니다.*<br><br>
+                        <img class="align-middle rounded mx-auto d-block img-fluid"  src="/img_files/gif/guide_workspaces.gif"/>
+<!--                        <video width="320" height="240" controls>-->
+<!--                            <source src="/img_files/video/guide_workspaces.mp4" type="video/mp4">-->
+<!--                            Your browser does not support the video tag.-->
+<!--                        </video>-->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" onclick="location.href='/post/list?page=0'">게시글 목록 가기

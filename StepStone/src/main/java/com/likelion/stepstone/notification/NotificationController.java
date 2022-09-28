@@ -94,11 +94,18 @@ public class NotificationController {
         return "chat/room :: #alertMessage";
     }
 
-    @PostMapping("/inquiry/publish")
-    public String inquiryPublish(Principal principal ,@RequestParam Long postCid){
+    @PostMapping("/post/inquiry/publish")
+    public String postInquiryPublish(Principal principal ,@RequestParam Long postCid){
         chatRoomService.inquire(principal.getName(), postService.findByPostCid(postCid));
 
         return "redirect:/post/detail/" + postCid;
+    }
+
+    @PostMapping("/workspace/inquiry/publish")
+    public String workspaceInquiryPublish(Principal principal ,@RequestParam Long postCid, @RequestParam Long workspaceCid){
+        chatRoomService.inquire(principal.getName(), postService.findByPostCid(postCid));
+
+        return "redirect:/workspace/detail/" + workspaceCid;
     }
 
 
