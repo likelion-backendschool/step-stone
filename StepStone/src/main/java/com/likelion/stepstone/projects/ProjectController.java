@@ -3,7 +3,6 @@ package com.likelion.stepstone.projects;
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.projects.model.ProjectDto;
 import com.likelion.stepstone.projects.model.ProjectEntity;
-import com.likelion.stepstone.user.UserService;
 import com.likelion.stepstone.workspaces.WorkSpaceService;
 import com.likelion.stepstone.workspaces.model.WorkSpaceDto;
 import org.springframework.data.domain.Page;
@@ -134,7 +133,6 @@ public class ProjectController {
         return "project/project_detail";
 
     }
-
 
 
     @GetMapping("/delete/{projectCid}")

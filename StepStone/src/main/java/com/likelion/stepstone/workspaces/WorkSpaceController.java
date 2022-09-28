@@ -80,7 +80,6 @@ public class WorkSpaceController {
     @GetMapping("/modify/{workspaceCid}")
     public String questionModifyGet(@PathVariable long workspaceCid , WorkSpaceForm workSpaceForm) {
 
-       // @Valid WorkSpaceForm workSpaceForm
         WorkSpaceDto workSpaceDto = workSpaceService.getWorkSpaceDto(workspaceCid);
         workSpaceForm.setTitle(workSpaceDto.getTitle());
         workSpaceForm.setBody(workSpaceDto.getBody());

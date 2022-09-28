@@ -97,7 +97,6 @@ public class PostService {
 
         postEntity.setTitle(title);
         postEntity.setBody(body);
-//      postEntity.setUpdatedAt(LocalDateTime.now());
 
         postRepository.save(postEntity);
     }

@@ -128,42 +128,47 @@
 
             <!--모달 -->
 
-            <table class="table">
-                <thead></thead>
-                <tbody>
-                <tr th:each="workspace, loop : ${paging}">
-                    <div class="card my-3">
-                        <div class="card-header" th:onclick="|location.href='@{|/workspace/detail/${workspace.workspaceCid}|}'|" style="cursor:pointer; font-size: large">
-                            <span th:text="${workspace.title}"></span>
-                        </div>
+    <table class="table">
+        <thead></thead>
+        <tbody>
+        <tr th:each="workspace, loop : ${paging}">
+            <div class="card my-3">
+                <div class="card-header" th:onclick="|location.href='@{|/workspace/detail/${workspace.workspaceCid}|}'|"
+                     style="cursor:pointer; font-size: large">
+                    <span th:text="${workspace.title}"></span>
+                </div>
 
-                        <div class="card-body">
-                            <blockquote class="blockquote mb-0">
-                                <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
-                                             -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 30px;  height: 150px; font-size: 0.8em" th:text="${workspace.body}"></div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <div style="width: auto; text-overflow: ellipsis;  overflow: hidden;   display: -webkit-box; white-space:pre-wrap;
+                                     -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-height: 160%; height: 0.8em*1.6*5; font-size: 0.8em"
+                             th:utext="${@commonUtil.markdown(workspace.body)}"></div>
 
-                                <span class="badge bg-light text-dark p-2 " style="float:left" th:text="${workspace.user.name}"></span>
+                        <span class="badge bg-light text-dark p-2 " style="float:left"
+                              th:text="${workspace.user.name}"></span>
 
-                                <span style="float:right">
+                        <span style="float:right">
 
-                                        <input type="hidden" name="modal_id" id="modal_id">
-                                        <button type="button" class="post1" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop5" data-target="#Delete_Modal" th:onclick="SetParamModal([[${workspace.postCid}]]);">
-                                            요청글 본문 보기</button>
+                                <input type="hidden" name="modal_id" id="modal_id">
+                                <button type="button" class="post1" data-toggle="modal" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop5" data-target="#Delete_Modal"
+                                        th:onclick="SetParamModal([[${workspace.postCid}]]);">
+                                    요청글 본문 보기</button>
 
-                                    <!-- Modal -->
-                                        <div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <span> 요청글 본문으로 이동하시겠습니까?</span>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary" href="#" onclick="work()">
-                                                            본문 이동 </button>
+                            <!-- Modal -->
+                                <div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static"
+                                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span> 요청글 본문으로 이동하시겠습니까?</span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" href="#" onclick="work()">
+                                                    본문 이동 </button>
 
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                                                    </div>
-                                                </div>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                                             </div>
                                         </div>
 
