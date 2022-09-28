@@ -21,3 +21,13 @@ html > body {
     font-family: "NEXON Lv1 Gothic OTF";
     font-size: 0.9em;
 }
+
+#inquire_btn{
+    background-color: #cfe2ff;
+    border-color: #cfe2ff;
+}
+
+#inquire_btn:hover, #inquire_btn:active, #inquire_btn:visited {
+    background-color: #9ec5fe;
+    border-color: #9ec5fe;
+}

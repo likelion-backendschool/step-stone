@@ -34,7 +34,7 @@
                 <span th:unless="${role} != null">
                     <form onsubmit="alert('로그인 후 이용해주세요')" th:action="@{/login}" method="GET">
                 </span>
-                <input type="submit" value="문의하기" class="btn btn-light">
+                <input id="inquire_btn" type="submit" value="문의하기" class="btn btn-light">
                 </form>
 
             </span>
