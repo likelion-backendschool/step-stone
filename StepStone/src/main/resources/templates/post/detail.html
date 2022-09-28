@@ -25,10 +25,11 @@
             </div>
             <div style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(postEntity.body)}" rows="35"></div>
             <span class="d-flex justify-content-end my-2">
+
                 <span th:if="${role} != null">
                     <form onsubmit="alert('채팅 요청이 완료되었습니다')" th:action="@{|/notification/inquiry/publish?postCid=${postEntity.postCid}|}" method="POST">
                 </span>
-                <span th:th:unless="${role} != null">
+                <span th:unless="${role} != null">
                     <form onsubmit="alert('로그인 후 이용해주세요')" th:action="@{/login}" method="GET">
                 </span>
                 <input type="submit" value="문의하기" class="btn btn-light">
