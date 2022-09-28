@@ -68,8 +68,9 @@
 
     </style>
 </head>
-
 <div layout:fragment="content" class="d-flex justify-content-center pt-lg-5">
+<!--<div layout:fragment="content" class="container my-3">-->
+
 
     <!-- 모달 메서드 추가 -->
     <script th:inline="javascript">
@@ -91,6 +92,8 @@
         /*]]>*/
     </script>
 
+    <div class="app container p-4 px-4 shadow-lg">
+        <div class="container my-3">
     <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">개발자 모집</h3>
     <p class="mx-3">함께 프로젝트를 진행할 개발자들을 모집하는 공간입니다 👩🏻‍💻</p>
 
@@ -165,6 +168,7 @@
                                     </div>
                                 </div>
 
+                                <input type="hidden" name="modal_id" id="modal_id">
                                 <button type="button" class="post2" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" data-target="#Delete_Modal" th:onclick="SetParamModal([[${workspace.workspaceCid}]]);">
                                     완성된 프로젝트</button>
 
@@ -216,5 +220,7 @@
         </ul>
     </div>
     <!-- 페이징처리 끝 -->
+        </div>
+    </div>
 </div>
 </html>
