@@ -1,0 +1,338 @@
+<html
+        lang="ko"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}" >
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{css/card_carousel_style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/animate/animate.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/theme.scss}">
+
+    <style>
+        :root {
+            --theme-bg-color: rgb(255 255 255 / 50%);
+            --theme-color: #3c3a3a;
+            --inactive-color: #333333;
+            --button-inactive: #3c3a3a;
+            --search-bg: rgb(255 255 255 / 50%);
+            --dropdown-bg: #f7f7f7;
+            --overlay-bg: rgb(255 255 255 / 30%);
+            --dropdown-hover: rgb(236 236 236);
+            --border-color: rgb(255 255 255 / 35%);
+            --popup-bg: rgb(255 255 255);
+            --hover-menu-bg: rgba(255 255 255 / 35%);
+            --scrollbar-bg: rgb(255 253 253 / 57%);
+            --content-title-color: --theme-color;
+            --first: #7F7FD5;
+            --second: #86A8E7;
+            --third: #91EAE4;
+        }
+        .background_img1 {
+            background-image: url("/img_files/mainpage/one.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            align-content: center;
+        }
+        .background_img2 {
+            background-image: url("/img_files/mainpage/two.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            align-content: center;
+        }
+        .background_img3 {
+            background-image: url("/img_files/mainpage/three.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            align-content: center;
+        }
+        .background_img0 {
+            background-image: url("/img_files/mainpage/zero.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            align-content: center;
+        }
+        /*.video-bg {*/
+        /*    position: fixed;*/
+        /*    right: 0;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+
+        /*    video {*/
+        /*        object-fit: cover;*/
+        /*        content: "";*/
+        /*        position: absolute;*/
+        /*        left: 0;*/
+        /*        top: 0;*/
+        /*        width: 100%;*/
+        /*        height: 100vh;*/
+        /*    }*/
+        /*}*/
+        /*.video-bg:before {*/
+        /*    content: "";*/
+        /*    position: absolute;*/
+        /*    left: 0;*/
+        /*    top: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100vh;*/
+        /*    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 50%, rgb(255 255 255 / 45%) 100%);*/
+        /*    backdrop-filter: saturate(2);*/
+        /*}*/
+        /*.app {*/
+        /*    background-color: var(--theme-bg-color);*/
+        /*    max-width: 93%;*/
+        /*    max-height: 90%;*/
+        /*    overflow: hidden;*/
+        /*    position: relative;*/
+        /*    width: 100%;*/
+        /*    border-radius: 14px;*/
+        /*    border: 1px solid rgba( 255, 255, 255, 0.18 );*/
+        /*    backdrop-filter: blur(20px);*/
+        /*    -webkit-backdrop-filter: blur(20px);*/
+        /*}*/
+    </style>
+</head>
+
+<div layout:fragment="content" class="d-flex justify-content-center pt-lg-5">
+
+<!--    <div class="video-bg light-mode d-flex justify-content-center" style="z-index: -1">-->
+<!--        <video autoplay loop muted>-->
+<!--            <source src="/img_files/video/WhiteBlueGradient.mp4 " type="video/mp4">-->
+<!--            Your browser does not support the video tag.-->
+<!--        </video>-->
+<!--    </div>-->
+
+    <div class="app">
+
+    <!-- 메인 제목 -->
+    <div class="container-xxl mt-lg-5" style="padding: 100px">
+        <div class="container px-lg-5">
+            <div class="row g-5 align-items-end">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="display-2 animated slideInDown" style="font-weight: bold"><strong>Step Stone</strong></h1>
+                    <h5 class="mb-4 animated slideInDown" style="word-break:keep-all">당신을 위한 디딤돌이 되는 공간</h5>
+                    <p class="pb-3 animated slideInDown">개발자와 소외계층과 관련된 사람들을 연결하여 이들의 어려움을 나타내고, <br>개발자들이 도움을 줄 수 있는 공간입니다.</p>
+                    <a  class="btn btn-light btn-sm py-sm-3 px-sm-5 rounded-pill animated slideInRight" th:href="@{|/mypage|}">함께하기</a>
+                </div>
+                <div class="col-lg-6 text-center text-lg-start">
+                    <img class="img-fluid animated zoomIn" src="/img_files/mainpage/hero.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 메인 제목 끝 -->
+
+    <!-- 구분선 -->
+    <div class="container" style="text-align: center">
+        <hr class="my-2" style="width: 500px; display: inline-block">
+    </div>
+    <!-- 구분선 끝 -->
+
+    <!-- 최근 이슈 게시글 부분 -->
+    <div class="pb-4" style="margin: 100px 0;">
+        <div class="container animated fadeInDown">
+            <h3 class="mx-3 mt-4"><strong>최근 이슈 게시글</strong></h3>
+            <p class="mx-3 animated slideInDown">최근 올라온 게시글 중 가장 많은 관심을 받은 게시글들 입니다.</p>
+        </div>
+        <div class="container animated slideInUp">
+            <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" th:style="${postSize > 0? 'display:block' : 'display:none'}"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" th:style="${postSize >= 6? 'display:block' : 'display:none'}"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" th:style="${postSize >= 9? 'display:block' : 'display:none'}"></button>
+                </div>
+
+                <div class="carousel-inner">
+                    <div class="carousel-item active" th:if="${postSize} > 0">
+                        <div class="cards-wrapper">
+                            <tr><div class="card" th:each="post: ${posts1}">
+                                <!-- 1, 2, 3번 게시글 (likes 정렬 후) -->
+                                <div class="card-body">
+                                    <td><h5 class="card-title" th:text="${post.title}" style="font-weight: bold"></h5></td>
+<!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
+                                    <td><p class="card-text"
+                                           style="width: auto; text-overflow: ellipsis;  overflow: hidden;
+                                           display: -webkit-box; white-space:pre-wrap; -webkit-box-orient: vertical; -webkit-line-clamp: 1;"
+                                           th:text="${post.body}"></p><td>
+                                    <td><p>
+                                        <i class="fa-solid fa-heart" style="color: #3C64B1"></i>&nbsp;&nbsp;
+                                        <span class="card-text" th:text="${post.likes}"></span>
+                                    </p><td>
+                                    <td><div><a class="btn btn-sm btn-light" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a></div><td>
+                                </div>
+                            </div><tr>
+                        </div>
+                    </div>
+                    <div class="carousel-item" th:if="${postSize} > 5">
+                        <div class="cards-wrapper">
+                            <tr><div class="card" th:each="post: ${posts2}">
+                                <!-- 4, 5, 6번 게시글 -->
+                                <div class="card-body">
+                                    <td><h5 class="card-title" th:text="${post.title}" style="font-weight: bold"></h5></td>
+<!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
+                                    <td><p class="card-text"
+                                           style="width: auto; text-overflow: ellipsis;  overflow: hidden;
+                                           display: -webkit-box; white-space:pre-wrap; -webkit-box-orient: vertical; -webkit-line-clamp: 1;"
+                                           th:text="${post.body}"></p><td>
+                                    <td><p>
+                                        <i class="fa-solid fa-heart" style="color: #3C64B1"></i>&nbsp;&nbsp;
+                                        <span class="card-text" th:text="${post.likes}"></span>
+                                    </p><td>
+                                    <td><a class="btn btn-sm btn-light" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
+                                </div>
+                            </div><tr>
+                        </div>
+                    </div>
+                    <div class="carousel-item" th:if="${postSize} > 8">
+                        <div class="cards-wrapper">
+                            <tr><div class="card" th:each="post: ${posts3}">
+                                <!-- 7, 8, 9번 게시글 -->
+                                <div class="card-body">
+                                    <td><h5 class="card-title" th:text="${post.title}" style="font-weight: bold"></h5></td>
+<!--                                    <td><h6 class="card-subtitle mb-2 text-muted" th:text="'userCid : ' + ${(post.userCid)}"></h6><td>-->
+                                    <td><p class="card-text"
+                                           style="width: auto; text-overflow: ellipsis;  overflow: hidden;
+                                           display: -webkit-box; white-space:pre-wrap; -webkit-box-orient: vertical; -webkit-line-clamp: 1;"
+                                           th:text="${post.body}"></p><td>
+                                    <td><p>
+                                        <i class="fa-solid fa-heart" style="color: #3C64B1"></i>&nbsp;&nbsp;
+                                        <span class="card-text" th:text="${post.likes}"></span>
+                                    </p><td>
+                                    <td><a class="btn btn-sm btn-light" th:href="@{|/post/detail/${post.postCid}|}">게시글 읽기</a><td>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev"
+                        th:style="${postSize > 0? 'display:block' : 'display:none'}">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next"
+                        th:style="${postSize > 0? 'display:block' : 'display:none'}">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="container-fluid" th:if="${postSize} == 0">
+            <div class="container-fluid" style="text-align: center">
+                <h5>최근 이슈 게시글이 없습니다.</h5>
+            </div>
+        </div>
+    </div>
+    <!-- 최근 이슈 게시글 부분 끝 -->
+
+    <!-- Be My Eyes 부분 -->
+    <div class="container-xxl mt-lg-5 py-4">
+        <div class="container text-center animated slideInUp">
+            <h3 style="font-weight: bold">
+                <i class="fa-solid fa-minus" style="opacity: 50%"></i>
+                Step Stone의 출발
+                <i class="fa-solid fa-minus" style="opacity: 50%"></i>
+            </h3>
+        </div>
+
+        <div class="container text-center">
+            <div class="card my-4 animated slideInUp" style="max-width:50em; width: auto; border-right: 15px; float:none; margin:0 auto">
+                <p class="my-3">저희 Step Stone의 출발 동기가 되어준 Be My Eyes를 소개합니다.</p>
+                <div class="card-body">
+                    <p class="fs-5">
+                        <img class="img-fluid" src="/img_files/mainpage/be-my-eyes-logo.webp" style="width: 140px; height: auto;">
+                    <h4>Be My Eyes</h4>
+                    <h6>시각장애인에게 시력을 주세요</h6>
+                    Be My Eyes 는 시각장애인을 위해 만들어졌습니다.<br>Be My Eyes 는 빛을 잃은 사람들에게 시력을 주기 위해 기술을 통해<br>색깔 짝 맞추기부터 전등 확인, 저녁식사 준비까지 시각장애인에게 시각적 보조를 제공합니다.
+                    </p>
+                    <a class="btn my-2 btn-light" href="https://www.bemyeyes.com/language/korean">
+                        Be My Eyes 둘러보기
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Be My Eyes 부분 끝 -->
+
+    <!-- Step Stone의 역할 부분 -->
+    <div class="container-xxl mt-lg-5" style="padding: 100px">
+        <div class="container text-center animated slideInUp">
+            <h3 style="font-weight: bold">
+                <i class="fa-solid fa-minus" style="opacity: 50%"></i>
+                Step Stone의 역할
+                <i class="fa-solid fa-minus" style="opacity: 50%"></i>
+            </h3>
+        </div>
+
+<!--        <div class="card px-lg-5 my-4 p-5" style="max-width: 80em; width: auto">-->
+        <div class="background_img0"><div class="background_img1">
+        <div class="container px-lg-5 py-4">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <img class="img-fluid animated zoomIn" src="/img_files/mainpage/man1.png">
+                </div>
+                <div class="col-lg-6 text-center text-lg-start d-flex justify-content-center">
+                    <div class="background_img2"><div class="background_img1">
+                        <div class="row d-flex flex-column justify-content-center">
+                            <div class="col-auto">
+                                <h1 class="fs-2 animated slideInDown" style="bottom: 0">도움이 필요해요</h1>
+                            </div>
+                            <div class="col-auto">
+                                <p class="pb-3 animated slideInDown" style="white-space: pre-wrap">소외계층의 당사자가 아니면 모르는
+일상 속 문제점, 어려움은 주변에 상당히 많습니다.</p>
+                            </div>
+                        </div>
+                    </div></div>
+                </div>
+            </div>
+        </div>
+        </div></div>
+
+        <div class="background_img0"><div class="background_img3">
+        <div class="container px-lg-5 pt-4">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="fs-2 animated slideInDown">디딤돌이 되어드립니다</h1>
+                    <p class="pb-3 animated slideInDown" style="white-space: pre-wrap">Step Stone에서는 소외계층 여러분의 문제점, 어려움을
+직접 해결할 수 있는 유능한 개발자 분들과의 연결을 도와드립니다.</p>
+                </div>
+                <div class="col-lg-6 text-center text-lg-start">
+                    <div class="background_img0"><div class="background_img1">
+                        <img class="img-fluid animated zoomIn" src="/img_files/mainpage/desktop1.png">
+                    </div></div>
+                </div>
+            </div>
+        </div>
+        </div></div>
+
+<!--        </div>-->
+    </div>
+    <!-- Step Stone의 역할 부분 끝 -->
+
+    <!-- Step Stone의 역할 부분 -->
+    <div class="container-xxl">
+        <div class="row justify-content-center">
+            <div class="container text-center col-lg-12">
+                <h4 class="animated slideInDown">여러분의 어려움을 남겨주세요</h4>
+                <h4 class="animated slideInDown">그리고 도움이 필요한 누군가에게 디딤돌이 되어주세요</h4>
+            </div>
+            <div class="container px-lg-5 col-lg-12">
+                <div class="g-5 align-items-center">
+                    <div class="text-center text-lg-center">
+                        <img class="img-fluid animated zoomIn" src="/img_files/mainpage/helping.png" style="width: 70%; height: 70%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Step Stone의 역할 부분 끝 -->
+
+    </div>
+
+</div>
+</html>

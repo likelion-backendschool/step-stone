@@ -1,0 +1,46 @@
+.video-bg {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+video {
+    object-fit: cover;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.video-bg:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to bottom, rgba(222, 241, 254, 0.9) 40%, rgba(127, 127, 213, 0.8));
+    backdrop-filter: saturate(2);
+}
+
+.video-bg:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to bottom, rgba(222, 241, 254, 0.9) 40%, rgba(127, 127, 213, 0.8));
+    backdrop-filter: saturate(2);
+}
+
+.card {
+    background-color: rgb(255 255 255 / 50%);
+    border-radius: 14px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}

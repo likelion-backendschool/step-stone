@@ -1,0 +1,17 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<script >
+ var postCid = "[[${postCid}]]";
+<!--var postCid = "{postCid}}";-->
+    $(document).ready(function() {
+
+        let message = "[[${msg}]]";
+
+        if (message != "") {
+            alert(message);
+        }else {
+        }
+      location.href = "/post/detail/"+postCid;
+    })
+
+</script>

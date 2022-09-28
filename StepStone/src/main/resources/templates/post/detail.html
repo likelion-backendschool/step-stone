@@ -1,0 +1,92 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://thymeleaf.org" layout:decorate="~{layout}">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+
+<div layout:fragment="content" class="container my-3">
+
+    <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">게시글 목록</h3>
+
+    <div class="d-flex justify-content-end my-2">
+        <a th:href="@{/post/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
+    </div>
+    <h4 class="py-2" th:text="${postEntity.title}"></h4>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="badge bg-light text-dark p-2 text-start">
+                <span class="h6" th:text="|작성자 : ${postEntity.user.name}|"></span>
+            </div>
+            <div style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(postEntity.body)}" rows="35"></div>
+            <span class="d-flex justify-content-end my-2">
+
+                <span th:if="${role} != null">
+                    <form onsubmit="alert('채팅 요청이 완료되었습니다')" th:action="@{|/notification/post/inquiry/publish?postCid=${postEntity.postCid}|}" method="POST">
+                </span>
+                <span th:unless="${role} != null">
+                    <form onsubmit="alert('로그인 후 이용해주세요')" th:action="@{/login}" method="GET">
+                </span>
+                <input id="inquire_btn" type="submit" value="문의하기" class="btn btn-light">
+                </form>
+
+            </span>
+        </div>
+    </div>
+
+    <!-- 좋아요 -->
+    <script>
+        function heart_info() {
+            var likeEntity = "[[${likeEntity}]]";
+            var src;
+            if (likeEntity != "null") {
+                src = '/img_files/svg/heart_fill.svg';
+            } else {
+                src = '/img_files/svg/heart.svg';
+            }
+            return src;
+        }
+    </script>
+
+    <span class="d-flex justify-content-end my-2">
+        <a th:href="@{|/workspace/create/${postEntity.postCid}|}" style="text-decoration:none; color:black; font-size:15px;"
+           sec:authorize="isAuthenticated()" th:if="${role == 'ROLE_DEVELOPER'}">
+            개발자 모집 글 작성하기<i class="bi bi-file-earmark-text"></i> </a>
+        &nbsp;&nbsp;
+        <!--좋아요-->
+        <a th:href="@{|/post/${postEntity.postCid}/likes|}">
+            <img id="heart" src="" />
+            <script>
+                document.getElementById('heart').src = heart_info()
+            </script>
+        </a> &nbsp;&nbsp;
+        <span th:text="${postEntity.likes}"> </span>
+        <!-- 좋아요 -->
+    </span>
+    <div class="d-flex justify-content-end my-2">
+        <a th:href="@{|/post/postup/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
+           th:text="끌어올리기"></a>
+        &nbsp;
+        <a th:href="@{|/post/modify/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
+           th:text="수정"></a>
+        &nbsp;
+        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
+           th:href="@{|/post/delete/${postEntity.postCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${postEntity.user != null and #authentication.getPrincipal().getUsername() == postEntity.user.userId}"
+           th:text="삭제"></a>
+    </div>
+</div>
+
+</html>

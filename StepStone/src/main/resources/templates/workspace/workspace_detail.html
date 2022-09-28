@@ -1,0 +1,64 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+
+
+<div layout:fragment="content" class="container my-3">
+
+    <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">개발자 모집</h3>
+
+    <div class="d-flex justify-content-end my-2">
+        <a th:href="@{/workspace/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
+    </div>
+    <h4 class="py-2" th:text="${workSpaceEntity.title}"></h4>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="badge bg-light text-dark p-2 text-start">
+                <span class="h6" th:text="|작성자 : ${workSpaceEntity.user.name}|"></span>
+            </div>
+            <div  style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(workSpaceEntity.body)}" rows="35"></div>
+            <span class="my-2" >
+                <span style="float:left;">
+                    <span th:if="${role} != null">
+                    <form onsubmit="alert('채팅 요청이 완료되었습니다')" th:action="@{|/notification/workspace/inquiry/publish?postCid=${workSpaceEntity.postCid}&workspaceCid=${workSpaceEntity.workspaceCid}|}" method="POST">
+                </span>
+            <span th:unless="${role} != null">
+                    <form onsubmit="alert('로그인 후 이용해주세요')" th:action="@{/login}" method="GET">
+                </span>
+            <input id="inquire_btn" type="submit" value="문의하기" class="btn btn-light">
+                    </form>
+            </span>
+                </span>
+
+            <span class="d-flex justify-content-end my-2" >
+
+            <a th:href="@{|/post/detail/${workSpaceEntity.postCid}|}" class="btn btn-light">요청 글 본문 보기 </a>
+            <a th:href="@{|/project/detail/${workSpaceEntity.workspaceCid}|}" class="btn btn-light">배포된 프로젝트 보기</a>
+            </span>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end my-2">
+        <a th:href="@{|/project/create/${workSpaceEntity.workspaceCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${workSpaceEntity.user != null and #authentication.getPrincipal().getUsername() == workSpaceEntity.user.userId}"
+        >완료 글 작성</a>
+        &nbsp;
+        <a th:href="@{|/workspace/modify/${workSpaceEntity.workspaceCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${workSpaceEntity.user != null and #authentication.getPrincipal().getUsername() == workSpaceEntity.user.userId}"
+           th:text="수정"></a>
+        &nbsp;
+        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
+           th:href="@{|/workspace/delete/${workSpaceEntity.workspaceCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${workSpaceEntity.user != null and #authentication.getPrincipal().getUsername() == workSpaceEntity.user.userId}"
+           th:text="삭제"></a>
+
+    </div>
+</div>
+</html>

@@ -1,0 +1,9 @@
+<html lang="en" xmlns:th="http://www.thmeleaf.org">
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = [[${message}]]    // 넘어온 메세지를 받는 부분
+    alert(message);     // alert 띄우기
+    location.replace([[${searchUrl}]]);     // 다시 화면으로 넘겨주는 부분 (근데 넘어가지지 않는다)
+    /*]]>*/
+</script>

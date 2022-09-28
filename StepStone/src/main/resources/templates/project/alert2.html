@@ -1,0 +1,15 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<script>
+    var projectCid = "[[${projectCid}]]";
+
+    $(document).ready(function() {
+
+        let message = "[[${msg}]]";
+
+        if (message != "") {
+            alert(message);
+        } else {}
+        location.href = "/project/detail/now/" + projectCid;
+    })
+</script>

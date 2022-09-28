@@ -1,0 +1,44 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+
+
+<div layout:fragment="content" class="container my-3">
+
+    <h3 class="my-3 border-bottom border-secondary p-2 mt-lg-5">완성된 프로젝트</h3>
+
+    <div class="d-flex justify-content-end my-2">
+        <a th:href="@{/project/list?page=0}" class="btn btn-light" th:text="목록으로"></a>
+    </div>
+    <h4 class="py-2" th:text="${projectEntity.title}"></h4>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="badge bg-light text-dark p-2 text-start">
+                <span class="h6" th:text="|작성자 : ${projectEntity.user.name}|"></span>
+            </div>
+
+            <div  style="white-space:pre-wrap;" class="card-text my-4" th:utext="${@commonUtil.markdown(projectEntity.body)}" rows="35"></div>
+            <span class="d-flex justify-content-end my-2">
+            <a th:href="@{|/post/detail/${projectEntity.postCid}|}" class="btn btn-light">요청 글 본문 보기 </a>
+            </span>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end my-2">
+        <a th:href="@{|/project/modify/${projectEntity.projectCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${projectEntity.user != null and #authentication.getPrincipal().getUsername() == projectEntity.user.userId}"
+           th:text="수정"></a>
+        &nbsp;
+        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
+           th:href="@{|/project/delete/${projectEntity.projectCid}|}" class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${projectEntity.user != null and #authentication.getPrincipal().getUsername() == projectEntity.user.userId}"
+           th:text="삭제"></a>
+    </div>
+</div>
+</html>

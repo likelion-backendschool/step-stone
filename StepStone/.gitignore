@@ -118,6 +118,6 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
 
-src/main/resources/application.properties
-
 # End of https://www.toptal.com/developers/gitignore/api/intellij
+
+src/main/resources/application.properties
