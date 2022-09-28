@@ -74,7 +74,7 @@ public class AuthController {
     if(!userEntity.isLoginBefore()) {
       return "user/oauthJoinForm";
     }
-    return "redirect:/";
+    return "trick";
   }
 
   @PostMapping("/oauth/login")
