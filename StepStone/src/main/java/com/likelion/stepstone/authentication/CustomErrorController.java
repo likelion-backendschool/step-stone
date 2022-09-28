@@ -25,7 +25,7 @@ public class CustomErrorController implements ErrorController {
         model.addAttribute("msg", "내부 서버 오류입니다.");
       }
       else if(statusCode == 403) {
-        model.addAttribute("msg", "권한이 없습니다.");
+        model.addAttribute("msg", "사용자 계정으로 로그인 후 이용해주세요.");
       }
       else {
         model.addAttribute("msg", status.toString());
