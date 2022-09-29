@@ -22,6 +22,8 @@ public class QNotificationEntity extends EntityPathBase<NotificationEntity> {
 
     public static final QNotificationEntity notificationEntity = new QNotificationEntity("notificationEntity");
 
+    public final com.likelion.stepstone.chatroom.model.QChatRoomEntity chatRoomEntity;
+
     public final BooleanPath checked = createBoolean("checked");
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
@@ -31,6 +33,8 @@ public class QNotificationEntity extends EntityPathBase<NotificationEntity> {
     public final StringPath message = createString("message");
 
     public final EnumPath<NotificationType> notificationType = createEnum("notificationType", NotificationType.class);
+
+    public final com.likelion.stepstone.user.model.QUserEntity publisher;
 
     public final StringPath title = createString("title");
 
@@ -54,6 +58,8 @@ public class QNotificationEntity extends EntityPathBase<NotificationEntity> {
 
     public QNotificationEntity(Class<? extends NotificationEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.chatRoomEntity = inits.isInitialized("chatRoomEntity") ? new com.likelion.stepstone.chatroom.model.QChatRoomEntity(forProperty("chatRoomEntity")) : null;
+        this.publisher = inits.isInitialized("publisher") ? new com.likelion.stepstone.user.model.QUserEntity(forProperty("publisher")) : null;
         this.userEntity = inits.isInitialized("userEntity") ? new com.likelion.stepstone.user.model.QUserEntity(forProperty("userEntity")) : null;
     }
 

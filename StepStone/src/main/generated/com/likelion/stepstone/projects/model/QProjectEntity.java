@@ -38,6 +38,8 @@ public class QProjectEntity extends EntityPathBase<ProjectEntity> {
 
     public final com.likelion.stepstone.user.model.QUserEntity user;
 
+    public final NumberPath<Long> workspaceCid = createNumber("workspaceCid", Long.class);
+
     public QProjectEntity(String variable) {
         this(ProjectEntity.class, forVariable(variable), INITS);
     }
