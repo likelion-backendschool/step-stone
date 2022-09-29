@@ -40,7 +40,7 @@ public class PostController {
     public String createForm(@AuthenticationPrincipal PrincipalDetails principalDetails, PostForm postForm, Model model) {
 
 
-        return "/post/form";
+        return "post/form";
     }
 
     @PostMapping("/create")
