@@ -52,6 +52,9 @@ public class SecurityConfig {
             .httpBasic().disable() // httpBasic (헤더에 ID, PW를 쿠키로 보내는 방식을 안쓰겠다.) 대신 Bearer
             .apply(new MyCustomDsl())
             .and()
+            .headers()
+            .frameOptions().sameOrigin()
+            .and()
             .authorizeRequests(auth -> auth.antMatchers("/api/v1/user/**")
                     .access("hasRole('ROLE_USER') or hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
                     .antMatchers("/api/v1/admin/**")
@@ -63,6 +66,8 @@ public class SecurityConfig {
                     .antMatchers("/project/create", "/project/modify/**", "/project/delete/**")
                     .access("hasRole('ROLE_DEVELOPER') or hasRole('ROLE_ADMIN')")
                     .antMatchers("/chat/**")
+                    .authenticated()
+                    .antMatchers("stomp/**")
                     .authenticated()
                     .anyRequest().permitAll())
             .oauth2Login(config ->
