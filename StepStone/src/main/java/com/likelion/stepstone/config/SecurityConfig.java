@@ -68,7 +68,7 @@ public class SecurityConfig {
                     .antMatchers("/chat/**")
                     .authenticated()
                     .antMatchers("stomp/**")
-                    .authenticated()
+                    .permitAll()
                     .anyRequest().permitAll())
             .oauth2Login(config ->
               config.loginPage("/login")

@@ -6,16 +6,19 @@ import org.springframework.security.config.annotation.web.socket.AbstractSecurit
 
 import static org.springframework.messaging.simp.SimpMessageType.*;
 
-//@Configuration
+@Configuration
 public class SocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 
     @Override
     protected void configureInbound(
             MessageSecurityMetadataSourceRegistry messages) {
         messages
-                .simpDestMatchers("/stomp/**").authenticated()
+                .nullDestMatcher().authenticated()
+                .simpDestMatchers("/stomp/**").permitAll()
                 .simpTypeMatchers(CONNECT, UNSUBSCRIBE, DISCONNECT).permitAll()
-                .simpSubscribeDestMatchers("/stomp/**").authenticated()
-                .anyMessage().authenticated();
+                .simpSubscribeDestMatchers("/stomp/**").permitAll()
+
+//                .anyMessage().authenticated();
+        ;
     }
 }
