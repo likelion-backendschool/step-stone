@@ -12,10 +12,13 @@ import com.likelion.stepstone.user.model.UserDto;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -250,10 +253,12 @@ public class ChatRoomService {
     }
 
     public List<String> getListFromRes(){
-        try {
-            File file = ResourceUtils.getFile("classpath:static/chatRoomImageUrls.txt");
+        String content = "";
+        ClassPathResource cpr = new ClassPathResource("static/chatRoomImageUrls.txt");
 
-            String content = new String(Files.readAllBytes(file.toPath()));
+        try {
+            byte[] bdata = FileCopyUtils.copyToByteArray(cpr.getInputStream());
+            content = new String(bdata, StandardCharsets.UTF_8);
 
             String[] urls = content.split(",");
 
