@@ -105,6 +105,7 @@ public class NotificationService {
                 .checked(false)
                 .notificationType(NotificationType.CHAT_SEND)
                 .userEntity(userEntity)
+                .publisher(userEntity)
                 .chatRoomEntity(chatRoomEntity)
                 .build();
     }
