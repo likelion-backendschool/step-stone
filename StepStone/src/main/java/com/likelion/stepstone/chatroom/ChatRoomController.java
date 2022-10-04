@@ -158,9 +158,9 @@ public class ChatRoomController {
     }
 
     @PostMapping("/room/inquiry")
-    public String inquire(Principal principal, Model model, @RequestParam String publisherId, @RequestParam String chatRoomName){
-
+    public String inquire(Principal principal, Model model, @RequestParam String publisherId, @RequestParam String chatRoomName, @RequestParam Long notificationId){
         chatRoomService.confirmInquiry(principal.getName(), publisherId, chatRoomName);
+        notificationService.markAsRead(notificationId);
         model.addAttribute("alertMessage", "채팅방이 생성 되었습니다.");
         return "navbar :: #alertMessage";
     }

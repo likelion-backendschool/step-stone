@@ -273,10 +273,12 @@
         function confirmInquiry(id, publisherId) {
             var chatRoomName = $("#inquiryChatRoomName" + id).val()
             console.log(chatRoomName);
+
             dropli(id)
             inquiryBean = {
                 publisherId: publisherId,
                 chatRoomName: chatRoomName,
+                notificationId : id
             };
             $.ajax({
                 url: "/chat/room/inquiry",
@@ -310,7 +312,7 @@
 
         #invite_confirm_btn:hover, #invite_confirm_btn:active, #invite_confirm_btn:visited,
         #inquire_confirm_btn:hover, #inquire_confirm_btn:active, #inquire_confirm_btn:visited,
-        #require_chat_room_name_btn:hover, #require_chat_room_name_btn:active, #require_chat_room_name_btn:visited, {
+        #require_chat_room_name_btn:hover, #require_chat_room_name_btn:active, #require_chat_room_name_btn:visited{
             background-color: #9ec5fe;
             border-color: #9ec5fe;
         }
