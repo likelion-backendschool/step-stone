@@ -1,6 +1,6 @@
 <br>
 
-# <img width="40" alt="StepStone" src="https://user-images.githubusercontent.com/62376361/193770148-e002ef27-73ad-4ac9-b84f-75bf5a034c9b.png">  &nbsp; StepStone
+# <img width="40" alt="StepStone" src="https://user-images.githubusercontent.com/62376361/193770148-e002ef27-73ad-4ac9-b84f-75bf5a034c9b.png">&nbsp; StepStone
 
 ### 당신의 디딤돌이 되어드립니다.
 
