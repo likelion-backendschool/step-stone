@@ -36,9 +36,11 @@
 
 ## 🎥 프로젝트 결과
 
-[🔗 stepstone-멋사-해커톤.pdf](https://github.com/EunJung803/JWT_exam/files/9703932/stepstone-.-.pdf)
+🔗 URL : [https://stepstone.eluu.xyz/](https://stepstone.eluu.xyz/)
 
-[🔗 stepstone 시연영상.mp4.zip](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d9ca8f3-183a-49e4-a76d-58e53560b8cf/stepstone_%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81.mp4.zip)
+🔗 발표 자료 : [stepstone-멋사-해커톤.pdf](https://github.com/EunJung803/JWT_exam/files/9703932/stepstone-.-.pdf)
+
+🔗 시연 영상 : [stepstone 시연영상.mp4.zip](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d9ca8f3-183a-49e4-a76d-58e53560b8cf/stepstone_%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81.mp4.zip)
 
 <img width="1077" alt="ui gif" src="https://user-images.githubusercontent.com/62376361/193768480-bad706d6-9b9a-4c8a-a53c-3d84f71aabac.gif">
 
