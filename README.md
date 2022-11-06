@@ -52,8 +52,9 @@
 ## 💻 Tech Stack
 
 
-<img width="1077" alt="Tech stack" src="https://user-images.githubusercontent.com/62376361/193768359-c6dbc402-0b2f-4d89-89a9-c10674517f52.png">
 
+
+![image](https://user-images.githubusercontent.com/47443884/200169111-e861c7b2-bf53-4a35-af8e-69695e1d353a.png)
 
 
 <br>
