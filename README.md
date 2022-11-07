@@ -52,9 +52,8 @@
 ## 💻 Tech Stack
 
 
+![image](https://user-images.githubusercontent.com/47443884/200232129-6de92c7f-6112-4ec9-ab13-18899fd6f1ce.png)
 
-
-![image](https://user-images.githubusercontent.com/47443884/200169111-e861c7b2-bf53-4a35-af8e-69695e1d353a.png)
 
 
 <br>
