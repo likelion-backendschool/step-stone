@@ -12,6 +12,8 @@ import com.likelion.stepstone.chatroom.model.ChatRoomUserJoinEntity;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
@@ -20,10 +22,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ChatService {
+    //region SSE Field
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatService.class);
+
+    private final List<Consumer<ChatDto>> chatListeners = new CopyOnWriteArrayList<>();
+    //endregion
     private final SimpMessageSendingOperations messagingTemplate;
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
@@ -34,18 +43,28 @@ public class ChatService {
     //stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
     //"/pub/chat/enter"
     public void sendMessage(ChatDto chatDto) {
+//        chatEntity.setCreatedAt(getCreatedAt());
+        ChatEntity chatEntity = saveChat(chatDto);
+        publishChat(ChatDto.toDto(chatEntity));
+//        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), chatDto);
+    }
+
+    public ChatEntity saveChat(ChatDto chatDto){
         ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
         UserEntity userEntity = userRepository.findByUserId(chatDto.getSenderId()).orElseThrow(()-> new DataNotFoundException("user not found"));
         chatEntity.setSender(userEntity);
         chatEntity.setChatId(UUID.randomUUID().toString());
-//        chatEntity.setCreatedAt(getCreatedAt());
-        saveMessage(chatEntity);
-
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), chatDto);
+        return chatRepository.save(chatEntity);
     }
 
-    public void saveMessage(ChatEntity chatEntity){
-        chatRepository.save(chatEntity);
+    public void subscribeChat(ChatDto chatDto, Consumer<ChatDto> chatListener){
+        chatListeners.add(chatListener);
+        LOGGER.info("new chat arrived total consumer: {}", chatListeners.size());
+    }
+
+    public void publishChat(ChatDto chatDto){
+        chatListeners.forEach(listener -> listener.accept(chatDto));
+        LOGGER.info("handling new chat: {}", chatDto);
     }
 
     public void enter(ChatDto chatDto) {
