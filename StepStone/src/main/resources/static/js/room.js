@@ -22,7 +22,7 @@ function initStomp() {
     // var roomId = $("#currRoomId").val();
     var username = "test user";
     // console.log(roomId + ", " + username);
-
+    connectSSE($('#currRoomId').val());
 
     //2. connection이 맺어지면 실행
     stomp.connect({}, function () {
@@ -223,9 +223,32 @@ function representChatRoomAbout(roomId){
 }
 
 function changeChatRoom( roomId){
+    connectSSE(roomId);
     getChats(roomId);
     representChatRoomAbout(roomId);
 
+}
+
+var source = null;
+function connectSSE(roomId){
+    source = new EventSource("/chat/last/" + roomId);
+    console.log("create EventSource");
+    console.log(source.url)
+    source.onmessage = function(ev) {
+        console.log("url : " )
+        console.log("on message: ", ev.data);
+    };
+    source.onerror = function(err) {
+        console.log("on err: ", err);
+        stop();
+    };
+}
+function stop() {
+    if (source != null) {
+        source.close();
+        console.log("close EventSource");
+        source = null;
+    }
 }
 
 function changeSubs(roomId) {
