@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.socket.AbstractSecurit
 
 import static org.springframework.messaging.simp.SimpMessageType.*;
 
-@Configuration
+//@Configuration
 public class SocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 
     @Override

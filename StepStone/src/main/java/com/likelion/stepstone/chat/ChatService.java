@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.codec.ServerSentEvent;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
+//import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import reactor.core.publisher.Flux;
 
 import java.text.DateFormat;
@@ -35,7 +35,12 @@ public class ChatService {
 
     private final List<Consumer<ChatDto>> chatListeners = new CopyOnWriteArrayList<>();
     //endregion
-    private final SimpMessageSendingOperations messagingTemplate;
+    //region deprecated
+    /**
+     * stomp -> SSE Migration
+     */
+//    private final SimpMessageSendingOperations messagingTemplate;
+    //endregion
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
@@ -90,12 +95,12 @@ public class ChatService {
         LOGGER.info("handling new chat: {}", chatDto);
     }
 
-    public void enter(ChatDto chatDto) {
-        ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
-        chatEntity.setMessage(chatEntity.getMessage() + "님이 채팅방에 참여하였습니다.");
-
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatEntity.getChatRoomId(), ChatDto.toDto(chatEntity));
-    }
+//    public void enter(ChatDto chatDto) {
+//        ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
+//        chatEntity.setMessage(chatEntity.getMessage() + "님이 채팅방에 참여하였습니다.");
+//
+//        messagingTemplate.convertAndSend("/sub/chat/room/" + chatEntity.getChatRoomId(), ChatDto.toDto(chatEntity));
+//    }
 
     public List<ChatDto> getHistories(String roomId) {
         List<ChatEntity> entities = chatRepository.findByChatRoomId(roomId);

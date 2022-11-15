@@ -7,7 +7,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @EnableWebSocketMessageBroker
-@Configuration
+//@Configuration
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     //endpoint를 /stomp로 하고, allowedOrigins를 "*"로 하면 페이지에서
     //Get /info 404 Error가 발생한다. 그래서 아래와 같이 2개의 계층으로 분리하고

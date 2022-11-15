@@ -7,9 +7,9 @@ var ajaxScript = document.createElement('script');
 ajaxScript.setAttribute('src','https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js');
 document.head.appendChild(ajaxScript);
 
-var sockJs = new SockJS("/stomp/chat");
-//1. SockJS를 내부에 들고있는 stomp를 내어줌
-var stomp = Stomp.over(sockJs);
+// var sockJs = new SockJS("/stomp/chat");
+// //1. SockJS를 내부에 들고있는 stomp를 내어줌
+// var stomp = Stomp.over(sockJs);
 
 // $(document).ready(function (){
 //

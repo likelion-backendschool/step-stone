@@ -21,7 +21,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
+//import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
 
 @Configuration
@@ -32,7 +32,7 @@ public class SpringConfig {
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomJoinRepository chatRoomJoinRepository;
-    private final SimpMessageSendingOperations messagingTemplate;
+//    private final SimpMessageSendingOperations messagingTemplate;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ApplicationEventPublisher eventPublisher;
     private final WorkSpaceRepository workSpaceRepository;
@@ -47,7 +47,7 @@ public class SpringConfig {
                         ChatRoomJoinRepository chatRoomJoinRepository,
                         WorkSpaceRepository workSpaceRepository,
                         ProjectRepository projectRepository,
-                        SimpMessageSendingOperations messagingTemplate,
+//                        SimpMessageSendingOperations messagingTemplate,
                         BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationEventPublisher eventPublisher, NotificationRepository notificationRepository) {
 
         this.postRepository = postRepository;
@@ -58,7 +58,7 @@ public class SpringConfig {
         this.chatRoomJoinRepository = chatRoomJoinRepository;
         this.workSpaceRepository = workSpaceRepository;
         this.projectRepository = projectRepository;
-        this.messagingTemplate = messagingTemplate;
+//        this.messagingTemplate = messagingTemplate;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.eventPublisher = eventPublisher;
         this.notificationRepository = notificationRepository;
@@ -82,7 +82,7 @@ public class SpringConfig {
 
     @Bean
     public ChatService chatService() {
-        return new ChatService(messagingTemplate, userRepository, chatRepository, chatRoomRepository, chatRoomJoinRepository);
+        return new ChatService(userRepository, chatRepository, chatRoomRepository, chatRoomJoinRepository);
     }
 
     @Bean

@@ -20,12 +20,12 @@ public class ChatController {
 
 
 
-    @MessageMapping(value = "/chat/message")
-    void sendMessage(ChatDto chatDto){
-//        chatDto.setSenderUserCid(1l);
-
-        chatService.sendMessage(chatDto);
-    }
+//    @MessageMapping(value = "/chat/message")
+//    void sendMessage(ChatDto chatDto){
+////        chatDto.setSenderUserCid(1l);
+//
+//        chatService.sendMessage(chatDto);
+//    }
 
     @PostMapping("/message")
     @ResponseBody
@@ -42,8 +42,8 @@ public class ChatController {
     //Client가 SEND할 수 있는 경로
     //stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
     //"/pub/chat/enter"
-    @MessageMapping(value = "/chat/enter")
-    public void enter(ChatDto chatDto){
-        chatService.enter(chatDto);
-    }
+//    @MessageMapping(value = "/chat/enter")
+//    public void enter(ChatDto chatDto){
+//        chatService.enter(chatDto);
+//    }
 }
