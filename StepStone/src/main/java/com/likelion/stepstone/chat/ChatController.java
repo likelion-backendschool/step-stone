@@ -27,6 +27,12 @@ public class ChatController {
         chatService.sendMessage(chatDto);
     }
 
+    @PostMapping("/message")
+    @ResponseBody
+    public void postMessage(@RequestBody ChatDto chatDto){
+        chatService.sendMessage(chatDto);
+    }
+
     @GetMapping(value="/last/{chatRoomId}")
     @ResponseBody
     public Flux<ServerSentEvent<ChatDto>> getChat(@PathVariable("chatRoomId") String chatRoomId){

@@ -307,9 +307,21 @@ function sendMsg() {
 
     profileImageUrI = $("#creationAvatar").attr('src');
 
+
     if (msg.value !== "") {
         console.log("sendMessage:" + msg.value);
-        stomp.send('/pub/chat/message', {}, JSON.stringify({
+        // stomp.send('/pub/chat/message', {}, JSON.stringify({
+        //     chatRoomId: $("#currRoomId").val(),
+        //     message: msg.value,
+        //     createdAt: dateTime,
+        //     senderName: username,
+        //     senderId: userId, //사용중인 사용자로 변경 필요
+        //     profileImageUrl: profileImageUrI
+        // }));
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/chat/message", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
             chatRoomId: $("#currRoomId").val(),
             message: msg.value,
             createdAt: dateTime,
