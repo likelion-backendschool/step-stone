@@ -14,15 +14,15 @@ var stomp = Stomp.over(sockJs);
 // $(document).ready(function (){
 //
 // });
-initStomp();
+// initStomp();
 
-
+connectSSE($('#currRoomId').val());
 function initStomp() {
 
     // var roomId = $("#currRoomId").val();
     var username = "test user";
     // console.log(roomId + ", " + username);
-    connectSSE($('#currRoomId').val());
+    // connectSSE($('#currRoomId').val());
 
     //2. connection이 맺어지면 실행
     stomp.connect({}, function () {
@@ -235,8 +235,35 @@ function connectSSE(roomId){
     console.log("create EventSource");
     console.log(source.url)
     source.onmessage = function(ev) {
-        console.log("url : " )
-        console.log("on message: ", ev.data);
+        var content = JSON.parse(ev.data);
+        console.log("on message: ", content);
+        console.log("CHAT : ", content.content);
+        console.log("----------------")
+
+        var sender = content.senderName;
+        var senderId = content.senderId;
+        var createdAt = content.createdAt;
+        var message = content.message;
+        var profileImageUrl = content.profileImageUrl;
+        var chatRoomId = content.chatRoomId;
+        var str = '';
+
+        if (senderId !== userId && chatRoomId === $('#currRoomId').val()) {
+            str = "<li class='clearfix'>";
+            str += "<div>";
+            str += "<div class='message-data'>";
+            str += "<img src='" + profileImageUrl + "' alt='avatar'>";
+            str += "<span class='message-data-time'>" + sender + "</span>";
+            str += "<span class='message-data-time'>" + createdAt + "</span>";
+            str += "</div>";
+            str += "<div class='message other-message'>" + message + "</div>";
+            str += "</div>";
+            str += "</li>";
+
+            $("#chatList").append(str);
+            const element = document.getElementById('chats');
+            element.scrollTop = element.scrollHeight;
+        }
     };
     source.onerror = function(err) {
         console.log("on err: ", err);
