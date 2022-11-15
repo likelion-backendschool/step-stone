@@ -47,7 +47,9 @@ public class ChatService {
     public void sendMessage(ChatDto chatDto) {
 //        chatEntity.setCreatedAt(getCreatedAt());
         ChatEntity chatEntity = saveChat(chatDto);
-        publishChat(ChatDto.toDto(chatEntity));
+        ChatDto dto = ChatDto.toDto(chatEntity);
+        dto.setProfileImageUrl(chatDto.getProfileImageUrl());
+        publishChat(dto);
 //        messagingTemplate.convertAndSend("/sub/chat/room/" + chatDto.getChatRoomId(), chatDto);
     }
 
@@ -63,7 +65,7 @@ public class ChatService {
         try{
             return Flux.create(serverSentEventFluxSink -> subscribeChat(serverSentEventFluxSink::next))
                     .map(message -> ServerSentEvent.<ChatDto>builder()
-                            .data(getLastMessageOfRoom(chatRoomId))
+                            .data((ChatDto)message)
 //                        .event("new message")
                             .build());
         }catch (DataNotFoundException e){
