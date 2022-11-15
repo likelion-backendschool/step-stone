@@ -15,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import reactor.core.publisher.Flux;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -57,7 +59,26 @@ public class ChatService {
         return chatRepository.save(chatEntity);
     }
 
-    public void subscribeChat(ChatDto chatDto, Consumer<ChatDto> chatListener){
+    public Flux<ServerSentEvent<ChatDto>> createSubscriber(String chatRoomId){
+        try{
+            return Flux.create(serverSentEventFluxSink -> subscribeChat(serverSentEventFluxSink::next))
+                    .map(message -> ServerSentEvent.<ChatDto>builder()
+                            .data(getLastMessageOfRoom(chatRoomId))
+//                        .event("new message")
+                            .build());
+        }catch (DataNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        return Flux.create(serverSentEventFluxSink -> subscribeChat(serverSentEventFluxSink::next))
+                .map(message -> ServerSentEvent.<ChatDto>builder()
+                        .build());
+    }
+
+    private ChatDto getLastMessageOfRoom(String chatRoomId) {
+        return ChatDto.toDto(chatRepository.findTopByChatRoomIdOrderByChatCidDesc(chatRoomId).orElseThrow(() -> new DataNotFoundException("Invalid Chat Room Id: %s".formatted(chatRoomId))));
+    }
+
+    public void subscribeChat(Consumer<ChatDto> chatListener){
         chatListeners.add(chatListener);
         LOGGER.info("new chat arrived total consumer: {}", chatListeners.size());
     }
