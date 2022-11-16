@@ -2,12 +2,13 @@ package com.likelion.stepstone.notification.model;
 
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Builder
+@SuperBuilder
 @Getter
 @ToString
 @AllArgsConstructor
@@ -24,10 +25,6 @@ public class NotificationDto {
 
     private String userId;
 
-    private String publisherId;
-
-    private String chatRoomId;
-
     private LocalDateTime createdAt;
     @Setter
     private String notificationType;
@@ -39,8 +36,6 @@ public class NotificationDto {
                 .message(entity.getMessage())
                 .checked(entity.isChecked())
                 .userId(entity.getUserEntity().getUserId())
-                .publisherId(entity.getPublisher().getUserId())
-                .chatRoomId(entity.getChatRoomEntity().getChatRoomId())
                 .createdAt(entity.getCreatedAt())
                 .notificationType(entity.getNotificationType().toString())
                 .build();

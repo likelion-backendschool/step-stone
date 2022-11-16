@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -36,11 +37,7 @@ public class NotificationEntity {
     @ManyToOne
     private UserEntity userEntity;
 
-    @ManyToOne
-    private UserEntity publisher;
 
-    @ManyToOne
-    private ChatRoomEntity chatRoomEntity;
 
     @Column(name="created_at")
     @CreatedDate
@@ -51,15 +48,13 @@ public class NotificationEntity {
     private NotificationType notificationType;
 
 
-    public static NotificationEntity toEntity(NotificationDto dto, UserEntity userEntity, UserEntity publisher, ChatRoomEntity chatRoomEntity){
+    public static NotificationEntity toEntity(NotificationDto dto, UserEntity userEntity){
         NotificationEntity entity = NotificationEntity.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())
                 .message(dto.getMessage())
                 .checked(dto.isChecked())
                 .userEntity(userEntity)
-                .publisher(publisher)
-                .chatRoomEntity(chatRoomEntity)
                 .createdAt(dto.getCreatedAt())
                 .notificationType(NotificationType.valueOf(dto.getNotificationType()))
                 .build();
