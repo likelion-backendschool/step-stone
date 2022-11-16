@@ -8,6 +8,7 @@ import com.likelion.stepstone.chat.model.ChatEntity;
 import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
+import com.likelion.stepstone.notification.model.ChatNotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationType;
@@ -97,17 +98,21 @@ public class NotificationService {
         if(!notificationRepository.existsByUserEntityAndNotificationTypeAndChecked(userEntity, NotificationType.CHAT_SEND, false))
             notificationRepository.save(notificationEntity);
     }
-    private NotificationEntity createNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
+    private ChatNotificationEntity createNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
 
-        return NotificationEntity.builder()
+        NotificationEntity notificationEntity =  NotificationEntity.builder()
                 .title("새로운 채팅")
                 .message(chatRoomEntity.getRoomName() + " 채팅방에 새로운 채팅이 도착했습니다.")
                 .checked(false)
                 .notificationType(NotificationType.CHAT_SEND)
                 .userEntity(userEntity)
-                .publisher(userEntity)
-                .chatRoomEntity(chatRoomEntity)
                 .build();
+
+        ChatNotificationEntity chatNotificationEntity = (ChatNotificationEntity) notificationEntity;
+        chatNotificationEntity.setPublisher(userEntity);
+        chatNotificationEntity.setChatRoomEntity(chatRoomEntity);
+
+        return chatNotificationEntity;
     }
 
 
