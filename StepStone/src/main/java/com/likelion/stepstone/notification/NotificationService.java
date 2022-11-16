@@ -1,10 +1,6 @@
 package com.likelion.stepstone.notification;
 
 
-import com.likelion.stepstone.chat.ChatRoomOnlineFinder;
-import com.likelion.stepstone.chat.event.ChatSendEvent;
-import com.likelion.stepstone.chat.model.ChatDto;
-import com.likelion.stepstone.chat.model.ChatEntity;
 import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
@@ -12,6 +8,7 @@ import com.likelion.stepstone.notification.model.ChatNotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationType;
+import com.likelion.stepstone.notification.repository.NotificationRepository;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;

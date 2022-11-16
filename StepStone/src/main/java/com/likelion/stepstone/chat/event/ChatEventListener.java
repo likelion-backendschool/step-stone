@@ -1,20 +1,7 @@
 package com.likelion.stepstone.chat.event;
 
-import com.likelion.stepstone.chat.model.ChatDto;
-import com.likelion.stepstone.chat.model.ChatEntity;
-import com.likelion.stepstone.chatroom.ChatRoomRepository;
-import com.likelion.stepstone.chatroom.event.ChatRoomCreatedEvent;
-import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
-import com.likelion.stepstone.chatroom.model.ChatRoomDto;
-import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
-import com.likelion.stepstone.notification.NotificationRepository;
-import com.likelion.stepstone.notification.model.NotificationDto;
-import com.likelion.stepstone.notification.model.NotificationEntity;
-import com.likelion.stepstone.notification.model.NotificationType;
-import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

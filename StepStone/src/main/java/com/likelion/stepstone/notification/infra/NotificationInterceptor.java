@@ -2,7 +2,7 @@ package com.likelion.stepstone.notification.infra;
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.chatroom.ChatRoomService;
-import com.likelion.stepstone.notification.NotificationRepository;
+import com.likelion.stepstone.notification.repository.NotificationRepository;
 import com.likelion.stepstone.notification.NotificationService;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
@@ -17,7 +17,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 

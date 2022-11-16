@@ -1,12 +1,9 @@
 package com.likelion.stepstone.chatroom.event;
 
-import com.likelion.stepstone.chat.ChatRepository;
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
-import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
-import com.likelion.stepstone.notification.NotificationRepository;
-import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.ChatNotificationEntity;
+import com.likelion.stepstone.notification.repository.NotificationRepository;
 import com.likelion.stepstone.notification.model.NotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationType;
 import com.likelion.stepstone.user.UserRepository;
@@ -17,7 +14,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.TemplateEngine;
 
 @Slf4j
 @Async

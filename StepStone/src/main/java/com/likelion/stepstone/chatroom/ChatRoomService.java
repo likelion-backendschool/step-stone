@@ -5,7 +5,7 @@ import com.likelion.stepstone.chatroom.event.ChatRoomInquireEvent;
 import com.likelion.stepstone.chatroom.event.ChatRoomInviteEvent;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.*;
-import com.likelion.stepstone.notification.NotificationRepository;
+import com.likelion.stepstone.notification.repository.NotificationRepository;
 import com.likelion.stepstone.post.model.PostEntity;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserDto;
@@ -14,12 +14,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ResourceUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
