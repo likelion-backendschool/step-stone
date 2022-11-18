@@ -15,5 +15,5 @@ public interface NotificationRepository extends NotificationBaseRepository<Notif
 
     List<NotificationEntity> findByUserEntityAndChecked(UserEntity userEntity, boolean b);
 
-    boolean existsByUserEntityAndNotificationTypeAndChecked(UserEntity userEntity, NotificationType notificationType, boolean checked);
+
 }

@@ -1,38 +1,27 @@
-package com.likelion.stepstone.notification;
+package com.likelion.stepstone.notification.service;
 
-
-import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
-import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.notification.model.ChatNotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationType;
-import com.likelion.stepstone.notification.repository.NotificationRepository;
-import com.likelion.stepstone.user.UserRepository;
+import com.likelion.stepstone.notification.repository.ChatNotificationRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class NotificationService {
-    private final NotificationRepository notificationRepository;
-    private final UserRepository userRepository;
-    private final ChatRoomJoinRepository chatRoomJoinRepository;
-    private final ApplicationEventPublisher eventPublisher;
-
-
-    public void markAsRead(List<NotificationEntity> notifications) {
-        notifications.forEach(NotificationEntity::read);
-    }
+public class ChatNotificationService {
+    private final ChatNotificationRepository chatNotificationRepository;
 
     public List<NotificationDto> readNewNotifications(String userId){
 
@@ -45,25 +34,6 @@ public class NotificationService {
 
         return notificationDtos;
     }
-
-    public UserEntity findUserEntityByUserId(String userId){
-        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(() -> new DataNotFoundException("user not found"));
-        return  userEntity;
-    }
-
-    public void markAll(String userId) {
-        UserEntity userEntity = findUserEntityByUserId(userId);
-        List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
-
-        markAsRead(notificationEntities);
-    }
-
-    public void markAsRead(Long id) {
-        NotificationEntity notificationEntity = notificationRepository.findById(id).orElseThrow(() -> new DataNotFoundException("notification not found"));
-
-        notificationEntity.read();
-    }
-
 
     public void publishNewChat(String userId, List<UserEntity> users, ChatRoomEntity chatRoomEntity) {
         for(UserEntity userEntity : users){
@@ -89,13 +59,13 @@ public class NotificationService {
     public void handleChatSendEvent(ChatRoomEntity chatRoomEntity, UserEntity userEntity){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
         log.info(chatRoomEntity.getRoomName() + ": new message arrived");
 
-        NotificationEntity notificationEntity = createNotification(chatRoomEntity, userEntity);
+        ChatNotificationEntity notificationEntity = createChatNotification(chatRoomEntity, userEntity);
         // TODO DB에 Notification 정보 저장
 
-        if(!notificationRepository.existsByUserEntityAndNotificationTypeAndChecked(userEntity, NotificationType.CHAT_SEND, false))
-            notificationRepository.save(notificationEntity);
+        if(!chatNotificationRepository.existsByUserEntityAndNotificationTypeAndChecked(userEntity, NotificationType.CHAT_SEND, false))
+            chatNotificationRepository.save(notificationEntity);
     }
-    private ChatNotificationEntity createNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
+    private ChatNotificationEntity createChatNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
 
         NotificationEntity notificationEntity =  NotificationEntity.builder()
                 .title("새로운 채팅")
@@ -111,6 +81,4 @@ public class NotificationService {
 
         return chatNotificationEntity;
     }
-
-
 }

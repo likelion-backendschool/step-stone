@@ -3,7 +3,7 @@ package com.likelion.stepstone.notification.infra;
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.chatroom.ChatRoomService;
 import com.likelion.stepstone.notification.repository.NotificationRepository;
-import com.likelion.stepstone.notification.NotificationService;
+import com.likelion.stepstone.notification.service.NotificationService;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.model.NotificationEntity;
 import com.likelion.stepstone.user.model.UserEntity;
