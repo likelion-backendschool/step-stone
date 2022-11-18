@@ -5,6 +5,8 @@ import com.likelion.stepstone.chatroom.model.InviteUserForm;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.service.ChatNotificationService;
 import com.likelion.stepstone.post.PostService;
+import com.likelion.stepstone.user.model.UserEntity;
+import com.likelion.stepstone.user.support.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +29,9 @@ public class ChatNotificationController {
     private final PostService postService;
 
     @GetMapping("/subscribe/chat/new")
-    public String newChatArrived(Principal principal, Model model, String chatRoomId, String senderId){
-        chatNotificationService.publishNewChat(senderId, chatRoomService.findAllUserInChatRoom(chatRoomId), chatRoomService.findByChatRoomId(chatRoomId));
-        List<NotificationDto> dtos = chatNotificationService.readNewNotifications(principal.getName());
+    public String newChatArrived(@AuthUser UserEntity userEntity, Model model, String chatRoomId, String senderId){
+//        chatNotificationService.publishNewChat(senderId, chatRoomService.findAllUserInChatRoom(chatRoomId), chatRoomService.findByChatRoomId(chatRoomId));
+        List<NotificationDto> dtos = chatNotificationService.readNewNotifications(userEntity);
 
         model.addAttribute("notifications", dtos);
         model.addAttribute("hasNotification", dtos.size() > 0);

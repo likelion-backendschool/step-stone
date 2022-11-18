@@ -23,18 +23,15 @@ import java.util.Optional;
 public class ChatNotificationService {
     private final ChatNotificationRepository chatNotificationRepository;
 
-//    public List<NotificationDto> readNewNotifications(String userId){
-//
-//        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
-//        if(userEntity.isEmpty()) return new ArrayList<>();
-//
-//        List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity.get(), false);
-//
-//        List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
-//
-//        return notificationDtos;
-//    }
-//
+    public List<NotificationDto> readNewNotifications(UserEntity userEntity){
+
+        List<NotificationEntity> notificationEntities = chatNotificationRepository.findByUserEntityAndChecked(userEntity, false);
+
+        List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
+
+        return notificationDtos;
+    }
+
 //    public void publishNewChat(String userId, List<UserEntity> users, ChatRoomEntity chatRoomEntity) {
 //        for(UserEntity userEntity : users){
 //            if(userEntity.getUserId().equals(userId)) continue;
