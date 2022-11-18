@@ -63,9 +63,10 @@ public class ChatService {
     }
 
     public List<ChatDto> getHistories(String roomId) {
-        List<ChatEntity> entities = chatRepository.findByChatRoomId(roomId);
+        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Chat Room Not Exist"));
+        List<ChatEntity> entities = chatRepository.findByChatRoomEntity(chatRoomEntity);
 
-        Long chatRoomCid = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Chat Room Not Exist")).getChatRoomCid();
+        Long chatRoomCid = chatRoomEntity.getChatRoomCid();
         List<ChatRoomUserJoinEntity> chatRoomUserJoinEntities = chatRoomJoinRepository.findByIdChatRoomCid(chatRoomCid);
 
         return entities.stream()
