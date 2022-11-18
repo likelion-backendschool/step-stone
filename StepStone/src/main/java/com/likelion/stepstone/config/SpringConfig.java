@@ -81,7 +81,7 @@ public class SpringConfig {
 
     @Bean
     public ChatService chatService() {
-        return new ChatService(messagingTemplate, userRepository, chatRepository, chatRoomRepository, chatRoomJoinRepository);
+        return new ChatService(messagingTemplate, userRepository, chatRepository, chatRoomRepository, chatRoomJoinRepository, eventPublisher);
     }
 
     @Bean

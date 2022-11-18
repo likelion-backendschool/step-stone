@@ -18,15 +18,15 @@ public class ChatVo {
     final String senderName;
     final String createdAt;
 
-    public static ChatVo toVo(ChatEntity chatEntity){
-        ChatVo vo = ChatVo.builder()
-                .chatRoomId(chatEntity.getChatRoomId())
-                .message(chatEntity.getMessage())
-                .senderId(chatEntity.getSender().getUserId())
-                .senderName(chatEntity.getSender().getName())
-                .createdAt(chatEntity.getCreatedAt())
-                .build();
-
-        return vo;
-    }
+//    public static ChatVo toVo(ChatEntity chatEntity){
+//        ChatVo vo = ChatVo.builder()
+//                .chatRoomId(chatEntity.getChatRoomId())
+//                .message(chatEntity.getMessage())
+//                .senderId(chatEntity.getSender().getUserId())
+//                .senderName(chatEntity.getSender().getName())
+//                .createdAt(chatEntity.getCreatedAt())
+//                .build();
+//
+//        return vo;
+//    }
 }
