@@ -25,7 +25,7 @@ public class ChatEventListener {
     @EventListener
     public void handleChatSendEvent(ChatSendEvent chatSendEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
 
-        ChatRoomEntity chatRoomEntity = chatSendEvent.getChatRoomEntity();
+        ChatRoomEntity chatRoomEntity = chatSendEvent.getChatEntity().getChatRoomEntity();
 
         log.info(chatRoomEntity.getRoomName() + ": new message arrived");
 

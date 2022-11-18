@@ -16,8 +16,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatDto {
+//    @Setter
+//    String chatRoomId;
+
     @Setter
-    String chatRoomId;
+    ChatRoomDto chatRoomDto;
 
     @Setter
     String senderId;
@@ -42,7 +45,7 @@ public class ChatDto {
 
     public static ChatDto toDto(ChatEntity chatEntity){
         ChatDto dto = ChatDto.builder()
-                .chatRoomId(chatEntity.getChatRoomId())
+                .chatRoomDto(ChatRoomDto.toDto(chatEntity.getChatRoomEntity()))
                 .message(chatEntity.getMessage())
                 .senderId(chatEntity.getSender().getUserId())
                 .senderName(chatEntity.getSender().getName())

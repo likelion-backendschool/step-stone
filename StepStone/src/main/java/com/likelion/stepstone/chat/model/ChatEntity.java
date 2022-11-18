@@ -30,9 +30,12 @@ public class ChatEntity {
     @Column(name="chat_id")
     String chatId;
 
+//    @Setter
+//    @Column(name = "chat_room_id")
+//    String chatRoomId;
     @Setter
-    @Column(name = "chat_room_id")
-    String chatRoomId;
+    @ManyToOne
+    ChatRoomEntity chatRoomEntity;
 
     @Setter
     @Column(name = "message")
@@ -51,7 +54,7 @@ public class ChatEntity {
 
     public static ChatEntity toEntity(ChatDto chatDto){
         ChatEntity entity = ChatEntity.builder()
-                .chatRoomId(chatDto.getChatRoomId())
+                .chatRoomEntity(ChatRoomEntity.toEntity(chatDto.getChatRoomDto()))
                 .message(chatDto.getMessage())
                 .createdAt(chatDto.getCreatedAt())
                 .build();
