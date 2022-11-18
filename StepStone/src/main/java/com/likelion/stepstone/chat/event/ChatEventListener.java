@@ -1,9 +1,11 @@
 package com.likelion.stepstone.chat.event;
 
+import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chat.model.ChatEntity;
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
+import com.likelion.stepstone.notification.handler.ChatNotificationHandler;
 import com.likelion.stepstone.notification.model.*;
 import com.likelion.stepstone.notification.repository.ChatNotificationRepository;
 import com.likelion.stepstone.notification.repository.NotificationRepository;
@@ -22,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ChatEventListener {
     private final ChatNotificationRepository chatNotificationRepository;
-    private final NotificationRepository notificationRepository;
-
+    private final ChatNotificationHandler chatNotificationHandler;
     @EventListener
     public void handleChatSendEvent(ChatSendEvent chatSendEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
 
@@ -33,7 +34,7 @@ public class ChatEventListener {
 
         ChatNotificationEntity chatNotificationEntity = createNotification(chatRoomEntity , chatSendEvent.getUserEntity());
         // TODO DB에 Notification 정보 저장
-
+        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationEntity));
         saveNotification(chatNotificationEntity);
     }
 
@@ -49,14 +50,6 @@ public class ChatEventListener {
                 .chatRoomEntity(chatRoomEntity)
                 .build();
 
-        NotificationEntity entity = NotificationEntity.builder()
-                .title("new")
-                .message("message")
-                .checked(false)
-                .notificationType(NotificationType.CHAT_SEND)
-                .userEntity(userEntity)
-                .build();
-        notificationRepository.save(entity);
         return chatNotificationEntity;
     }
 

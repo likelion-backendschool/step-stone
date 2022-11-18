@@ -1,5 +1,7 @@
 package com.likelion.stepstone.notification.service;
 
+import com.likelion.stepstone.chat.model.ChatDto;
+import com.likelion.stepstone.chat.model.ChatEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.notification.model.*;
 import com.likelion.stepstone.notification.repository.ChatNotificationRepository;
@@ -27,6 +29,13 @@ public class ChatNotificationService {
         List<ChatNotificationDto> notificationDtos = notificationEntities.stream().map(ChatNotificationDto::toDto).toList();
 
         return notificationDtos;
+    }
+
+
+    public ChatNotificationDto getLastNotification(UserEntity userEntity) {
+        ChatNotificationEntity chatNotificationEntity = chatNotificationRepository.findTopByUserEntityOrderByIdDesc(userEntity);
+
+        return ChatNotificationDto.toDto(chatNotificationEntity);
     }
 
 //    public void publishNewChat(String userId, List<UserEntity> users, ChatRoomEntity chatRoomEntity) {

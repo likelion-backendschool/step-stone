@@ -1,7 +1,9 @@
 package com.likelion.stepstone.notification;
 
+import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.chatroom.ChatRoomService;
 import com.likelion.stepstone.chatroom.model.InviteUserForm;
+import com.likelion.stepstone.notification.handler.ChatNotificationHandler;
 import com.likelion.stepstone.notification.model.ChatNotificationDto;
 import com.likelion.stepstone.notification.model.NotificationDto;
 import com.likelion.stepstone.notification.service.ChatNotificationService;
@@ -9,12 +11,14 @@ import com.likelion.stepstone.post.PostService;
 import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.user.support.AuthUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.ServerSentEvent;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -28,6 +32,7 @@ public class ChatNotificationController {
     private final ChatNotificationService chatNotificationService;
     private final ChatRoomService chatRoomService;
     private final PostService postService;
+    private final ChatNotificationHandler handler;
 
     @GetMapping("/subscribe/chat/new")
     public String newChatArrived(@AuthUser UserEntity userEntity, Model model, String chatRoomId, String senderId){
@@ -73,5 +78,14 @@ public class ChatNotificationController {
     }
 
 
+    @GetMapping(path="/chat/consume/new", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @ResponseBody
+    public Flux<ServerSentEvent<Object>> consumer(@AuthUser UserEntity userEntity){
 
+        return Flux.create(serverSentEventFluxSink -> handler.subscribe(serverSentEventFluxSink::next))
+                .publishOn(Schedulers.boundedElastic())
+                .map(chat -> ServerSentEvent.builder()
+                        .data(chatNotificationService.getLastNotification(userEntity))
+                        .build());
+    }
 }

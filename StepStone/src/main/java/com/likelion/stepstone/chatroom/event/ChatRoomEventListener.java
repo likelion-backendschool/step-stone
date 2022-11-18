@@ -2,10 +2,9 @@ package com.likelion.stepstone.chatroom.event;
 
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
-import com.likelion.stepstone.notification.model.ChatNotificationEntity;
+import com.likelion.stepstone.notification.handler.ChatNotificationHandler;
+import com.likelion.stepstone.notification.model.*;
 import com.likelion.stepstone.notification.repository.NotificationRepository;
-import com.likelion.stepstone.notification.model.NotificationEntity;
-import com.likelion.stepstone.notification.model.NotificationType;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +23,18 @@ public class ChatRoomEventListener {
     private final NotificationRepository notificationRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
-
+    private final ChatNotificationHandler chatNotificationHandler;
     @EventListener // @EventListener 애너테이션을 이용해 이벤트 리스너를 명시합니다.
     public void handleChatRoomCreatedEvent(ChatRoomCreatedEvent chatRoomCreatedEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
         ChatRoomEntity chatRoomEntity = chatRoomCreatedEvent.getChatRoomEntity();
         log.info(chatRoomEntity.getRoomName() + " is created");
 
-        NotificationEntity notificationEntity = createCreateNotification(chatRoomCreatedEvent.getChatRoomEntity(), chatRoomCreatedEvent.getUserEntity());
+        ChatNotificationEntity notificationEntity = createCreateNotification(chatRoomCreatedEvent.getChatRoomEntity(), chatRoomCreatedEvent.getUserEntity());
         // TODO DB에 Notification 정보 저장
 
         notificationRepository.save(notificationEntity);
+
+        chatNotificationHandler.publish(ChatNotificationDto.toDto(notificationEntity));
     }
 
     @EventListener
@@ -44,8 +45,9 @@ public class ChatRoomEventListener {
 
         log.info(userEntity.getName() + "is invited to" + chatRoomEntity.getRoomName());
 
-        NotificationEntity notificationEntity = createInviteNotification(chatRoomEntity, userEntity, publisher);
-        notificationRepository.save(notificationEntity);
+        ChatNotificationEntity chatNotificationEntity = createInviteNotification(chatRoomEntity, userEntity, publisher);
+        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationEntity));
+        notificationRepository.save(chatNotificationEntity);
 
     }
 
@@ -60,10 +62,13 @@ public class ChatRoomEventListener {
 
         chatRoomEntity = chatRoomRepository.findByChatRoomId(chatRoomEntity.getChatRoomId()).get();
 
-        NotificationEntity notificationUserEntity = createInquireUserNotification(developer, user, chatRoomEntity);
-        NotificationEntity notificationDeveloperEntity = createInquireDeveloperNotification(developer, user, chatRoomEntity);
-        notificationRepository.save(notificationUserEntity);
-        notificationRepository.save(notificationDeveloperEntity);
+        ChatNotificationEntity chatNotificationUserEntity = createInquireUserNotification(developer, user, chatRoomEntity);
+        ChatNotificationEntity chatNotificationDeveloperEntity = createInquireDeveloperNotification(developer, user, chatRoomEntity);
+        notificationRepository.save(chatNotificationUserEntity);
+        notificationRepository.save(chatNotificationDeveloperEntity);
+
+        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationUserEntity));
+        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationDeveloperEntity));
     }
 
 

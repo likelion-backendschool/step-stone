@@ -1,5 +1,6 @@
 package com.likelion.stepstone.notification.repository;
 
+import com.likelion.stepstone.chat.model.ChatEntity;
 import com.likelion.stepstone.notification.model.ChatNotificationDto;
 import com.likelion.stepstone.notification.model.ChatNotificationEntity;
 import com.likelion.stepstone.notification.model.NotificationEntity;
@@ -16,4 +17,7 @@ public interface ChatNotificationRepository extends NotificationBaseRepository<C
 
     boolean existsByUserEntityAndNotificationTypeAndChecked(UserEntity userEntity, NotificationType notificationType, boolean checked);
     List<ChatNotificationEntity> findByUserEntityAndChecked(UserEntity userEntity, boolean b);
+
+    ChatNotificationEntity findTopByUserEntityOrderByIdDesc(UserEntity userEntity);
+
 }

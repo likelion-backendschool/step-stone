@@ -208,6 +208,34 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script th:inline="javascript">
+        var source = null;
+        function start() {
+            source = new EventSource("/notification/chat/consume/new");
+            console.log("create EventSource");
+            source.onmessage = function(ev) {
+                console.log("on message: ", ev.data);
+                console.log("on event: ", ev.event);
+                $("#stockValue").text(ev.data);
+            };
+            source.onerror = function(err) {
+                console.log("on err: ", err);
+                stop();
+            };
+        }
+        function stop() {
+            if (source != null) {
+                source.close();
+                console.log("close EventSource");
+                source = null;
+            }
+        }
+
+        $(document).ready(function(){
+            start();
+        });
+        $(window).on("unload", function () {
+            stop();
+        });
         function stopProp(event) {
             event.stopPropagation();
         }
