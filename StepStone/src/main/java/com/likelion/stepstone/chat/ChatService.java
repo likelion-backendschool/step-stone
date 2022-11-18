@@ -38,7 +38,8 @@ public class ChatService {
     //stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
     //"/pub/chat/enter"
     public void sendMessage(ChatDto chatDto) {
-        ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
+        ChatEntity chatEntity = fromDtoToEntity(chatDto);
+
         UserEntity userEntity = userRepository.findByUserId(chatDto.getSenderId()).orElseThrow(()-> new DataNotFoundException("user not found"));
         chatEntity.setSender(userEntity);
         chatEntity.setChatId(UUID.randomUUID().toString());
@@ -56,7 +57,7 @@ public class ChatService {
         eventPublisher.publishEvent(new ChatSendEvent(chatEntity, userEntity));
     }
     public void enter(ChatDto chatDto) {
-        ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
+        ChatEntity chatEntity = fromDtoToEntity(chatDto);
         chatEntity.setMessage(chatEntity.getMessage() + "님이 채팅방에 참여하였습니다.");
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + chatEntity.getChatRoomEntity().getChatRoomId(), ChatDto.toDto(chatEntity));
@@ -85,5 +86,13 @@ public class ChatService {
         String formattedDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date);
 
         return formattedDate;
+    }
+
+    public ChatEntity fromDtoToEntity(ChatDto chatDto){
+        ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
+        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(chatDto.getChatRoomId()).orElseThrow(() -> new DataNotFoundException("Chat Room Not Exist"));
+        chatEntity.setChatRoomEntity(chatRoomEntity);
+
+        return chatEntity;
     }
 }

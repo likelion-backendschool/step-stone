@@ -33,6 +33,9 @@ public class ChatEntity {
 //    @Setter
 //    @Column(name = "chat_room_id")
 //    String chatRoomId;
+    /**
+     * ChatRoomEntity는 Builder가 아닌 setter로 설정해주어야 한다.
+     */
     @Setter
     @ManyToOne
     ChatRoomEntity chatRoomEntity;
@@ -52,9 +55,9 @@ public class ChatEntity {
 //    @CreatedDate
     String createdAt;
 
+
     public static ChatEntity toEntity(ChatDto chatDto){
         ChatEntity entity = ChatEntity.builder()
-                .chatRoomEntity(ChatRoomEntity.toEntity(chatDto.getChatRoomDto()))
                 .message(chatDto.getMessage())
                 .createdAt(chatDto.getCreatedAt())
                 .build();
