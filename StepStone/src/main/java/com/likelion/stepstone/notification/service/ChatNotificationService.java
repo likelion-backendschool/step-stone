@@ -1,10 +1,7 @@
 package com.likelion.stepstone.notification.service;
 
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
-import com.likelion.stepstone.notification.model.ChatNotificationEntity;
-import com.likelion.stepstone.notification.model.NotificationDto;
-import com.likelion.stepstone.notification.model.NotificationEntity;
-import com.likelion.stepstone.notification.model.NotificationType;
+import com.likelion.stepstone.notification.model.*;
 import com.likelion.stepstone.notification.repository.ChatNotificationRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +20,11 @@ import java.util.Optional;
 public class ChatNotificationService {
     private final ChatNotificationRepository chatNotificationRepository;
 
-    public List<NotificationDto> readNewNotifications(UserEntity userEntity){
+    public List<ChatNotificationDto> readNewNotifications(UserEntity userEntity){
 
-        List<NotificationEntity> notificationEntities = chatNotificationRepository.findByUserEntityAndChecked(userEntity, false);
+        List<ChatNotificationEntity> notificationEntities = chatNotificationRepository.findByUserEntityAndChecked(userEntity, false);
 
-        List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
+        List<ChatNotificationDto> notificationDtos = notificationEntities.stream().map(ChatNotificationDto::toDto).toList();
 
         return notificationDtos;
     }

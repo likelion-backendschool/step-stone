@@ -2,6 +2,10 @@ package com.likelion.stepstone.notification.infra;
 
 import com.likelion.stepstone.authentication.PrincipalDetails;
 import com.likelion.stepstone.chatroom.ChatRoomService;
+import com.likelion.stepstone.notification.model.ChatNotificationDto;
+import com.likelion.stepstone.notification.model.ChatNotificationEntity;
+import com.likelion.stepstone.notification.repository.ChatNotificationRepository;
+import com.likelion.stepstone.notification.repository.NotificationBaseRepository;
 import com.likelion.stepstone.notification.repository.NotificationRepository;
 import com.likelion.stepstone.notification.service.NotificationService;
 import com.likelion.stepstone.notification.model.NotificationDto;
@@ -24,7 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NotificationInterceptor implements HandlerInterceptor {
 
-    private final NotificationRepository notificationRepository;
+    private final ChatNotificationRepository notificationRepository;
 
     private final NotificationService notificationService;
     private final ChatRoomService chatRoomService;
@@ -63,8 +67,8 @@ public class NotificationInterceptor implements HandlerInterceptor {
 
     private void setNotificationsOnUI(UserEntity userEntity, ModelAndView modelAndView){
         long count = notificationRepository.countByUserEntityAndChecked(userEntity, false); // (4)
-        List<NotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
-        List<NotificationDto> notificationDtos = notificationEntities.stream().map(NotificationDto::toDto).toList();
+        List<ChatNotificationEntity> notificationEntities = notificationRepository.findByUserEntityAndChecked(userEntity, false);
+        List<ChatNotificationDto> notificationDtos = notificationEntities.stream().map(ChatNotificationDto::toDto).toList();
 
         modelAndView.addObject("hasNotification", count > 0); // (5)
         modelAndView.addObject("notifications", notificationDtos);

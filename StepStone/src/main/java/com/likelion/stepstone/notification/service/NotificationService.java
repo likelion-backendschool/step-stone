@@ -4,10 +4,7 @@ package com.likelion.stepstone.notification.service;
 import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
-import com.likelion.stepstone.notification.model.ChatNotificationEntity;
-import com.likelion.stepstone.notification.model.NotificationDto;
-import com.likelion.stepstone.notification.model.NotificationEntity;
-import com.likelion.stepstone.notification.model.NotificationType;
+import com.likelion.stepstone.notification.model.*;
 import com.likelion.stepstone.notification.repository.NotificationRepository;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
@@ -26,8 +23,6 @@ import java.util.*;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
-    private final ChatRoomJoinRepository chatRoomJoinRepository;
-    private final ApplicationEventPublisher eventPublisher;
 
 
     public void markAsRead(List<NotificationEntity> notifications) {
