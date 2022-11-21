@@ -18,6 +18,6 @@ public interface ChatNotificationRepository extends NotificationBaseRepository<C
     boolean existsByUserEntityAndNotificationTypeAndChecked(UserEntity userEntity, NotificationType notificationType, boolean checked);
     List<ChatNotificationEntity> findByUserEntityAndChecked(UserEntity userEntity, boolean b);
 
-    List<ChatNotificationEntity> findAllByUserEntityOrderByIdDesc(UserEntity userEntity);
+    List<ChatNotificationEntity> findAllByUserEntityAndChecked(UserEntity userEntity, boolean b);
 
 }

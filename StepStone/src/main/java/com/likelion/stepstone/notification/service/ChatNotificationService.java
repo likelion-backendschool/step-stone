@@ -33,7 +33,7 @@ public class ChatNotificationService {
 
 
     public List<ChatNotificationDto> getAllNotification(UserEntity userEntity) {
-        List<ChatNotificationEntity> notificationEntities = chatNotificationRepository.findAllByUserEntityOrderByIdDesc(userEntity);
+        List<ChatNotificationEntity> notificationEntities = chatNotificationRepository.findAllByUserEntityAndChecked(userEntity, false);
         List<ChatNotificationDto> notificationDtos = notificationEntities.stream().map(ChatNotificationDto::toDto).toList();
         return notificationDtos;
     }
