@@ -68,13 +68,7 @@
     var userId = [[${senderId}]];
     var username = [[${name}]];
     var allRoomId = [[${allRoomId}]];
-    var authname = [[${#authentication.principal.user.name}]];
-    const sse = new EventSource("http://localhost:8080/notification/connect");
-    console.log(authname)
-    sse.addEventListener(authname, (e) => {
-        const { data: receivedConnectData } = e;
-        console.log('connect event data: ',receivedConnectData);  // "connected!"
-    });
+
 
 
 </script>

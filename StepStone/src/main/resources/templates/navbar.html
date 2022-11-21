@@ -208,6 +208,16 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script th:inline="javascript">
+        var authname = [[${#authentication.principal.user.userId}]];
+
+        const sse = new EventSource("http://localhost:8080/notification/connect");
+        console.log(authname)
+        sse.addEventListener(authname, (e) => {
+            const { data: receivedConnectData } = e;
+            console.log('connect event data: ',receivedConnectData);
+
+
+        });
 
         function stopProp(event) {
             event.stopPropagation();
