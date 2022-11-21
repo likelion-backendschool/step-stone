@@ -46,14 +46,14 @@ public class ChatNotificationHandler {
     }
 
     @Scheduled(fixedDelay = 3000)
-    public void send(String name, Object data) {
+    public void send(String userId, Object data) {
         emitters.forEach(sseEmitter -> {
-            ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
-            sseMvcExecutor.execute(() -> {
+//            ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
+//            sseMvcExecutor.execute(() -> {
                 try {
                     for (int i = 0; true; i++) {
                         sseEmitter.send(SseEmitter.event()
-                                .name(name)
+                                .name(userId)
                                 .data(data));
                         Thread.sleep(5000);
                     }
@@ -61,7 +61,7 @@ public class ChatNotificationHandler {
                     sseEmitter.complete();
                 }
             });
-        });
+//        });
     }
 
 }

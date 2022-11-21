@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChatRoomEventListener {
     private final NotificationRepository notificationRepository;
     private final ChatRoomRepository chatRoomRepository;
-    private final UserRepository userRepository;
     private final ChatNotificationHandler chatNotificationHandler;
     @EventListener // @EventListener 애너테이션을 이용해 이벤트 리스너를 명시합니다.
     public void handleChatRoomCreatedEvent(ChatRoomCreatedEvent chatRoomCreatedEvent){ // EventPublisher를 통해 이벤트가 발생될 때 전달한 파라미터가 StudyCreatedEvent일 때 해당 메서드가 호출됩니다.
@@ -34,7 +33,7 @@ public class ChatRoomEventListener {
 
         notificationRepository.save(notificationEntity);
 
-//        chatNotificationHandler.publish(ChatNotificationDto.toDto(notificationEntity));
+        chatNotificationHandler.send( chatRoomCreatedEvent.getUserEntity().getUserId(),ChatNotificationDto.toDto(notificationEntity));
     }
 
     @EventListener
@@ -46,7 +45,7 @@ public class ChatRoomEventListener {
         log.info(userEntity.getName() + "is invited to" + chatRoomEntity.getRoomName());
 
         ChatNotificationEntity chatNotificationEntity = createInviteNotification(chatRoomEntity, userEntity, publisher);
-//        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationEntity));
+        chatNotificationHandler.send(userEntity.getUserId(),ChatNotificationDto.toDto(chatNotificationEntity));
         notificationRepository.save(chatNotificationEntity);
 
     }
@@ -67,8 +66,8 @@ public class ChatRoomEventListener {
         notificationRepository.save(chatNotificationUserEntity);
         notificationRepository.save(chatNotificationDeveloperEntity);
 
-//        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationUserEntity));
-//        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationDeveloperEntity));
+        chatNotificationHandler.send(user.getUserId(), ChatNotificationDto.toDto(chatNotificationUserEntity));
+        chatNotificationHandler.send(user.getUserId(), ChatNotificationDto.toDto(chatNotificationDeveloperEntity));
     }
 
 

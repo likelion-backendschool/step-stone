@@ -87,7 +87,7 @@ public class ChatNotificationController {
     public ResponseEntity<SseEmitter> connect(@AuthUser UserEntity user) {
         SseEmitter emitter = new SseEmitter();
         handler.add(emitter);
-        handler.send(user.getName(), chatNotificationService.getAllNotification(user));
+//        handler.send(user.getName(), chatNotificationService.getAllNotification(user));
         return ResponseEntity.ok(emitter);
     }
 }
