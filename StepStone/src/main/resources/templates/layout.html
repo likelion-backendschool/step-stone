@@ -61,15 +61,25 @@
 </footer>
 
 <!-- 자바스크립트 Start -->
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script th:inline="javascript">
     var userId = [[${senderId}]];
     var username = [[${name}]];
     var allRoomId = [[${allRoomId}]];
+    var authname = [[${#authentication.principal.user.name}]];
+    const sse = new EventSource("http://localhost:8080/notification/connect");
+    console.log(authname)
+    sse.addEventListener(authname, (e) => {
+        const { data: receivedConnectData } = e;
+        console.log('connect event data: ',receivedConnectData);  // "connected!"
+    });
+
+
 </script>
 <script type="text/javascript"  th:src="@{/js/room.js}"></script>
+</th:block>
 <!-- 자바스크립트 End -->
 </body>
 </html>

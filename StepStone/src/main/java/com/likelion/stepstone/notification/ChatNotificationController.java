@@ -12,17 +12,23 @@ import com.likelion.stepstone.user.model.UserEntity;
 import com.likelion.stepstone.user.support.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RequiredArgsConstructor
 @Controller
@@ -77,5 +83,11 @@ public class ChatNotificationController {
         return "redirect:/workspace/detail/" + workspaceCid;
     }
 
+    @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public ResponseEntity<SseEmitter> connect(@AuthUser UserEntity user) {
+        SseEmitter emitter = new SseEmitter();
+        handler.add(emitter);
+        handler.send(user.getName(), chatNotificationService.getAllNotification(user));
+        return ResponseEntity.ok(emitter);
     }
 }

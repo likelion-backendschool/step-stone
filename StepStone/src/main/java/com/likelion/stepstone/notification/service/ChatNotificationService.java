@@ -32,10 +32,10 @@ public class ChatNotificationService {
     }
 
 
-    public ChatNotificationDto getLastNotification(UserEntity userEntity) {
-        ChatNotificationEntity chatNotificationEntity = chatNotificationRepository.findTopByUserEntityOrderByIdDesc(userEntity);
-
-        return ChatNotificationDto.toDto(chatNotificationEntity);
+    public List<ChatNotificationDto> getAllNotification(UserEntity userEntity) {
+        List<ChatNotificationEntity> notificationEntities = chatNotificationRepository.findAllByUserEntityOrderByIdDesc(userEntity);
+        List<ChatNotificationDto> notificationDtos = notificationEntities.stream().map(ChatNotificationDto::toDto).toList();
+        return notificationDtos;
     }
 
 //    public void publishNewChat(String userId, List<UserEntity> users, ChatRoomEntity chatRoomEntity) {
