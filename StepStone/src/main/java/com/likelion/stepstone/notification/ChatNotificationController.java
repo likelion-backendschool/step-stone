@@ -77,15 +77,5 @@ public class ChatNotificationController {
         return "redirect:/workspace/detail/" + workspaceCid;
     }
 
-
-    @GetMapping(path="/chat/consume/new", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    @ResponseBody
-    public Flux<ServerSentEvent<Object>> consumer(@AuthUser UserEntity userEntity){
-
-        return Flux.create(serverSentEventFluxSink -> handler.subscribe(serverSentEventFluxSink::next))
-                .publishOn(Schedulers.boundedElastic())
-                .map(chat -> ServerSentEvent.builder()
-                        .data(chatNotificationService.getLastNotification(userEntity))
-                        .build());
     }
 }

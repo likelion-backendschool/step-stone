@@ -34,7 +34,7 @@ public class ChatRoomEventListener {
 
         notificationRepository.save(notificationEntity);
 
-        chatNotificationHandler.publish(ChatNotificationDto.toDto(notificationEntity));
+//        chatNotificationHandler.publish(ChatNotificationDto.toDto(notificationEntity));
     }
 
     @EventListener
@@ -46,7 +46,7 @@ public class ChatRoomEventListener {
         log.info(userEntity.getName() + "is invited to" + chatRoomEntity.getRoomName());
 
         ChatNotificationEntity chatNotificationEntity = createInviteNotification(chatRoomEntity, userEntity, publisher);
-        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationEntity));
+//        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationEntity));
         notificationRepository.save(chatNotificationEntity);
 
     }
@@ -67,8 +67,8 @@ public class ChatRoomEventListener {
         notificationRepository.save(chatNotificationUserEntity);
         notificationRepository.save(chatNotificationDeveloperEntity);
 
-        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationUserEntity));
-        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationDeveloperEntity));
+//        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationUserEntity));
+//        chatNotificationHandler.publish(ChatNotificationDto.toDto(chatNotificationDeveloperEntity));
     }
 
 
