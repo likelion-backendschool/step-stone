@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 @Service
@@ -44,15 +46,21 @@ public class ChatNotificationHandler {
     }
 
     @Scheduled(fixedDelay = 3000)
-    public void send(String name, Object data){
+    public void send(String name, Object data) {
         emitters.forEach(sseEmitter -> {
-            try {
-                sseEmitter.send(SseEmitter.event()
-                        .name(name)
-                        .data(data));
-            } catch (IOException e) {
-                sseEmitter.complete();
-            }
+            ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
+            sseMvcExecutor.execute(() -> {
+                try {
+                    for (int i = 0; true; i++) {
+                        sseEmitter.send(SseEmitter.event()
+                                .name(name)
+                                .data(data));
+                        Thread.sleep(5000);
+                    }
+                } catch (Exception e) {
+                    sseEmitter.complete();
+                }
+            });
         });
     }
 
