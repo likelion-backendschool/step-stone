@@ -34,8 +34,7 @@ public class ChatEventListener {
 
         ChatNotificationEntity chatNotificationEntity = createNotification(chatRoomEntity , chatSendEvent.getUserEntity());
         // TODO DB에 Notification 정보 저장
-        chatNotificationHandler.send(chatSendEvent.getUserEntity().getUserId(), ChatNotificationDto.toDto(chatNotificationEntity));
-        saveNotification(chatNotificationEntity);
+        chatNotificationHandler.send(chatSendEvent.getUserEntity().getUserId(), ChatNotificationDto.toDto(saveNotification(chatNotificationEntity)));
     }
 
     private ChatNotificationEntity createNotification(ChatRoomEntity chatRoomEntity, UserEntity userEntity){
@@ -53,8 +52,8 @@ public class ChatEventListener {
         return chatNotificationEntity;
     }
 
-    private void saveNotification(ChatNotificationEntity chatNotificationEntity){
+    private ChatNotificationEntity saveNotification(ChatNotificationEntity chatNotificationEntity){
 
-        chatNotificationRepository.save(chatNotificationEntity);
+        return chatNotificationRepository.save(chatNotificationEntity);
     }
 }

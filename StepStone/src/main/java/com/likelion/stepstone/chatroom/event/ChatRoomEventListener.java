@@ -31,9 +31,7 @@ public class ChatRoomEventListener {
         ChatNotificationEntity notificationEntity = createCreateNotification(chatRoomCreatedEvent.getChatRoomEntity(), chatRoomCreatedEvent.getUserEntity());
         // TODO DB에 Notification 정보 저장
 
-        notificationRepository.save(notificationEntity);
-
-        chatNotificationHandler.send( chatRoomCreatedEvent.getUserEntity().getUserId(),ChatNotificationDto.toDto(notificationEntity));
+        chatNotificationHandler.send( chatRoomCreatedEvent.getUserEntity().getUserId(),notificationRepository.save(notificationEntity));
     }
 
     @EventListener
@@ -45,8 +43,7 @@ public class ChatRoomEventListener {
         log.info(userEntity.getName() + "is invited to" + chatRoomEntity.getRoomName());
 
         ChatNotificationEntity chatNotificationEntity = createInviteNotification(chatRoomEntity, userEntity, publisher);
-        chatNotificationHandler.send(userEntity.getUserId(),ChatNotificationDto.toDto(chatNotificationEntity));
-        notificationRepository.save(chatNotificationEntity);
+        chatNotificationHandler.send(userEntity.getUserId(),ChatNotificationDto.toDto(notificationRepository.save(chatNotificationEntity)));
 
     }
 
@@ -63,11 +60,9 @@ public class ChatRoomEventListener {
 
         ChatNotificationEntity chatNotificationUserEntity = createInquireUserNotification(developer, user, chatRoomEntity);
         ChatNotificationEntity chatNotificationDeveloperEntity = createInquireDeveloperNotification(developer, user, chatRoomEntity);
-        notificationRepository.save(chatNotificationUserEntity);
-        notificationRepository.save(chatNotificationDeveloperEntity);
 
-        chatNotificationHandler.send(user.getUserId(), ChatNotificationDto.toDto(chatNotificationUserEntity));
-        chatNotificationHandler.send(user.getUserId(), ChatNotificationDto.toDto(chatNotificationDeveloperEntity));
+        chatNotificationHandler.send(user.getUserId(), ChatNotificationDto.toDto(notificationRepository.save(chatNotificationUserEntity)));
+        chatNotificationHandler.send(user.getUserId(), ChatNotificationDto.toDto(notificationRepository.save(chatNotificationDeveloperEntity)));
     }
 
 
