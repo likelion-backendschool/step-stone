@@ -63,6 +63,7 @@
                            data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></a>
                         <ul class="dropdown-menu dropdown-menu-end" id="dropdown-menu" onclick="event.stopPropagation()"
                             style="min-width:350px;">
+                            <div id="dropdown-list">
                             <div id="alertMessage" class="my-3 text-center">
                                 <span th:unless=${alertMessage==null}
                                       th:classappend="${error==null ? 'alert-success' : 'alert-danger'}" class="alert "
@@ -175,7 +176,7 @@
                                 </div>
 
                             </li>
-
+                            </div>
                             <div class="text-center">
                                 <button onclick="postMarkAll()" type="button" class="btn btn-secondary"
                                         style="font-size:12px;">알림 모두 지우기
@@ -214,10 +215,51 @@
         console.log(authname)
         sse.addEventListener(authname, (e) => {
             const { data: receivedConnectData } = e;
-            console.log('connect event data: ',receivedConnectData);
+            const data = JSON.parse(receivedConnectData);
+            console.log('connect event data: ',data);
+
+            appendNotification(data);
 
 
         });
+
+        function appendNotification(data){
+            const chatRoomId = data.chatRoomId;
+            const checked = data.checked;
+            const createdAt = data.createdAt;
+            const id = data.id;
+            const message = data.message;
+            const notificationType = data.notificationType;
+            const publisherId = data.publisherId;
+            const title = data.title;
+            const userId = data.userId;
+
+            str="";
+            str += "<li>"
+            str += "    <div class='container-fluid' th:id='notificationList" + id + "'>"
+            str += "        <form action='/notification/mark' name='markForm' method='POST'></form>"
+            str += "        <div class='row gx-1'>"
+            str += "            <a class='ms-1 col'"
+            str += "               id='notificationTitle'"
+            str += "               style='font-size : 16px; text-decoration:none; color : black;'"
+            str += "               data-bs-toggle='collapse'"
+            str += "               href='#collapse" + id + "' aria-expanded='false'"
+            str += "               attr='aria-controls='#collapse" + id + "'> " +title
+            str += "            </a>"
+            str += "            <span class='text-end col'>"
+            str += "                                <svg onclick='javascript:markli(\''" + id + "'\');'"
+            str += "                                     xmlns='http://www.w3.org/2000/svg' width='16' height='16'"
+            str += "                                     fill='currentColor' class='bi bi-x' viewBox='0 0 16 16'>"
+            str += "                                    <path'"
+            str += "                                        d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/>"
+            str += "                                </svg>"
+            str += "                            </span>"
+            str += "        </div>"
+            str += "        </li>"
+            $("#dropdown-list").append(str);
+            console.log(str);
+
+        }
 
         function stopProp(event) {
             event.stopPropagation();
