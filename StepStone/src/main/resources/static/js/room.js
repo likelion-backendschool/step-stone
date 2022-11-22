@@ -14,7 +14,7 @@ var stomp = Stomp.over(sockJs);
 // $(document).ready(function (){
 //
 // });
-initStomp();
+// initStomp();
 
 
 function initStomp() {
