@@ -51,12 +51,12 @@ public class ChatNotificationHandler {
 //            ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
 //            sseMvcExecutor.execute(() -> {
                 try {
-                    for (int i = 0; true; i++) {
+//                    for (int i = 0; true; i++) {
                         sseEmitter.send(SseEmitter.event()
                                 .name(userId)
                                 .data(data));
-                        Thread.sleep(5000);
-                    }
+//                        Thread.sleep(5000);
+//                    }
                 } catch (Exception e) {
                     sseEmitter.complete();
                 }
