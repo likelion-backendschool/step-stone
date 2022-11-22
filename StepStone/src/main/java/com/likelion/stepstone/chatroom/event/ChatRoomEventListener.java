@@ -62,7 +62,7 @@ public class ChatRoomEventListener {
         ChatNotificationEntity chatNotificationDeveloperEntity = createInquireDeveloperNotification(developer, user, chatRoomEntity);
 
         chatNotificationHandler.send(user.getUserId(), ChatNotificationDto.toDto(notificationRepository.save(chatNotificationUserEntity)));
-        chatNotificationHandler.send(user.getUserId(), ChatNotificationDto.toDto(notificationRepository.save(chatNotificationDeveloperEntity)));
+        chatNotificationHandler.send(developer.getUserId(), ChatNotificationDto.toDto(notificationRepository.save(chatNotificationDeveloperEntity)));
     }
 
 
