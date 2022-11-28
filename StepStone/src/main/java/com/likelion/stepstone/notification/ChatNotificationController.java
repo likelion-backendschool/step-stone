@@ -19,8 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Schedulers;
 
 import javax.validation.Valid;
 import java.io.IOException;
