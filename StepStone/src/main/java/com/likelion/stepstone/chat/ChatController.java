@@ -3,6 +3,7 @@ package com.likelion.stepstone.chat;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chat.redis.RedisPublisher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +15,14 @@ public class ChatController {
 
     private final ChatService chatService;
     private final RedisPublisher redisPublisher;
-
+    private final ChannelTopic channelTopic;
 
     @MessageMapping(value = "/chat/message")
     void sendMessage(ChatDto chatDto){
 //        chatDto.setSenderUserCid(1l);
 
-        chatService.sendMessage(chatDto);
-        redisPublisher.publish(chatDto.getChatRoomId(), chatDto);
+//        chatService.sendMessage(chatDto);
+        redisPublisher.publish(channelTopic.getTopic(), chatDto);
     }
 
     //Client가 SEND할 수 있는 경로
