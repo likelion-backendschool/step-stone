@@ -209,19 +209,22 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script th:inline="javascript">
-        var authname = [[${#authentication.principal.user.userId}]];
+        const principal = [[${#authentication.principal}]];
+        if(principal.toString() !== "anonymousUser"){
+            const sse = new EventSource("http://localhost:8080/notification/connect");
+            sse.addEventListener(principal.user.userId, (e) => {
+                const { data: receivedConnectData } = e;
+                const data = JSON.parse(receivedConnectData);
+                console.log('connect event data: ',data);
 
-        const sse = new EventSource("http://localhost:8080/notification/connect");
-        console.log(authname)
-        sse.addEventListener(authname, (e) => {
-            const { data: receivedConnectData } = e;
-            const data = JSON.parse(receivedConnectData);
-            console.log('connect event data: ',data);
-
-            appendNotification(data);
+                appendNotification(data);
 
 
-        });
+            });
+            console.log(principal.user.userId);
+        }
+            // console.log(principal);
+
 
         function appendNotification(data){
             const chatRoomId = data.chatRoomId;
