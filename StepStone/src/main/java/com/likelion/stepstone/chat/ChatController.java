@@ -1,6 +1,7 @@
 package com.likelion.stepstone.chat;
 
 import com.likelion.stepstone.chat.model.ChatDto;
+import com.likelion.stepstone.chat.redis.RedisChatRepository;
 import com.likelion.stepstone.chat.redis.RedisPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -16,6 +17,7 @@ public class ChatController {
     private final ChatService chatService;
     private final RedisPublisher redisPublisher;
     private final ChannelTopic channelTopic;
+    private final RedisChatRepository redisChatRepository;
 
     @MessageMapping(value = "/chat/message")
     void sendMessage(ChatDto chatDto){
@@ -23,6 +25,7 @@ public class ChatController {
 
 //        chatService.sendMessage(chatDto);
         redisPublisher.publish(channelTopic.getTopic(), chatDto);
+        redisChatRepository.createChat(chatDto);
     }
 
     //Client가 SEND할 수 있는 경로

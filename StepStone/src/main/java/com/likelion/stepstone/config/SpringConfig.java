@@ -2,6 +2,7 @@ package com.likelion.stepstone.config;
 
 import com.likelion.stepstone.chat.ChatRepository;
 import com.likelion.stepstone.chat.ChatService;
+import com.likelion.stepstone.chat.redis.RedisChatCrudRepository;
 import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.ChatRoomService;
@@ -37,7 +38,7 @@ public class SpringConfig {
     private final WorkSpaceRepository workSpaceRepository;
     private final ProjectRepository projectRepository;
     private final NotificationRepository notificationRepository;
-
+    private final RedisChatCrudRepository chatCrudRepository;
     public SpringConfig(PostRepository postRepository,
                         LikeRepository likeRepository,
                         UserRepository userRepository,
@@ -47,7 +48,7 @@ public class SpringConfig {
                         WorkSpaceRepository workSpaceRepository,
                         ProjectRepository projectRepository,
                         SimpMessageSendingOperations messagingTemplate,
-                        BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationEventPublisher eventPublisher, NotificationRepository notificationRepository) {
+                        BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationEventPublisher eventPublisher, NotificationRepository notificationRepository, RedisChatCrudRepository chatCrudRepository) {
 
         this.postRepository = postRepository;
         this.likeRepository = likeRepository;
@@ -62,6 +63,7 @@ public class SpringConfig {
         this.eventPublisher = eventPublisher;
         this.notificationRepository = notificationRepository;
 
+        this.chatCrudRepository = chatCrudRepository;
     }
 
     @Bean
@@ -81,7 +83,7 @@ public class SpringConfig {
 
     @Bean
     public ChatService chatService() {
-        return new ChatService(messagingTemplate, userRepository, chatRepository, chatRoomRepository, chatRoomJoinRepository, eventPublisher);
+        return new ChatService(messagingTemplate, userRepository, chatRepository, chatRoomRepository, chatRoomJoinRepository, eventPublisher, chatCrudRepository);
     }
 
     @Bean

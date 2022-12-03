@@ -1,6 +1,14 @@
 package com.likelion.stepstone.chat.redis;
 
+import com.likelion.stepstone.chat.model.ChatDto;
+import com.likelion.stepstone.chat.model.ChatEntity;
+import com.likelion.stepstone.chat.model.RedisChatEntity;
+import com.likelion.stepstone.chatroom.ChatRoomRepository;
+import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
+import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
+import com.likelion.stepstone.user.UserRepository;
+import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.HashOperations;
@@ -18,69 +26,34 @@ import java.util.*;
 public class RedisChatRepository {
     // Redis CacheKeys
     private static final String CHAT_ROOMS = "CHAT_ROOM"; // 채팅룸 저장
+    private static final String NEW_CHAT = "CHAT"; //새로운 채팅
     public static final String USER_COUNT = "USER_COUNT"; // 채팅룸에 입장한 클라이언트수 저장
     public static final String ENTER_INFO = "ENTER_INFO"; // 채팅룸에 입장한 클라이언트의 sessionId와 채팅룸 id를 맵핑한 정보 저장
-    private final static String chatRoomImageUrl = "https://www.bootdey.com/app/webroot/img/Content/icons/64/PNG/64/";
-    @Resource(name = "redisTemplate")
-    private HashOperations<String, String, ChatRoomDto> hashOpsChatRoom;
-    @Resource(name = "redisTemplate")
-    private HashOperations<String, String, String> hashOpsEnterInfo;
-    @Resource(name = "redisTemplate")
-    private ValueOperations<String, String> valueOps;
+    private static final String chatRoomImageUrl = "https://www.bootdey.com/app/webroot/img/Content/icons/64/PNG/64/";
+    private final UserRepository userRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final RedisChatCrudRepository redisChatCrudRepository;
 
-    // 모든 채팅방 조회
-    public List<ChatRoomDto> findAllRoom() {
-        return hashOpsChatRoom.values(CHAT_ROOMS);
+
+    public ChatDto createChat(ChatDto chatDto) {
+        ChatEntity chatEntity = fromDtoToEntity(chatDto);
+        UserEntity userEntity = userRepository.findByUserId(chatDto.getSenderId()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        chatEntity.setSender(userEntity);
+        chatEntity.setChatId(UUID.randomUUID().toString());
+
+        RedisChatEntity redisChatEntity = convert2RedisChatEntity(chatEntity);
+        redisChatCrudRepository.save(redisChatEntity);
+//        hashOpsChat.put(NEW_CHAT, chatEntity.getChatId(), redisChatEntity);
+        return ChatDto.toDto(chatEntity);
     }
+    public ChatEntity fromDtoToEntity(ChatDto chatDto){
+        ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
+        ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(chatDto.getChatRoomId()).orElseThrow(() -> new DataNotFoundException("Chat Room Not Exist"));
+        chatEntity.setChatRoomEntity(chatRoomEntity);
 
-    // 특정 채팅방 조회
-    public ChatRoomDto findRoomById(String id) {
-        return hashOpsChatRoom.get(CHAT_ROOMS, id);
+        return chatEntity;
     }
-
-    // 채팅방 생성 : 서버간 채팅방 공유를 위해 redis hash에 저장한다.
-    public ChatRoomDto createChatRoom(String name) {
-        String imageUrl = getChatRoomImageUrl();
-
-        ChatRoomDto chatRoom = ChatRoomDto.builder()
-                .chatRoomId(UUID.randomUUID().toString())
-                .roomName(name)
-                .userCount(0)
-                .imageUrl(imageUrl)
-                .build();
-        hashOpsChatRoom.put(CHAT_ROOMS, chatRoom.getChatRoomId(), chatRoom);
-        return chatRoom;
-    }
-
-    // 유저가 입장한 채팅방ID와 유저 세션ID 맵핑 정보 저장
-    public void setUserEnterInfo(String sessionId, String roomId) {
-        hashOpsEnterInfo.put(ENTER_INFO, sessionId, roomId);
-    }
-
-    // 유저 세션으로 입장해 있는 채팅방 ID 조회
-    public String getUserEnterRoomId(String sessionId) {
-        return hashOpsEnterInfo.get(ENTER_INFO, sessionId);
-    }
-
-    // 유저 세션정보와 맵핑된 채팅방ID 삭제
-    public void removeUserEnterInfo(String sessionId) {
-        hashOpsEnterInfo.delete(ENTER_INFO, sessionId);
-    }
-
-    // 채팅방 유저수 조회
-    public long getUserCount(String roomId) {
-        return Long.valueOf(Optional.ofNullable(valueOps.get(USER_COUNT + "_" + roomId)).orElse("0"));
-    }
-
-    // 채팅방에 입장한 유저수 +1
-    public long plusUserCount(String roomId) {
-        return Optional.ofNullable(valueOps.increment(USER_COUNT + "_" + roomId)).orElse(0L);
-    }
-
-    // 채팅방에 입장한 유저수 -1
-    public long minusUserCount(String roomId) {
-        return Optional.ofNullable(valueOps.decrement(USER_COUNT + "_" + roomId)).filter(count -> count > 0).orElse(0L);
-    }
+    
 
     public String getChatRoomImageUrl(){
         List<String> imageNames = getListFromRes();
@@ -106,5 +79,15 @@ public class RedisChatRepository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public RedisChatEntity convert2RedisChatEntity(ChatEntity chatEntity){
+        return RedisChatEntity.builder()
+                .chatId(chatEntity.getChatId())
+                .message(chatEntity.getMessage())
+                .chatRoomId(chatEntity.getChatRoomEntity().getChatRoomId())
+                .sender(chatEntity.getSender())
+                .createdAt(chatEntity.getCreatedAt())
+                .build();
     }
 }
