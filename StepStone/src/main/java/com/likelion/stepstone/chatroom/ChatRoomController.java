@@ -31,8 +31,8 @@ public class ChatRoomController {
         String imageUrl = chatRoomService.getChatRoomImageUrl();
         if(!rooms.isEmpty()){
             ChatRoomDto firstChatRoom = rooms.get(0);
-            chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
-
+//            chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
+            chats.addAll(chatService.getRedisChatHistories(firstChatRoom.getChatRoomId()));
             List<String> allRoomId = chatRoomService.findAllRoomId(principal.getName());
 //            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
             imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());

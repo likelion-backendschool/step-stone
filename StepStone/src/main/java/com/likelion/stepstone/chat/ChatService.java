@@ -4,6 +4,8 @@ import com.likelion.stepstone.chat.event.ChatSendEvent;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chat.model.ChatEntity;
 import com.likelion.stepstone.chat.model.ChatVo;
+import com.likelion.stepstone.chat.model.RedisChatEntity;
+import com.likelion.stepstone.chat.redis.RedisChatCrudRepository;
 import com.likelion.stepstone.chatroom.ChatRoomJoinRepository;
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.event.ChatRoomInviteEvent;
@@ -33,6 +35,7 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomJoinRepository chatRoomJoinRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final RedisChatCrudRepository chatCrudRepository;
 
     //Client가 SEND할 수 있는 경로
     //stompConfig에서 설정한 applicationDestinationPrefixes와 @MessageMapping 경로가 병합됨
@@ -66,19 +69,32 @@ public class ChatService {
     public List<ChatDto> getHistories(String roomId) {
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Chat Room Not Exist"));
         List<ChatEntity> entities = chatRepository.findByChatRoomEntity(chatRoomEntity);
-
         Long chatRoomCid = chatRoomEntity.getChatRoomCid();
         List<ChatRoomUserJoinEntity> chatRoomUserJoinEntities = chatRoomJoinRepository.findByIdChatRoomCid(chatRoomCid);
 
         return entities.stream()
                 .map(ChatDto::toDto)
-                .peek(chatDto -> {
-                    for (ChatRoomUserJoinEntity chatRoomUserJoinEntity : chatRoomUserJoinEntities){
-                        if(Objects.equals(chatDto.getSenderId(), chatRoomUserJoinEntity.getUserEntity().getUserId()))
-                            chatDto.setProfileImageUrl(chatRoomUserJoinEntity.getProfileImageUrl());
-                    }
-                })
+//                .peek(chatDto -> {
+//                    for (ChatRoomUserJoinEntity chatRoomUserJoinEntity : chatRoomUserJoinEntities){
+//                        if(Objects.equals(chatDto.getSenderId(), chatRoomUserJoinEntity.getUserEntity().getUserId()))
+//                            chatDto.setProfileImageUrl(chatRoomUserJoinEntity.getProfileImageUrl());
+//                    }
+//                })
                 .collect(Collectors.toList());
+    }
+
+    public List<ChatDto> getRedisChatHistories(String roomId){
+        List<RedisChatEntity> chatEntities = chatCrudRepository.findByChatRoomId(roomId);
+        return chatEntities.stream().map(this::convert2ChatDto).collect(Collectors.toList());
+    }
+    public ChatDto convert2ChatDto(RedisChatEntity redisChatEntity){
+        return ChatDto.builder()
+                .message(redisChatEntity.getMessage())
+                .chatRoomId(redisChatEntity.getChatRoomId())
+                .senderId(redisChatEntity.getSender().getUserId())
+                .profileImageUrl("")
+                .createdAt(redisChatEntity.getCreatedAt())
+                .build();
     }
 
     public String getCreatedAt(){
