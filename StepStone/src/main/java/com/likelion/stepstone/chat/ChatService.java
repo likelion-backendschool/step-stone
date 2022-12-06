@@ -48,8 +48,8 @@ public class ChatService {
         chatEntity.setChatId(UUID.randomUUID().toString());
 //        chatEntity.setCreatedAt(getCreatedAt());
         saveMessage(chatEntity);
-        chatEventPublish(chatEntity, userEntity);
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatEntity.getChatRoomEntity().getChatRoomId(), chatDto);
+//        chatEventPublish(chatEntity, userEntity);
+//        messagingTemplate.convertAndSend("/sub/chat/room/" + chatEntity.getChatRoomEntity().getChatRoomId(), chatDto);
     }
 
     public void saveMessage(ChatEntity chatEntity){

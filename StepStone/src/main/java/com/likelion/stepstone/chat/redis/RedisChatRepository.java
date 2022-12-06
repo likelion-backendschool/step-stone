@@ -42,7 +42,7 @@ public class RedisChatRepository {
         chatEntity.setChatId(UUID.randomUUID().toString());
 
         RedisChatEntity redisChatEntity = convert2RedisChatEntity(chatEntity);
-        redisChatCrudRepository.save(redisChatEntity);
+        createRedisChat(redisChatEntity);
 //        hashOpsChat.put(NEW_CHAT, chatEntity.getChatId(), redisChatEntity);
         return ChatDto.toDto(chatEntity);
     }
@@ -52,6 +52,10 @@ public class RedisChatRepository {
         chatEntity.setChatRoomEntity(chatRoomEntity);
 
         return chatEntity;
+    }
+
+    public RedisChatEntity createRedisChat(RedisChatEntity redisChatEntity){
+        return redisChatCrudRepository.save(redisChatEntity);
     }
     
 
