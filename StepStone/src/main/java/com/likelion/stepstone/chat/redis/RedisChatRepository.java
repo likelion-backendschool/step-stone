@@ -12,7 +12,10 @@ import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -34,6 +37,7 @@ public class RedisChatRepository {
     private final ChatRoomRepository chatRoomRepository;
     private final RedisChatCrudRepository redisChatCrudRepository;
 
+    private final RedisTemplate<String, ChatDto> chatRoomRedisTemplate;
 
     public ChatDto createChat(ChatDto chatDto) {
         ChatEntity chatEntity = fromDtoToEntity(chatDto);
@@ -93,5 +97,33 @@ public class RedisChatRepository {
                 .sender(chatEntity.getSender())
                 .createdAt(chatEntity.getCreatedAt())
                 .build();
+    }
+
+
+    public void addChat(ChatDto chatDto, Long chatRoomCid){
+        String key = RedisKeyGenerator.generateChatRoomKey(chatRoomCid);
+        List<ChatDto> chats = findByChatRoomCid(chatRoomCid);
+        chats.add(chatDto);
+        chatRoomRedisTemplate.opsForList().rightPushAll(key, chats);
+    }
+
+    public List<ChatDto> findByChatRoomCid(Long chatRoomCid){
+        String key = RedisKeyGenerator.generateChatRoomKey(chatRoomCid);
+        Long len = chatRoomRedisTemplate.opsForList().size(key);
+        return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, 0, len-1);
+    }
+
+    public void saveAll(List<ChatDto> items, Long chatRoomCid){
+        RedisSerializer keySerializer = chatRoomRedisTemplate.getStringSerializer();
+        RedisSerializer valueSerializer = chatRoomRedisTemplate.getValueSerializer();
+
+        chatRoomRedisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+            items.forEach(chatDto -> {
+                String key = RedisKeyGenerator.generateChatRoomKey(chatRoomCid);
+                connection.listCommands().rPush(keySerializer.serialize(key),
+                        valueSerializer.serialize(chatDto));
+            });
+            return null;
+        });
     }
 }
