@@ -11,6 +11,8 @@ import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -103,9 +105,9 @@ public class RedisChatRepository {
 
     public void addChat(ChatDto chatDto, String chatRoomId){
         String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
-        List<ChatDto> chats = findByChatRoomId(chatRoomId);
-        chats.add(chatDto);
-        chatRoomRedisTemplate.opsForList().rightPushAll(key, chats);
+//        List<ChatDto> chats = findByChatRoomId(chatRoomId);
+//        chats.add(chatDto);
+        chatRoomRedisTemplate.opsForList().rightPush(key, chatDto);
     }
 
     public List<ChatDto> findByChatRoomId(String chatRoomId){
@@ -126,5 +128,18 @@ public class RedisChatRepository {
             });
             return null;
         });
+    }
+
+    public List<Object> readAll(String chatRoomId, int batchSize){
+        String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
+        Long len = chatRoomRedisTemplate.opsForList().size(key);
+        RedisSerializer keySerializer = chatRoomRedisTemplate.getStringSerializer();
+        List<Object> results = chatRoomRedisTemplate.executePipelined((RedisCallback<Object>) connection -> {
+            for(int i = 0; i < batchSize; i++) {
+                connection.listCommands().rPop(keySerializer.serialize(key));
+            }
+            return null;
+        });
+        return results;
     }
 }

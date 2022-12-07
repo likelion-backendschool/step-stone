@@ -74,12 +74,12 @@ public class ChatService {
 
         return entities.stream()
                 .map(ChatDto::toDto)
-//                .peek(chatDto -> {
-//                    for (ChatRoomUserJoinEntity chatRoomUserJoinEntity : chatRoomUserJoinEntities){
-//                        if(Objects.equals(chatDto.getSenderId(), chatRoomUserJoinEntity.getUserEntity().getUserId()))
-//                            chatDto.setProfileImageUrl(chatRoomUserJoinEntity.getProfileImageUrl());
-//                    }
-//                })
+                .peek(chatDto -> {
+                    for (ChatRoomUserJoinEntity chatRoomUserJoinEntity : chatRoomUserJoinEntities){
+                        if(Objects.equals(chatDto.getSenderId(), chatRoomUserJoinEntity.getUserEntity().getUserId()))
+                            chatDto.setProfileImageUrl(chatRoomUserJoinEntity.getProfileImageUrl());
+                    }
+                })
                 .collect(Collectors.toList());
     }
 
