@@ -68,7 +68,7 @@ public class ChatServiceTest {
         );
 
         List<ChatEntity> entities = new ArrayList<>();
-        for(int i = 0; i < 1000000;i++ ){
+        for(int i = 0; i < 10000;i++ ){
             ChatEntity chatEntity = ChatEntity.builder()
                     .chatRoomEntity(chatRoomRepository.findByChatRoomId(chatRoomId).get())
                     .chatId(UUID.randomUUID().toString())
@@ -81,6 +81,11 @@ public class ChatServiceTest {
         chatRepository.saveAll(entities);
         long stopTime = System.currentTimeMillis();
         System.out.println(stopTime - startTime); // 15503
+
+        long readStartTime = System.currentTimeMillis();
+        System.out.println(chatRepository.findAll().size());
+        long readStopTime = System.currentTimeMillis();
+        System.out.println(readStopTime - readStartTime);//28
     }
 
 
@@ -146,5 +151,37 @@ public class ChatServiceTest {
         redisChatRepository.saveAll(chats, chatRoomId);
         long stopTime = System.currentTimeMillis();
         System.out.println(stopTime - startTime);
+    }
+    @Test // 4131
+    public void chatRoomRedisTemplateRead(){
+        String chatRoomId = UUID.randomUUID().toString();
+        ChatRoomVo chatRoomVo = chatRoomService.create(ChatRoomDto.builder()
+                .chatRoomId(chatRoomId)
+                .roomName("테스트 채팅창")
+                .userCount(0)
+                .imageUrl("imageurl")
+                .build(), "user"
+        );
+
+        List<ChatDto> chats = new ArrayList<>();
+        for(int i = 0; i < 10000; i++ ) {
+            ChatDto chatDto = ChatDto.builder()
+                    .chatRoomId(chatRoomId)
+                    .message("chat" + i)
+                    .senderId("user1")
+                    .senderName("user")
+                    .profileImageUrl("imageUrl")
+                    .type(ChatDto.MessageType.TALK)
+                    .build();
+            chats.add(chatDto);
+//            chatEntity.setMessage("채팅" + 1);
+//            redisChatRepository.createRedisChat(chatEntity);
+//            System.out.println("chat save: " + System.currentTimeMillis());
+        }
+        redisChatRepository.saveAll(chats, chatRoomId);
+        long startTime = System.currentTimeMillis();
+        System.out.println(redisChatRepository.readAll(chatRoomId, 10000).size());
+        long stopTime = System.currentTimeMillis();
+        System.out.println(stopTime - startTime);//136 366
     }
 }
