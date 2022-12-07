@@ -9,6 +9,8 @@ import com.likelion.stepstone.chat.redis.RedisChatRepository;
 import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.ChatRoomService;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
+import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
+import com.likelion.stepstone.chatroom.model.ChatRoomVo;
 import com.likelion.stepstone.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +109,38 @@ public class ChatServiceTest {
         }
         long startTime = System.currentTimeMillis();
         redisChatCrudRepository.saveAll(entities);
+        long stopTime = System.currentTimeMillis();
+        System.out.println(stopTime - startTime);
+    }
+
+    @Test
+    public void chatRoomRedisTemplateSave(){
+        String chatRoomId = UUID.randomUUID().toString();
+        ChatRoomVo chatRoomVo = chatRoomService.create(ChatRoomDto.builder()
+                .chatRoomId(chatRoomId)
+                .roomName("테스트 채팅창")
+                .userCount(0)
+                .imageUrl("imageurl")
+                .build(), "user"
+        );
+
+        List<ChatDto> chats = new ArrayList<>();
+        for(int i = 0; i < 1000000; i++ ) {
+            ChatDto chatDto = ChatDto.builder()
+                    .chatRoomId(chatRoomId)
+                    .message("chat" + i)
+                    .senderId("user1")
+                    .senderName("user")
+                    .profileImageUrl("imageUrl")
+                    .type(ChatDto.MessageType.TALK)
+                    .build();
+            chats.add(chatDto);
+//            chatEntity.setMessage("채팅" + 1);
+//            redisChatRepository.createRedisChat(chatEntity);
+//            System.out.println("chat save: " + System.currentTimeMillis());
+        }
+        long startTime = System.currentTimeMillis();
+        redisChatRepository.saveAll(chats, chatRoomRepository.findByChatRoomId(chatRoomVo.getChatRoomId()).get().getChatRoomCid());
         long stopTime = System.currentTimeMillis();
         System.out.println(stopTime - startTime);
     }
