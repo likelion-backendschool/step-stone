@@ -7,9 +7,11 @@ import com.likelion.stepstone.chatroom.ChatRoomRepository;
 import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
+import com.likelion.stepstone.config.CacheNames;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -129,7 +131,7 @@ public class RedisChatRepository {
             return null;
         });
     }
-
+    @Cacheable(value = CacheNames.POST)
     public List<Object> readAll(String chatRoomId, int batchSize){
         String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
         Long len = chatRoomRedisTemplate.opsForList().size(key);
