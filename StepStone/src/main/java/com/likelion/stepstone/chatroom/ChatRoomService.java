@@ -45,7 +45,7 @@ public class ChatRoomService {
         chatRoomEntity.setImageUrl(imageUrl);
 
         chatRoomRepository.save(chatRoomEntity);
-        createEventPublish(chatRoomEntity, userEntity);
+//        createEventPublish(chatRoomEntity, userEntity);
 
         String profileImage = pickProfileImage();
         ChatRoomUserJoinEntity chatRoomUserJoinEntity = chatRoomJoinRepository.findByChatRoomEntityAndUserEntity(chatRoomEntity, userEntity).orElseThrow(() -> new DataNotFoundException("chat room creation error"));
