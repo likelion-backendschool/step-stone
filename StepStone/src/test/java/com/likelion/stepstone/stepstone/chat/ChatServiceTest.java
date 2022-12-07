@@ -116,6 +116,7 @@ public class ChatServiceTest {
         System.out.println(stopTime - startTime);
     }
 
+<<<<<<< HEAD
     @Test // 12159
     public void chatRoomRedisTemplateSave(){
         String chatRoomId = UUID.randomUUID().toString();
