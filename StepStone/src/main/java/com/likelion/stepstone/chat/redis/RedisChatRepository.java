@@ -40,15 +40,16 @@ public class RedisChatRepository {
     private final RedisTemplate<String, ChatDto> chatRoomRedisTemplate;
 
     public ChatDto createChat(ChatDto chatDto) {
-        ChatEntity chatEntity = fromDtoToEntity(chatDto);
-        UserEntity userEntity = userRepository.findByUserId(chatDto.getSenderId()).orElseThrow(()-> new DataNotFoundException("user not found"));
-        chatEntity.setSender(userEntity);
-        chatEntity.setChatId(UUID.randomUUID().toString());
-
-        RedisChatEntity redisChatEntity = convert2RedisChatEntity(chatEntity);
-        createRedisChat(redisChatEntity);
+        addChat(chatDto, chatDto.getChatRoomId());
+//        ChatEntity chatEntity = fromDtoToEntity(chatDto);
+//        UserEntity userEntity = userRepository.findByUserId(chatDto.getSenderId()).orElseThrow(()-> new DataNotFoundException("user not found"));
+//        chatEntity.setSender(userEntity);
+//        chatEntity.setChatId(UUID.randomUUID().toString());
+//
+//        RedisChatEntity redisChatEntity = convert2RedisChatEntity(chatEntity);
+//        createRedisChat(redisChatEntity);
 //        hashOpsChat.put(NEW_CHAT, chatEntity.getChatId(), redisChatEntity);
-        return ChatDto.toDto(chatEntity);
+        return chatDto;
     }
     public ChatEntity fromDtoToEntity(ChatDto chatDto){
         ChatEntity chatEntity = ChatEntity.toEntity(chatDto);
@@ -100,15 +101,15 @@ public class RedisChatRepository {
     }
 
 
-    public void addChat(ChatDto chatDto, Long chatRoomCid){
-        String key = RedisKeyGenerator.generateChatRoomKey(chatRoomCid);
-        List<ChatDto> chats = findByChatRoomCid(chatRoomCid);
+    public void addChat(ChatDto chatDto, String chatRoomId){
+        String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
+        List<ChatDto> chats = findByChatRoomId(chatRoomId);
         chats.add(chatDto);
         chatRoomRedisTemplate.opsForList().rightPushAll(key, chats);
     }
 
-    public List<ChatDto> findByChatRoomCid(Long chatRoomCid){
-        String key = RedisKeyGenerator.generateChatRoomKey(chatRoomCid);
+    public List<ChatDto> findByChatRoomId(String chatRoomId){
+        String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
         Long len = chatRoomRedisTemplate.opsForList().size(key);
         return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, 0, len-1);
     }

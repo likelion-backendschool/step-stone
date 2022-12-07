@@ -6,4 +6,8 @@ public class RedisKeyGenerator {
     public static String generateChatRoomKey(Long chatRoomCid){
         return CHAT_ROOM_KEY + ":" + chatRoomCid;
     }
+
+    public static String generateChatRoomKey(String chatRoomId){
+        return CHAT_ROOM_KEY + ":" + chatRoomId;
+    }
 }
