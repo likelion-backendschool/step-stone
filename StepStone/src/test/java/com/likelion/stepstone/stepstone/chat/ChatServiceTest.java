@@ -143,7 +143,7 @@ public class ChatServiceTest {
 //            System.out.println("chat save: " + System.currentTimeMillis());
         }
         long startTime = System.currentTimeMillis();
-        redisChatRepository.saveAll(chats, chatRoomRepository.findByChatRoomId(chatRoomVo.getChatRoomId()).get().getChatRoomCid());
+        redisChatRepository.saveAll(chats, chatRoomId);
         long stopTime = System.currentTimeMillis();
         System.out.println(stopTime - startTime);
     }

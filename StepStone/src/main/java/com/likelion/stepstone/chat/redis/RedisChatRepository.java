@@ -114,13 +114,13 @@ public class RedisChatRepository {
         return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, 0, len-1);
     }
 
-    public void saveAll(List<ChatDto> items, Long chatRoomCid){
+    public void saveAll(List<ChatDto> items, String chatRoomId){
         RedisSerializer keySerializer = chatRoomRedisTemplate.getStringSerializer();
         RedisSerializer valueSerializer = chatRoomRedisTemplate.getValueSerializer();
 
         chatRoomRedisTemplate.executePipelined((RedisCallback<Object>) connection -> {
             items.forEach(chatDto -> {
-                String key = RedisKeyGenerator.generateChatRoomKey(chatRoomCid);
+                String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
                 connection.listCommands().rPush(keySerializer.serialize(key),
                         valueSerializer.serialize(chatDto));
             });
