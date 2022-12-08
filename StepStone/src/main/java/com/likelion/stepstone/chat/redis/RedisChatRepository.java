@@ -111,7 +111,7 @@ public class RedisChatRepository {
 //        chats.add(chatDto);
         chatRoomRedisTemplate.opsForList().rightPush(key, chatDto);
     }
-
+    @Cacheable(value = CacheNames.CHAT_ROOM)
     public List<ChatDto> findByChatRoomId(String chatRoomId){
         String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
         Long len = chatRoomRedisTemplate.opsForList().size(key);
@@ -131,8 +131,8 @@ public class RedisChatRepository {
             return null;
         });
     }
-    @Cacheable(value = CacheNames.POST)
-    public List<Object> readAll(String chatRoomId, int batchSize){
+    @Cacheable(value = CacheNames.CHAT_ROOM)
+    public List<ChatDto> readAll(String chatRoomId){
         String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
         Long len = chatRoomRedisTemplate.opsForList().size(key);
         RedisSerializer keySerializer = chatRoomRedisTemplate.getStringSerializer();
