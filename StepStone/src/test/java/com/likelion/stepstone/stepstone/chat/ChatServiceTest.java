@@ -123,7 +123,8 @@ public class ChatServiceTest {
 
     @Test // 12159
     public void chatRoomRedisTemplateSave(){
-        String chatRoomId = UUID.randomUUID().toString();
+//        String chatRoomId = UUID.randomUUID().toString();
+        String chatRoomId = "64044340-e1e6-47b5-8707-5c25b7c8d09a";
         ChatRoomVo chatRoomVo = chatRoomService.create(ChatRoomDto.builder()
                 .chatRoomId(chatRoomId)
                 .roomName("테스트 채팅창")
@@ -133,7 +134,7 @@ public class ChatServiceTest {
         );
 
         List<ChatDto> chats = new ArrayList<>();
-        for(int i = 0; i < 1000000; i++ ) {
+        for(int i = 0; i < 10000; i++ ) {
             ChatDto chatDto = ChatDto.builder()
                     .chatRoomId(chatRoomId)
                     .message("chat" + i)
@@ -180,8 +181,9 @@ public class ChatServiceTest {
         }
         redisChatRepository.saveAll(chats, chatRoomId);
         long startTime = System.currentTimeMillis();
-        System.out.println(redisChatRepository.readAll(chatRoomId, 10000).size());
+//        System.out.println(redisChatRepository.readAll(chatRoomId).size()); //271
+        System.out.println(redisChatRepository.findByChatRoomId(chatRoomId).size()); //136
         long stopTime = System.currentTimeMillis();
-        System.out.println(stopTime - startTime);//136 366
+        System.out.println(stopTime - startTime);
     }
 }

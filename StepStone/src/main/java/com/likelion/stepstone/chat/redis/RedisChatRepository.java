@@ -27,6 +27,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -137,11 +138,12 @@ public class RedisChatRepository {
         Long len = chatRoomRedisTemplate.opsForList().size(key);
         RedisSerializer keySerializer = chatRoomRedisTemplate.getStringSerializer();
         List<Object> results = chatRoomRedisTemplate.executePipelined((RedisCallback<Object>) connection -> {
-            for(int i = 0; i < batchSize; i++) {
+            for(int i = 0; i < len; i++) {
                 connection.listCommands().rPop(keySerializer.serialize(key));
             }
             return null;
         });
-        return results;
+
+        return results.stream().map(object -> (ChatDto) object).collect(Collectors.toList());
     }
 }
