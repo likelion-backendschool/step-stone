@@ -45,7 +45,7 @@ public class ChatNotificationHandler {
         emitters.remove(emitter);
     }
 
-    @Scheduled(fixedDelay = 3000)
+//    @Scheduled(fixedDelay = 3000)
     public void send(String userId, Object data) {
         emitters.forEach(sseEmitter -> {
 //            ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();

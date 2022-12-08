@@ -177,7 +177,6 @@
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-data-redis</artifactId>
-			<version>3.0.0</version>
 		</dependency>
 	</dependencies>
 
