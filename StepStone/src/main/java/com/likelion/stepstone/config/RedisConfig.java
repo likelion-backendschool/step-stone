@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.likelion.stepstone.chat.model.ChatDto;
 import com.likelion.stepstone.chat.redis.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -25,6 +27,8 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Configuration
+@EnableRedisHttpSession
+@EnableCaching
 public class RedisConfig {
 
     private final ObjectMapper objectMapper;
@@ -102,7 +106,7 @@ public class RedisConfig {
 
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
         redisCacheConfigurationMap
-                .put(CacheNames.POST, redisCacheConfiguration.entryTtl(Duration.ofMinutes(5)));
+                .put(CacheNames.CHAT_ROOM, redisCacheConfiguration.entryTtl(Duration.ofMinutes(5)));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory())
