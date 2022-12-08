@@ -2,6 +2,7 @@ package com.likelion.stepstone.chatroom;
 
 import com.likelion.stepstone.chat.ChatService;
 import com.likelion.stepstone.chat.model.ChatDto;
+import com.likelion.stepstone.chat.redis.RedisChatRepository;
 import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.notification.service.NotificationService;
 import com.likelion.stepstone.user.model.UserDto;
@@ -32,7 +33,8 @@ public class ChatRoomController {
         if(!rooms.isEmpty()){
             ChatRoomDto firstChatRoom = rooms.get(0);
 //            chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
-            chats.addAll(chatService.getRedisChatHistories(firstChatRoom.getChatRoomId()));
+//            chats.addAll(chatService.getRedisChatHistories(firstChatRoom.getChatRoomId()));
+            chats.addAll(redisChatRepository.findByChatRoomId(firstChatRoom.getChatRoomId()));
             List<String> allRoomId = chatRoomService.findAllRoomId(principal.getName());
 //            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
             imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
@@ -57,8 +59,8 @@ public class ChatRoomController {
 
     @GetMapping("/history") // 저장된 채팅 내역 조회
     String getHistory(Principal principal, Model model, String roomId) {
-        List<ChatDto> chats = chatService.getHistories(roomId);
-
+//        List<ChatDto> chats = chatService.getHistories(roomId);
+        List<ChatDto> chats = redisChatRepository.findByChatRoomId(roomId);
 //        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
 //        notificationService.registerOnlineChatUser(principal.getName(), roomId);
 
