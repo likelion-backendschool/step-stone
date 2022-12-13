@@ -7,6 +7,7 @@ import com.likelion.stepstone.chatroom.model.*;
 import com.likelion.stepstone.notification.service.NotificationService;
 import com.likelion.stepstone.user.model.UserDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +20,21 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/chat")
+@Slf4j
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
     private final ChatService chatService;
+    private final RedisChatRepository redisChatRepository;
     private final NotificationService notificationService;
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public Object getByMemberId(@PathVariable(name = "id") String chatRoomId){
+        log.info("find room by id :" + chatRoomId);
+//        return redisChatRepository.findByChatRoomId(chatRoomId);
+        return chatService.getHistories(chatRoomId);
+    }
 
     @GetMapping("/room")
     public String getRoom(Principal principal, Model model, ChatRoomForm chatRoomForm, InviteUserForm inviteUserForm) {

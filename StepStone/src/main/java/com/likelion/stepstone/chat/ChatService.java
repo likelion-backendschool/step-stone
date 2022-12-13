@@ -13,9 +13,11 @@ import com.likelion.stepstone.chatroom.exception.DataNotFoundException;
 import com.likelion.stepstone.chatroom.model.ChatRoomDto;
 import com.likelion.stepstone.chatroom.model.ChatRoomEntity;
 import com.likelion.stepstone.chatroom.model.ChatRoomUserJoinEntity;
+import com.likelion.stepstone.config.CacheNames;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -65,7 +67,7 @@ public class ChatService {
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + chatEntity.getChatRoomEntity().getChatRoomId(), ChatDto.toDto(chatEntity));
     }
-
+    @Cacheable(value = CacheNames.CHAT_ROOM)
     public List<ChatDto> getHistories(String roomId) {
         ChatRoomEntity chatRoomEntity = chatRoomRepository.findByChatRoomId(roomId).orElseThrow(() -> new DataNotFoundException("Chat Room Not Exist"));
         List<ChatEntity> entities = chatRepository.findByChatRoomEntity(chatRoomEntity);
