@@ -89,6 +89,16 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
         return redisTemplate;
     }
+
+    @Bean
+    public RedisTemplate<String, Integer> cutIdxRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
+        RedisTemplate<String, Integer> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
+        return redisTemplate;
+    }
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory();
@@ -107,6 +117,8 @@ public class RedisConfig {
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
         redisCacheConfigurationMap
                 .put(CacheNames.CHAT_ROOM, redisCacheConfiguration.entryTtl(Duration.ofMinutes(5)));
+        redisCacheConfigurationMap
+                .put(CacheNames.CUT_IDX, redisCacheConfiguration.entryTtl(Duration.ofMinutes(5)));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory())

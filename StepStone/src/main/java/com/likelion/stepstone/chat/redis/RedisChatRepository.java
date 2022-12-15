@@ -22,6 +22,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import redis.embedded.Redis;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class RedisChatRepository {
     private final RedisChatCrudRepository redisChatCrudRepository;
 
     private final RedisTemplate<String, ChatDto> chatRoomRedisTemplate;
-
+    private final RedisTemplate<String, Integer> cutIdxRedisTemplate;
     public ChatDto createChat(ChatDto chatDto) {
         addChat(chatDto, chatDto.getChatRoomId());
 //        ChatEntity chatEntity = fromDtoToEntity(chatDto);
@@ -152,5 +153,17 @@ public class RedisChatRepository {
         });
 
         return results.stream().map(object -> (ChatDto) object).collect(Collectors.toList());
+    }
+
+    @Cacheable(value = CacheNames.CUT_IDX)
+    public Integer getCutIdx(String roomId){
+        String key = RedisKeyGenerator.generateCutIdxKey(roomId);
+        Integer idx = 0;
+
+        if (cutIdxRedisTemplate.opsForValue().get(key) != null)
+            idx = cutIdxRedisTemplate.opsForValue().get(key);
+
+        cutIdxRedisTemplate.opsForValue().set(key, ++idx);
+        return idx;
     }
 }
