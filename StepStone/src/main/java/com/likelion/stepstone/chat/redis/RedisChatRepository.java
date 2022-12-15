@@ -119,6 +119,13 @@ public class RedisChatRepository {
         return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, 0, len-1);
     }
 
+    public List<ChatDto> findPartByChatRoomId(String chatRoomId, int idx){
+        String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
+        Long len = chatRoomRedisTemplate.opsForList().size(key);
+        int pvt = idx * 1000;
+        return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, len-pvt, len-1-pvt + 1000);
+    }
+
     public void saveAll(List<ChatDto> items, String chatRoomId){
         RedisSerializer keySerializer = chatRoomRedisTemplate.getStringSerializer();
         RedisSerializer valueSerializer = chatRoomRedisTemplate.getValueSerializer();
