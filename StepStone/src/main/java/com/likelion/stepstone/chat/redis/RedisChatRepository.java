@@ -120,9 +120,10 @@ public class RedisChatRepository {
         return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, 0, len-1);
     }
 
-    public List<ChatDto> findPartByChatRoomId(String chatRoomId, int idx){
+    public List<ChatDto> findPartByChatRoomId(String chatRoomId){
         String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
         Long len = chatRoomRedisTemplate.opsForList().size(key);
+        int idx = getCutIdx(chatRoomId);
         int pvt = idx * 1000;
         return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, len-pvt, len-1-pvt + 1000);
     }

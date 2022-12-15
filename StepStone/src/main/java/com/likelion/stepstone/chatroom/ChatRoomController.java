@@ -46,7 +46,7 @@ public class ChatRoomController {
 //            chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
 //            chats.addAll(chatService.getRedisChatHistories(firstChatRoom.getChatRoomId()));
 //            chats.addAll(redisChatRepository.findByChatRoomId(firstChatRoom.getChatRoomId()));
-            chats.addAll(redisChatRepository.findPartByChatRoomId(firstChatRoom.getChatRoomId(), 1));
+            chats.addAll(redisChatRepository.findPartByChatRoomId(firstChatRoom.getChatRoomId()));
             List<String> allRoomId = chatRoomService.findAllRoomId(principal.getName());
 //            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
             imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
@@ -70,10 +70,10 @@ public class ChatRoomController {
     }
 
     @GetMapping("/history") // 저장된 채팅 내역 조회
-    String getHistory(Principal principal, Model model, String roomId, int idx) {
+    String getHistory(Principal principal, Model model, String roomId) {
 //        List<ChatDto> chats = chatService.getHistories(roomId);
 //        List<ChatDto> chats = redisChatRepository.findByChatRoomId(roomId);
-        List<ChatDto> chats = redisChatRepository.findPartByChatRoomId(roomId, idx);
+        List<ChatDto> chats = redisChatRepository.findPartByChatRoomId(roomId);
 //        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
 //        notificationService.registerOnlineChatUser(principal.getName(), roomId);
 
