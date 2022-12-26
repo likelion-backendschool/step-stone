@@ -118,7 +118,7 @@ public class RedisConfig {
         redisCacheConfigurationMap
                 .put(CacheNames.CHAT_ROOM, redisCacheConfiguration.entryTtl(Duration.ofMinutes(5)));
         redisCacheConfigurationMap
-                .put(CacheNames.CUT_IDX, redisCacheConfiguration.entryTtl(Duration.ofMinutes(5)));
+                .put(CacheNames.CUT_IDX, redisCacheConfiguration.entryTtl(Duration.ofMinutes(60)));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory())

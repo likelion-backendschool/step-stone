@@ -38,6 +38,9 @@ public class ChatRoomController {
 
     @GetMapping("/room")
     public String getRoom(Principal principal, Model model, ChatRoomForm chatRoomForm, InviteUserForm inviteUserForm) {
+        //채팅 기준 인덱스 캐시 초기화
+//        redisChatRepository.evictIdxCache();
+
         List<ChatRoomDto> rooms = chatRoomService.findAll(principal.getName()); // principal의 name은 userEntity의 user_id
         List<ChatDto> chats = new ArrayList<>();
         String imageUrl = chatRoomService.getChatRoomImageUrl();
@@ -46,7 +49,8 @@ public class ChatRoomController {
 //            chats.addAll(chatService.getHistories(firstChatRoom.getChatRoomId()));
 //            chats.addAll(chatService.getRedisChatHistories(firstChatRoom.getChatRoomId()));
 //            chats.addAll(redisChatRepository.findByChatRoomId(firstChatRoom.getChatRoomId()));
-            chats.addAll(redisChatRepository.findPartByChatRoomId(firstChatRoom.getChatRoomId()));
+            int idx = redisChatRepository.getCutIdx(firstChatRoom.getChatRoomId());
+            chats.addAll(redisChatRepository.findPartByChatRoomId(firstChatRoom.getChatRoomId(), idx));
             List<String> allRoomId = chatRoomService.findAllRoomId(principal.getName());
 //            notificationService.registerOnlineChatUser(principal.getName(), firstChatRoom.getChatRoomId());
             imageUrl = chatRoomService.findChatImageUrlByRoomId(firstChatRoom.getChatRoomId());
@@ -73,7 +77,8 @@ public class ChatRoomController {
     String getHistory(Principal principal, Model model, String roomId) {
 //        List<ChatDto> chats = chatService.getHistories(roomId);
 //        List<ChatDto> chats = redisChatRepository.findByChatRoomId(roomId);
-        List<ChatDto> chats = redisChatRepository.findPartByChatRoomId(roomId);
+        int idx = redisChatRepository.getCutIdx(roomId);
+        List<ChatDto> chats = redisChatRepository.findPartByChatRoomId(roomId,idx);
 //        notificationService.removeOnlineChatUser(principal.getName(), beforeRoomId);
 //        notificationService.registerOnlineChatUser(principal.getName(), roomId);
 

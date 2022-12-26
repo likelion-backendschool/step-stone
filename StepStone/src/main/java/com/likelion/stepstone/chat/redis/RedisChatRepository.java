@@ -11,6 +11,7 @@ import com.likelion.stepstone.config.CacheNames;
 import com.likelion.stepstone.user.UserRepository;
 import com.likelion.stepstone.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataAccessException;
@@ -38,6 +39,7 @@ public class RedisChatRepository {
     private static final String NEW_CHAT = "CHAT"; //새로운 채팅
     public static final String USER_COUNT = "USER_COUNT"; // 채팅룸에 입장한 클라이언트수 저장
     public static final String ENTER_INFO = "ENTER_INFO"; // 채팅룸에 입장한 클라이언트의 sessionId와 채팅룸 id를 맵핑한 정보 저장
+    private static final int CHAT_SIZE = 1000;
     private static final String chatRoomImageUrl = "https://www.bootdey.com/app/webroot/img/Content/icons/64/PNG/64/";
     private final UserRepository userRepository;
     private final ChatRoomRepository chatRoomRepository;
@@ -120,12 +122,13 @@ public class RedisChatRepository {
         return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, 0, len-1);
     }
 
-    public List<ChatDto> findPartByChatRoomId(String chatRoomId){
+    @Cacheable(value = CacheNames.CHAT_ROOM)
+    public List<ChatDto> findPartByChatRoomId(String chatRoomId, int idx){
         String key = RedisKeyGenerator.generateChatRoomKey(chatRoomId);
         Long len = chatRoomRedisTemplate.opsForList().size(key);
-        int idx = getCutIdx(chatRoomId);
-        int pvt = idx * 1000;
-        return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, len-pvt, len-1-pvt + 1000);
+//        int idx = getCutIdx(chatRoomId);
+        int pvt = idx * CHAT_SIZE;
+        return len == 0 ? new ArrayList<>() : chatRoomRedisTemplate.opsForList().range(key, len-pvt, len-1-pvt + CHAT_SIZE);
     }
 
     public void saveAll(List<ChatDto> items, String chatRoomId){
@@ -164,7 +167,12 @@ public class RedisChatRepository {
         if (cutIdxRedisTemplate.opsForValue().get(key) != null)
             idx = cutIdxRedisTemplate.opsForValue().get(key);
 
-        cutIdxRedisTemplate.opsForValue().set(key, ++idx);
-        return idx;
+//        cutIdxRedisTemplate.opsForValue().set(key, ++idx);
+        return idx + 1;
+    }
+
+//    @CacheEvict(value=CacheNames.CUT_IDX, allEntries=true)
+    public void evictIdxCache() {
+        System.out.println("Evicting all indexes from redis Cache.");
     }
 }
